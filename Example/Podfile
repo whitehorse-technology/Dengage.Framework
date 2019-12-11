@@ -1,0 +1,6 @@
+use_frameworks!
+target 'Dengage.Framework_Tests' do
+  pod 'Dengage.Framework', :path => '../'
+  
+  
+end
