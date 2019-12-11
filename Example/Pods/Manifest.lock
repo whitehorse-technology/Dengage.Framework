@@ -1,0 +1,16 @@
+PODS:
+  - Dengage.Framework (0.1.0)
+
+DEPENDENCIES:
+  - Dengage.Framework (from `../`)
+
+EXTERNAL SOURCES:
+  Dengage.Framework:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Dengage.Framework: 35708ce4d9030b2bc1c9ba0b9ac348fbc794092c
+
+PODFILE CHECKSUM: 1e65c7d09457ebd664d90cbe4e3544864b011717
+
+COCOAPODS: 1.8.4

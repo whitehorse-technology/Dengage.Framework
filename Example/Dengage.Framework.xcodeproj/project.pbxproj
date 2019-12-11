@@ -18,9 +18,9 @@
 		63AFC445557857C2C772C1EB /* Pods-Dengage.Framework_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dengage.Framework_Tests.release.xcconfig"; path = "Target Support Files/Pods-Dengage.Framework_Tests/Pods-Dengage.Framework_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6D95848107ADAD93E3AC1FBB /* Pods-Dengage.Framework_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dengage.Framework_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Dengage.Framework_Tests/Pods-Dengage.Framework_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		87542B2A04D07D58D2334206 /* Pods_Dengage_Framework_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dengage_Framework_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		99089F3CCD722B1E80263153 /* Dengage.Framework.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = Dengage.Framework.podspec; path = ../Dengage.Framework.podspec; sourceTree = "<group>"; };
-		B25D656335ECD24A1D50A542 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
-		D3E1971FD3BF071E6B79AA93 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		99089F3CCD722B1E80263153 /* Dengage.Framework.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Dengage.Framework.podspec; path = ../Dengage.Framework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		B25D656335ECD24A1D50A542 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		D3E1971FD3BF071E6B79AA93 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +95,6 @@
 				6D95848107ADAD93E3AC1FBB /* Pods-Dengage.Framework_Tests.debug.xcconfig */,
 				63AFC445557857C2C772C1EB /* Pods-Dengage.Framework_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -131,10 +130,6 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = CocoaPods;
 				TargetAttributes = {
-					607FACCF1AFB9204008FA782 = {
-						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
-					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
 						LastSwiftMigration = 0900;
@@ -147,6 +142,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);

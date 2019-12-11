@@ -1,0 +1,22 @@
+{
+  "name": "Dengage.Framework",
+  "version": "0.1.0",
+  "summary": "A short description of Dengage.Framework.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/ekin@whitehorse.technology/Dengage.Framework",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "ekin@whitehorse.technology": "ekin@whitehorse.technology"
+  },
+  "source": {
+    "git": "https://github.com/ekin@whitehorse.technology/Dengage.Framework.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "Dengage.Framework/Classes/**/*"
+}
