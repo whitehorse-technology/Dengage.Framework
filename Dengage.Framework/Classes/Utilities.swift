@@ -78,7 +78,7 @@ internal class Utilities {
         }
         
         _logger.Log(message: "ADVERTISING_ID is %s" , logtype: .debug,  argument:  advertisingId)
-        return advertisingId
+        return advertisingId.lowercased()
     }
     
     func indentifierForCFBundleShortVersionString() -> String {
