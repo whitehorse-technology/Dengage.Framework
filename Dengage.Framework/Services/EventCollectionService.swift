@@ -29,7 +29,7 @@ internal class EventCollectionService : BaseService
         eventCollectionHttpRequest.eventDetails = eventCollectionModel.eventDetails
         
         
-        let parameters = ["accountId": eventCollectionHttpRequest.IntegrationKey,
+        let parameters = ["integrationKey": eventCollectionHttpRequest.IntegrationKey,
                           "key" : eventCollectionHttpRequest.key,
                           "eventTable" : eventCollectionHttpRequest.eventTable,
                           "eventDetails" : eventCollectionHttpRequest.eventDetails as Any
