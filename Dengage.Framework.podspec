@@ -17,9 +17,9 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-  #s.description      = <<-DESC
-#TODO: Add long description of the pod here.
- #                      DESC
+  s.description      = <<-DESC
+    Dengage.Framework provides necessary classes and functions which handles notification registration and sending open events to developer.  Also it gives classes to send subscription events to dengage infrastructure.
+                       DESC
 
   s.homepage         = 'https://github.com/whitehorse-technology/Dengage.Framework'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
