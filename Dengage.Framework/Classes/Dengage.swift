@@ -24,7 +24,7 @@ public class Dengage
     static var utilities = Utilities.shared
     static var settings = Settings.shared
     
-//  MARK:- İnitialize Methods
+    //  MARK:- İnitialize Methods
     
     @available(iOS 10.0, *)
     // will support rich notifications with categories
@@ -33,7 +33,7 @@ public class Dengage
         center.delegate = notificationDelegate
         
         ConfigureSettings()
-
+        
         
         if(categories != nil)
         {
@@ -48,7 +48,7 @@ public class Dengage
     }
     
     @available(iOS 10.0, *)
-    public static func initWithLaunchOptions(withLaunchOptions : [UIApplication.LaunchOptionsKey: Any]?, badgeCountReset : Bool?) throws {
+    public static func initWithLaunchOptions(withLaunchOptions : [UIApplication.LaunchOptionsKey: Any]?, badgeCountReset : Bool?) {
         
         center.delegate = notificationDelegate
         
@@ -86,7 +86,7 @@ public class Dengage
                 
                 SDKLogger.shared.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))
                 queue.async {
-                     Dengage.SyncSubscription()
+                    Dengage.SyncSubscription()
                 }
                 
         }
@@ -106,13 +106,13 @@ public class Dengage
         }
     }
     
-//    MARK:-
-//    MARK:- Setters
+    //    MARK:-
+    //    MARK:- Setters
     /// Set  Integration Key ( Required )
     /// ```
     /// self.setDengageIntegrationKey(key: "...")
     /// ```
-    @available(*, renamed: "setIntegrationKey")
+    @available(*, renamed: "setDengageIntegrationKey")
     public static func setIntegrationKey(key: String){
         
         settings.setDengageIntegrationKey(integrationKey: key)
@@ -136,11 +136,6 @@ public class Dengage
         settings.setToken(token: token)
     }
     
-    @available(*,deprecated)
-    public static func setAccountId(accountId: String){
-        
-        settings.setAccountId(accountId: accountId)
-    }
     
     public static func setUserPermission(permission : Bool){
         
@@ -164,8 +159,8 @@ public class Dengage
         DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest, with: with)
     }
     
-//    MARK:-
-//    MARK:- API calls
+    //    MARK:-
+    //    MARK:- API calls
     @available(*, renamed: "SendSubscriptionEvent")
     public static func SyncSubscription() -> Bool {
         
@@ -186,8 +181,8 @@ public class Dengage
     @available(*, renamed: "SendEventCollection")
     public static func SendDeviceEvent(toEventTable: String, andWithEventDetails: NSDictionary) -> Bool {
         
-        if Settings.shared.getAccountId().isEmpty{
-            SDKLogger.shared.Log(message: "ACCOUNT_ID_IS_EMPTY", logtype: .info)
+        if settings.getDengageIntegrationKey().isEmpty{
+            SDKLogger.shared.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
             return false
         }
         
@@ -207,26 +202,26 @@ public class Dengage
     }
     
     public static func SendCustomEvent(toEventTable: String, withKey : String, andWithEventDetails: NSDictionary) -> Bool {
-           
-           if Settings.shared.getAccountId().isEmpty{
-               SDKLogger.shared.Log(message: "ACCOUNT_ID_IS_EMPTY", logtype: .info)
-               return false
-           }
-           
-           if toEventTable.isEmpty {
-               SDKLogger.shared.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
-               return false
-           }
-           
-           var eventCollectionModel = EventCollectionModel()
-           
-           eventCollectionModel.eventTable = toEventTable
-           eventCollectionModel.key = withKey
-           eventCollectionModel.eventDetails = andWithEventDetails
-           
-           eventCollectionService.PostEventCollection(eventCollectionModel: eventCollectionModel)
-           return true
-       }
+        
+        if settings.getDengageIntegrationKey().isEmpty{
+            SDKLogger.shared.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
+            return false
+        }
+        
+        if toEventTable.isEmpty {
+            SDKLogger.shared.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
+            return false
+        }
+        
+        var eventCollectionModel = EventCollectionModel()
+        
+        eventCollectionModel.eventTable = toEventTable
+        eventCollectionModel.key = withKey
+        eventCollectionModel.eventDetails = andWithEventDetails
+        
+        eventCollectionService.PostEventCollection(eventCollectionModel: eventCollectionModel)
+        return true
+    }
     
     static func ConfigureSettings(){
         
@@ -235,7 +230,7 @@ public class Dengage
         settings.setApplicationIdentifier(applicationIndentifier: utilities.identifierForApplication())
         settings.setAppVersion(appVersion: utilities.indentifierForCFBundleShortVersionString())
     }
-  
+    
 }
 
 
