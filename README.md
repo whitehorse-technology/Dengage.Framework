@@ -48,7 +48,7 @@ Supports 11.0+
 
 ```swift
 
-    import dengage_ios_sdk // import sdk
+    import Dengage_Framework // import sdk
 
     override func didReceive(_ request: UNNotificationRequest, withContentHandler contentHandler: @escaping (UNNotificationContent) -> Void) {
         self.contentHandler = contentHandler
@@ -69,7 +69,7 @@ Supports 11.0+
 Navigate to the AppDelegate file and add the following ```Dengage``` initialization code to ```didFinishLaunchingWithOptions```.
 
 ```swift
-    import dengage_ios_sdk // import sdk
+    import Dengage_Framework // import sdk
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -92,7 +92,7 @@ Navigate to the AppDelegate file and add the following ```Dengage``` initializat
 Note: if you prefer not to use ```promptForPushNotifications``` method, you should inform sdk about user permission by using ```setUserPermission(permission: BOOL)``` method.
 
 ```swift
-    import dengage_ios_sdk // import sdk
+    import Dengage_Framework // import sdk
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -136,7 +136,7 @@ To send subscription event add the following code to whereever you register your
 #### Note: setContactKey is optional, you may only use SendSubscriptionEvent function
 
 ```swift
-        import dengage_ios_sdk
+        import Dengage_Framework
 
         func someFunction(){
 
