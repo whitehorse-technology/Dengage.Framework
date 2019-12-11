@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
 
   s.homepage         = 'https://github.com/whitehorse-technology/Dengage.Framework'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
+  s.license          = { :type => 'GNU GPLv3', :file => 'LICENSE' }
   s.author           = { 'ekin@whitehorse.technology' => 'ekin@whitehorse.technology' }
   s.source           = { :git => 'https://github.com/whitehorse-technology/Dengage.Framework.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
