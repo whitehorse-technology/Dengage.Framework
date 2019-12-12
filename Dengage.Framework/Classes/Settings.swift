@@ -28,8 +28,7 @@ internal class Settings : NSObject {
     private var _advertisingId :    String = ""
     private var _applicationIdentifier : String = ""
     private var _contactKey :       String = ""
-    private var _appVersion :       String = "";
-    private var _eventAccountId :   String = ""
+    private var _appVersion :       String = ""
     
     private var _badgeCountReset :  Bool?
     private var _permission :       Bool?;
@@ -142,15 +141,5 @@ internal class Settings : NSObject {
     func getPermission() -> Bool? {
         
         return self._permission
-    }
-    
-    func setAccountId(accountId : String){
-        
-        self._eventAccountId = accountId;
-    }
-    
-    func getAccountId() -> String {
-        
-        return self._eventAccountId;
     }
 }

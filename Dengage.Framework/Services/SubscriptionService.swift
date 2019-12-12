@@ -36,7 +36,7 @@ internal class SubscriptionService : BaseService
                           "carrierId":  settings.getCarrierId(),
                           "appVersion": subscriptionHttpRequest.appVersion,
                           "sdkVersion": settings.getSdkVersion(),
-                          "advertisingId" : settings.getAdvertisinId()] as [String : Any]
+                          "advertisingId" : settings.getAdvertisinId() as Any] as [String : Any]
         
         ApiCall(data: parameters, urlAddress: urladdress)
         

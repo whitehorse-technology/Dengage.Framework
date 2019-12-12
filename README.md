@@ -178,24 +178,10 @@ SDK logs any important operation by using logs. In default, logs will not be dis
 
 ## Requirements
 
-* dengage.ios.sdk
-* dengage AccountId
+* Dengage.Framework
 
-### 1. Setup Dengage SDK 
 
-Navigate to the AppDelegate file and add the following ```Dengage``` initialization code to ```didFinishLaunchingWithOptions```.
-
-```swift
-
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
-    //will be deprecated
-    Dengage.setAccountId(accountId: ACCOUNT_ID)
-
-}
-
-```
-### 2. DeviceEvent
+### 1. Sending DeviceEvent
 
 ```swift
 
@@ -205,7 +191,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 ```
 
-### 3. CustomEvent
+### 2. Sending CustomEvent
 
 ```swift
 
