@@ -12,7 +12,7 @@ import os.log
 
 internal class SDKLogger{
     
-    private var isVisiable : Bool = true
+    private var isVisiable : Bool = false
     
     static let shared = SDKLogger()
     
