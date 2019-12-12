@@ -23,13 +23,13 @@ internal class EventCollectionService : BaseService
         logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress)
         
         var eventCollectionHttpRequest = EventCollectionHttpRequest()
-        eventCollectionHttpRequest.accontId = settings.getAccountId()
+        eventCollectionHttpRequest.IntegrationKey = settings.getDengageIntegrationKey()
         eventCollectionHttpRequest.key = eventCollectionModel.key
         eventCollectionHttpRequest.eventTable = eventCollectionModel.eventTable
         eventCollectionHttpRequest.eventDetails = eventCollectionModel.eventDetails
         
         
-        let parameters = ["accountId": eventCollectionHttpRequest.accontId,
+        let parameters = ["integrationKey": eventCollectionHttpRequest.IntegrationKey,
                           "key" : eventCollectionHttpRequest.key,
                           "eventTable" : eventCollectionHttpRequest.eventTable,
                           "eventDetails" : eventCollectionHttpRequest.eventDetails as Any

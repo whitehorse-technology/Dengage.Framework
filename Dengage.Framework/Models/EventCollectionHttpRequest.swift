@@ -13,7 +13,7 @@ internal struct EventCollectionHttpRequest{
     
     public init(){}
     
-    public var accontId : String = ""
+    public var IntegrationKey: String = ""
     public var key : String = ""
     public var eventTable : String = ""
     public var eventDetails : NSDictionary? = nil
