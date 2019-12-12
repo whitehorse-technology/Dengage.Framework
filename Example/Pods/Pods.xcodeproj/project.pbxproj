@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6314A4CD7EB40DC034E06C9C549C55B0 /* ReplaceMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A29D2E4B39556D133083EE997C4EE0 /* ReplaceMe.swift */; };
 		79C753B2E69728998C6D0B406B7FA702 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		AAB56E6123A0F0FF005CE7AB /* Dengage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB56E6023A0F0FF005CE7AB /* Dengage.swift */; };
 		AAB56E6B23A0F110005CE7AB /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB56E6223A0F10F005CE7AB /* Settings.swift */; };
@@ -326,7 +325,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1130;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -399,7 +398,6 @@
 				AAB56E7123A0F110005CE7AB /* UABuilder.swift in Sources */,
 				AAB56E7023A0F110005CE7AB /* DengageNotificationExtension.swift in Sources */,
 				AAB56E7D23A0F142005CE7AB /* EventCollectionModel.swift in Sources */,
-				6314A4CD7EB40DC034E06C9C549C55B0 /* ReplaceMe.swift in Sources */,
 				AAB56E8923A0F14A005CE7AB /* TransactionalOpenEventSevice.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -467,11 +465,13 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 2.0.2;
 				MODULEMAP_FILE = "Target Support Files/Dengage.Framework/Dengage.Framework.modulemap";
 				PRODUCT_MODULE_NAME = Dengage_Framework;
 				PRODUCT_NAME = Dengage_Framework;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -655,11 +655,13 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MARKETING_VERSION = 2.0.2;
 				MODULEMAP_FILE = "Target Support Files/Dengage.Framework/Dengage.Framework.modulemap";
 				PRODUCT_MODULE_NAME = Dengage_Framework;
 				PRODUCT_NAME = Dengage_Framework;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
