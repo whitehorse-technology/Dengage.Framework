@@ -21,30 +21,37 @@ class DengageNotificationExtension {
         
         SDKLogger.shared.Log(message: "NOTIFICATION_RECEIVED", logtype: .info)
         
-        self.bestAttemptContent = with
-        self.bestAttemptContent?.title = (receivedRequest.content.userInfo["title"] as? String)!
-        self.bestAttemptContent?.subtitle = (receivedRequest.content.userInfo["subtitle"] as? String)!
+        let messageSource = receivedRequest.content.userInfo["messageSource"]
         
-        var urlString:String? = nil
-        if let urlImageString = receivedRequest.content.userInfo["urlImageString"] as? String {
-            urlString = urlImageString
-        }
-        
-        if urlString != nil, let fileUrl = URL(string: urlString!) {
-        
-            guard let imageData = NSData(contentsOf: fileUrl) else {
-                
-                SDKLogger.shared.Log(message: "URL_STR_IS_NULL", logtype: .info)
-                return
-            }
-            guard let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: "image.gif", data: imageData, options: nil) else {
-                SDKLogger.shared.Log(message: "UNNotificationAttachment.saveImageToDisk()", logtype: .error)
-                return
-            }
+        if (messageSource != nil) {
             
-            self.bestAttemptContent?.attachments = [ attachment ]
+            if (MESSAGE_SOURCE == messageSource as? String){
+                
+                self.bestAttemptContent = with
+                self.bestAttemptContent?.title = (receivedRequest.content.userInfo["title"] as? String)!
+                self.bestAttemptContent?.subtitle = (receivedRequest.content.userInfo["subtitle"] as? String)!
+                
+                var urlString:String? = nil
+                if let urlImageString = receivedRequest.content.userInfo["urlImageString"] as? String {
+                    urlString = urlImageString
+                }
+                
+                if urlString != nil, let fileUrl = URL(string: urlString!) {
+                    
+                    guard let imageData = NSData(contentsOf: fileUrl) else {
+                        
+                        SDKLogger.shared.Log(message: "URL_STR_IS_NULL", logtype: .info)
+                        return
+                    }
+                    guard let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: "image.gif", data: imageData, options: nil) else {
+                        SDKLogger.shared.Log(message: "UNNotificationAttachment.saveImageToDisk()", logtype: .error)
+                        return
+                    }
+                    
+                    self.bestAttemptContent?.attachments = [ attachment ]
+                }
+            }
         }
-        
     }
 }
 

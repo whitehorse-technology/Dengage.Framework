@@ -162,20 +162,18 @@ public class Dengage
     //    MARK:-
     //    MARK:- API calls
     @available(*, renamed: "SendSubscriptionEvent")
-    public static func SyncSubscription() -> Bool {
+    public static func SyncSubscription() {
         
         
         if(settings.getAdvertisinId()!.isEmpty){
             SDKLogger.shared.Log(message: "ADV_ID_IS_EMPTY", logtype: .info)
-            return false
         }
         if(settings.getApplicationIdentifier().isEmpty){
             SDKLogger.shared.Log(message: "APP_IDF_ID_IS_EMPTY", logtype: .info)
-            return false
         }
         
         subscriptionService.SendSubscriptionEvent()
-        return true
+        
     }
     
     @available(*, renamed: "SendEventCollection")
