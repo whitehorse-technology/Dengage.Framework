@@ -73,16 +73,15 @@ Navigate to the AppDelegate file and add the following ```Dengage``` initializat
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        do {
+        
+       // set integration key
+       Dengage.setDengageIntegrationKey(key: "dengage-integration-key")
             
-            Dengage.setDengageIntegrationKey(key: "dengage-integration-key")
-            try Dengage.initWithLaunchOptions(withLaunchOptions: launchOptions, badgeCountReset: true)
-            // add this to ask for user permission
-            Dengage.promptForPushNotifications()
+       Dengage.initWithLaunchOptions(withLaunchOptions: launchOptions, badgeCountReset: true)
             
-        } catch let error {
-            // handle error
-        }
+       // add this to ask for user permission
+       Dengage.promptForPushNotifications()
+
 
        return true
     }
@@ -96,17 +95,15 @@ Note: if you prefer not to use ```promptForPushNotifications``` method, you shou
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        do {
+       
+       // set integration key     
+       Dengage.setDengageIntegrationKey(key: "dengage-integration-key")
+       
+       Dengage.initWithLaunchOptions(withLaunchOptions: launchOptions, badgeCountReset: true)
+       
+       // ask for user permission, and send permission status either false or true
+       Dengage.setUserPermission(true)
             
-            Dengage.setDengageIntegrationKey(key: "dengage-integration-key")
-            try Dengage.initWithLaunchOptions(withLaunchOptions: launchOptions, badgeCountReset: true)
-            // ask for user permission, and send permission status either false or true
-            Dengage.setUserPermission(true)
-            
-            
-        } catch let error {
-            // handle error
-        }
 
        return true
     }
@@ -126,6 +123,8 @@ Navigate to the AppDelegate file and the following ```Dengage``` code to ```didR
         
         // token is the push token where you get from apple servers after registration
         Dengage.setToken(token: token)
+        
+        Dengage.SyncSubscription()
     }
 
 ```
@@ -141,11 +140,8 @@ To send subscription event add the following code to whereever you register your
         func someFunction(){
 
             Dengage.setContactKey(contactKey: email_textbox.text ?? "")
-            let result = Dengage.SyncSubscription()
-                
-            if(result){ 
-                message.text = "Registered Successfully"
-            }
+            Dengage.SyncSubscription()
+
         }
 
 ```
