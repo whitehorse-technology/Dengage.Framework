@@ -55,11 +55,12 @@ internal class BaseService{
             do {
                 //create json object from data
                 if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
-                    print(json)
+                    
+                    self.logger.Log(message: "API_RESPONSE %s", logtype: .debug, argument: "\(json)")
                     // handle json...
                 }
             } catch let error {
-                self.logger.Log(message: "%s", logtype: .error, argument: error.localizedDescription)
+                self.logger.Log(message: "API_CALL_ERROR %s", logtype: .error, argument: error.localizedDescription)
                 
             }
         })
