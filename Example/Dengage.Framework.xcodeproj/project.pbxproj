@@ -10,6 +10,8 @@
 		607FACEC1AFB9204008FA782 /* SettingsTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* SettingsTestCase.swift */; };
 		AA1151AC23A2329E00F09ADC /* UtilitiesTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1151AB23A2329E00F09ADC /* UtilitiesTestCase.swift */; };
 		AA1151AE23A232DE00F09ADC /* DengageStorageTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1151AD23A232DE00F09ADC /* DengageStorageTestCase.swift */; };
+		AAAC646723A3B5EE00B39E5F /* MockClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAC646623A3B5EE00B39E5F /* MockClasses.swift */; };
+		AAAC646923A3BCE700B39E5F /* NotificationExtensionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAC646823A3BCE700B39E5F /* NotificationExtensionTests.swift */; };
 		BA47FBF556A7CD2A186DC87A /* Pods_Dengage_Framework_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87542B2A04D07D58D2334206 /* Pods_Dengage_Framework_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +25,8 @@
 		99089F3CCD722B1E80263153 /* Dengage.Framework.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Dengage.Framework.podspec; path = ../Dengage.Framework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		AA1151AB23A2329E00F09ADC /* UtilitiesTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilitiesTestCase.swift; sourceTree = "<group>"; };
 		AA1151AD23A232DE00F09ADC /* DengageStorageTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageStorageTestCase.swift; sourceTree = "<group>"; };
+		AAAC646623A3B5EE00B39E5F /* MockClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockClasses.swift; sourceTree = "<group>"; };
+		AAAC646823A3BCE700B39E5F /* NotificationExtensionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtensionTests.swift; sourceTree = "<group>"; };
 		B25D656335ECD24A1D50A542 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		D3E1971FD3BF071E6B79AA93 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -61,10 +65,12 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				AAAC646523A3B5DA00B39E5F /* Mocks */,
 				607FACEB1AFB9204008FA782 /* SettingsTestCase.swift */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
 				AA1151AB23A2329E00F09ADC /* UtilitiesTestCase.swift */,
 				AA1151AD23A232DE00F09ADC /* DengageStorageTestCase.swift */,
+				AAAC646823A3BCE700B39E5F /* NotificationExtensionTests.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -93,6 +99,14 @@
 				87542B2A04D07D58D2334206 /* Pods_Dengage_Framework_Tests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AAAC646523A3B5DA00B39E5F /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				AAAC646623A3B5EE00B39E5F /* MockClasses.swift */,
+			);
+			name = Mocks;
 			sourceTree = "<group>";
 		};
 		CE779DE145C6085972DF64BF /* Pods */ = {
@@ -220,7 +234,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAAC646723A3B5EE00B39E5F /* MockClasses.swift in Sources */,
 				AA1151AE23A232DE00F09ADC /* DengageStorageTestCase.swift in Sources */,
+				AAAC646923A3BCE700B39E5F /* NotificationExtensionTests.swift in Sources */,
 				AA1151AC23A2329E00F09ADC /* UtilitiesTestCase.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* SettingsTestCase.swift in Sources */,
 			);

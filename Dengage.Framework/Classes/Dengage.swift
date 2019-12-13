@@ -154,9 +154,9 @@ public class Dengage
     
     // MARK:- Rich Notification İnitiliaze
     @available(iOSApplicationExtension 10.0, *)
-    public static func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, with : UNMutableNotificationContent){
+    public static func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, withNotificationContent : UNMutableNotificationContent){
         
-        DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest, with: with)
+        DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest, withNotificationContent: withNotificationContent)
     }
     
     //    MARK:-
