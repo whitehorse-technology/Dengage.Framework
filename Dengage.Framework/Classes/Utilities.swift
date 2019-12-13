@@ -88,11 +88,11 @@ internal class Utilities {
         
     
         if _asIdentifierManager.isAdvertisingTrackingEnabled {
-            advertisingId = _asIdentifierManager.advertisingIdentifier.uuidString
+            advertisingId = _asIdentifierManager.advertisingIdentifier.uuidString.lowercased()
         }
         
         _logger.Log(message: "ADVERTISING_ID is %s" , logtype: .debug,  argument:  advertisingId)
-        return advertisingId.lowercased()
+        return advertisingId
     }
     
     func indentifierForCFBundleShortVersionString() -> String {
