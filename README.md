@@ -64,6 +64,8 @@ Supports 11.0+
 
 ```
 
+### Note : While sending push notifications, Dengage senders puts a messageSource to the message payload. Notification messages will handle if messageSource has the value of DENGAGE.
+
 ## 2. Add Required Code
 
 Navigate to the AppDelegate file and add the following ```Dengage``` initialization code to ```didFinishLaunchingWithOptions```.
