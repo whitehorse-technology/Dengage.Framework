@@ -11,36 +11,35 @@ import os.log
 
 internal class SubscriptionService : BaseService
 {
-    public override init(){}
-    
+
     internal func SendSubscriptionEvent()
     {
         
         let  urladdress = SUBSCRIPTION_SERVICE_URL
-        let settings = Settings.shared
         
-        logger.Log(message: "SUBSCRIPTION_URL is %s", logtype: .info, argument: urladdress)
+        
+        _logger.Log(message: "SUBSCRIPTION_URL is %s", logtype: .info, argument: urladdress)
         
         var subscriptionHttpRequest = SubscriptionHttpRequest()
-        subscriptionHttpRequest.integrationKey = settings.getDengageIntegrationKey()
-        subscriptionHttpRequest.contactKey = settings.getContactKey() ?? ""
-        subscriptionHttpRequest.permission = settings.getPermission() ?? false
-        subscriptionHttpRequest.appVersion = settings.getAppversion() ?? "1.0"
+        subscriptionHttpRequest.integrationKey = _settings.getDengageIntegrationKey()
+        subscriptionHttpRequest.contactKey = _settings.getContactKey() ?? ""
+        subscriptionHttpRequest.permission = _settings.getPermission() ?? false
+        subscriptionHttpRequest.appVersion = _settings.getAppversion() ?? "1.0"
         
         
         let parameters = ["integrationKey": subscriptionHttpRequest.integrationKey,
-                          "token": settings.getToken() ?? "",
+                          "token": _settings.getToken() ?? "",
                           "contactKey": subscriptionHttpRequest.contactKey,
                           "permission": subscriptionHttpRequest.permission,
-                          "udid":       settings.getApplicationIdentifier(),
-                          "carrierId":  settings.getCarrierId(),
+                          "udid":       _settings.getApplicationIdentifier(),
+                          "carrierId":  _settings.getCarrierId(),
                           "appVersion": subscriptionHttpRequest.appVersion,
-                          "sdkVersion": settings.getSdkVersion(),
-                          "advertisingId" : settings.getAdvertisinId() as Any] as [String : Any]
+                          "sdkVersion": _settings.getSdkVersion(),
+                          "advertisingId" : _settings.getAdvertisinId() as Any] as [String : Any]
         
         ApiCall(data: parameters, urlAddress: urladdress)
         
-        logger.Log(message: "SUBSCRIPTION_EVENT_SENT", logtype: .info)
+        _logger.Log(message: "SUBSCRIPTION_EVENT_SENT", logtype: .info)
         
     }
 }

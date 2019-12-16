@@ -1,13 +1,19 @@
 import XCTest
 @testable import Dengage_Framework
 
-class Tests: XCTestCase {
+class SettingsTests: XCTestCase {
     
-    let sut = Settings.shared
+    var sut : Settings = .shared
+    
+    var storageMock : DengageLocalStorageMock =  DengageLocalStorageMock(suitName: "dengage")
+    var logMock : SDKLoggerMock = SDKLoggerMock()
     
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        
+        sut = Settings.init(storage: storageMock, logger: logMock)
+        
     }
     
     override func tearDown() {
@@ -48,6 +54,11 @@ class Tests: XCTestCase {
     func testSetAndGetContactKey(){
         sut.setContactKey(contactKey: "mail_address")
         XCTAssertEqual("mail_address", sut.getContactKey())
+    }
+    
+    func testSetAndGetContactKeyWithNil(){
+        sut.setContactKey(contactKey: nil)
+        XCTAssertEqual("", sut.getContactKey())
     }
     
     func testSetAndGetToken(){

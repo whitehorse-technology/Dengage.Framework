@@ -12,14 +12,13 @@ import os.log
 internal class OpenEventService : BaseService
 {
 
-    public override init(){}
 
     internal func PostOpenEvent(openEventHttpRequest : OpenEventHttpRequest)
     {
         let urladdress = OPEN_EVENT_SERVICE_URL
         
         
-        logger.Log(message: "OPEN_API_URL is %s", logtype: .info, argument: urladdress)
+        _logger.Log(message: "OPEN_API_URL is %s", logtype: .info, argument: urladdress)
         
         let parameters = ["integrationKey": openEventHttpRequest.integrationKey,
                           "messageId" : openEventHttpRequest.messageId,
@@ -28,7 +27,7 @@ internal class OpenEventService : BaseService
         
         ApiCall(data: parameters, urlAddress: urladdress)
         
-        logger.Log(message: "OPEN_EVENT_SENT", logtype: .info)
+        _logger.Log(message: "OPEN_EVENT_SENT", logtype: .info)
         
     }
     
