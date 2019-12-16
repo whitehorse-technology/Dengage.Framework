@@ -17,6 +17,9 @@
 		AAAED8D623A7859100815D55 /* OpenEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8D523A7859100815D55 /* OpenEventService.swift */; };
 		AAAED8D823A786BB00815D55 /* TransactioanlOpenEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8D723A786BB00815D55 /* TransactioanlOpenEventService.swift */; };
 		AAAED8DA23A787C600815D55 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8D923A787C600815D55 /* SubscriptionService.swift */; };
+		AAAED8DC23A79E8900815D55 /* DengageNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8DB23A79E8900815D55 /* DengageNotificationDelegate.swift */; };
+		AAAED8DE23A79F1600815D55 /* MockServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8DD23A79F1600815D55 /* MockServices.swift */; };
+		AAAED8E023A7B39C00815D55 /* Dengage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8DF23A7B39C00815D55 /* Dengage.swift */; };
 		BA47FBF556A7CD2A186DC87A /* Pods_Dengage_Framework_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87542B2A04D07D58D2334206 /* Pods_Dengage_Framework_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +40,9 @@
 		AAAED8D523A7859100815D55 /* OpenEventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenEventService.swift; sourceTree = "<group>"; };
 		AAAED8D723A786BB00815D55 /* TransactioanlOpenEventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactioanlOpenEventService.swift; sourceTree = "<group>"; };
 		AAAED8D923A787C600815D55 /* SubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionService.swift; sourceTree = "<group>"; };
+		AAAED8DB23A79E8900815D55 /* DengageNotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageNotificationDelegate.swift; sourceTree = "<group>"; };
+		AAAED8DD23A79F1600815D55 /* MockServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServices.swift; sourceTree = "<group>"; };
+		AAAED8DF23A7B39C00815D55 /* Dengage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dengage.swift; sourceTree = "<group>"; };
 		B25D656335ECD24A1D50A542 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		D3E1971FD3BF071E6B79AA93 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -113,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				AAAC646623A3B5EE00B39E5F /* MockClasses.swift */,
+				AAAED8DD23A79F1600815D55 /* MockServices.swift */,
 			);
 			name = Mocks;
 			sourceTree = "<group>";
@@ -124,6 +131,8 @@
 				AA1151AD23A232DE00F09ADC /* DengageStorage.swift */,
 				AAAC646823A3BCE700B39E5F /* NotificationExtension.swift */,
 				607FACEB1AFB9204008FA782 /* Settings.swift */,
+				AAAED8DB23A79E8900815D55 /* DengageNotificationDelegate.swift */,
+				AAAED8DF23A7B39C00815D55 /* Dengage.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -265,16 +274,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAAED8E023A7B39C00815D55 /* Dengage.swift in Sources */,
 				AAAC646723A3B5EE00B39E5F /* MockClasses.swift in Sources */,
 				AAAED8D823A786BB00815D55 /* TransactioanlOpenEventService.swift in Sources */,
 				AA1151AE23A232DE00F09ADC /* DengageStorage.swift in Sources */,
 				AAAED8D223A7783C00815D55 /* BaseService.swift in Sources */,
 				AAAED8D423A7847F00815D55 /* EventCollectionService.swift in Sources */,
 				AAAC646923A3BCE700B39E5F /* NotificationExtension.swift in Sources */,
+				AAAED8DC23A79E8900815D55 /* DengageNotificationDelegate.swift in Sources */,
 				AAAED8DA23A787C600815D55 /* SubscriptionService.swift in Sources */,
 				AA1151AC23A2329E00F09ADC /* Utilities.swift in Sources */,
 				AAAED8D623A7859100815D55 /* OpenEventService.swift in Sources */,
 				607FACEC1AFB9204008FA782 /* Settings.swift in Sources */,
+				AAAED8DE23A79F1600815D55 /* MockServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

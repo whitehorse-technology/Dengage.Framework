@@ -67,6 +67,21 @@ class URLSessionMock : URLSession {
     
 }
 
+class URLSessionDataTaskMock: URLSessionDataTask {
+    private let closure: () -> Void
+    
+    init(closure: @escaping () -> Void) {
+        self.closure = closure
+    }
+    
+    // We override the 'resume' method and simply call our closure
+    // instead of actually resuming any task.
+    override func resume() {
+        closure()
+    }
+}
+
+
 class SettingsMock : Settings{
     
     override func getUserAgent() -> String {
@@ -108,19 +123,28 @@ class SettingsMock : Settings{
     override func getToken() -> String? {
         return nil
     }
+    
+    override func getBadgeCountReset() -> Bool? {
+        return true
+    }
 }
 
 
-class URLSessionDataTaskMock: URLSessionDataTask {
-    private let closure: () -> Void
+class UtilitiesMock  :Utilities {
     
-    init(closure: @escaping () -> Void) {
-        self.closure = closure
+    override func identifierForCarrier() -> String {
+        return ""
     }
     
-    // We override the 'resume' method and simply call our closure
-    // instead of actually resuming any task.
-    override func resume() {
-        closure()
+    override func identifierForAdvertising() -> String {
+        return ""
+    }
+    
+    override func indentifierForCFBundleShortVersionString() -> String {
+        return ""
+    }
+    
+    override func identifierForApplication() -> String {
+        return ""
     }
 }
