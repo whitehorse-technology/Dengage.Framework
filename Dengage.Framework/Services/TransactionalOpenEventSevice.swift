@@ -12,13 +12,12 @@ import os.log
 internal class TransactioanlOpenEventService : BaseService
 {
     
-    public override init(){}
-    
+
     internal func PostOpenEvent(transactionalOpenEventHttpRequest : TransactionalOpenEventHttpRequest)
     {
         let urladdress = TRANSACTIONAL_OPEN_SERVICE_URL
         
-        logger.Log(message: "TRANSACTIONAL_OPEN_URL is %s", logtype: .info, argument: urladdress)
+        _logger.Log(message: "TRANSACTIONAL_OPEN_URL is %s", logtype: .info, argument: urladdress)
         
         let parameters = ["integrationKey": transactionalOpenEventHttpRequest.integrationId,
                           "transactionId" : transactionalOpenEventHttpRequest.transactionId,
@@ -29,7 +28,7 @@ internal class TransactioanlOpenEventService : BaseService
         
         ApiCall(data: parameters, urlAddress: urladdress)
         
-        logger.Log(message: "TRANSACTIONAL_OPEN_EVENT_SENT", logtype: .info)
+        _logger.Log(message: "TRANSACTIONAL_OPEN_EVENT_SENT", logtype: .info)
     }
     
 }

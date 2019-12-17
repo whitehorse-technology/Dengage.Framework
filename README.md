@@ -16,10 +16,6 @@ it, simply add the following line to your Podfile:
 pod 'Dengage.Framework'
 ```
 
-## Author
-
-ekin@whitehorse.technology
-
 ## License
 
 Dengage.Framework is available under the GNU General Public License v3.0 license. See the LICENSE file for more info.

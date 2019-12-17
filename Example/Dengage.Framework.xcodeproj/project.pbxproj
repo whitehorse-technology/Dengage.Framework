@@ -7,22 +7,42 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		607FACEC1AFB9204008FA782 /* SettingsTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* SettingsTestCase.swift */; };
-		AA1151AC23A2329E00F09ADC /* UtilitiesTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1151AB23A2329E00F09ADC /* UtilitiesTestCase.swift */; };
-		AA1151AE23A232DE00F09ADC /* DengageStorageTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1151AD23A232DE00F09ADC /* DengageStorageTestCase.swift */; };
+		607FACEC1AFB9204008FA782 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Settings.swift */; };
+		AA1151AC23A2329E00F09ADC /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1151AB23A2329E00F09ADC /* Utilities.swift */; };
+		AA1151AE23A232DE00F09ADC /* DengageStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1151AD23A232DE00F09ADC /* DengageStorage.swift */; };
+		AAAC646723A3B5EE00B39E5F /* MockClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAC646623A3B5EE00B39E5F /* MockClasses.swift */; };
+		AAAC646923A3BCE700B39E5F /* NotificationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAC646823A3BCE700B39E5F /* NotificationExtension.swift */; };
+		AAAED8D223A7783C00815D55 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8D123A7783C00815D55 /* BaseService.swift */; };
+		AAAED8D423A7847F00815D55 /* EventCollectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8D323A7847F00815D55 /* EventCollectionService.swift */; };
+		AAAED8D623A7859100815D55 /* OpenEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8D523A7859100815D55 /* OpenEventService.swift */; };
+		AAAED8D823A786BB00815D55 /* TransactioanlOpenEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8D723A786BB00815D55 /* TransactioanlOpenEventService.swift */; };
+		AAAED8DA23A787C600815D55 /* SubscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8D923A787C600815D55 /* SubscriptionService.swift */; };
+		AAAED8DC23A79E8900815D55 /* DengageNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8DB23A79E8900815D55 /* DengageNotificationDelegate.swift */; };
+		AAAED8DE23A79F1600815D55 /* MockServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8DD23A79F1600815D55 /* MockServices.swift */; };
+		AAAED8E023A7B39C00815D55 /* Dengage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAED8DF23A7B39C00815D55 /* Dengage.swift */; };
 		BA47FBF556A7CD2A186DC87A /* Pods_Dengage_Framework_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87542B2A04D07D58D2334206 /* Pods_Dengage_Framework_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		607FACE51AFB9204008FA782 /* Dengage.Framework_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Dengage.Framework_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		607FACEB1AFB9204008FA782 /* SettingsTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTestCase.swift; sourceTree = "<group>"; };
+		607FACEB1AFB9204008FA782 /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		63AFC445557857C2C772C1EB /* Pods-Dengage.Framework_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dengage.Framework_Tests.release.xcconfig"; path = "Target Support Files/Pods-Dengage.Framework_Tests/Pods-Dengage.Framework_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		6D95848107ADAD93E3AC1FBB /* Pods-Dengage.Framework_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Dengage.Framework_Tests.debug.xcconfig"; path = "Target Support Files/Pods-Dengage.Framework_Tests/Pods-Dengage.Framework_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		87542B2A04D07D58D2334206 /* Pods_Dengage_Framework_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Dengage_Framework_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		99089F3CCD722B1E80263153 /* Dengage.Framework.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = Dengage.Framework.podspec; path = ../Dengage.Framework.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		AA1151AB23A2329E00F09ADC /* UtilitiesTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilitiesTestCase.swift; sourceTree = "<group>"; };
-		AA1151AD23A232DE00F09ADC /* DengageStorageTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageStorageTestCase.swift; sourceTree = "<group>"; };
+		AA1151AB23A2329E00F09ADC /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		AA1151AD23A232DE00F09ADC /* DengageStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageStorage.swift; sourceTree = "<group>"; };
+		AAAC646623A3B5EE00B39E5F /* MockClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockClasses.swift; sourceTree = "<group>"; };
+		AAAC646823A3BCE700B39E5F /* NotificationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationExtension.swift; sourceTree = "<group>"; };
+		AAAED8D123A7783C00815D55 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseService.swift; sourceTree = "<group>"; };
+		AAAED8D323A7847F00815D55 /* EventCollectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCollectionService.swift; sourceTree = "<group>"; };
+		AAAED8D523A7859100815D55 /* OpenEventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenEventService.swift; sourceTree = "<group>"; };
+		AAAED8D723A786BB00815D55 /* TransactioanlOpenEventService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactioanlOpenEventService.swift; sourceTree = "<group>"; };
+		AAAED8D923A787C600815D55 /* SubscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionService.swift; sourceTree = "<group>"; };
+		AAAED8DB23A79E8900815D55 /* DengageNotificationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageNotificationDelegate.swift; sourceTree = "<group>"; };
+		AAAED8DD23A79F1600815D55 /* MockServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockServices.swift; sourceTree = "<group>"; };
+		AAAED8DF23A7B39C00815D55 /* Dengage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dengage.swift; sourceTree = "<group>"; };
 		B25D656335ECD24A1D50A542 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		D3E1971FD3BF071E6B79AA93 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -61,10 +81,10 @@
 		607FACE81AFB9204008FA782 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				607FACEB1AFB9204008FA782 /* SettingsTestCase.swift */,
+				AAAED8CE23A776C500815D55 /* Services */,
+				AAAED8CD23A7768C00815D55 /* Components */,
+				AAAC646523A3B5DA00B39E5F /* Mocks */,
 				607FACE91AFB9204008FA782 /* Supporting Files */,
-				AA1151AB23A2329E00F09ADC /* UtilitiesTestCase.swift */,
-				AA1151AD23A232DE00F09ADC /* DengageStorageTestCase.swift */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -93,6 +113,40 @@
 				87542B2A04D07D58D2334206 /* Pods_Dengage_Framework_Tests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AAAC646523A3B5DA00B39E5F /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				AAAC646623A3B5EE00B39E5F /* MockClasses.swift */,
+				AAAED8DD23A79F1600815D55 /* MockServices.swift */,
+			);
+			name = Mocks;
+			sourceTree = "<group>";
+		};
+		AAAED8CD23A7768C00815D55 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				AA1151AB23A2329E00F09ADC /* Utilities.swift */,
+				AA1151AD23A232DE00F09ADC /* DengageStorage.swift */,
+				AAAC646823A3BCE700B39E5F /* NotificationExtension.swift */,
+				607FACEB1AFB9204008FA782 /* Settings.swift */,
+				AAAED8DB23A79E8900815D55 /* DengageNotificationDelegate.swift */,
+				AAAED8DF23A7B39C00815D55 /* Dengage.swift */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
+		AAAED8CE23A776C500815D55 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				AAAED8D123A7783C00815D55 /* BaseService.swift */,
+				AAAED8D323A7847F00815D55 /* EventCollectionService.swift */,
+				AAAED8D523A7859100815D55 /* OpenEventService.swift */,
+				AAAED8D723A786BB00815D55 /* TransactioanlOpenEventService.swift */,
+				AAAED8D923A787C600815D55 /* SubscriptionService.swift */,
+			);
+			name = Services;
 			sourceTree = "<group>";
 		};
 		CE779DE145C6085972DF64BF /* Pods */ = {
@@ -220,9 +274,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA1151AE23A232DE00F09ADC /* DengageStorageTestCase.swift in Sources */,
-				AA1151AC23A2329E00F09ADC /* UtilitiesTestCase.swift in Sources */,
-				607FACEC1AFB9204008FA782 /* SettingsTestCase.swift in Sources */,
+				AAAED8E023A7B39C00815D55 /* Dengage.swift in Sources */,
+				AAAC646723A3B5EE00B39E5F /* MockClasses.swift in Sources */,
+				AAAED8D823A786BB00815D55 /* TransactioanlOpenEventService.swift in Sources */,
+				AA1151AE23A232DE00F09ADC /* DengageStorage.swift in Sources */,
+				AAAED8D223A7783C00815D55 /* BaseService.swift in Sources */,
+				AAAED8D423A7847F00815D55 /* EventCollectionService.swift in Sources */,
+				AAAC646923A3BCE700B39E5F /* NotificationExtension.swift in Sources */,
+				AAAED8DC23A79E8900815D55 /* DengageNotificationDelegate.swift in Sources */,
+				AAAED8DA23A787C600815D55 /* SubscriptionService.swift in Sources */,
+				AA1151AC23A2329E00F09ADC /* Utilities.swift in Sources */,
+				AAAED8D623A7859100815D55 /* OpenEventService.swift in Sources */,
+				607FACEC1AFB9204008FA782 /* Settings.swift in Sources */,
+				AAAED8DE23A79F1600815D55 /* MockServices.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,13 +16,14 @@ public class Dengage
     static var center = UNUserNotificationCenter.current()
     
     static var notificationDelegate = DengageNotificationDelegate()
-    static var subscriptionService = SubscriptionService()
-    static var openEventService = OpenEventService()
-    static var eventCollectionService = EventCollectionService()
+    static var _subscriptionService : SubscriptionService = SubscriptionService()
+    static var _openEventService : OpenEventService = OpenEventService()
+    static var _eventCollectionService : EventCollectionService = EventCollectionService()
     static var IsUserGranted : Bool = false
     
-    static var utilities = Utilities.shared
-    static var settings = Settings.shared
+    static var _utilities : Utilities = .shared
+    static var _settings : Settings = .shared
+    static var _logger : SDKLogger = .shared
     
     //  MARK:- İnitialize Methods
     
@@ -52,7 +53,7 @@ public class Dengage
         
         center.delegate = notificationDelegate
         
-        settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
+        _settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         ConfigureSettings()
         
     }
@@ -71,8 +72,8 @@ public class Dengage
                 
                 guard granted else
                 {
-                    SDKLogger.shared.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
-                    Settings.shared.setPermission(permission: IsUserGranted)
+                    _logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
+                    _settings.setPermission(permission: IsUserGranted)
                     
                     queue.async {
                         Dengage.SyncSubscription()
@@ -80,11 +81,11 @@ public class Dengage
                     return
                 }
                 
-                Settings.shared.setPermission(permission: IsUserGranted)
+                _settings.setPermission(permission: IsUserGranted)
                 self.getNotificationSettings()
                 
                 
-                SDKLogger.shared.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))
+                _logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))
                 queue.async {
                     Dengage.SyncSubscription()
                 }
@@ -100,7 +101,7 @@ public class Dengage
             
             DispatchQueue.main.async{
                 
-                SDKLogger.shared.Log(message: "REGISTER_TOKEN", logtype: .debug)
+                _logger.Log(message: "REGISTER_TOKEN", logtype: .debug)
                 UIApplication.shared.registerForRemoteNotifications()
             }
         }
@@ -115,7 +116,7 @@ public class Dengage
     @available(*, renamed: "setDengageIntegrationKey")
     public static func setIntegrationKey(key: String){
         
-        settings.setDengageIntegrationKey(integrationKey: key)
+        _settings.setDengageIntegrationKey(integrationKey: key)
     }
     
     /// Set Contact Key ( Optional )
@@ -124,7 +125,7 @@ public class Dengage
     /// ```
     public static func setContactKey(contactKey : String?){
         
-        settings.setContactKey(contactKey: contactKey)
+        _settings.setContactKey(contactKey: contactKey)
     }
     
     /// Set Apns Token
@@ -133,30 +134,30 @@ public class Dengage
     /// ```
     public static func setToken(token: String){
         
-        settings.setToken(token: token)
+        _settings.setToken(token: token)
     }
     
     
     public static func setUserPermission(permission : Bool){
         
-        settings.setPermission(permission: permission)
+        _settings.setPermission(permission: permission)
     }
     
     public static func setLogStatus(isVisible : Bool){
         
-        SDKLogger.shared.setIsDisabled(isDisabled: isVisible)
+        _logger.setIsDisabled(isDisabled: isVisible)
     }
     
     public static func getDeviceId() -> String? {
         
-        return settings.getApplicationIdentifier()
+        return _settings.getApplicationIdentifier()
     }
     
     // MARK:- Rich Notification İnitiliaze
     @available(iOSApplicationExtension 10.0, *)
-    public static func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, with : UNMutableNotificationContent){
+    public static func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, withNotificationContent : UNMutableNotificationContent){
         
-        DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest, with: with)
+        DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest, withNotificationContent: withNotificationContent)
     }
     
     //    MARK:-
@@ -165,49 +166,51 @@ public class Dengage
     public static func SyncSubscription() {
         
         
-        if(settings.getAdvertisinId()!.isEmpty){
-            SDKLogger.shared.Log(message: "ADV_ID_IS_EMPTY", logtype: .info)
+        if(_settings.getAdvertisinId()!.isEmpty){
+            _logger.Log(message: "ADV_ID_IS_EMPTY", logtype: .info)
+            return
         }
-        if(settings.getApplicationIdentifier().isEmpty){
-            SDKLogger.shared.Log(message: "APP_IDF_ID_IS_EMPTY", logtype: .info)
+        if(_settings.getApplicationIdentifier().isEmpty){
+            _logger.Log(message: "APP_IDF_ID_IS_EMPTY", logtype: .info)
+            return
         }
         
-        subscriptionService.SendSubscriptionEvent()
+        _subscriptionService.SendSubscriptionEvent()
         
     }
     
     @available(*, renamed: "SendEventCollection")
     public static func SendDeviceEvent(toEventTable: String, andWithEventDetails: NSDictionary) -> Bool {
         
-        if settings.getDengageIntegrationKey().isEmpty{
-            SDKLogger.shared.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
+        if _settings.getDengageIntegrationKey().isEmpty{
+            _logger.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
             return false
         }
         
         if toEventTable.isEmpty {
-            SDKLogger.shared.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
+            _logger.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
             return false
         }
         
         var eventCollectionModel = EventCollectionModel()
         
+        eventCollectionModel.key = _settings.getApplicationIdentifier()
         eventCollectionModel.eventTable = toEventTable
-        eventCollectionModel.key = settings.getApplicationIdentifier()
         eventCollectionModel.eventDetails = andWithEventDetails
         
-        eventCollectionService.PostEventCollection(eventCollectionModel: eventCollectionModel)
+        _eventCollectionService.PostEventCollection(eventCollectionModel: eventCollectionModel)
         return true
     }
     
     public static func SendCustomEvent(toEventTable: String, withKey : String, andWithEventDetails: NSDictionary) -> Bool {
         
-        if settings.getDengageIntegrationKey().isEmpty{
-            SDKLogger.shared.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
+        if _settings.getDengageIntegrationKey().isEmpty{
+            _logger.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
             return false
         }
         
         if toEventTable.isEmpty {
-            SDKLogger.shared.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
+            _logger.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
             return false
         }
         
@@ -217,16 +220,16 @@ public class Dengage
         eventCollectionModel.key = withKey
         eventCollectionModel.eventDetails = andWithEventDetails
         
-        eventCollectionService.PostEventCollection(eventCollectionModel: eventCollectionModel)
+        _eventCollectionService.PostEventCollection(eventCollectionModel: eventCollectionModel)
         return true
     }
     
     static func ConfigureSettings(){
         
-        settings.setCarrierId(carrierId: utilities.identifierForCarrier())
-        settings.setAdvertisingId(advertisingId: utilities.identifierForAdvertising())
-        settings.setApplicationIdentifier(applicationIndentifier: utilities.identifierForApplication())
-        settings.setAppVersion(appVersion: utilities.indentifierForCFBundleShortVersionString())
+        _settings.setCarrierId(carrierId: _utilities.identifierForCarrier())
+        _settings.setAdvertisingId(advertisingId: _utilities.identifierForAdvertising())
+        _settings.setApplicationIdentifier(applicationIndentifier: _utilities.identifierForApplication())
+        _settings.setAppVersion(appVersion: _utilities.indentifierForCFBundleShortVersionString())
     }
     
 }
