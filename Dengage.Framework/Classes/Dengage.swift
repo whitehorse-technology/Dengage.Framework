@@ -24,12 +24,13 @@ public class Dengage
     static var _utilities : Utilities = .shared
     static var _settings : Settings = .shared
     static var _logger : SDKLogger = .shared
+    static var _dengageCategories : DengageCategories = .init(notificationCenter: center)
     
     //  MARK:- İnitialize Methods
     
     @available(iOS 10.0, *)
     // will support rich notifications with categories
-    static func initWithLaunchOptions(categories : Set<UNNotificationCategory>?, withLaunchOptions : [UIApplication.LaunchOptionsKey: Any]?) throws {
+    static func initWithLaunchOptions(categories : Set<UNNotificationCategory>?, withLaunchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
         
         center.delegate = notificationDelegate
         
@@ -40,7 +41,7 @@ public class Dengage
         {
             if (categories!.count < 0 || categories!.count == 0)
             {
-                throw ValidationError.EmptyCategories
+                return
             }
             
             center.setNotificationCategories(categories!)
@@ -56,6 +57,15 @@ public class Dengage
         _settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         ConfigureSettings()
         
+        
+        
+    }
+    
+    
+    public static func RegiserDefaultCategories(){
+        
+        _dengageCategories.registerCategories()
+    
     }
     
     // MARK:- Prompt Methods

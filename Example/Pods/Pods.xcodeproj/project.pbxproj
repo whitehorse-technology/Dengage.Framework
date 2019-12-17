@@ -21,10 +21,10 @@
 		7F910102E89034EFF9A78D37E16200FE /* SDKLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE38B8D8454DA0E538DA6ED845B8465 /* SDKLogger.swift */; };
 		82833838027F474F7C1C84839BF3E0A6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBBEE3CB1B9E30AEC4EB642829126DC /* Constants.swift */; };
 		A8E0C3987EA00A9B18A890B87209824B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BC37376C1143304FE6328BC2432808 /* Settings.swift */; };
+		AA6B0A4F23A8CA9700EE0CFD /* DengageCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6B0A4E23A8CA9700EE0CFD /* DengageCategories.swift */; };
 		B11EBE950BA367F05F2A52CE0AD0757E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		B6AF7AA4A0512666F21FAD389DF28153 /* Dengage.Framework-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AE7183B76B412AA1B1143650C2E54500 /* Dengage.Framework-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BAD24EA760AD39A52B03D40178E069A8 /* Pods-Dengage.Framework_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 262148FAA00A75B9D56F5813195FA40D /* Pods-Dengage.Framework_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BD9835179B5E495BD670BFD49FF9DB05 /* ValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DB3BB10BC2F3B7482FEDF2FBDD75922 /* ValidationError.swift */; };
 		BDBCA984C491550C55E7223BF55CE6A2 /* Pods-Dengage.Framework_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AA4D06A66DD7EBA1A2B07C66C20B68 /* Pods-Dengage.Framework_Tests-dummy.m */; };
 		C25702624FEEFBA9D02BC82F2ABED32A /* OpenEventHttpRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A6E7551D896835F6611236BF36F3CA /* OpenEventHttpRequest.swift */; };
 		CA1A30AC3AA6E82254F5069A6702EA2E /* Dengage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F441933BBF3E123238504EF3A7321D /* Dengage.swift */; };
@@ -66,7 +66,6 @@
 		40F441933BBF3E123238504EF3A7321D /* Dengage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Dengage.swift; sourceTree = "<group>"; };
 		46AA4D06A66DD7EBA1A2B07C66C20B68 /* Pods-Dengage.Framework_Tests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Dengage.Framework_Tests-dummy.m"; sourceTree = "<group>"; };
 		5D57E2DE9F9C084585E1C751190272C6 /* DengageNotificationExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DengageNotificationExtension.swift; sourceTree = "<group>"; };
-		5DB3BB10BC2F3B7482FEDF2FBDD75922 /* ValidationError.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ValidationError.swift; sourceTree = "<group>"; };
 		6C56BC85D309B23AEB6DC21CC4309690 /* DengageNotificationDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DengageNotificationDelegate.swift; sourceTree = "<group>"; };
 		6D08E06BE63B9D36CE1305348322B4B4 /* dash.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = dash.png; path = docs/img/dash.png; sourceTree = "<group>"; };
 		6EB5C18ADF03FF0AED8048B4E1FC4F83 /* Dengage_Framework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Dengage_Framework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,6 +81,7 @@
 		A353FE89A30AA7EF012AC796520AAAA4 /* SubscriptionHttpRequest.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SubscriptionHttpRequest.swift; sourceTree = "<group>"; };
 		A7C999C32E9A148C5C3BB3A8A9EF6BA9 /* settings.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = settings.png; path = docs/img/settings.png; sourceTree = "<group>"; };
 		A80889391B57C05351B17A712606FEE3 /* Dengage.Framework.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Dengage.Framework.modulemap; sourceTree = "<group>"; };
+		AA6B0A4E23A8CA9700EE0CFD /* DengageCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageCategories.swift; sourceTree = "<group>"; };
 		AD90A91671C65474F295A7C958F92671 /* EventCollectionModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EventCollectionModel.swift; sourceTree = "<group>"; };
 		AE7183B76B412AA1B1143650C2E54500 /* Dengage.Framework-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Dengage.Framework-umbrella.h"; sourceTree = "<group>"; };
 		B8AD164E1317476BB7D82DBEC5BC0720 /* deployment.gif */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.gif; name = deployment.gif; path = docs/img/deployment.gif; sourceTree = "<group>"; };
@@ -161,7 +161,7 @@
 				17BC37376C1143304FE6328BC2432808 /* Settings.swift */,
 				F324DFB9FC9D4E0E3E79C525DA76CCE5 /* UABuilder.swift */,
 				22264D2333D1C8B8F7FBB2BE4B72B9B1 /* Utilities.swift */,
-				5DB3BB10BC2F3B7482FEDF2FBDD75922 /* ValidationError.swift */,
+				AA6B0A4E23A8CA9700EE0CFD /* DengageCategories.swift */,
 			);
 			name = Classes;
 			path = Dengage.Framework/Classes;
@@ -410,10 +410,10 @@
 				77EAB01E78220751BD2C6D4A3E8517A6 /* SubscriptionHttpRequest.swift in Sources */,
 				E7FFDCCA7693853981FF0639A42659E6 /* SubscriptionService.swift in Sources */,
 				74AC84ABAA768656662B70564DA51AB4 /* TransactionalOpenEventHttpRequest.swift in Sources */,
+				AA6B0A4F23A8CA9700EE0CFD /* DengageCategories.swift in Sources */,
 				E8BA61FC19AD97F44525A2B4131051F7 /* TransactionalOpenEventSevice.swift in Sources */,
 				549639141AD6F0E8999E17EA4413BE37 /* UABuilder.swift in Sources */,
 				44DFDC95E100A167E4EBD523CCCE15F1 /* Utilities.swift in Sources */,
-				BD9835179B5E495BD670BFD49FF9DB05 /* ValidationError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
