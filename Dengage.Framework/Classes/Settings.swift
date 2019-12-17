@@ -8,18 +8,29 @@
 
 import Foundation
 
-internal class Settings : NSObject {
+internal class Settings {
     
     static let shared = Settings()
     
-    override init() {
+    let _storage : DengageLocalStorage
+    let _logger : SDKLogger
+    
+    init() {
+        _sdkVersion = SDK_VERSION
+        _permission = false
+        _badgeCountReset = true
+        _storage = DengageLocalStorage.shared
+        _logger = SDKLogger.shared
+    }
+    
+    init(storage :  DengageLocalStorage = .shared, logger : SDKLogger = .shared){
+        
+        _storage = storage
+        _logger = logger
         _sdkVersion = SDK_VERSION
         _permission = false
         _badgeCountReset = true
     }
-    
-    let storage = DengageLocalStorage.shared
-    let logger = SDKLogger.shared
     
     private var _integrationKey :   String = ""
     private var _token :            String? = ""
@@ -97,28 +108,28 @@ internal class Settings : NSObject {
     func setContactKey(contactKey : String?){
         
         self._contactKey = contactKey ?? ""
-        storage.setValueWithKey(value: contactKey ?? "", key: "ContactKey")
-        self._contactKey = storage.getValueWithKey(key: "ContactKey") ?? ""
+        _storage.setValueWithKey(value: contactKey ?? "", key: "ContactKey")
+        self._contactKey = _storage.getValueWithKey(key: "ContactKey") ?? ""
     }
     
     func getContactKey() -> String? {
         
-        self._contactKey = storage.getValueWithKey(key: "ContactKey") ?? ""
-        logger.Log(message: "CONTACT_KEY is %s", logtype: .debug, argument: self._contactKey)
+        self._contactKey = _storage.getValueWithKey(key: "ContactKey") ?? ""
+        _logger.Log(message: "CONTACT_KEY is %s", logtype: .debug, argument: self._contactKey)
         return self._contactKey
     }
     
     func setToken(token: String){
         
         self._token = token
-        storage.setValueWithKey(value: token, key: "Token")
-        logger.Log(message:"TOKEN %s",  logtype: .debug, argument: self._token!)
+        _storage.setValueWithKey(value: token, key: "Token")
+        _logger.Log(message:"TOKEN %s",  logtype: .debug, argument: self._token!)
         
     }
     
     func getToken() -> String?{
         
-        self._token = storage.getValueWithKey(key: "Token")
+        self._token = _storage.getValueWithKey(key: "Token")
         return self._token
     }
     
@@ -141,5 +152,10 @@ internal class Settings : NSObject {
     func getPermission() -> Bool? {
         
         return self._permission
+    }
+    
+    func getUserAgent() -> String {
+        
+        return UAString()
     }
 }

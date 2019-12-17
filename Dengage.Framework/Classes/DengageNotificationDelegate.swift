@@ -12,11 +12,29 @@ import UserNotificationsUI
 import os.log
 
 
-class DengageNotificationDelegate: NSObject , UNUserNotificationCenterDelegate {
+class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     
-    let openEventService = OpenEventService()
-    let transactionalOpenEventService = TransactioanlOpenEventService()
-    let settings = Settings.shared
+    let _openEventService : OpenEventService!
+    let _transactionalOpenEventService : TransactioanlOpenEventService!
+    let _settings : Settings!
+    
+    override init() {
+        
+        _settings = Settings.shared
+        _openEventService = OpenEventService()
+        _transactionalOpenEventService = TransactioanlOpenEventService()
+        
+        super.init()
+    }
+    
+    init(settings : Settings = .shared, openEventService : OpenEventService , transactionalOpenEventService : TransactioanlOpenEventService){
+        
+        _settings = settings
+        _openEventService = openEventService
+        _transactionalOpenEventService = transactionalOpenEventService
+        
+    }
+    
     
     @available(iOS 10.0, *)
     func userNotificationCenter(_ center: UNUserNotificationCenter,
@@ -33,8 +51,7 @@ class DengageNotificationDelegate: NSObject , UNUserNotificationCenterDelegate {
         switch response.actionIdentifier
         {
             case UNNotificationDismissActionIdentifier:
-                os_log("UNNotificationDismissActionIdentifier", log: .default, type: .info)
-                print("DENGAGE_INFO_LOG: UNNotificationDismissActionIdentifier TRIGGERED", "")
+                os_log("UNNotificationDismissActionIdentifier TRIGGERED", log: .default, type: .info)
             case UNNotificationDefaultActionIdentifier:
                 os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
                 sendEventWithContent(content: response.notification.request.content)
@@ -76,10 +93,10 @@ class DengageNotificationDelegate: NSObject , UNUserNotificationCenterDelegate {
         var openEventHttpRequest = OpenEventHttpRequest()
         openEventHttpRequest.messageId = messageId
         openEventHttpRequest.messageDetails = messageDetails
-        openEventHttpRequest.integrationKey = settings.getDengageIntegrationKey()
+        openEventHttpRequest.integrationKey = _settings.getDengageIntegrationKey()
         
-        openEventService.PostOpenEvent(openEventHttpRequest: openEventHttpRequest)
-        if settings.getBadgeCountReset() == true {
+        _openEventService.PostOpenEvent(openEventHttpRequest: openEventHttpRequest)
+        if _settings.getBadgeCountReset() == true {
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
         
@@ -89,14 +106,14 @@ class DengageNotificationDelegate: NSObject , UNUserNotificationCenterDelegate {
     func sendTransactionalOpenEvent(messageId : Int,transactionId : String, messageDetails : String) {
         
         var transactionalOpenEventHttpRequest = TransactionalOpenEventHttpRequest()
-        transactionalOpenEventHttpRequest.integrationId = settings.getDengageIntegrationKey()
+        transactionalOpenEventHttpRequest.integrationId = _settings.getDengageIntegrationKey()
         transactionalOpenEventHttpRequest.messageId = messageId
         transactionalOpenEventHttpRequest.transactionId = transactionId
         transactionalOpenEventHttpRequest.messageDetails = messageDetails
         
-        transactionalOpenEventService.PostOpenEvent(transactionalOpenEventHttpRequest: transactionalOpenEventHttpRequest)
+        _transactionalOpenEventService.PostOpenEvent(transactionalOpenEventHttpRequest: transactionalOpenEventHttpRequest)
         
-        if settings.getBadgeCountReset() == true {
+        if _settings.getBadgeCountReset() == true {
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
     }

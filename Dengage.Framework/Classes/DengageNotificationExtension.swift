@@ -13,13 +13,21 @@ class DengageNotificationExtension {
     
     static let shared = DengageNotificationExtension()
     
+    var _logger : SDKLogger
+    
     var bestAttemptContent: UNMutableNotificationContent?
     
-    private init(){}
+    init() {
+        _logger = .shared
+    }
     
-    internal func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, with : UNMutableNotificationContent){
+    init(logger: SDKLogger = .shared) {
+        _logger = logger
+    }
+    
+    internal func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, withNotificationContent : UNMutableNotificationContent){
         
-        SDKLogger.shared.Log(message: "NOTIFICATION_RECEIVED", logtype: .info)
+        _logger.Log(message: "NOTIFICATION_RECEIVED", logtype: .info)
         
         let messageSource = receivedRequest.content.userInfo["messageSource"]
         
@@ -27,7 +35,7 @@ class DengageNotificationExtension {
             
             if (MESSAGE_SOURCE == messageSource as? String){
                 
-                self.bestAttemptContent = with
+                self.bestAttemptContent = withNotificationContent
                 self.bestAttemptContent?.title = (receivedRequest.content.userInfo["title"] as? String)!
                 self.bestAttemptContent?.subtitle = (receivedRequest.content.userInfo["subtitle"] as? String)!
                 
@@ -40,11 +48,11 @@ class DengageNotificationExtension {
                     
                     guard let imageData = NSData(contentsOf: fileUrl) else {
                         
-                        SDKLogger.shared.Log(message: "URL_STR_IS_NULL", logtype: .info)
+                        _logger.Log(message: "URL_STR_IS_NULL", logtype: .info)
                         return
                     }
                     guard let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: "image.gif", data: imageData, options: nil) else {
-                        SDKLogger.shared.Log(message: "UNNotificationAttachment.saveImageToDisk()", logtype: .error)
+                        _logger.Log(message: "UNNotificationAttachment.saveImageToDisk()", logtype: .error)
                         return
                     }
                     

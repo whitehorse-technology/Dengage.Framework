@@ -13,15 +13,28 @@ import AdSupport
 internal class Utilities {
     
     static let shared   = Utilities()
-    var _storage  = DengageLocalStorage.shared
-    var _logger   = SDKLogger.shared
+    var _storage  : DengageLocalStorage
+    var _logger   : SDKLogger
+    var _asIdentifierManager : ASIdentifierManager
+    var _ctTelephonyNetworkInfo : CTTelephonyNetworkInfo
     
-    init(){}
+    
+    init() {
+        _storage = DengageLocalStorage.shared
+        _logger = SDKLogger.shared
+        _asIdentifierManager = ASIdentifierManager.shared()
+        _ctTelephonyNetworkInfo = CTTelephonyNetworkInfo()
+    }
 
-    init(storage: DengageLocalStorage, logger: SDKLogger = SDKLogger.shared){
+    init(storage: DengageLocalStorage = .shared,
+         logger: SDKLogger = .shared,
+         asIdentifierManager : ASIdentifierManager = .shared(),
+         ctTelephonyNetworkInfo : CTTelephonyNetworkInfo = .init()){
         
         _logger = logger
         _storage = storage
+        _asIdentifierManager = asIdentifierManager
+        _ctTelephonyNetworkInfo = ctTelephonyNetworkInfo
     }
     
     func identifierForApplication() -> String{
@@ -49,8 +62,7 @@ internal class Utilities {
     func identifierForCarrier() -> String{
         var carrierId = DEFAULT_CARRIER_ID
         
-        let networkInfo = CTTelephonyNetworkInfo()
-        let carrier = networkInfo.subscriberCellularProvider
+        let carrier = _ctTelephonyNetworkInfo.subscriberCellularProvider
         
         _logger.Log(message: "READ_CARRIER_INFO" , logtype: .debug)
         
@@ -73,12 +85,14 @@ internal class Utilities {
     func identifierForAdvertising() -> String {
         // check if advertising tracking is enabled in user’s setting
         var advertisingId = ""
-        if ASIdentifierManager.shared().isAdvertisingTrackingEnabled {
-            advertisingId = ASIdentifierManager.shared().advertisingIdentifier.uuidString
+        
+    
+        if _asIdentifierManager.isAdvertisingTrackingEnabled {
+            advertisingId = _asIdentifierManager.advertisingIdentifier.uuidString.lowercased()
         }
         
         _logger.Log(message: "ADVERTISING_ID is %s" , logtype: .debug,  argument:  advertisingId)
-        return advertisingId.lowercased()
+        return advertisingId
     }
     
     func indentifierForCFBundleShortVersionString() -> String {
