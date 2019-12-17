@@ -22,6 +22,7 @@
 		82833838027F474F7C1C84839BF3E0A6 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBBEE3CB1B9E30AEC4EB642829126DC /* Constants.swift */; };
 		A8E0C3987EA00A9B18A890B87209824B /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BC37376C1143304FE6328BC2432808 /* Settings.swift */; };
 		AA6B0A4F23A8CA9700EE0CFD /* DengageCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6B0A4E23A8CA9700EE0CFD /* DengageCategories.swift */; };
+		AA6B0A5123A911ED00EE0CFD /* DefaultCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6B0A5023A911ED00EE0CFD /* DefaultCategory.swift */; };
 		B11EBE950BA367F05F2A52CE0AD0757E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		B6AF7AA4A0512666F21FAD389DF28153 /* Dengage.Framework-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AE7183B76B412AA1B1143650C2E54500 /* Dengage.Framework-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BAD24EA760AD39A52B03D40178E069A8 /* Pods-Dengage.Framework_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 262148FAA00A75B9D56F5813195FA40D /* Pods-Dengage.Framework_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -82,6 +83,7 @@
 		A7C999C32E9A148C5C3BB3A8A9EF6BA9 /* settings.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; name = settings.png; path = docs/img/settings.png; sourceTree = "<group>"; };
 		A80889391B57C05351B17A712606FEE3 /* Dengage.Framework.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Dengage.Framework.modulemap; sourceTree = "<group>"; };
 		AA6B0A4E23A8CA9700EE0CFD /* DengageCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageCategories.swift; sourceTree = "<group>"; };
+		AA6B0A5023A911ED00EE0CFD /* DefaultCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCategory.swift; sourceTree = "<group>"; };
 		AD90A91671C65474F295A7C958F92671 /* EventCollectionModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = EventCollectionModel.swift; sourceTree = "<group>"; };
 		AE7183B76B412AA1B1143650C2E54500 /* Dengage.Framework-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Dengage.Framework-umbrella.h"; sourceTree = "<group>"; };
 		B8AD164E1317476BB7D82DBEC5BC0720 /* deployment.gif */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.gif; name = deployment.gif; path = docs/img/deployment.gif; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				F1A6E7551D896835F6611236BF36F3CA /* OpenEventHttpRequest.swift */,
 				A353FE89A30AA7EF012AC796520AAAA4 /* SubscriptionHttpRequest.swift */,
 				D6FBCC680E5C92AC65906F0B87A5DE12 /* TransactionalOpenEventHttpRequest.swift */,
+				AA6B0A5023A911ED00EE0CFD /* DefaultCategory.swift */,
 			);
 			name = Models;
 			path = Dengage.Framework/Models;
@@ -402,6 +405,7 @@
 				DEB6B1A84B1D917EF944A2D1C23DD498 /* DengageNotificationExtension.swift in Sources */,
 				3FD0595DB31F83FF24DE83BDE7DB7FA8 /* EventCollectionHttpRequest.swift in Sources */,
 				FA47A5691B8DAD07DBE08141DE178875 /* EventCollectionModel.swift in Sources */,
+				AA6B0A5123A911ED00EE0CFD /* DefaultCategory.swift in Sources */,
 				7D69514450FA7BB084D793450DC77C14 /* EventCollectionService.swift in Sources */,
 				C25702624FEEFBA9D02BC82F2ABED32A /* OpenEventHttpRequest.swift in Sources */,
 				E0D32A366526A3522902BE86C22CEC56 /* OpenEventService.swift in Sources */,

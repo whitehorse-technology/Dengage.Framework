@@ -23,21 +23,81 @@ class DengageCategories {
     
     internal func registerCategories(){
         
-        let acceptAction = UNNotificationAction(identifier: "ACCEPT_ACTION",
-                                                title: "Accept",
-                                                options: UNNotificationActionOptions(rawValue: 0))
-        let declineAction = UNNotificationAction(identifier: "DECLINE_ACTION",
-                                                 title: "Decline",
-                                                 options: UNNotificationActionOptions(rawValue: 0))
+        let dengageDefaultCategories = getCategories()
         
-        let defaultSimpleCategory =
-            UNNotificationCategory(identifier: "DENGAGE_SIMPLE_CATEGORY",
-                                   actions: [acceptAction, declineAction],
-                                   intentIdentifiers: [],
-                                   hiddenPreviewsBodyPlaceholder: "",
-                                   options: .customDismissAction)
+        _notificationCenter.setNotificationCategories(dengageDefaultCategories)
         
-        _notificationCenter.setNotificationCategories([defaultSimpleCategory])
+    }
+    
+    internal func registerCustomCategories(identifier: String, actions : [String: String]){
+        
+        var actionsArr : [UNNotificationAction] = []
+        
+        for action in actions {
+            
+            
+            actionsArr.append(UNNotificationAction(identifier: action.key, title: action.value, options:UNNotificationActionOptions(rawValue: 0) ))
+            
+        }
+        
+        let customCategory = UNNotificationCategory(identifier: identifier, actions: actionsArr, intentIdentifiers: [], options: .customDismissAction)
+        
+        _notificationCenter.setNotificationCategories([customCategory])
+    }
+    
+    
+    private func getCategories() -> Set<UNNotificationCategory> {
+        
+        var notificationCategories : Set<UNNotificationCategory> = .init()
+        
+        let defaultCategories = initializeDefaultCategories()
+        
+        for categories in defaultCategories
+        {
+            let category = createCategory(identifier: categories.identifier, actions: categories.actions)
+            notificationCategories.insert(category)
+        }
+        
+        return notificationCategories
+    }
+    
+    private func createCategory(identifier : String, actions: [String:String]) -> UNNotificationCategory {
+        
+        var actionsArr : [UNNotificationAction] = []
+        
+        for action in actions {
+            
+            
+            actionsArr.append(UNNotificationAction(identifier: action.key, title: action.value, options:.foreground))
+            
+        }
+        
+        let customCategory = UNNotificationCategory(identifier: identifier, actions: actionsArr, intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+        
+        return customCategory
+    }
+    
+    private func initializeDefaultCategories() -> [DefaultCategory] {
+        
+        var defaultCategories : [DefaultCategory] = []
+        
+        let simpleCategory : DefaultCategory = .init()
+        simpleCategory.identifier = SIMPLE_CATEGORY
+        simpleCategory.actions = [ACCEPT_ACTION:"Accept", DECLINE_ACTION: "Decline"]
+        
+        let askingCategory : DefaultCategory = .init()
+        askingCategory.identifier = ASK_CATEGORY
+        askingCategory.actions = [YES_ACTION:"Yes", NO_ACTION : "No"]
+        
+        let confirmCategory : DefaultCategory = .init()
+        confirmCategory.identifier = CONFIRM_CATEGORY
+        confirmCategory.actions = [CONFIRM_ACTION:"Confirm", CANCEL_ACTION : "Cancel"]
+        
+        defaultCategories.append(simpleCategory)
+        defaultCategories.append(askingCategory)
+        defaultCategories.append(confirmCategory)
+        
+        return defaultCategories
         
     }
     

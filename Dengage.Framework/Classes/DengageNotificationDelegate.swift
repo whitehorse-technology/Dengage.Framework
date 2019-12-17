@@ -50,14 +50,32 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         
         switch response.actionIdentifier
         {
-            case UNNotificationDismissActionIdentifier:
-                os_log("UNNotificationDismissActionIdentifier TRIGGERED", log: .default, type: .info)
-            case UNNotificationDefaultActionIdentifier:
-                os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: response.notification.request.content)
-            default:
-                sendEventWithContent(content: response.notification.request.content)
- 
+        case UNNotificationDismissActionIdentifier:
+            os_log("UNNotificationDismissActionIdentifier TRIGGERED", log: .default, type: .info)
+        case UNNotificationDefaultActionIdentifier:
+            os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: response.notification.request.content)
+        case YES_ACTION:
+            os_log("YES ACTION TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: response.notification.request.content)
+        case NO_ACTION:
+            os_log("NO_ACTION TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: response.notification.request.content)
+        case ACCEPT_ACTION:
+            os_log("ACCEPT_ACTION TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: response.notification.request.content)
+        case DECLINE_ACTION:
+            os_log("DECLINE_ACTION TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: response.notification.request.content)
+        case CONFIRM_ACTION:
+            os_log("CONFIRM_ACTION TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: response.notification.request.content)
+        case CANCEL_ACTION:
+            os_log("CANCEL_ACTION TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: response.notification.request.content)
+        default:
+            sendEventWithContent(content: response.notification.request.content)
+            
         }
         completionHandler()
     }
