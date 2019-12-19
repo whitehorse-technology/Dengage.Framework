@@ -30,7 +30,7 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '11.0'
 
-  s.source_files = 'Dengage.Framework/Classes/**/*' , 'Dengage.Framework/Models/**/*', 'Dengage.Framework/Services/**/*'
+  s.source_files = 'Dengage.Framework/Classes/**/*' , 'Dengage.Framework/Models/**/*', 'Dengage.Framework/Services/**/*', 'Dengage.Framework/DataStructures/**/*'
   
   s.swift_versions = ['4.0','4.2','5.0']
   # s.resource_bundles = {

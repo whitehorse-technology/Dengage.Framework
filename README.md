@@ -101,8 +101,7 @@ Note: if you prefer not to use ```promptForPushNotifications``` method, you shou
        
        // ask for user permission, and send permission status either false or true
        Dengage.setUserPermission(true)
-            
-
+       
        return true
     }
 
@@ -122,6 +121,7 @@ Navigate to the AppDelegate file and the following ```Dengage``` code to ```didR
         // token is the push token where you get from apple servers after registration
         Dengage.setToken(token: token)
         
+        // send subscription event to API to register token
         Dengage.SyncSubscription()
     }
 
@@ -146,7 +146,7 @@ To send subscription event add the following code to whereever you register your
 
 ## 4. ContactKey
 
-ContactKey represents the information of a user; like email address, fullname or any other kind of string which has registered to your application. To set a contact key, call ```setContactKey``` function
+ContactKey represents the information of a user; like email address, fullname or any other kind of string which has registered to your application. To set a contact key, call ```setContactKey(contactKey: String)``` function
 
 ```swift
         func someFunction(){
@@ -158,7 +158,7 @@ ContactKey represents the information of a user; like email address, fullname or
 
 ## 5. Logging
 
-SDK logs any important operation by using logs. In default, logs will not be displayed. To enable logs call ```setLogStatus``` method.
+SDK logs any important operation by using logs. In default, logs will not be displayed. To enable logs call ```setLogStatus(isVisiable : BOOL)``` method.
 
 ```swift
         func someFunction(){
@@ -174,24 +174,41 @@ SDK logs any important operation by using logs. In default, logs will not be dis
 
 * Dengage.Framework
 
+Framework includes its own queue mechnaism which collects send events in a default limit. When queue reaches it's own limit, it will send events to event api asynchronously.
+
 
 ### 1. Sending DeviceEvent
 
+SendDeviceEvent method, queues given event to internal queue and sends it when queue limit reaches to default limit.
+
+
 ```swift
 
-        let eventDetails:NSDictionary = ["event_type":ADD_BASKET, "product_id":strProductID, "quantity": 1]
+  let eventDetails:NSDictionary = ["event_type":ADD_BASKET, "product_id":strProductID, "quantity": 1]
 
-        Dengage.SendDeviceEvent(toEventTable: EVENT_TABLE_NAME, andWithEventDetails: eventDetails)
+  Dengage.SendDeviceEvent(toEventTable: EVENT_TABLE_NAME, andWithEventDetails: eventDetails)
 
 ```
 
 ### 2. Sending CustomEvent
+
+SendCustomEvent method, queues given event to internal queue and sends it when queue limit reaches to default limit.
 
 ```swift
 
         let eventDetails:NSDictionary = ["event_type":ADD_BASKET, "product_id":strProductID, "quantity": 1]
 
         Dengage.SendCustomEvent(toEventTable: EVENT_TABLE_NAME, withKey:"custom-key" andWithEventDetails: eventDetails)
+
+```
+
+### 3. ( Optional ) SyncEvent
+
+Framework provides ```SyncEventQueues``` method to purge event queue manually.
+
+```swift
+
+    Dengage.SyncEventQueues()
 
 ```
 
