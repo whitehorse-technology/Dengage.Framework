@@ -247,7 +247,7 @@ public class Dengage
         
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
         
-        if(_eventQueue.items.count < 5)
+        if(_eventQueue.items.count < QUEUE_LIMIT)
         {
             _eventQueue.enqueue(element: eventCollectionModel)
         }
@@ -267,6 +267,25 @@ public class Dengage
             _eventQueue.enqueue(element: eventCollectionModel)
         }
 
+    }
+    
+    public static func SyncEventQueues(){
+        
+        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
+        
+        if(_eventQueue.items.count > QUEUE_LIMIT)
+        {
+            _logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
+            while _eventQueue.items.count > 0 {
+                
+                let eventcollection  = _eventQueue.dequeue()!
+                
+                queue.async {
+                    _eventCollectionService.PostEventCollection(eventCollectionModel: eventcollection)
+                }
+            }
+            _logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
+        }
     }
     
 }

@@ -8,23 +8,25 @@
 
 import Foundation
 
-
+// MARK:- SERVICE URLS
 let SUBSCRIPTION_SERVICE_URL = "https://pushdev.dengage.com/api/device/subscription"
 let OPEN_EVENT_SERVICE_URL = "https://pushdev.dengage.com/api/mobile/open"
 let TRANSACTIONAL_OPEN_SERVICE_URL = "https://pushdev.dengage.com/api/transactional/mobile/open"
 let EVENT_SERVICE_URL = "https://eventdev.dengage.com/api/event"
 
-
+// MARK:- SETTINGS
 let SDK_VERSION = "2.2.1"
 let SUIT_NAME = "group.dengage"
 
 let DEFAULT_CARRIER_ID = "1"
 let MESSAGE_SOURCE = "DENGAGE"
 
+// MARK:- QUEUE PARAMETERS
 let DEVICE_EVENT_QUEUE = "device-event-queue"
 let SUBSCRIPTION_QUEUE = "subscription-queue"
+let QUEUE_LIMIT = 5
 
-
+// MARK:- ACTION TYPES AND CATEGORIES
 let YES_ACTION = "YES_ACTION"
 let NO_ACTION = "NO_ACTION"
 
