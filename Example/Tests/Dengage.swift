@@ -155,6 +155,25 @@ class DengageTestCase : XCTestCase {
         
         Dengage.initWithLaunchOptions(withLaunchOptions: .none, badgeCountReset: true)
     }
+    
+    func testSyncEventQueues(){
+        
+        let eventCollection :  [EventCollectionModel] = [EventCollectionModel(),
+                                                         EventCollectionModel(),
+                                                         EventCollectionModel(),
+                                                         EventCollectionModel(),
+                                                         EventCollectionModel(),
+                                                         EventCollectionModel()]
+        
+        for event in eventCollection {
+            
+            Dengage.SyncEventQueues(eventCollectionModel: event)
+        }
+        
+        let actual = Dengage._eventQueue.items.count
+        
+        XCTAssertEqual(3, actual)
+    }
 
 }
 

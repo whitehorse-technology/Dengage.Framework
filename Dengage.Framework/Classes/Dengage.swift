@@ -24,7 +24,7 @@ public class Dengage
     static var _utilities : Utilities = .shared
     static var _settings : Settings = .shared
     static var _logger : SDKLogger = .shared
-    
+    static var _eventQueue : EventQueue = EventQueue()
     //  MARK:- İnitialize Methods
     
     @available(iOS 10.0, *)
@@ -62,7 +62,7 @@ public class Dengage
     
     public static func promptForPushNotifications()
     {
-        let queue = DispatchQueue(label: "subscription-queue", qos: .userInitiated)
+        let queue = DispatchQueue(label: SUBSCRIPTION_QUEUE, qos: .userInitiated)
         
         center
             .requestAuthorization(options: [.alert, .sound, .badge]) {
@@ -198,7 +198,7 @@ public class Dengage
         eventCollectionModel.eventTable = toEventTable
         eventCollectionModel.eventDetails = andWithEventDetails
         
-        _eventCollectionService.PostEventCollection(eventCollectionModel: eventCollectionModel)
+        SyncEventQueues(eventCollectionModel: eventCollectionModel)
         return true
     }
     
@@ -220,7 +220,7 @@ public class Dengage
         eventCollectionModel.key = withKey
         eventCollectionModel.eventDetails = andWithEventDetails
         
-        _eventCollectionService.PostEventCollection(eventCollectionModel: eventCollectionModel)
+        SyncEventQueues(eventCollectionModel: eventCollectionModel)
         return true
     }
     
@@ -230,6 +230,32 @@ public class Dengage
         _settings.setAdvertisingId(advertisingId: _utilities.identifierForAdvertising())
         _settings.setApplicationIdentifier(applicationIndentifier: _utilities.identifierForApplication())
         _settings.setAppVersion(appVersion: _utilities.indentifierForCFBundleShortVersionString())
+    }
+    
+    static func SyncEventQueues(eventCollectionModel: EventCollectionModel) {
+        
+        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
+        
+        if(_eventQueue.items.count < 5)
+        {
+            _eventQueue.enqueue(element: eventCollectionModel)
+        }
+        else{
+            
+            _logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
+            while _eventQueue.items.count > 0 {
+                
+                let eventcollection  = _eventQueue.dequeue()!
+                
+                queue.async {
+                    _eventCollectionService.PostEventCollection(eventCollectionModel: eventcollection)
+                }
+            }
+            _logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
+            
+            _eventQueue.enqueue(element: eventCollectionModel)
+        }
+
     }
     
 }
