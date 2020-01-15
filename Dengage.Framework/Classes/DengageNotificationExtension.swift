@@ -16,6 +16,7 @@ class DengageNotificationExtension {
     var _logger : SDKLogger
     
     var bestAttemptContent: UNMutableNotificationContent?
+    var delegate : DengageNotificationReceiveDelegate?
     
     init() {
         _logger = .shared
@@ -59,6 +60,8 @@ class DengageNotificationExtension {
                     }
                     
                     self.bestAttemptContent?.attachments = [ attachment ]
+                    
+                    delegate?.DengageReceivedPayload(receivedRequest: receivedRequest)
                 }
             }
         }
