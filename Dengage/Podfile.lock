@@ -1,5 +1,5 @@
 PODS:
-  - Dengage.Framework (2.1.0)
+  - Dengage.Framework (2.2.1)
 
 DEPENDENCIES:
   - Dengage.Framework (from `../`)
@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Dengage.Framework: a3900258f7cac820d0077919db500e5beffee3f0
+  Dengage.Framework: 18f18c1b2203b563065845e662641028a150c04c
 
 PODFILE CHECKSUM: 1e65c7d09457ebd664d90cbe4e3544864b011717
 
