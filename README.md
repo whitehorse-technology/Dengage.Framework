@@ -168,6 +168,26 @@ SDK logs any important operation by using logs. In default, logs will not be dis
         }
 ```
 
+## 6. Callbacks
+
+You can access to ```UNUserNotificationCenterDelegate``` callback with ```HandleNotificationActionBlock``` method. Callback object is type of ```UNNotificationResponse```
+
+```swift
+
+    Dengage.HandleNotificationActionBlock { (notificationResponse) in
+                
+                
+                let messageDetails = notificationResponse.notification.request.content.userInfo["messageDetails"] as! String;
+                let messageId = notificationResponse.notification.request.content.userInfo["messageId"] as! Int;
+                
+                print(messageDetails)
+                print(String(messageId))
+            }
+
+
+```
+
+
 # Event Collection
 
 ## Requirements
