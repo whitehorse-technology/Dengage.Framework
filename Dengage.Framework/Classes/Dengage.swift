@@ -288,6 +288,20 @@ public class Dengage
         }
     }
     
+    
+    public static func HandleNotificationActionBlock(callback: @escaping (_ notificationResponse : UNNotificationResponse)-> ()){
+        
+        notificationDelegate.openTriggerCompletionHandler = {
+            
+           response in
+            
+            callback(response)
+            
+            
+        }
+    }
+    
+    
 }
 
 
