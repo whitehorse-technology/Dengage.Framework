@@ -29,9 +29,6 @@ class DengageNotificationExtension {
     internal func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, withNotificationContent : UNMutableNotificationContent){
         
         _logger.Log(message: "NOTIFICATION_RECEIVED", logtype: .info)
-        
-        //Dengage.RegiserDefaultCategories()
-        
         let messageSource = receivedRequest.content.userInfo["messageSource"]
         
         if (messageSource != nil) {
