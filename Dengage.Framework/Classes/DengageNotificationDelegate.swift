@@ -99,6 +99,9 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
             messageDetails = content.userInfo["messageDetails"] as! String;
             os_log("MSG_DETAILS is %s", log: .default, type: .debug, messageDetails)
         }
+        else{
+            return;
+        }
         
         var transactionId = ""
         if(content.userInfo["transactionId"] != nil){
