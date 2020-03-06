@@ -10,7 +10,8 @@ import Foundation
 import UserNotifications
 import UserNotificationsUI
 import os.log
-
+import SafariServices
+import UIKit
 
 class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     
@@ -51,38 +52,53 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         
         
-        
+        let content = response.notification.request.content;
         switch response.actionIdentifier
         {
             case UNNotificationDismissActionIdentifier:
                 os_log("UNNotificationDismissActionIdentifier TRIGGERED", log: .default, type: .info)
             case UNNotificationDefaultActionIdentifier:
                 os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: response.notification.request.content)
+                sendEventWithContent(content: content)
             case YES_ACTION:
                 os_log("YES ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: response.notification.request.content)
+                sendEventWithContent(content: content)
             case NO_ACTION:
                 os_log("NO_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: response.notification.request.content)
+                sendEventWithContent(content: content)
             case ACCEPT_ACTION:
                 os_log("ACCEPT_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: response.notification.request.content)
+                sendEventWithContent(content: content)
             case DECLINE_ACTION:
                 os_log("DECLINE_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: response.notification.request.content)
+                sendEventWithContent(content: content)
             case CONFIRM_ACTION:
                 os_log("CONFIRM_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: response.notification.request.content)
+                sendEventWithContent(content: content)
             case CANCEL_ACTION:
                 os_log("CANCEL_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: response.notification.request.content)
+                sendEventWithContent(content: content)
             default:
-                sendEventWithContent(content: response.notification.request.content)
+                sendEventWithContent(content: content)
         }
         
         openTriggerCompletionHandler?(response)
+        
+        let targetUrl = content.userInfo["targetUrl"] as! String;
+        
+        os_log("TARGET_URL is %s", log: .default, type: .debug, targetUrl)
+        
+        openDeeplink(link: targetUrl)
+        
         completionHandler()
+    }
+    
+    func openDeeplink(link: String?){
+        
+        if link != nil
+        {
+            UIApplication.shared.open(URL(string: link!)!, options: [:] , completionHandler: nil);
+        }
     }
     
     
