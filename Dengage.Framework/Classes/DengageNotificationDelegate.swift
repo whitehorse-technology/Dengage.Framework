@@ -84,12 +84,12 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         
         openTriggerCompletionHandler?(response)
         
-        let targetUrl = content.userInfo["targetUrl"] as! String;
+        let targetUrl = content.userInfo["targetUrl"] as? String;
         
-        os_log("TARGET_URL is %s", log: .default, type: .debug, targetUrl)
-        
-        openDeeplink(link: targetUrl)
-        
+        if targetUrl?.isEmpty == false{
+            openDeeplink(link: targetUrl)
+        }
+
         completionHandler()
     }
     
@@ -97,6 +97,8 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         
         if link != nil
         {
+            os_log("TARGET_URL is %s", log: .default, type: .debug, link!)
+            
             UIApplication.shared.open(URL(string: link!)!, options: [:] , completionHandler: nil);
         }
     }
