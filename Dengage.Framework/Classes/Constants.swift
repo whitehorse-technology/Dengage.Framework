@@ -15,7 +15,7 @@ let TRANSACTIONAL_OPEN_SERVICE_URL = "https://pushdev.dengage.com/api/transactio
 let EVENT_SERVICE_URL = "https://eventdev.dengage.com/api/event"
 
 // MARK:- SETTINGS
-let SDK_VERSION = "2.2.3"
+let SDK_VERSION = "2.2.5"
 let SUIT_NAME = "group.dengage"
 
 let DEFAULT_CARRIER_ID = "1"
