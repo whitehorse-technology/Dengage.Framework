@@ -93,9 +93,14 @@ class DengageCategories {
         confirmCategory.identifier = CONFIRM_CATEGORY
         confirmCategory.actions = [CONFIRM_ACTION:"Confirm", CANCEL_ACTION : "Cancel"]
         
+        let carouselCategory : DefaultCategory = .init()
+        carouselCategory.identifier = CAROUSEL_CATEGORY
+        carouselCategory.actions = [NEXT_ACTION:"Next", PREVIOUS_ACTION:"Previous"]
+        
         defaultCategories.append(simpleCategory)
         defaultCategories.append(askingCategory)
         defaultCategories.append(confirmCategory)
+        defaultCategories.append(carouselCategory)
         
         return defaultCategories
         
