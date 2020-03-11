@@ -95,7 +95,7 @@ class DengageCategories {
         
         let carouselCategory : DefaultCategory = .init()
         carouselCategory.identifier = CAROUSEL_CATEGORY
-        carouselCategory.actions = [NEXT_ACTION:">>", PREVIOUS_ACTION:"<<"]
+        carouselCategory.actions = [NEXT_ACTION:"Next", PREVIOUS_ACTION:"Previous"]
         
         defaultCategories.append(simpleCategory)
         defaultCategories.append(askingCategory)
