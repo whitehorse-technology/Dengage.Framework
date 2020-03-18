@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK:- SETTINGS
-let SDK_VERSION = "2.3.0-alpha"
+let SDK_VERSION = "2.3.0"
 let SUIT_NAME = "group.dengage"
 
 let DEFAULT_CARRIER_ID = "1"
