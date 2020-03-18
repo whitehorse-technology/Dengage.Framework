@@ -31,10 +31,11 @@ public class Dengage
     
     @available(iOS 10.0, *)
     // will support rich notifications with categories
-    static func initWithLaunchOptions(categories : Set<UNNotificationCategory>?, withLaunchOptions : [UIApplication.LaunchOptionsKey: Any]?) {
+    public static func initWithLaunchOptions(categories : Set<UNNotificationCategory>?, withLaunchOptions : [UIApplication.LaunchOptionsKey: Any]?, badgeCountReset : Bool?) {
         
         center.delegate = notificationDelegate
         
+        _settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         ConfigureSettings()
         
         
@@ -45,7 +46,7 @@ public class Dengage
                 return
             }
             
-            center.setNotificationCategories(categories!)
+            _dengageCategories.registerCategories(categories: categories!)
             
         }
     }
@@ -54,23 +55,17 @@ public class Dengage
     public static func initWithLaunchOptions(withLaunchOptions : [UIApplication.LaunchOptionsKey: Any]?, badgeCountReset : Bool?) {
         
         center.delegate = notificationDelegate
-        
         _settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         ConfigureSettings()
-        
-        
-        
-    }
-    
-    
-    public static func RegiserDefaultCategories(){
-        
         _dengageCategories.registerCategories()
-    
+
     }
+    
     
     // MARK:- Prompt Methods
     
+    /// Handles  notification permission
+    /// Sends subscription request
     public static func promptForPushNotifications()
     {
         let queue = DispatchQueue(label: SUBSCRIPTION_QUEUE, qos: .userInitiated)
@@ -148,12 +143,19 @@ public class Dengage
         _settings.setToken(token: token)
     }
     
-    
+    /// Set  User Permission manually
+    /// ```
+    /// self.setUserPermission(permission: true)
+    /// ```
     public static func setUserPermission(permission : Bool){
         
         _settings.setPermission(permission: permission)
     }
     
+    /// Set  Log Status if you want to display logs
+    /// ```
+    /// self.setLogStatus(isVisible: true)
+    /// ```
     public static func setLogStatus(isVisible : Bool){
         
         _logger.setIsDisabled(isDisabled: isVisible)
