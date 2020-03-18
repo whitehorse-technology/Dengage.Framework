@@ -25,9 +25,6 @@
 		9C2CE872103749BB79D03831A46B54C8 /* Dengage.Framework-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A0055B0C753E2911307AAD97B78A9C0F /* Dengage.Framework-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A413E8BFBE9557E59B67CD539F563D98 /* DengageLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BB62386F06E6ECD6C935DE36E20EF8 /* DengageLocalStorage.swift */; };
 		A7A2FC6EDF6E42E051704E1EAED6DF4E /* OpenEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0964179F81340E15B9609430BF29B6 /* OpenEventService.swift */; };
-		AAC6962524223371007B2E99 /* ServiceUrlConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC6962424223371007B2E99 /* ServiceUrlConstants.swift */; };
-		AAC6962724223398007B2E99 /* SettingConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC6962624223398007B2E99 /* SettingConstants.swift */; };
-		AAC69629242233C3007B2E99 /* CategoryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC69628242233C3007B2E99 /* CategoryConstants.swift */; };
 		AADE972223DF628E0040A54F /* DengageNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADE972123DF628E0040A54F /* DengageNotificationDelegate.swift */; };
 		B11EBE950BA367F05F2A52CE0AD0757E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		BAD24EA760AD39A52B03D40178E069A8 /* Pods-Dengage.Framework_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 262148FAA00A75B9D56F5813195FA40D /* Pods-Dengage.Framework_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -90,9 +87,6 @@
 		A0055B0C753E2911307AAD97B78A9C0F /* Dengage.Framework-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Dengage.Framework-umbrella.h"; sourceTree = "<group>"; };
 		A10A082251289C450C3460B8EB503790 /* Dengage.Framework.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = Dengage.Framework.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A7A8A0E82DF6F8DDFAE6B4E5E854419C /* Constants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		AAC6962424223371007B2E99 /* ServiceUrlConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ServiceUrlConstants.swift; path = ../Dengage.Framework/Constatns/ServiceUrlConstants.swift; sourceTree = "<group>"; };
-		AAC6962624223398007B2E99 /* SettingConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingConstants.swift; path = ../Dengage.Framework/Constatns/SettingConstants.swift; sourceTree = "<group>"; };
-		AAC69628242233C3007B2E99 /* CategoryConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryConstants.swift; sourceTree = "<group>"; };
 		AADE972123DF628E0040A54F /* DengageNotificationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DengageNotificationDelegate.swift; sourceTree = "<group>"; };
 		B4BB62386F06E6ECD6C935DE36E20EF8 /* DengageLocalStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DengageLocalStorage.swift; sourceTree = "<group>"; };
 		B702044013F179C34EBF48774E2F3F3A /* deployment.gif */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.gif; name = deployment.gif; path = docs/img/deployment.gif; sourceTree = "<group>"; };
@@ -131,6 +125,7 @@
 		20209336E0415AA75CB3E304DFEEB316 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				A7A8A0E82DF6F8DDFAE6B4E5E854419C /* Constants.swift */,
 				304595D14AC72AEC75D614FAE5740A0C /* Dengage.swift */,
 				2B74C79EBC95EAD15CEE9EA75A594F6E /* DengageCategories.swift */,
 				B4BB62386F06E6ECD6C935DE36E20EF8 /* DengageLocalStorage.swift */,
@@ -223,21 +218,9 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		AAC696232422334B007B2E99 /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-				A7A8A0E82DF6F8DDFAE6B4E5E854419C /* Constants.swift */,
-				AAC6962424223371007B2E99 /* ServiceUrlConstants.swift */,
-				AAC6962624223398007B2E99 /* SettingConstants.swift */,
-				AAC69628242233C3007B2E99 /* CategoryConstants.swift */,
-			);
-			path = Constants;
-			sourceTree = "<group>";
-		};
 		BD9C45E989E4BD38E05D89967FC323FE /* Dengage.Framework */ = {
 			isa = PBXGroup;
 			children = (
-				AAC696232422334B007B2E99 /* Constants */,
 				20209336E0415AA75CB3E304DFEEB316 /* Classes */,
 				D23D2744002FB4A4C98C4ADDC3A99019 /* DataStructures */,
 				4D563937612F87B9C395408061487DB0 /* Models */,
@@ -446,10 +429,7 @@
 				4E4781200307D24F9F08305496E00B1F /* SubscriptionService.swift in Sources */,
 				67FF4098EDC1AFD7ABE5C09F22120362 /* TransactionalOpenEventHttpRequest.swift in Sources */,
 				6E9492E20ABE302B0C2A38AC83C7F950 /* TransactionalOpenEventSevice.swift in Sources */,
-				AAC6962524223371007B2E99 /* ServiceUrlConstants.swift in Sources */,
 				E48725106B13685B4B2DB832B27BC76A /* UABuilder.swift in Sources */,
-				AAC69629242233C3007B2E99 /* CategoryConstants.swift in Sources */,
-				AAC6962724223398007B2E99 /* SettingConstants.swift in Sources */,
 				8419CF2A7FFEB147B4521CF9F098AAC3 /* Utilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
