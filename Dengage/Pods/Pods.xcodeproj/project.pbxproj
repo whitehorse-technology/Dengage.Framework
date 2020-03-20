@@ -25,6 +25,7 @@
 		9C2CE872103749BB79D03831A46B54C8 /* Dengage.Framework-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A0055B0C753E2911307AAD97B78A9C0F /* Dengage.Framework-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A413E8BFBE9557E59B67CD539F563D98 /* DengageLocalStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4BB62386F06E6ECD6C935DE36E20EF8 /* DengageLocalStorage.swift */; };
 		A7A2FC6EDF6E42E051704E1EAED6DF4E /* OpenEventService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A0964179F81340E15B9609430BF29B6 /* OpenEventService.swift */; };
+		AA1D3C3F2424D7720006D1CD /* DengageEventCollecitonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D3C3E2424D7720006D1CD /* DengageEventCollecitonService.swift */; };
 		AADE972223DF628E0040A54F /* DengageNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADE972123DF628E0040A54F /* DengageNotificationDelegate.swift */; };
 		B11EBE950BA367F05F2A52CE0AD0757E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		BAD24EA760AD39A52B03D40178E069A8 /* Pods-Dengage.Framework_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 262148FAA00A75B9D56F5813195FA40D /* Pods-Dengage.Framework_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -87,6 +88,7 @@
 		A0055B0C753E2911307AAD97B78A9C0F /* Dengage.Framework-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Dengage.Framework-umbrella.h"; sourceTree = "<group>"; };
 		A10A082251289C450C3460B8EB503790 /* Dengage.Framework.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = Dengage.Framework.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A7A8A0E82DF6F8DDFAE6B4E5E854419C /* Constants.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		AA1D3C3E2424D7720006D1CD /* DengageEventCollecitonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageEventCollecitonService.swift; sourceTree = "<group>"; };
 		AADE972123DF628E0040A54F /* DengageNotificationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DengageNotificationDelegate.swift; sourceTree = "<group>"; };
 		B4BB62386F06E6ECD6C935DE36E20EF8 /* DengageLocalStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DengageLocalStorage.swift; sourceTree = "<group>"; };
 		B702044013F179C34EBF48774E2F3F3A /* deployment.gif */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.gif; name = deployment.gif; path = docs/img/deployment.gif; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 				5A0964179F81340E15B9609430BF29B6 /* OpenEventService.swift */,
 				204FE88B1B723FD8839E14990F5C4A23 /* SubscriptionService.swift */,
 				F97F52A9EB04D899FB844F393654D1D2 /* TransactionalOpenEventSevice.swift */,
+				AA1D3C3E2424D7720006D1CD /* DengageEventCollecitonService.swift */,
 			);
 			name = Services;
 			path = Dengage.Framework/Services;
@@ -424,6 +427,7 @@
 				7513435A89252E4ED432379B2E384E88 /* OpenEventHttpRequest.swift in Sources */,
 				A7A2FC6EDF6E42E051704E1EAED6DF4E /* OpenEventService.swift in Sources */,
 				3F9328B3E47AE08672DF23D5DFF0C4B8 /* SDKLogger.swift in Sources */,
+				AA1D3C3F2424D7720006D1CD /* DengageEventCollecitonService.swift in Sources */,
 				DDB9F567D79DA899F656391152FD09CF /* Settings.swift in Sources */,
 				313F4DC9437051B13375F12B20C7F3CB /* SubscriptionHttpRequest.swift in Sources */,
 				4E4781200307D24F9F08305496E00B1F /* SubscriptionService.swift in Sources */,
@@ -597,7 +601,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.2;
 				MODULEMAP_FILE = "Target Support Files/Dengage.Framework/Dengage.Framework.modulemap";
 				PRODUCT_MODULE_NAME = Dengage_Framework;
 				PRODUCT_NAME = Dengage_Framework;
@@ -634,7 +638,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.3.1;
+				MARKETING_VERSION = 2.3.2;
 				MODULEMAP_FILE = "Target Support Files/Dengage.Framework/Dengage.Framework.modulemap";
 				PRODUCT_MODULE_NAME = Dengage_Framework;
 				PRODUCT_NAME = Dengage_Framework;

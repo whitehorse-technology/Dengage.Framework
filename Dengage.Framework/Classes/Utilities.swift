@@ -59,6 +59,29 @@ internal class Utilities {
         return appIdentifier
     }
     
+    func identifierForSession() -> String{
+        
+        var sessionIdentifier = ""
+        
+        let returnValue = _storage.getValueWithKey(key: "SessionIdentifier")
+        
+        //TODO : control expireIn
+        if returnValue == nil {
+            
+            _logger.Log(message:"GENERATING_NSUUID", logtype: .info)
+            sessionIdentifier = NSUUID().uuidString.lowercased()
+            _storage.setValueWithKey(value: sessionIdentifier, key: "SessionIdentifier")
+            
+        }
+        else{
+            sessionIdentifier = returnValue!
+        }
+        
+        _logger.Log(message:"SESSION_IDENTIFIER is %s " , logtype: .debug, argument: sessionIdentifier)
+        
+        return sessionIdentifier
+    }
+    
     func identifierForCarrier() -> String{
         var carrierId = DEFAULT_CARRIER_ID
         
@@ -101,5 +124,25 @@ internal class Utilities {
         
         _logger.Log(message: "VERSION is %s" , logtype: .debug,  argument:  cfBundleShortVersionString)
         return cfBundleShortVersionString
+    }
+}
+
+extension TimeZone {
+
+    func offsetFromUTC() -> String
+    {
+        let localTimeZoneFormatter = DateFormatter()
+        localTimeZoneFormatter.timeZone = self
+        localTimeZoneFormatter.dateFormat = "Z"
+        return localTimeZoneFormatter.string(from: Date())
+    }
+
+    func offsetInHours() -> String
+    {
+
+        let hours = secondsFromGMT()/3600
+        let minutes = abs(secondsFromGMT()/60) % 60
+        let tz_hr = String(format: "%+.2d:%.2d", hours, minutes) // "+hh:mm"
+        return tz_hr
     }
 }

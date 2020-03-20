@@ -40,10 +40,22 @@ internal class Settings {
     private var _applicationIdentifier : String = ""
     private var _contactKey :       String = ""
     private var _appVersion :       String = ""
+    private var _sessionId  :       String = ""
     
     private var _badgeCountReset :  Bool?
-    private var _permission :       Bool?;
+    private var _permission :       Bool?
     
+    
+    func setSessionId(sessionId : String) {
+        
+        self._sessionId = sessionId
+    }
+    
+    func getSessionId() -> String {
+           
+         return  self._sessionId
+    }
+       
     
     func setSdkVersion(sdkVersion: String){
         
