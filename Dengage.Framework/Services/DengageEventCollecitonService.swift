@@ -10,7 +10,7 @@ import Foundation
 
 internal class DengageEventCollecitonService {
     
-    let EVENT_URL = DENGAGE_EVENT_SERVICE_URL
+    var EVENT_URL = DENGAGE_EVENT_SERVICE_URL
     
     let _logger : SDKLogger
     let _session : URLSession
@@ -32,27 +32,7 @@ internal class DengageEventCollecitonService {
     
     internal func startSession(actionUrl : String?){
         
-        /*
-         {
-         "eventName": "sessionStart",
-         "language": "en-US",
-         "screenWidth": 3200,
-         "screenHeight": 1697,
-         "timeZone": 3,
-         "sdkVersion": "1.0.0",
-         "os": "Android " + Build.VERSION.RELEASE
-         "md": Build.MODEL,
-         "mn": Build.MANUFACTURER,
-         "br" : Build.BRAND
-         "deviceUniqueId": getDeviceUniqueId(), --> Android icin metodu ekledim. IOS icin --> UIDevice.current.identifierForVendor?.uuidString
-         "referrer": "",
-         "location": "sessionBaslarken olusan deeplink degeri",
-         "sessionId": "f55c920b-58d0-4581-b203-13a1036ee43a", --> Session basladiginda generate edilmeli.
-         "persistentId": "1fa0bb6a-5e4a-4919-9cd7-458cb0795489" --> uygulama ilk yuklendiginde generate edilmelidir ve degismemeli,
-         "pushToken" : "Push notification token"
-         }
-         */
-            
+
         let params = ["evetName": "sessionStart",
                       "language": Locale.current.languageCode as Any,
                       "screenWidth": UIScreen.main.bounds.width,
@@ -73,7 +53,7 @@ internal class DengageEventCollecitonService {
             ] as [String : Any]
         
         
-        
+        EVENT_URL.append(_settings.getApplicationIdentifier())
         ApiCall(data: params, urlAddress: EVENT_URL)
         
         
@@ -89,6 +69,7 @@ internal class DengageEventCollecitonService {
         params.updateValue(sessionId, forKey: "sessionId")
         params.updateValue(persistentId, forKey: "persistentId")
         
+        EVENT_URL.append(_settings.getApplicationIdentifier())
         ApiCall(data: params, urlAddress: EVENT_URL)
         
     }
@@ -98,11 +79,11 @@ internal class DengageEventCollecitonService {
         let sessionId = _settings.getSessionId()
         let persistentId = _settings.getApplicationIdentifier()
         
-         params.updateValue(eventName, forKey: "eventName")
-         params.updateValue(sessionId, forKey: "sessionId")
-         params.updateValue(persistentId, forKey: "persistentId")
+        params.updateValue(eventName, forKey: "eventName")
+        params.updateValue(sessionId, forKey: "sessionId")
+        params.updateValue(persistentId, forKey: "persistentId")
                
-        
+        EVENT_URL.append(_settings.getApplicationIdentifier())
         ApiCall(data: params, urlAddress: EVENT_URL)
     }
     
@@ -119,6 +100,7 @@ extension DengageEventCollecitonService {
         
         let url = URL(string: urlAddress)!
         
+        _logger.Log(message: "EVENT_URL is %s", logtype: .info, argument: urlAddress)
         //now create the URLRequest object using the url object
         var request = URLRequest(url: url)
         request.httpMethod = "POST" //set http method as POST
@@ -146,10 +128,12 @@ extension DengageEventCollecitonService {
             }
             
             guard data.count != 0 else {
+                self._logger.Log(message: "EVENT_SENT", logtype: .debug)
                 return
             }
             
             do {
+        
                 //create json object from data
                 if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
                     
