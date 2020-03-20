@@ -29,6 +29,15 @@ class DengageCategories {
         
     }
     
+    internal func registerCategories(categories : Set<UNNotificationCategory>){
+        
+        let dengageDefaultCategories = getCategories()
+        
+        let allcategories = categories.union(dengageDefaultCategories)
+        
+        _notificationCenter.setNotificationCategories(allcategories)
+    }
+    
     internal func registerCustomCategories(identifier: String, actions : [String: String]){
         
         var actionsArr : [UNNotificationAction] = []
