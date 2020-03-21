@@ -15,7 +15,7 @@ internal class DengageEventCollecitonService {
     let _logger : SDKLogger
     let _session : URLSession
     let _settings : Settings
-    
+        
     init(){
         
         _logger = .shared
@@ -32,7 +32,10 @@ internal class DengageEventCollecitonService {
     
     internal func startSession(actionUrl : String?){
         
-
+        let sessionId = _settings.getSessionId()
+        
+        _logger.Log(message: "SESSION_ID %s", logtype: .debug, argument: sessionId)
+        
         let params = ["evetName": "sessionStart",
                       "language": Locale.current.languageCode as Any,
                       "screenWidth": UIScreen.main.bounds.width,
@@ -43,10 +46,10 @@ internal class DengageEventCollecitonService {
                       "md":UIDevice.modelName,
                       "mn":"",
                       "br":"",
-                      "deviceUniqueId": UIDevice.current.identifierForVendor?.uuidString as Any,
+                      "deviceUniqueId": UIDevice.current.identifierForVendor?.uuidString.lowercased() as Any,
                       "referrer" : "",
                       "location" : actionUrl ?? "",
-                      "sessionId" : _settings.getSessionId(),
+                      "sessionId" : sessionId,
                       "persistentId" : _settings.getApplicationIdentifier(),
                       "pushToken" : _settings.getToken() ?? ""
             
@@ -58,32 +61,32 @@ internal class DengageEventCollecitonService {
         
         
     }
-    
-    internal func pageView(params : inout [String : Any]){
+
+    internal func pageView(params : NSMutableDictionary){
         
-       
         let sessionId = _settings.getSessionId()
         let persistentId = _settings.getApplicationIdentifier()
+        _logger.Log(message: "SESSION_ID %s", logtype: .debug, argument: sessionId)
         
-        params.updateValue("pageView", forKey: "eventName")
-        params.updateValue(sessionId, forKey: "sessionId")
-        params.updateValue(persistentId, forKey: "persistentId")
+        params["eventName"] = "pageView"
+        params["sessionId"] = sessionId
+        params["persistentId"] = persistentId
         
-        EVENT_URL.append(_settings.getApplicationIdentifier())
+        
         ApiCall(data: params, urlAddress: EVENT_URL)
-        
+       
     }
     
-    internal func customEvent(eventName : String ,params : inout [String : Any]){
+    internal func customEvent(eventName : String ,params : NSMutableDictionary){
         
         let sessionId = _settings.getSessionId()
         let persistentId = _settings.getApplicationIdentifier()
         
-        params.updateValue(eventName, forKey: "eventName")
-        params.updateValue(sessionId, forKey: "sessionId")
-        params.updateValue(persistentId, forKey: "persistentId")
+        params["eventName"] = eventName
+        params["sessionId"] = sessionId
+        params["persistentId"] = persistentId
                
-        EVENT_URL.append(_settings.getApplicationIdentifier())
+       
         ApiCall(data: params, urlAddress: EVENT_URL)
     }
     

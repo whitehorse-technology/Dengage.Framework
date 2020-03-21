@@ -18,7 +18,6 @@ internal class Utilities {
     var _asIdentifierManager : ASIdentifierManager
     var _ctTelephonyNetworkInfo : CTTelephonyNetworkInfo
     
-    
     init() {
         _storage = DengageLocalStorage.shared
         _logger = SDKLogger.shared
@@ -58,30 +57,7 @@ internal class Utilities {
         
         return appIdentifier
     }
-    
-    func identifierForSession() -> String{
-        
-        var sessionIdentifier = ""
-        
-        let returnValue = _storage.getValueWithKey(key: "SessionIdentifier")
-        
-        //TODO : control expireIn
-        if returnValue == nil {
-            
-            _logger.Log(message:"GENERATING_NSUUID", logtype: .info)
-            sessionIdentifier = NSUUID().uuidString.lowercased()
-            _storage.setValueWithKey(value: sessionIdentifier, key: "SessionIdentifier")
-            
-        }
-        else{
-            sessionIdentifier = returnValue!
-        }
-        
-        _logger.Log(message:"SESSION_IDENTIFIER is %s " , logtype: .debug, argument: sessionIdentifier)
-        
-        return sessionIdentifier
-    }
-    
+
     func identifierForCarrier() -> String{
         var carrierId = DEFAULT_CARRIER_ID
         

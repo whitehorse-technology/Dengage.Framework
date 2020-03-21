@@ -20,6 +20,7 @@ public class Dengage
     static var _openEventService : OpenEventService = OpenEventService()
     static var _eventCollectionService : EventCollectionService = EventCollectionService()
     static var _dengageEventCollectionService : DengageEventCollecitonService = DengageEventCollecitonService()
+    static var _sessionManager :  SessionManager = .shared
     static var IsUserGranted : Bool = false
     
     static var _utilities : Utilities = .shared
@@ -244,7 +245,6 @@ public class Dengage
         _settings.setAdvertisingId(advertisingId: _utilities.identifierForAdvertising())
         _settings.setApplicationIdentifier(applicationIndentifier: _utilities.identifierForApplication())
         _settings.setAppVersion(appVersion: _utilities.indentifierForCFBundleShortVersionString())
-        _settings.setSessionId(sessionId: _utilities.identifierForSession())
     }
     
     static func SyncEventQueues(eventCollectionModel: EventCollectionModel) {
@@ -307,13 +307,20 @@ public class Dengage
     
     public static func startSession(actionUrl: String?){
         
+        let session = _sessionManager.getSession()
+        
+        _settings.setSessionId(sessionId: session.Id)
         _dengageEventCollectionService.startSession(actionUrl: actionUrl)
     }
     
-    public static func pageView(params : inout [String : Any]){
+    public static func pageView(params : NSMutableDictionary){
         
-        _dengageEventCollectionService.pageView(params: &params)
+        _dengageEventCollectionService.pageView(params: params)
+    }
     
+    public static func customEvent(eventName: String, params : NSMutableDictionary){
+           
+        _dengageEventCollectionService.customEvent(eventName: eventName, params: params)
     }
     
     
