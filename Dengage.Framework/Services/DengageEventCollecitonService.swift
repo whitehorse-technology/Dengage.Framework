@@ -56,7 +56,7 @@ internal class DengageEventCollecitonService {
             ] as [String : Any]
         
         
-        EVENT_URL.append(_settings.getApplicationIdentifier())
+        EVENT_URL.append(_settings.getDengageIntegrationKey())
         ApiCall(data: params, urlAddress: EVENT_URL)
         
         
@@ -74,6 +74,40 @@ internal class DengageEventCollecitonService {
         
         
         ApiCall(data: params, urlAddress: EVENT_URL)
+       
+    }
+    
+    internal func subscriptionEvent(){
+        
+        let sessionId = _settings.getSessionId()
+        let persistentId = _settings.getApplicationIdentifier()
+        _logger.Log(message: "SESSION_ID %s", logtype: .debug, argument: sessionId)
+        
+        var subscriptionHttpRequest = SubscriptionHttpRequest()
+        subscriptionHttpRequest.integrationKey = _settings.getDengageIntegrationKey()
+        subscriptionHttpRequest.contactKey = _settings.getContactKey() ?? ""
+        subscriptionHttpRequest.permission = _settings.getPermission() ?? false
+        subscriptionHttpRequest.appVersion = _settings.getAppversion() ?? "1.0"
+        
+        
+        let parameters = ["integrationKey": subscriptionHttpRequest.integrationKey,
+                          "token": _settings.getToken() ?? "",
+                          "tokenType" : "I",
+                          "contactKey": subscriptionHttpRequest.contactKey,
+                          "permission": subscriptionHttpRequest.permission,
+                          "udid":       _settings.getApplicationIdentifier(),
+                          "carrierId":  _settings.getCarrierId(),
+                          "appVersion": subscriptionHttpRequest.appVersion,
+                          "sdkVersion": _settings.getSdkVersion(),
+                          "advertisingId" : _settings.getAdvertisinId() as Any] as NSMutableDictionary
+        
+        
+        parameters["eventName"] = "subscription"
+        parameters["sessionId"] = sessionId
+        parameters["persistentId"] = persistentId
+        
+        
+        ApiCall(data: parameters, urlAddress: EVENT_URL)
        
     }
     
@@ -109,7 +143,12 @@ extension DengageEventCollecitonService {
         request.httpMethod = "POST" //set http method as POST
         
         do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted).base64EncodedData() // pass dictionary to nsdata object and set it as request body
+            let jsonData = try JSONSerialization.data(withJSONObject: data, options: []) // pass dictionary to nsdata object and set it as request body
+            
+            
+            let httpData = String(data: jsonData,encoding: .utf8)?.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)?.data(using: .utf8)?.base64EncodedData()
+            
+            request.httpBody = httpData
             
             self._logger.Log(message: "HTTP REQUEST BODY : %s", logtype: .debug, argument: String(data: request.httpBody!, encoding: String.Encoding.utf8)!)
         } catch let error {
