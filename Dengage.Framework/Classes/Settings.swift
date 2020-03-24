@@ -41,10 +41,21 @@ internal class Settings {
     private var _contactKey :       String = ""
     private var _appVersion :       String = ""
     private var _sessionId  :       String = ""
+    private var _subscriptonUrl : String = ""
     
     private var _badgeCountReset :  Bool?
     private var _permission :       Bool?
     
+    
+    func setSubscriptionUrl(subscriptonUrl : String) {
+        
+        self._subscriptonUrl = subscriptonUrl
+    }
+    
+    func getSubscriptionUrl() -> String {
+           
+        return  self._subscriptonUrl 
+    }
     
     func setSessionId(sessionId : String) {
         

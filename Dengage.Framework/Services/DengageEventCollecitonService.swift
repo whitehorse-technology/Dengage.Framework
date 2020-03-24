@@ -15,6 +15,8 @@ internal class DengageEventCollecitonService {
     let _logger : SDKLogger
     let _session : URLSession
     let _settings : Settings
+    
+    var url : String = ""
         
     init(){
         
@@ -33,6 +35,12 @@ internal class DengageEventCollecitonService {
     internal func startSession(actionUrl : String?){
         
         let sessionId = _settings.getSessionId()
+        url = DENGAGE_EVENT_SERVICE_URL
+        
+        if _settings.getSubscriptionUrl().isEmpty == false
+        {
+            url = _settings.getSubscriptionUrl()
+        }
         
         _logger.Log(message: "SESSION_ID %s", logtype: .debug, argument: sessionId)
         
@@ -56,7 +64,7 @@ internal class DengageEventCollecitonService {
             ] as [String : Any]
         
         
-        EVENT_URL.append(_settings.getDengageIntegrationKey())
+        url.append(_settings.getDengageIntegrationKey())
         ApiCall(data: params, urlAddress: EVENT_URL)
         
         
@@ -73,7 +81,7 @@ internal class DengageEventCollecitonService {
         params["persistentId"] = persistentId
         
         
-        ApiCall(data: params, urlAddress: EVENT_URL)
+        ApiCall(data: params, urlAddress: url)
        
     }
     
@@ -107,7 +115,7 @@ internal class DengageEventCollecitonService {
         parameters["persistentId"] = persistentId
         
         
-        ApiCall(data: parameters, urlAddress: EVENT_URL)
+        ApiCall(data: parameters, urlAddress: url)
        
     }
     
@@ -121,7 +129,7 @@ internal class DengageEventCollecitonService {
         params["persistentId"] = persistentId
                
        
-        ApiCall(data: params, urlAddress: EVENT_URL)
+        ApiCall(data: params, urlAddress: url)
     }
     
     

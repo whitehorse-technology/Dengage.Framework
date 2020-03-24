@@ -190,7 +190,15 @@ public class Dengage
             return
         }
         
-        _subscriptionService.SendSubscriptionEvent()
+        if _settings.getSubscriptionUrl().isEmpty {
+            _subscriptionService.SendSubscriptionEvent()
+        }
+        else{
+            
+            startSession(actionUrl: "")
+            _dengageEventCollectionService.subscriptionEvent()
+            
+        }
         
     }
     
