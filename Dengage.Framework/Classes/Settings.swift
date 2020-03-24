@@ -21,6 +21,8 @@ internal class Settings {
         _badgeCountReset = true
         _storage = DengageLocalStorage.shared
         _logger = SDKLogger.shared
+        _sessionStarted = false
+        
     }
     
     init(storage :  DengageLocalStorage = .shared, logger : SDKLogger = .shared){
@@ -30,6 +32,7 @@ internal class Settings {
         _sdkVersion = SDK_VERSION
         _permission = false
         _badgeCountReset = true
+        _sessionStarted = false
     }
     
     private var _integrationKey :   String = ""
@@ -45,7 +48,18 @@ internal class Settings {
     
     private var _badgeCountReset :  Bool?
     private var _permission :       Bool?
+    private var _sessionStarted : Bool
     
+    
+    func setSessionStart(status : Bool)
+    {
+        self._sessionStarted = status
+    }
+    
+    func getSessionStart() -> Bool {
+        
+        return self._sessionStarted
+    }
     
     func setSubscriptionUrl(subscriptonUrl : String) {
         
@@ -53,9 +67,10 @@ internal class Settings {
     }
     
     func getSubscriptionUrl() -> String {
-           
-        return  self._subscriptonUrl 
+        
+        return self._subscriptonUrl
     }
+
     
     func setSessionId(sessionId : String) {
         

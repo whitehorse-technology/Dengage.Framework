@@ -17,6 +17,7 @@ internal class DengageEventCollecitonService {
     let _settings : Settings
     
     var url : String = ""
+
         
     init(){
         
@@ -30,17 +31,20 @@ internal class DengageEventCollecitonService {
         _logger  = logger
         _session = session
         _settings = settings
+        
     }
     
     internal func startSession(actionUrl : String?){
         
         let sessionId = _settings.getSessionId()
-        url = DENGAGE_EVENT_SERVICE_URL
+        url = DENGAGE_EVENT_SERVICE_URL //default value
         
         if _settings.getSubscriptionUrl().isEmpty == false
         {
             url = _settings.getSubscriptionUrl()
         }
+        
+        url.append(_settings.getDengageIntegrationKey())
         
         _logger.Log(message: "SESSION_ID %s", logtype: .debug, argument: sessionId)
         
@@ -62,10 +66,10 @@ internal class DengageEventCollecitonService {
                       "pushToken" : _settings.getToken() ?? ""
             
             ] as [String : Any]
+                
+        _settings.setSessionStart(status: true)
         
-        
-        url.append(_settings.getDengageIntegrationKey())
-        ApiCall(data: params, urlAddress: EVENT_URL)
+        ApiCall(data: params, urlAddress: url)
         
         
     }

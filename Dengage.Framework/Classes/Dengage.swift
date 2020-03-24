@@ -168,6 +168,11 @@ public class Dengage
         return _settings.getApplicationIdentifier()
     }
     
+    public static func setSubscriptionUrl(endpoint : String?){
+        
+        _settings.setSubscriptionUrl(subscriptonUrl: endpoint!)
+    }
+    
     // MARK:- Rich Notification İnitiliaze
     @available(iOSApplicationExtension 10.0, *)
     public static func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, withNotificationContent : UNMutableNotificationContent){
@@ -195,7 +200,10 @@ public class Dengage
         }
         else{
             
-            startSession(actionUrl: "")
+            if _settings.getSessionStart() == false {
+                StartSession(actionUrl: "")
+            }
+            
             _dengageEventCollectionService.subscriptionEvent()
             
         }
@@ -313,22 +321,36 @@ public class Dengage
         }
     }
     
-    public static func startSession(actionUrl: String?){
+    public static func StartSession(actionUrl: String?){
+        
+        if _settings.getSessionStart() {
+            
+            return
+        }
         
         let session = _sessionManager.getSession()
         
         _settings.setSessionId(sessionId: session.Id)
+        
         _dengageEventCollectionService.startSession(actionUrl: actionUrl)
     }
     
-    public static func pageView(params : NSMutableDictionary){
+    public static func SendPageView(params : NSMutableDictionary){
         
-        _dengageEventCollectionService.pageView(params: params)
+        if _settings.getSessionStart() {
+            
+            _dengageEventCollectionService.pageView(params: params)
+        }
+        
     }
     
-    public static func customEvent(eventName: String, params : NSMutableDictionary){
-           
-        _dengageEventCollectionService.customEvent(eventName: eventName, params: params)
+    public static func SendCustomEvent(eventName: String, params : NSMutableDictionary){
+          
+        if _settings.getSessionStart() {
+            
+            _dengageEventCollectionService.customEvent(eventName: eventName, params: params)
+        }
+        
     }
     
     
