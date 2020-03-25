@@ -45,11 +45,22 @@ internal class Settings {
     private var _appVersion :       String = ""
     private var _sessionId  :       String = ""
     private var _subscriptonUrl : String = ""
+    private var _testGroup : String = ""
     
     private var _badgeCountReset :  Bool?
     private var _permission :       Bool?
     private var _sessionStarted : Bool
     
+    
+    func setTestGroup(testGroup : String){
+        
+        _testGroup = testGroup
+    }
+    
+    func getTestGroup() -> String {
+        
+        return _testGroup
+    }
     
     func setSessionStart(status : Bool)
     {

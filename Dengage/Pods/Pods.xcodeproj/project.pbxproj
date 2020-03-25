@@ -28,6 +28,7 @@
 		AA1D3C3F2424D7720006D1CD /* DengageEventCollecitonService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1D3C3E2424D7720006D1CD /* DengageEventCollecitonService.swift */; };
 		AA648EF024261C9000F4E8AB /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA648EEF24261C9000F4E8AB /* SessionManager.swift */; };
 		AA648EF224261D6400F4E8AB /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA648EF124261D6400F4E8AB /* Session.swift */; };
+		AA8031B8242B78D500778A1C /* DengageEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8031B7242B78D500778A1C /* DengageEvent.swift */; };
 		AADE972223DF628E0040A54F /* DengageNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADE972123DF628E0040A54F /* DengageNotificationDelegate.swift */; };
 		B11EBE950BA367F05F2A52CE0AD0757E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		BAD24EA760AD39A52B03D40178E069A8 /* Pods-Dengage.Framework_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 262148FAA00A75B9D56F5813195FA40D /* Pods-Dengage.Framework_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -93,6 +94,7 @@
 		AA1D3C3E2424D7720006D1CD /* DengageEventCollecitonService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageEventCollecitonService.swift; sourceTree = "<group>"; };
 		AA648EEF24261C9000F4E8AB /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		AA648EF124261D6400F4E8AB /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		AA8031B7242B78D500778A1C /* DengageEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageEvent.swift; sourceTree = "<group>"; };
 		AADE972123DF628E0040A54F /* DengageNotificationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DengageNotificationDelegate.swift; sourceTree = "<group>"; };
 		B4BB62386F06E6ECD6C935DE36E20EF8 /* DengageLocalStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DengageLocalStorage.swift; sourceTree = "<group>"; };
 		B702044013F179C34EBF48774E2F3F3A /* deployment.gif */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.gif; name = deployment.gif; path = docs/img/deployment.gif; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 				C7206D0258E30B39CBD35AF0B46557EC /* UABuilder.swift */,
 				09CB39B13E7A3B37C7748FAA8B4871C3 /* Utilities.swift */,
 				AA648EEF24261C9000F4E8AB /* SessionManager.swift */,
+				AA8031B7242B78D500778A1C /* DengageEvent.swift */,
 			);
 			name = Classes;
 			path = Dengage.Framework/Classes;
@@ -437,6 +440,7 @@
 				AA1D3C3F2424D7720006D1CD /* DengageEventCollecitonService.swift in Sources */,
 				DDB9F567D79DA899F656391152FD09CF /* Settings.swift in Sources */,
 				313F4DC9437051B13375F12B20C7F3CB /* SubscriptionHttpRequest.swift in Sources */,
+				AA8031B8242B78D500778A1C /* DengageEvent.swift in Sources */,
 				AA648EF224261D6400F4E8AB /* Session.swift in Sources */,
 				4E4781200307D24F9F08305496E00B1F /* SubscriptionService.swift in Sources */,
 				67FF4098EDC1AFD7ABE5C09F22120362 /* TransactionalOpenEventHttpRequest.swift in Sources */,

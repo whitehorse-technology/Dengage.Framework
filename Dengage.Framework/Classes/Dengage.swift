@@ -173,6 +173,11 @@ public class Dengage
         _settings.setSubscriptionUrl(subscriptonUrl: endpoint!)
     }
     
+    public static func setTestGroup(testGroup : String){
+        
+        _settings.setTestGroup(testGroup: testGroup)
+    }
+    
     // MARK:- Rich Notification İnitiliaze
     @available(iOSApplicationExtension 10.0, *)
     public static func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, withNotificationContent : UNMutableNotificationContent){
@@ -321,7 +326,7 @@ public class Dengage
         }
     }
     
-    public static func StartSession(actionUrl: String?){
+    static func StartSession(actionUrl: String?){
         
         if _settings.getSessionStart() {
             
@@ -334,26 +339,7 @@ public class Dengage
         
         _dengageEventCollectionService.startSession(actionUrl: actionUrl)
     }
-    
-    public static func SendPageView(params : NSMutableDictionary){
-        
-        if _settings.getSessionStart() {
-            
-            _dengageEventCollectionService.pageView(params: params)
-        }
-        
-    }
-    
-    public static func SendCustomEvent(eventName: String, params : NSMutableDictionary){
-          
-        if _settings.getSessionStart() {
-            
-            _dengageEventCollectionService.customEvent(eventName: eventName, params: params)
-        }
-        
-    }
-    
-    
+
 }
 
 

@@ -17,8 +17,8 @@ internal class DengageEventCollecitonService {
     let _settings : Settings
     
     var url : String = ""
-
-        
+    
+    
     init(){
         
         _logger = .shared
@@ -54,86 +54,90 @@ internal class DengageEventCollecitonService {
                       "screenHeight":UIScreen.main.bounds.height,
                       "timeZone": TimeZone.current.offsetFromUTC(),
                       "sdkVersion":_settings.getSdkVersion(),
-                      "os":UIDevice.current.systemVersion,
-                      "md":UIDevice.modelName,
-                      "mn":"",
-                      "br":"",
-                      "deviceUniqueId": UIDevice.current.identifierForVendor?.uuidString.lowercased() as Any,
                       "referrer" : "",
                       "location" : actionUrl ?? "",
-                      "sessionId" : sessionId,
+                      "userAgent" : _settings.getUserAgent(),
+                      "advertisingId" : _settings.getAdvertisinId() as Any,
+                      "carrierId" : _settings.getCarrierId(),
+                      "token" : _settings.getToken() ?? "",
+                      "appVersion" : _settings.getAppversion()!,
+                      "permission" : _settings.getPermission() as Any,
+                      "memberId" : _settings.getContactKey() as Any,
                       "persistentId" : _settings.getApplicationIdentifier(),
-                      "pushToken" : _settings.getToken() ?? ""
+                      "sessionId" : sessionId
             
             ] as [String : Any]
-                
+        
         _settings.setSessionStart(status: true)
         
         ApiCall(data: params, urlAddress: url)
-        
-        
-    }
-
-    internal func pageView(params : NSMutableDictionary){
-        
-        let sessionId = _settings.getSessionId()
-        let persistentId = _settings.getApplicationIdentifier()
-        _logger.Log(message: "SESSION_ID %s", logtype: .debug, argument: sessionId)
-        
-        params["eventName"] = "pageView"
-        params["sessionId"] = sessionId
-        params["persistentId"] = persistentId
-        
-        
-        ApiCall(data: params, urlAddress: url)
-       
+          
     }
     
     internal func subscriptionEvent(){
         
-        let sessionId = _settings.getSessionId()
-        let persistentId = _settings.getApplicationIdentifier()
-        _logger.Log(message: "SESSION_ID %s", logtype: .debug, argument: sessionId)
-        
-        var subscriptionHttpRequest = SubscriptionHttpRequest()
-        subscriptionHttpRequest.integrationKey = _settings.getDengageIntegrationKey()
-        subscriptionHttpRequest.contactKey = _settings.getContactKey() ?? ""
-        subscriptionHttpRequest.permission = _settings.getPermission() ?? false
-        subscriptionHttpRequest.appVersion = _settings.getAppversion() ?? "1.0"
-        
-        
-        let parameters = ["integrationKey": subscriptionHttpRequest.integrationKey,
-                          "token": _settings.getToken() ?? "",
-                          "tokenType" : "I",
-                          "contactKey": subscriptionHttpRequest.contactKey,
-                          "permission": subscriptionHttpRequest.permission,
-                          "udid":       _settings.getApplicationIdentifier(),
-                          "carrierId":  _settings.getCarrierId(),
-                          "appVersion": subscriptionHttpRequest.appVersion,
-                          "sdkVersion": _settings.getSdkVersion(),
-                          "advertisingId" : _settings.getAdvertisinId() as Any] as NSMutableDictionary
-        
-        
-        parameters["eventName"] = "subscription"
-        parameters["sessionId"] = sessionId
-        parameters["persistentId"] = persistentId
-        
-        
-        ApiCall(data: parameters, urlAddress: url)
-       
+        if _settings.getSessionStart() {
+            
+            let sessionId = _settings.getSessionId()
+            let persistentId = _settings.getApplicationIdentifier()
+            _logger.Log(message: "SESSION_ID %s", logtype: .debug, argument: sessionId)
+            
+            var subscriptionHttpRequest = SubscriptionHttpRequest()
+            subscriptionHttpRequest.integrationKey = _settings.getDengageIntegrationKey()
+            subscriptionHttpRequest.contactKey = _settings.getContactKey() ?? ""
+            subscriptionHttpRequest.permission = _settings.getPermission() ?? false
+            subscriptionHttpRequest.appVersion = _settings.getAppversion() ?? "1.0"
+            
+            
+            let parameters = ["integrationKey": subscriptionHttpRequest.integrationKey,
+                              "token": _settings.getToken() ?? "",
+                              "tokenType" : "I",
+                              "contactKey": subscriptionHttpRequest.contactKey,
+                              "permission": subscriptionHttpRequest.permission,
+                              "udid":       _settings.getApplicationIdentifier(),
+                              "carrierId":  _settings.getCarrierId(),
+                              "appVersion": subscriptionHttpRequest.appVersion,
+                              "sdkVersion": _settings.getSdkVersion(),
+                              "advertisingId" : _settings.getAdvertisinId() as Any] as NSMutableDictionary
+            
+            
+            parameters["eventName"] = "subscription"
+            parameters["sessionId"] = sessionId
+            parameters["persistentId"] = persistentId
+            
+            
+            ApiCall(data: parameters, urlAddress: url)
+            
+        }
     }
     
-    internal func customEvent(eventName : String ,params : NSMutableDictionary){
+    internal func customEvent(eventName : String , entityType : String?, pageType : String?, params : NSMutableDictionary){
         
-        let sessionId = _settings.getSessionId()
-        let persistentId = _settings.getApplicationIdentifier()
+        if _settings.getSessionStart() {
+            
+            let sessionId = _settings.getSessionId()
+            let persistentId = _settings.getApplicationIdentifier()
+            let memberId = _settings.getContactKey()
+            let testGroup = _settings.getContactKey()
+            
+            
+            if  entityType != nil && entityType!.isEmpty {
+                params["entityType"] = entityType
+            }
+            
+            if pageType != nil && pageType!.isEmpty {
+                params["pageType"] = pageType
+            }
+            
+            params["eventName"] = eventName
+            params["sessionId"] = sessionId
+            params["persistentId"] = persistentId
+            params["memberId"] = memberId
+            params["testGroup"] = testGroup
+            
+            ApiCall(data: params, urlAddress: url)
+        }
         
-        params["eventName"] = eventName
-        params["sessionId"] = sessionId
-        params["persistentId"] = persistentId
-               
-       
-        ApiCall(data: params, urlAddress: url)
     }
     
     
@@ -187,7 +191,7 @@ extension DengageEventCollecitonService {
             }
             
             do {
-        
+                
                 //create json object from data
                 if let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String: Any] {
                     
