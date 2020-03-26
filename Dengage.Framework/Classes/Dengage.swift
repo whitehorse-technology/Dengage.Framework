@@ -19,7 +19,7 @@ public class Dengage
     static var _subscriptionService : SubscriptionService = SubscriptionService()
     static var _openEventService : OpenEventService = OpenEventService()
     static var _eventCollectionService : EventCollectionService = EventCollectionService()
-    static var _dengageEventCollectionService : DengageEventCollecitonService = DengageEventCollecitonService()
+    static var _dengageEventCollectionService : DengageEventCollecitonService = .shared
     static var _sessionManager :  SessionManager = .shared
     static var IsUserGranted : Bool = false
     
@@ -168,9 +168,9 @@ public class Dengage
         return _settings.getApplicationIdentifier()
     }
     
-    public static func setSubscriptionUrl(endpoint : String?){
+    public static func setSubscriptionUrl(endpoint : String){
         
-        _settings.setSubscriptionUrl(subscriptonUrl: endpoint!)
+        _settings.setSubscriptionUrl(subscriptonUrl: endpoint)
     }
     
     public static func setTestGroup(testGroup : String){

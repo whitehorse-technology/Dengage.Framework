@@ -10,6 +10,9 @@ import Foundation
 
 internal class DengageEventCollecitonService {
     
+    
+    internal static let shared  = DengageEventCollecitonService()
+    
     var EVENT_URL = DENGAGE_EVENT_SERVICE_URL
     
     let _logger : SDKLogger
@@ -62,6 +65,11 @@ internal class DengageEventCollecitonService {
                       "token" : _settings.getToken() ?? "",
                       "appVersion" : _settings.getAppversion()!,
                       "permission" : _settings.getPermission() as Any,
+                      "os" : UIDevice.current.systemName,
+                      "model" : UIDevice.modelName,
+                      "manufacturer" : "",
+                      "brand" : "",
+                      "deviceUniqueId" : UIDevice.current.identifierForVendor?.uuidString as Any,
                       "memberId" : _settings.getContactKey() as Any,
                       "persistentId" : _settings.getApplicationIdentifier(),
                       "sessionId" : sessionId
@@ -118,7 +126,7 @@ internal class DengageEventCollecitonService {
             let sessionId = _settings.getSessionId()
             let persistentId = _settings.getApplicationIdentifier()
             let memberId = _settings.getContactKey()
-            let testGroup = _settings.getContactKey()
+            let testGroup = _settings.getTestGroup()
             
             
             if  entityType != nil && entityType!.isEmpty {
@@ -166,7 +174,7 @@ extension DengageEventCollecitonService {
             
             request.httpBody = httpData
             
-            self._logger.Log(message: "HTTP REQUEST BODY : %s", logtype: .debug, argument: String(data: request.httpBody!, encoding: String.Encoding.utf8)!)
+//            self._logger.Log(message: "HTTP REQUEST BODY : %s", logtype: .debug, argument: String(data: request.httpBody!, encoding: String.Encoding.utf8)!)
         } catch let error {
             self._logger.Log(message: "%s", logtype: .error, argument: error.localizedDescription)
         }
@@ -186,7 +194,7 @@ extension DengageEventCollecitonService {
             }
             
             guard data.count != 0 else {
-                self._logger.Log(message: "EVENT_SENT", logtype: .debug)
+                self._logger.Log(message: "CLOUD_EVENT_SENT", logtype: .debug)
                 return
             }
             

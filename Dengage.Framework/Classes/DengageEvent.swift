@@ -11,7 +11,7 @@ import Foundation
 public class DengageEvent
 {
     public static let shared  = DengageEvent()
-    static var eventCollectionService = DengageEventCollecitonService()
+    static var eventCollectionService : DengageEventCollecitonService = .shared
     
     
     public func SessionStart(location: String){
@@ -226,11 +226,12 @@ public class DengageEvent
         case .PromotionPage:
             pt = "promotionPage"
         }
+    
         
         let parameters = [
-            "filters" : filters,
+            "filters" : filters as NSDictionary,
             "resultCount" : resultCount,
-            "pageType" : pageType
+            "pageType" : pt
             
             ] as NSMutableDictionary
         
