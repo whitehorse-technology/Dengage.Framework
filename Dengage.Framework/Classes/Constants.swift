@@ -21,10 +21,10 @@ let CLOUD_SUBSCRIPTION_SERVICE_URL = "https://ec.dengage.com/"
 // MARK:- QUEUE PARAMETERS
 let DEVICE_EVENT_QUEUE = "device-event-queue"
 let SUBSCRIPTION_QUEUE = "subscription-queue"
-let QUEUE_LIMIT = 7
+let QUEUE_LIMIT = 5
 
 // MARK:- SETTINGS
-let SDK_VERSION = "2.3.6"
+let SDK_VERSION = "2.3.8"
 let SUIT_NAME = "group.dengage"
 
 let DEFAULT_CARRIER_ID = "1"

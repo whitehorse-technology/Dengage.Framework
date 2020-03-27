@@ -44,13 +44,25 @@ internal class Settings {
     private var _contactKey :       String = ""
     private var _appVersion :       String = ""
     private var _sessionId  :       String = ""
-    private var _subscriptonUrl : String = ""
+
     private var _testGroup : String = ""
     
     private var _badgeCountReset :  Bool?
     private var _permission :       Bool?
     private var _sessionStarted : Bool
     
+    private var _useCloudForSubscription : Bool = false
+    
+    
+    func setCloudEnabled(status : Bool)
+    {
+        self._useCloudForSubscription = status
+    }
+    
+    func getCloudEnabled() -> Bool {
+        
+        return self._useCloudForSubscription
+    }
     
     func setTestGroup(testGroup : String){
         
@@ -71,17 +83,6 @@ internal class Settings {
         
         return self._sessionStarted
     }
-    
-    func setSubscriptionUrl(subscriptonUrl : String) {
-        
-        self._subscriptonUrl = subscriptonUrl
-    }
-    
-    func getSubscriptionUrl() -> String {
-        
-        return self._subscriptonUrl
-    }
-
     
     func setSessionId(sessionId : String) {
         

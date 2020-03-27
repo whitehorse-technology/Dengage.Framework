@@ -44,11 +44,6 @@ internal class DengageEventCollecitonService {
         let sessionId = _settings.getSessionId()
         url = DENGAGE_EVENT_SERVICE_URL //default value
         
-        if _settings.getSubscriptionUrl().isEmpty == false
-        {
-            url = _settings.getSubscriptionUrl()
-        }
-        
         url.append(_settings.getDengageIntegrationKey())
         
         _logger.Log(message: "SESSION_ID %s", logtype: .debug, argument: sessionId)
@@ -73,7 +68,7 @@ internal class DengageEventCollecitonService {
                       "brand" : "",
                       "deviceUniqueId" : UIDevice.current.identifierForVendor?.uuidString as Any,
                       "memberId" : _settings.getContactKey() as Any,
-                      "persistentId" : _settings.getApplicationIdentifier(),
+                      "udid" : _settings.getApplicationIdentifier(),
                       "sessionId" : sessionId
             
             ] as [String : Any]
@@ -81,6 +76,8 @@ internal class DengageEventCollecitonService {
         _settings.setSessionStart(status: true)
         
         ApiCall(data: params, urlAddress: url)
+        
+        _logger.Log(message: "CLOUD_SESSION_SENT", logtype: .debug)
         
     }
     
@@ -113,12 +110,12 @@ internal class DengageEventCollecitonService {
             
             parameters["eventName"] = "subscription"
             parameters["sessionId"] = sessionId
-            parameters["persistentId"] = persistentId
+            parameters["udid"] = persistentId
             
             
             ApiCall(data: parameters, urlAddress: url)
             
-            _logger.Log(message: "SUBSCRIPTION_EVENT_SENT", logtype: .debug)
+            _logger.Log(message: "CLOUD_SUBSCRIPTION_EVENT_SENT", logtype: .debug)
             
         }
     }
@@ -143,7 +140,7 @@ internal class DengageEventCollecitonService {
             
             params["eventName"] = eventName
             params["sessionId"] = sessionId
-            params["persistentId"] = persistentId
+            params["udid"] = persistentId
             params["contactKey"] = memberId
             params["testGroup"] = testGroup
             
@@ -162,6 +159,8 @@ internal class DengageEventCollecitonService {
                     queue.async {
                         self.ApiCall(data: eventcollection, urlAddress: self.url)
                     }
+                    
+                    self._logger.Log(message: "CLOUD_EVENT_SENT", logtype: .debug)
                 }
                 _logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
                 
@@ -199,7 +198,7 @@ extension DengageEventCollecitonService {
             
             request.httpBody = httpData
             
-            //            self._logger.Log(message: "HTTP REQUEST BODY : %s", logtype: .debug, argument: String(data: request.httpBody!, encoding: String.Encoding.utf8)!)
+//            self._logger.Log(message: "HTTP REQUEST BODY : %s", logtype: .debug, argument: String(data: jsonData, encoding: String.Encoding.utf8)!)
         } catch let error {
             self._logger.Log(message: "%s", logtype: .error, argument: error.localizedDescription)
         }
@@ -219,7 +218,7 @@ extension DengageEventCollecitonService {
             }
             
             guard data.count != 0 else {
-                self._logger.Log(message: "CLOUD_EVENT_SENT", logtype: .debug)
+                
                 return
             }
             
