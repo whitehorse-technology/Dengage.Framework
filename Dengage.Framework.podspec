@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Dengage.Framework'
-  s.version          = '2.3.6-alpha'
+  s.version          = '2.3.7-alpha'
   s.summary          = 'Dengage.Framework contains tools for integration with Dengage'
 
 # This description is used to generate tags and improve search results.
@@ -33,9 +33,9 @@ Pod::Spec.new do |s|
   s.source_files = 'Dengage.Framework/Classes/**/*' , 'Dengage.Framework/Models/**/*', 'Dengage.Framework/Services/**/*', 'Dengage.Framework/DataStructures/**/*'
   
   s.swift_versions = ['4.0','4.2','5.0']
-  s.resource_bundles = {
-      'Dengage.Framework' => ['Dengage.Framework/Views/*']
-   }
+  # s.resource_bundles = {
+  #    'Dengage.Framework' => ['Dengage.Framework/Views/*']
+  # }
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'

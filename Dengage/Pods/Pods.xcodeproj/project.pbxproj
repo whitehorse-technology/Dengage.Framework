@@ -29,12 +29,7 @@
 		AA648EF024261C9000F4E8AB /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA648EEF24261C9000F4E8AB /* SessionManager.swift */; };
 		AA648EF224261D6400F4E8AB /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA648EF124261D6400F4E8AB /* Session.swift */; };
 		AA8031B8242B78D500778A1C /* DengageEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8031B7242B78D500778A1C /* DengageEvent.swift */; };
-		AACBD439242E08B4008409AC /* CarouselNotificationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AACBD438242E08B4008409AC /* CarouselNotificationCell.xib */; };
-		AACBD43B242E08D0008409AC /* CarouselNotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBD43A242E08D0008409AC /* CarouselNotificationCell.swift */; };
-		AACBD43F242E0999008409AC /* DengageRecievedMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBD43E242E0999008409AC /* DengageRecievedMessage.swift */; };
 		AADE972223DF628E0040A54F /* DengageNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADE972123DF628E0040A54F /* DengageNotificationDelegate.swift */; };
-		AAEEE352242E0C770058E793 /* DengageNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEEE351242E0C770058E793 /* DengageNotificationViewController.swift */; };
-		AAEEE354242E0CA90058E793 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AAEEE353242E0CA90058E793 /* MainInterface.storyboard */; };
 		B11EBE950BA367F05F2A52CE0AD0757E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		BAD24EA760AD39A52B03D40178E069A8 /* Pods-Dengage.Framework_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 262148FAA00A75B9D56F5813195FA40D /* Pods-Dengage.Framework_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BDBCA984C491550C55E7223BF55CE6A2 /* Pods-Dengage.Framework_Tests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AA4D06A66DD7EBA1A2B07C66C20B68 /* Pods-Dengage.Framework_Tests-dummy.m */; };
@@ -100,12 +95,7 @@
 		AA648EEF24261C9000F4E8AB /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		AA648EF124261D6400F4E8AB /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		AA8031B7242B78D500778A1C /* DengageEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageEvent.swift; sourceTree = "<group>"; };
-		AACBD438242E08B4008409AC /* CarouselNotificationCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = CarouselNotificationCell.xib; path = Dengage.Framework/Views/CarouselNotificationCell.xib; sourceTree = "<group>"; };
-		AACBD43A242E08D0008409AC /* CarouselNotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CarouselNotificationCell.swift; path = Dengage.Framework/Views/CarouselNotificationCell.swift; sourceTree = "<group>"; };
-		AACBD43E242E0999008409AC /* DengageRecievedMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageRecievedMessage.swift; sourceTree = "<group>"; };
 		AADE972123DF628E0040A54F /* DengageNotificationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DengageNotificationDelegate.swift; sourceTree = "<group>"; };
-		AAEEE351242E0C770058E793 /* DengageNotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DengageNotificationViewController.swift; path = Dengage.Framework/Views/DengageNotificationViewController.swift; sourceTree = "<group>"; };
-		AAEEE353242E0CA90058E793 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = MainInterface.storyboard; path = Dengage.Framework/Views/MainInterface.storyboard; sourceTree = "<group>"; };
 		B4BB62386F06E6ECD6C935DE36E20EF8 /* DengageLocalStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DengageLocalStorage.swift; sourceTree = "<group>"; };
 		B702044013F179C34EBF48774E2F3F3A /* deployment.gif */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.gif; name = deployment.gif; path = docs/img/deployment.gif; sourceTree = "<group>"; };
 		BADC5D02E9B7C12AFCA86F993E3DA6D4 /* Settings.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
@@ -210,7 +200,6 @@
 				E00725945960E1C88FD1DE0BCB97492C /* SubscriptionHttpRequest.swift */,
 				5D54DD640C66FE987A3F3DC5B87C353E /* TransactionalOpenEventHttpRequest.swift */,
 				AA648EF124261D6400F4E8AB /* Session.swift */,
-				AACBD43E242E0999008409AC /* DengageRecievedMessage.swift */,
 			);
 			name = Models;
 			path = Dengage.Framework/Models;
@@ -241,21 +230,9 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		AACBD435242E0862008409AC /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				AACBD438242E08B4008409AC /* CarouselNotificationCell.xib */,
-				AACBD43A242E08D0008409AC /* CarouselNotificationCell.swift */,
-				AAEEE351242E0C770058E793 /* DengageNotificationViewController.swift */,
-				AAEEE353242E0CA90058E793 /* MainInterface.storyboard */,
-			);
-			name = Views;
-			sourceTree = "<group>";
-		};
 		BD9C45E989E4BD38E05D89967FC323FE /* Dengage.Framework */ = {
 			isa = PBXGroup;
 			children = (
-				AACBD435242E0862008409AC /* Views */,
 				20209336E0415AA75CB3E304DFEEB316 /* Classes */,
 				D23D2744002FB4A4C98C4ADDC3A99019 /* DataStructures */,
 				4D563937612F87B9C395408061487DB0 /* Models */,
@@ -418,8 +395,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AACBD439242E08B4008409AC /* CarouselNotificationCell.xib in Resources */,
-				AAEEE354242E0CA90058E793 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,12 +425,10 @@
 				3EEE414F631C10E729DCA81157A32905 /* DefaultCategory.swift in Sources */,
 				AA648EF024261C9000F4E8AB /* SessionManager.swift in Sources */,
 				AADE972223DF628E0040A54F /* DengageNotificationDelegate.swift in Sources */,
-				AAEEE352242E0C770058E793 /* DengageNotificationViewController.swift in Sources */,
 				C97E39348EC3EDF8A76EE3F793635EDA /* Dengage.Framework-dummy.m in Sources */,
 				759D73890346BB9B492B480F1EDE8299 /* Dengage.swift in Sources */,
 				DA042B56069F9C9B301D5650C2FD4761 /* DengageCategories.swift in Sources */,
 				A413E8BFBE9557E59B67CD539F563D98 /* DengageLocalStorage.swift in Sources */,
-				AACBD43B242E08D0008409AC /* CarouselNotificationCell.swift in Sources */,
 				348B7EE319FDC29E4660A21AD0878958 /* DengageNotificationExtension.swift in Sources */,
 				24351B64FFEFA91FFC18D2DE1F0EDA88 /* EventCollectionHttpRequest.swift in Sources */,
 				FA3136832E027A716531C8F84117BF86 /* EventCollectionModel.swift in Sources */,
@@ -463,7 +436,6 @@
 				6AE14BE4F3E540F32AC3727B478B9405 /* EventQueue.swift in Sources */,
 				7513435A89252E4ED432379B2E384E88 /* OpenEventHttpRequest.swift in Sources */,
 				A7A2FC6EDF6E42E051704E1EAED6DF4E /* OpenEventService.swift in Sources */,
-				AACBD43F242E0999008409AC /* DengageRecievedMessage.swift in Sources */,
 				3F9328B3E47AE08672DF23D5DFF0C4B8 /* SDKLogger.swift in Sources */,
 				AA1D3C3F2424D7720006D1CD /* DengageEventCollecitonService.swift in Sources */,
 				DDB9F567D79DA899F656391152FD09CF /* Settings.swift in Sources */,
@@ -641,7 +613,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.3.4;
+				MARKETING_VERSION = 2.3.7;
 				MODULEMAP_FILE = "Target Support Files/Dengage.Framework/Dengage.Framework.modulemap";
 				PRODUCT_MODULE_NAME = Dengage_Framework;
 				PRODUCT_NAME = Dengage_Framework;
@@ -678,7 +650,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.3.4;
+				MARKETING_VERSION = 2.3.7;
 				MODULEMAP_FILE = "Target Support Files/Dengage.Framework/Dengage.Framework.modulemap";
 				PRODUCT_MODULE_NAME = Dengage_Framework;
 				PRODUCT_NAME = Dengage_Framework;
