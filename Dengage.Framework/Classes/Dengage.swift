@@ -207,10 +207,8 @@ public class Dengage
             
             if _settings.getSessionStart() == false {
                 StartSession(actionUrl: "")
+                _dengageEventCollectionService.subscriptionEvent()
             }
-            
-            _dengageEventCollectionService.subscriptionEvent()
-            
         }
         
     }

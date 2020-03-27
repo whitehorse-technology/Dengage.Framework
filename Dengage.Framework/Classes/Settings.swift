@@ -164,7 +164,7 @@ internal class Settings {
     func getContactKey() -> String? {
         
         self._contactKey = _storage.getValueWithKey(key: "ContactKey") ?? ""
-        _logger.Log(message: "CONTACT_KEY is %s", logtype: .debug, argument: self._contactKey)
+//        _logger.Log(message: "CONTACT_KEY is %s", logtype: .debug, argument: self._contactKey)
         return self._contactKey
     }
     

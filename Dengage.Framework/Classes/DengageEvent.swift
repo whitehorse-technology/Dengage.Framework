@@ -116,7 +116,7 @@ public class DengageEvent
         DengageEvent.eventCollectionService.customEvent(eventName: "Action", entityType: nil, pageType: nil, params: parameters)
     }
     
-    public func AddToBasket(item : Item, discountedPrice : Double, origin : String, basketId: String){
+    public func AddToBasket(item : CartItem, discountedPrice : Double, origin : String, basketId: String){
         
         let parameters = [
             "discountedPrice" : discountedPrice,
@@ -148,7 +148,7 @@ public class DengageEvent
         DengageEvent.eventCollectionService.customEvent(eventName: "Action", entityType: nil, pageType: nil, params: parameters)
     }
     
-    public func BasketPage(items : [Item], totalPrice : Double, basketId: String){
+    public func BasketPage(items : [CartItem], totalPrice : Double, basketId: String){
         
         var productIds = ""
         var prices = ""
@@ -180,7 +180,7 @@ public class DengageEvent
         
     }
     
-    public func OrderSummary(items : [Item], totalPrice : Double, basketId: String, orderId: String, paymentMethod: String){
+    public func OrderSummary(items : [CartItem], totalPrice : Double, basketId: String, orderId: String, paymentMethod: String){
         
         var productIds = ""
         var prices = ""
@@ -243,8 +243,9 @@ public class DengageEvent
 
 
 
-public class Item
+public class CartItem
 {
+    public init(){}
     public var productId: String = ""
     public var variantId: String = ""
     public var price : Double = 0.0

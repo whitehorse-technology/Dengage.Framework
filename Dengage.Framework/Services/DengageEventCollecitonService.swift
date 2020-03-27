@@ -21,12 +21,14 @@ internal class DengageEventCollecitonService {
     
     var url : String = ""
     
+    var _dengageEventQueue : DengageEventQueue
     
     init(){
         
         _logger = .shared
         _session = .shared
         _settings = .shared
+        _dengageEventQueue = DengageEventQueue()
     }
     
     init(logger: SDKLogger = .shared, session : URLSession = .shared, settings : Settings = .shared){
@@ -34,7 +36,7 @@ internal class DengageEventCollecitonService {
         _logger  = logger
         _session = session
         _settings = settings
-        
+        _dengageEventQueue = DengageEventQueue()
     }
     
     internal func startSession(actionUrl : String?){
@@ -56,7 +58,7 @@ internal class DengageEventCollecitonService {
                       "screenWidth": UIScreen.main.bounds.width,
                       "screenHeight":UIScreen.main.bounds.height,
                       "timeZone": TimeZone.current.offsetFromUTC(),
-                      "sdkVersion":_settings.getSdkVersion(),
+                      "sdkVersion": _settings.getSdkVersion(),
                       "referrer" : "",
                       "location" : actionUrl ?? "",
                       "userAgent" : _settings.getUserAgent(),
@@ -79,7 +81,7 @@ internal class DengageEventCollecitonService {
         _settings.setSessionStart(status: true)
         
         ApiCall(data: params, urlAddress: url)
-          
+        
     }
     
     internal func subscriptionEvent(){
@@ -116,6 +118,8 @@ internal class DengageEventCollecitonService {
             
             ApiCall(data: parameters, urlAddress: url)
             
+            _logger.Log(message: "SUBSCRIPTION_EVENT_SENT", logtype: .debug)
+            
         }
     }
     
@@ -140,10 +144,31 @@ internal class DengageEventCollecitonService {
             params["eventName"] = eventName
             params["sessionId"] = sessionId
             params["persistentId"] = persistentId
-            params["memberId"] = memberId
+            params["contactKey"] = memberId
             params["testGroup"] = testGroup
             
-            ApiCall(data: params, urlAddress: url)
+            if(_dengageEventQueue.items.count < QUEUE_LIMIT)
+            {
+                _dengageEventQueue.enqueue(element: params)
+            }
+            else{
+                
+                let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
+                _logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
+                while _dengageEventQueue.items.count > 0 {
+                    
+                    let eventcollection  = _dengageEventQueue.dequeue()!
+                    
+                    queue.async {
+                        self.ApiCall(data: eventcollection, urlAddress: self.url)
+                    }
+                }
+                _logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
+                
+                _dengageEventQueue.enqueue(element: params)
+            }
+            
+            //            ApiCall(data: params, urlAddress: url)
         }
         
     }
@@ -161,7 +186,7 @@ extension DengageEventCollecitonService {
         
         let url = URL(string: urlAddress)!
         
-        _logger.Log(message: "EVENT_URL is %s", logtype: .info, argument: urlAddress)
+        //        _logger.Log(message: "EVENT_URL is %s", logtype: .info, argument: urlAddress)
         //now create the URLRequest object using the url object
         var request = URLRequest(url: url)
         request.httpMethod = "POST" //set http method as POST
@@ -174,7 +199,7 @@ extension DengageEventCollecitonService {
             
             request.httpBody = httpData
             
-//            self._logger.Log(message: "HTTP REQUEST BODY : %s", logtype: .debug, argument: String(data: request.httpBody!, encoding: String.Encoding.utf8)!)
+            //            self._logger.Log(message: "HTTP REQUEST BODY : %s", logtype: .debug, argument: String(data: request.httpBody!, encoding: String.Encoding.utf8)!)
         } catch let error {
             self._logger.Log(message: "%s", logtype: .error, argument: error.localizedDescription)
         }
