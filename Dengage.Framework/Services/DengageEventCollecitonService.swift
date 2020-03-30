@@ -67,7 +67,7 @@ internal class DengageEventCollecitonService {
                       "manufacturer" : "",
                       "brand" : "",
                       "deviceUniqueId" : UIDevice.current.identifierForVendor?.uuidString as Any,
-                      "memberId" : _settings.getContactKey() as Any,
+                      "contactKey" : _settings.getContactKey() as Any,
                       "udid" : _settings.getApplicationIdentifier(),
                       "sessionId" : sessionId
             
