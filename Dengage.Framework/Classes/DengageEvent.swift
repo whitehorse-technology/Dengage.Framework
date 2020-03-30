@@ -22,9 +22,11 @@ public class DengageEvent
     
     public func TokenRefresh(token : String){
         
-        let parameters = [ "token" : token ] as NSMutableDictionary
+//        let parameters = [ "token" : token ] as NSMutableDictionary
         
-        DengageEvent.eventCollectionService.customEvent(eventName: "sdkTokenAction", entityType: nil, pageType: nil, params: parameters)
+//        DengageEvent.eventCollectionService.customEvent(eventName: "sdkTokenAction", entityType: nil, pageType: nil, params: parameters)
+        
+        DengageEvent.eventCollectionService.TokenRefresh(token: token)
     }
     
     public func ProductDetail(productId: String, price: Double, discountedPrice: Double, currency:String, supplierId:String){

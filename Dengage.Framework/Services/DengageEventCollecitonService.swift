@@ -79,11 +79,15 @@ internal class DengageEventCollecitonService {
         
         _logger.Log(message: "CLOUD_SESSION_SENT", logtype: .debug)
         
+        
     }
     
     internal func subscriptionEvent(){
         
-        if _settings.getSessionStart() {
+        let sessionStarted = _settings.getSessionStart()
+        
+        if sessionStarted {
+            let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
             
             let sessionId = _settings.getSessionId()
             let persistentId = _settings.getApplicationIdentifier()
@@ -112,21 +116,55 @@ internal class DengageEventCollecitonService {
             parameters["sessionId"] = sessionId
             parameters["udid"] = persistentId
             
-            
-            ApiCall(data: parameters, urlAddress: url)
+            queue.async {
+                self.ApiCall(data: parameters, urlAddress: self.url)
+            }
             
             _logger.Log(message: "CLOUD_SUBSCRIPTION_EVENT_SENT", logtype: .debug)
             
         }
     }
     
-    internal func customEvent(eventName : String , entityType : String?, pageType : String?, params : NSMutableDictionary){
+    internal func TokenRefresh(token : String) {
         
-        if _settings.getSessionStart() {
+        let sessionStarted = _settings.getSessionStart()
+        
+        if sessionStarted {
+            
+            let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
             
             let sessionId = _settings.getSessionId()
             let persistentId = _settings.getApplicationIdentifier()
-            let memberId = _settings.getContactKey()
+            let contactKey = _settings.getContactKey()
+            let testGroup = _settings.getTestGroup()
+            
+            let params = [ "token" : token ] as NSMutableDictionary
+            
+            params["eventName"] = "sdkTokenAction"
+            params["sessionId"] = sessionId
+            params["udid"] = persistentId
+            params["contactKey"] = contactKey
+            params["testGroup"] = testGroup
+            
+            queue.async {
+                
+                self.ApiCall(data: params, urlAddress: self.url)
+            }
+            
+            self._logger.Log(message: "TOKEN_REFRESH_EVENT_SENT", logtype: .debug)
+        }
+        
+    }
+    
+    internal func customEvent(eventName : String , entityType : String?, pageType : String?, params : NSMutableDictionary){
+        
+        let sessionStarted = _settings.getSessionStart()
+        
+        if sessionStarted {
+            
+            let sessionId = _settings.getSessionId()
+            let persistentId = _settings.getApplicationIdentifier()
+            let contactKey = _settings.getContactKey()
             let testGroup = _settings.getTestGroup()
             
             
@@ -141,7 +179,7 @@ internal class DengageEventCollecitonService {
             params["eventName"] = eventName
             params["sessionId"] = sessionId
             params["udid"] = persistentId
-            params["contactKey"] = memberId
+            params["contactKey"] = contactKey
             params["testGroup"] = testGroup
             
             if(_dengageEventQueue.items.count < QUEUE_LIMIT)
@@ -198,7 +236,7 @@ extension DengageEventCollecitonService {
             
             request.httpBody = httpData
             
-//            self._logger.Log(message: "HTTP REQUEST BODY : %s", logtype: .debug, argument: String(data: jsonData, encoding: String.Encoding.utf8)!)
+            //            self._logger.Log(message: "HTTP REQUEST BODY : %s", logtype: .debug, argument: String(data: jsonData, encoding: String.Encoding.utf8)!)
         } catch let error {
             self._logger.Log(message: "%s", logtype: .error, argument: error.localizedDescription)
         }

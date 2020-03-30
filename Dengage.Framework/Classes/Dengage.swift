@@ -29,8 +29,16 @@ public class Dengage
     static var _eventQueue : EventQueue = EventQueue()
     static var _dengageCategories : DengageCategories = .init(notificationCenter: center)
     
-    //  MARK:- İnitialize Methods
-    
+    //  MARK:- Initialize Methods
+    /// Initiliazes SDK requiered parameters.
+    ///
+    /// -  Usage:
+    ///
+    ///      Dengage.initWithLaunchOptions(categories : [], withLaunchOptions: launchOptions, badgeCountReset: true)
+    ///
+    /// - Parameter categories : *categories* custom action buttons
+    /// - Parameter withLaunchOptions: *withLaunchOptions*
+    /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
     @available(iOS 10.0, *)
     // will support rich notifications with categories
     public static func initWithLaunchOptions(categories : Set<UNNotificationCategory>?, withLaunchOptions : [UIApplication.LaunchOptionsKey: Any]?, badgeCountReset : Bool?) {
@@ -53,6 +61,15 @@ public class Dengage
         }
     }
     
+    /// Initiliazes SDK requiered parameters.
+    ///
+    ///
+    /// - Usage:
+    ///
+    ///      Dengage.initWithLaunchOptions(withLaunchOptions: launchOptions, badgeCountReset: true)
+    ///
+    /// - Parameter withLaunchOptions: *withLaunchOptions*
+    /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
     @available(iOS 10.0, *)
     public static func initWithLaunchOptions(withLaunchOptions : [UIApplication.LaunchOptionsKey: Any]?, badgeCountReset : Bool?) {
         
@@ -60,7 +77,7 @@ public class Dengage
         _settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         ConfigureSettings()
         _dengageCategories.registerCategories()
-
+        
     }
     
     // MARK:- Rich Notification İnitiliaze
@@ -70,13 +87,26 @@ public class Dengage
         DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest, withNotificationContent: withNotificationContent)
     }
     
+    // MARK:- Private Methods
+    static func ConfigureSettings(){
+           
+           _settings.setCarrierId(carrierId: _utilities.identifierForCarrier())
+           _settings.setAdvertisingId(advertisingId: _utilities.identifierForAdvertising())
+           _settings.setApplicationIdentifier(applicationIndentifier: _utilities.identifierForApplication())
+           _settings.setAppVersion(appVersion: _utilities.indentifierForCFBundleShortVersionString())
+       }
     
-    
-    
-    
-    
-    
-
+    static func StartSession(actionUrl: String?){
+        
+        if _settings.getSessionStart() {
+            
+            return
+        }
+        
+        let session = _sessionManager.getSession()
+        
+        _settings.setSessionId(sessionId: session.Id)
+        
+        _dengageEventCollectionService.startSession(actionUrl: actionUrl)
+    }
 }
-
-

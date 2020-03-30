@@ -26,12 +26,15 @@ extension Dengage {
             return
         }
         
-        if _settings.getCloudEnabled() == false {
+        let cloudEnabled = _settings.getCloudEnabled()
+        let sessionStarted = _settings.getSessionStart()
+        
+        if cloudEnabled == false {
             _subscriptionService.SendSubscriptionEvent()
         }
         else{
             
-            if _settings.getSessionStart() == false {
+            if sessionStarted == false {
                 StartSession(actionUrl: "")
                 _dengageEventCollectionService.subscriptionEvent()
             }
@@ -83,15 +86,29 @@ extension Dengage {
         SyncEventQueues(eventCollectionModel: eventCollectionModel)
         return true
     }
-    
-    static func ConfigureSettings(){
+
+    public static func SyncEventQueues(){
         
-        _settings.setCarrierId(carrierId: _utilities.identifierForCarrier())
-        _settings.setAdvertisingId(advertisingId: _utilities.identifierForAdvertising())
-        _settings.setApplicationIdentifier(applicationIndentifier: _utilities.identifierForApplication())
-        _settings.setAppVersion(appVersion: _utilities.indentifierForCFBundleShortVersionString())
+        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
+        
+        if(_eventQueue.items.count > QUEUE_LIMIT)
+        {
+            _logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
+            while _eventQueue.items.count > 0 {
+                
+                let eventcollection  = _eventQueue.dequeue()!
+                
+                queue.async {
+                    _eventCollectionService.PostEventCollection(eventCollectionModel: eventcollection)
+                }
+            }
+            _logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
+        }
     }
     
+
+    
+    // MARK:- Private Methods
     static func SyncEventQueues(eventCollectionModel: EventCollectionModel) {
         
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
@@ -116,52 +133,6 @@ extension Dengage {
             _eventQueue.enqueue(element: eventCollectionModel)
         }
 
-    }
-    
-    public static func SyncEventQueues(){
-        
-        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
-        
-        if(_eventQueue.items.count > QUEUE_LIMIT)
-        {
-            _logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
-            while _eventQueue.items.count > 0 {
-                
-                let eventcollection  = _eventQueue.dequeue()!
-                
-                queue.async {
-                    _eventCollectionService.PostEventCollection(eventCollectionModel: eventcollection)
-                }
-            }
-            _logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
-        }
-    }
-    
-    
-    public static func HandleNotificationActionBlock(callback: @escaping (_ notificationResponse : UNNotificationResponse)-> ()){
-        
-        notificationDelegate.openTriggerCompletionHandler = {
-            
-           response in
-            
-            callback(response)
-            
-            
-        }
-    }
-    
-    static func StartSession(actionUrl: String?){
-        
-        if _settings.getSessionStart() {
-            
-            return
-        }
-        
-        let session = _sessionManager.getSession()
-        
-        _settings.setSessionId(sessionId: session.Id)
-        
-        _dengageEventCollectionService.startSession(actionUrl: actionUrl)
     }
     
 }

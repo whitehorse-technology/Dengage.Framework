@@ -12,8 +12,22 @@ extension Dengage {
     
     // MARK:- Prompt Methods
     
-    /// Handles  notification permission
-    /// Sends subscription request
+    /// Enables SDK for remote notification registration
+    ///
+    ///      Dengage.registerForRemoteNotifications(enable : true)
+    ///
+    /// - Parameter enable : enables UIApplication.shared.registerForRemoteNotifications() method
+    public static func registerForRemoteNotifications(enable : Bool) {
+        
+        _settings.setRegiterForRemoteNotification(enable: enable)
+    }
+    
+    /// Asks notification permission to user.
+    ///
+    /// - Warning:
+    ///
+    ///     Calls UNUserNotificationCenter.current().requestAuthorization method.
+    ///
     public static func promptForPushNotifications()
     {
         let queue = DispatchQueue(label: SUBSCRIPTION_QUEUE, qos: .userInitiated)
@@ -49,16 +63,20 @@ extension Dengage {
     
     static func getNotificationSettings() {
         
-        center.getNotificationSettings { settings in
+        let registerForRemoteNotification = _settings.getRegiterForRemoteNotification()
+        
+        if registerForRemoteNotification {
             
-            guard settings.authorizationStatus == .authorized else { return }
-            
-            DispatchQueue.main.async{
+            center.getNotificationSettings { settings in
                 
-                _logger.Log(message: "REGISTER_TOKEN", logtype: .debug)
-                UIApplication.shared.registerForRemoteNotifications()
+                guard settings.authorizationStatus == .authorized else { return }
+                
+                DispatchQueue.main.async{
+                    
+                    _logger.Log(message: "REGISTER_TOKEN", logtype: .debug)
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
             }
-        }
+        } 
     }
-    
 }

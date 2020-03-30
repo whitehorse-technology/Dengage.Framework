@@ -15,6 +15,26 @@ internal class Settings {
     let _storage : DengageLocalStorage
     let _logger : SDKLogger
     
+//    MARK:- Variables
+    private var _integrationKey :   String = ""
+    private var _token :            String? = ""
+    private var _carrierId :        String = ""
+    private var _sdkVersion :       String
+    private var _advertisingId :    String = ""
+    private var _applicationIdentifier : String = ""
+    private var _contactKey :       String = ""
+    private var _appVersion :       String = ""
+    private var _sessionId  :       String = ""
+
+    private var _testGroup : String = ""
+    
+    private var _badgeCountReset :  Bool?
+    private var _permission :       Bool?
+    private var _sessionStarted : Bool
+    
+    private var _useCloudForSubscription : Bool = false
+    private var _registerForRemoteNotification : Bool = false;
+    
     init() {
         _sdkVersion = SDK_VERSION
         _permission = false
@@ -35,24 +55,17 @@ internal class Settings {
         _sessionStarted = false
     }
     
-    private var _integrationKey :   String = ""
-    private var _token :            String? = ""
-    private var _carrierId :        String = ""
-    private var _sdkVersion :       String
-    private var _advertisingId :    String = ""
-    private var _applicationIdentifier : String = ""
-    private var _contactKey :       String = ""
-    private var _appVersion :       String = ""
-    private var _sessionId  :       String = ""
 
-    private var _testGroup : String = ""
+    //MARK:- Private Functions
+    func setRegiterForRemoteNotification(enable : Bool)
+    {
+        self._registerForRemoteNotification = enable
+    }
     
-    private var _badgeCountReset :  Bool?
-    private var _permission :       Bool?
-    private var _sessionStarted : Bool
-    
-    private var _useCloudForSubscription : Bool = false
-    
+    func getRegiterForRemoteNotification() -> Bool {
+        
+        return self._registerForRemoteNotification
+    }
     
     func setCloudEnabled(status : Bool)
     {
