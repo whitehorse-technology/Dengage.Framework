@@ -29,10 +29,10 @@
 		AA648EF024261C9000F4E8AB /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA648EEF24261C9000F4E8AB /* SessionManager.swift */; };
 		AA648EF224261D6400F4E8AB /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA648EF124261D6400F4E8AB /* Session.swift */; };
 		AA8031B8242B78D500778A1C /* DengageEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8031B7242B78D500778A1C /* DengageEvent.swift */; };
-		AA8AAD89243242470091DBB5 /* DengageDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8AAD88243242470091DBB5 /* DengageDelegates.swift */; };
-		AAC133CF242E82CD0014ACC1 /* DengageApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC133CE242E82CD0014ACC1 /* DengageApi.swift */; };
-		AAC133D1242E83320014ACC1 /* DengageSetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC133D0242E83320014ACC1 /* DengageSetter.swift */; };
-		AAC133D7242E84300014ACC1 /* DengagePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC133D6242E84300014ACC1 /* DengagePrompt.swift */; };
+		AA8AAD89243242470091DBB5 /* DengageDelegatesExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8AAD88243242470091DBB5 /* DengageDelegatesExtension.swift */; };
+		AAC133CF242E82CD0014ACC1 /* DengageApiExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC133CE242E82CD0014ACC1 /* DengageApiExtension.swift */; };
+		AAC133D1242E83320014ACC1 /* DengageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC133D0242E83320014ACC1 /* DengageExtension.swift */; };
+		AAC133D7242E84300014ACC1 /* DengagePromptExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC133D6242E84300014ACC1 /* DengagePromptExtension.swift */; };
 		AADE972223DF628E0040A54F /* DengageNotificationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADE972123DF628E0040A54F /* DengageNotificationDelegate.swift */; };
 		B11EBE950BA367F05F2A52CE0AD0757E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3212113385A8FBBDB272BD23C409FF61 /* Foundation.framework */; };
 		BAD24EA760AD39A52B03D40178E069A8 /* Pods-Dengage.Framework_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 262148FAA00A75B9D56F5813195FA40D /* Pods-Dengage.Framework_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -99,10 +99,10 @@
 		AA648EEF24261C9000F4E8AB /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		AA648EF124261D6400F4E8AB /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		AA8031B7242B78D500778A1C /* DengageEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageEvent.swift; sourceTree = "<group>"; };
-		AA8AAD88243242470091DBB5 /* DengageDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageDelegates.swift; sourceTree = "<group>"; };
-		AAC133CE242E82CD0014ACC1 /* DengageApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageApi.swift; sourceTree = "<group>"; };
-		AAC133D0242E83320014ACC1 /* DengageSetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageSetter.swift; sourceTree = "<group>"; };
-		AAC133D6242E84300014ACC1 /* DengagePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengagePrompt.swift; sourceTree = "<group>"; };
+		AA8AAD88243242470091DBB5 /* DengageDelegatesExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageDelegatesExtension.swift; sourceTree = "<group>"; };
+		AAC133CE242E82CD0014ACC1 /* DengageApiExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageApiExtension.swift; sourceTree = "<group>"; };
+		AAC133D0242E83320014ACC1 /* DengageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengageExtension.swift; sourceTree = "<group>"; };
+		AAC133D6242E84300014ACC1 /* DengagePromptExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DengagePromptExtension.swift; sourceTree = "<group>"; };
 		AADE972123DF628E0040A54F /* DengageNotificationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DengageNotificationDelegate.swift; sourceTree = "<group>"; };
 		B4BB62386F06E6ECD6C935DE36E20EF8 /* DengageLocalStorage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DengageLocalStorage.swift; sourceTree = "<group>"; };
 		B702044013F179C34EBF48774E2F3F3A /* deployment.gif */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.gif; name = deployment.gif; path = docs/img/deployment.gif; sourceTree = "<group>"; };
@@ -239,11 +239,11 @@
 		AAC133D2242E835D0014ACC1 /* Dengage */ = {
 			isa = PBXGroup;
 			children = (
-				AAC133D0242E83320014ACC1 /* DengageSetter.swift */,
+				AAC133D0242E83320014ACC1 /* DengageExtension.swift */,
 				304595D14AC72AEC75D614FAE5740A0C /* Dengage.swift */,
-				AAC133CE242E82CD0014ACC1 /* DengageApi.swift */,
-				AAC133D6242E84300014ACC1 /* DengagePrompt.swift */,
-				AA8AAD88243242470091DBB5 /* DengageDelegates.swift */,
+				AAC133CE242E82CD0014ACC1 /* DengageApiExtension.swift */,
+				AAC133D6242E84300014ACC1 /* DengagePromptExtension.swift */,
+				AA8AAD88243242470091DBB5 /* DengageDelegatesExtension.swift */,
 			);
 			name = Dengage;
 			sourceTree = "<group>";
@@ -476,15 +476,15 @@
 				AA1D3C3F2424D7720006D1CD /* DengageEventCollecitonService.swift in Sources */,
 				DDB9F567D79DA899F656391152FD09CF /* Settings.swift in Sources */,
 				313F4DC9437051B13375F12B20C7F3CB /* SubscriptionHttpRequest.swift in Sources */,
-				AAC133CF242E82CD0014ACC1 /* DengageApi.swift in Sources */,
+				AAC133CF242E82CD0014ACC1 /* DengageApiExtension.swift in Sources */,
 				AA8031B8242B78D500778A1C /* DengageEvent.swift in Sources */,
 				AA648EF224261D6400F4E8AB /* Session.swift in Sources */,
-				AAC133D1242E83320014ACC1 /* DengageSetter.swift in Sources */,
+				AAC133D1242E83320014ACC1 /* DengageExtension.swift in Sources */,
 				4E4781200307D24F9F08305496E00B1F /* SubscriptionService.swift in Sources */,
-				AAC133D7242E84300014ACC1 /* DengagePrompt.swift in Sources */,
+				AAC133D7242E84300014ACC1 /* DengagePromptExtension.swift in Sources */,
 				67FF4098EDC1AFD7ABE5C09F22120362 /* TransactionalOpenEventHttpRequest.swift in Sources */,
 				6E9492E20ABE302B0C2A38AC83C7F950 /* TransactionalOpenEventSevice.swift in Sources */,
-				AA8AAD89243242470091DBB5 /* DengageDelegates.swift in Sources */,
+				AA8AAD89243242470091DBB5 /* DengageDelegatesExtension.swift in Sources */,
 				E48725106B13685B4B2DB832B27BC76A /* UABuilder.swift in Sources */,
 				8419CF2A7FFEB147B4521CF9F098AAC3 /* Utilities.swift in Sources */,
 			);
