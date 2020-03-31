@@ -1,4 +1,4 @@
-# Dengage.Framework
+# Dengage.Framework v2.3.10
 
 ## Requirements
 
@@ -89,8 +89,9 @@ Navigate to the AppDelegate file and add the following ```Dengage``` initializat
     }
 
 ```
-Note: if you set  ```registerForRemoteNotifications``` to false, you need to implement ```UIApplication.shared.registerForRemoteNotifications()```
-Note: if you prefer not to use ```promptForPushNotifications``` method, you should inform sdk about user permission by using ```setUserPermission(permission: BOOL)``` method.
+**Note:** If you set  ```registerForRemoteNotifications``` to false, you need to implement ```UIApplication.shared.registerForRemoteNotifications()```
+
+**Note:** If you prefer not to use ```promptForPushNotifications``` method, you should inform sdk about user permission by using ```setUserPermission(permission: BOOL)``` method.
 
 ```swift
     import Dengage_Framework // import sdk
