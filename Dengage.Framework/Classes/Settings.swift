@@ -33,7 +33,7 @@ internal class Settings {
     private var _sessionStarted : Bool
     
     private var _useCloudForSubscription : Bool = false
-    private var _registerForRemoteNotification : Bool = false;
+    private var _registerForRemoteNotification : Bool = true;
     
     init() {
         _sdkVersion = SDK_VERSION
