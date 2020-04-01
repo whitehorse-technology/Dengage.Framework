@@ -36,7 +36,7 @@ internal class Utilities {
         _ctTelephonyNetworkInfo = ctTelephonyNetworkInfo
     }
     
-    func identifierForApplication() -> String{
+    final func identifierForApplication() -> String{
         
         var appIdentifier = ""
         
@@ -58,7 +58,7 @@ internal class Utilities {
         return appIdentifier
     }
 
-    func identifierForCarrier() -> String{
+    final func identifierForCarrier() -> String{
         var carrierId = DEFAULT_CARRIER_ID
         
         let carrier = _ctTelephonyNetworkInfo.subscriberCellularProvider
@@ -81,7 +81,7 @@ internal class Utilities {
         
     }
     
-    func identifierForAdvertising() -> String {
+    final func identifierForAdvertising() -> String {
         // check if advertising tracking is enabled in user’s setting
         var advertisingId = ""
         
@@ -94,7 +94,7 @@ internal class Utilities {
         return advertisingId
     }
     
-    func indentifierForCFBundleShortVersionString() -> String {
+    final func indentifierForCFBundleShortVersionString() -> String {
         
         let cfBundleShortVersionString = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
         

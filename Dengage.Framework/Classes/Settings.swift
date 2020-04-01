@@ -56,133 +56,133 @@ internal class Settings {
     }
     
 
-    //MARK:- Private Functions
-    func setRegiterForRemoteNotification(enable : Bool)
+    //MARK:- Private functions
+    final func setRegiterForRemoteNotification(enable : Bool)
     {
         self._registerForRemoteNotification = enable
     }
     
-    func getRegiterForRemoteNotification() -> Bool {
+    final func getRegiterForRemoteNotification() -> Bool {
         
         return self._registerForRemoteNotification
     }
     
-    func setCloudEnabled(status : Bool)
+    final func setCloudEnabled(status : Bool)
     {
         self._useCloudForSubscription = status
     }
     
-    func getCloudEnabled() -> Bool {
+    final func getCloudEnabled() -> Bool {
         
         return self._useCloudForSubscription
     }
     
-    func setTestGroup(testGroup : String){
+    final func setTestGroup(testGroup : String){
         
         _testGroup = testGroup
     }
     
-    func getTestGroup() -> String {
+    final func getTestGroup() -> String {
         
         return _testGroup
     }
     
-    func setSessionStart(status : Bool)
+    final func setSessionStart(status : Bool)
     {
         self._sessionStarted = status
     }
     
-    func getSessionStart() -> Bool {
+    final func getSessionStart() -> Bool {
         
         return self._sessionStarted
     }
     
-    func setSessionId(sessionId : String) {
+    final func setSessionId(sessionId : String) {
         
         self._sessionId = sessionId
     }
     
-    func getSessionId() -> String {
+    final func getSessionId() -> String {
            
          return  self._sessionId
     }
        
     
-    func setSdkVersion(sdkVersion: String){
+    final func setSdkVersion(sdkVersion: String){
         
         self._sdkVersion = sdkVersion
     }
     
-    func getSdkVersion() -> String {
+    final func getSdkVersion() -> String {
         
         return self._sdkVersion
     }
     
-    func setCarrierId(carrierId: String){
+    final func setCarrierId(carrierId: String){
         
         self._carrierId = carrierId;
     }
     
-    func getCarrierId() -> String {
+    final func getCarrierId() -> String {
         
         return self._carrierId
     }
     
-    func setAdvertisingId(advertisingId :String){
+    final func setAdvertisingId(advertisingId :String){
         
         self._advertisingId = advertisingId
     }
     
-    func getAdvertisinId() -> String? {
+    final func getAdvertisinId() -> String? {
         
         return self._advertisingId
     }
     
-    func setApplicationIdentifier(applicationIndentifier:String){
+    final func setApplicationIdentifier(applicationIndentifier:String){
         
         self._applicationIdentifier = applicationIndentifier
     }
     
-    func getApplicationIdentifier() -> String {
+    final func getApplicationIdentifier() -> String {
         
         return _applicationIdentifier;
     }
     
-    func setDengageIntegrationKey(integrationKey: String){
+    final func setDengageIntegrationKey(integrationKey: String){
         
         self._integrationKey = integrationKey
     }
     
-    func getDengageIntegrationKey() -> String {
+    final func getDengageIntegrationKey() -> String {
         
         return self._integrationKey
     }
     
-    func  setBadgeCountReset(badgeCountReset : Bool?) {
+    final func  setBadgeCountReset(badgeCountReset : Bool?) {
         
         self._badgeCountReset = badgeCountReset
     }
     
-    func getBadgeCountReset() -> Bool? {
+    final func getBadgeCountReset() -> Bool? {
         
         return self._badgeCountReset
     }
     
-    func setContactKey(contactKey : String?){
+    final func setContactKey(contactKey : String?){
         
         self._contactKey = contactKey ?? ""
         _storage.setValueWithKey(value: contactKey ?? "", key: "ContactKey")
         self._contactKey = _storage.getValueWithKey(key: "ContactKey") ?? ""
     }
     
-    func getContactKey() -> String? {
+    final func getContactKey() -> String? {
         
         self._contactKey = _storage.getValueWithKey(key: "ContactKey") ?? ""
 //        _logger.Log(message: "CONTACT_KEY is %s", logtype: .debug, argument: self._contactKey)
         return self._contactKey
     }
     
-    func setToken(token: String){
+    final func setToken(token: String){
         
         self._token = token
         _storage.setValueWithKey(value: token, key: "Token")
@@ -190,34 +190,34 @@ internal class Settings {
         
     }
     
-    func getToken() -> String?{
+    final func getToken() -> String?{
         
         self._token = _storage.getValueWithKey(key: "Token")
         return self._token
     }
     
-    func setAppVersion(appVersion: String){
+    final func setAppVersion(appVersion: String){
         
         self._appVersion = appVersion
     }
     
-    func getAppversion() -> String? {
+    final func getAppversion() -> String? {
         
         return self._appVersion
     }
     
     
-    func setPermission(permission: Bool?){
+    final func setPermission(permission: Bool?){
         
         self._permission = permission
     }
     
-    func getPermission() -> Bool? {
+    final func getPermission() -> Bool? {
         
         return self._permission
     }
     
-    func getUserAgent() -> String {
+    final func getUserAgent() -> String {
         
         return UAString()
     }

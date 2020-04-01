@@ -304,18 +304,21 @@ public class DengageEvent
 
     }
     
+    public func SyncEventQueue(){
+        DengageEvent.eventCollectionService.syncEventQueue()
+    }
+    
 }
 
 
 
-public class CartItem
+public struct CartItem
 {
-    public init(){}
-    public var productId: String = ""
-    public var variantId: String = ""
-    public var price : Double = 0.0
-    public var currency: String = ""
-    public var quantity: Int = 0
+    public var productId: String
+    public var variantId: String
+    public var price : Double
+    public var currency: String
+    public var quantity: Int
 }
 
 public enum PageType {

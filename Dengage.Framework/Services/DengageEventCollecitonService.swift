@@ -87,7 +87,7 @@ internal class DengageEventCollecitonService {
         let sessionStarted = _settings.getSessionStart()
         
         if sessionStarted {
-            let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
+            let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
             
             let sessionId = _settings.getSessionId()
             let persistentId = _settings.getApplicationIdentifier()
@@ -131,7 +131,8 @@ internal class DengageEventCollecitonService {
         
         if sessionStarted {
             
-            let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
+            let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
+            
             
             let sessionId = _settings.getSessionId()
             let persistentId = _settings.getApplicationIdentifier()
@@ -188,7 +189,7 @@ internal class DengageEventCollecitonService {
             }
             else{
                 
-                let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
+                let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
                 _logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
                 while _dengageEventQueue.items.count > 0 {
                     
@@ -210,7 +211,23 @@ internal class DengageEventCollecitonService {
         
     }
     
-    
+    internal func syncEventQueue() {
+        
+        
+        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
+        _logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
+        while _dengageEventQueue.items.count > 0 {
+            
+            let eventcollection  = _dengageEventQueue.dequeue()!
+            
+            queue.async {
+                self.ApiCall(data: eventcollection, urlAddress: self.url)
+            }
+            
+            self._logger.Log(message: "CLOUD_EVENT_SENT", logtype: .debug)
+        }
+        _logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
+    }
 }
 
 
