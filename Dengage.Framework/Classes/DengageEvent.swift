@@ -305,7 +305,7 @@ public class DengageEvent
     }
     
     /// Sync Event Collection
-    public func SyncEventQueue(){
+    private func SyncEventQueue(){
         DengageEvent.eventCollectionService.syncEventQueue()
     }
     

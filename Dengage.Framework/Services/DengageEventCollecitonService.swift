@@ -183,30 +183,13 @@ internal class DengageEventCollecitonService {
             params["contactKey"] = contactKey
             params["testGroup"] = testGroup
             
-            if(_dengageEventQueue.items.count < QUEUE_LIMIT)
-            {
-                _dengageEventQueue.enqueue(element: params)
-            }
-            else{
-                
-                let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
-                _logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
-                while _dengageEventQueue.items.count > 0 {
-                    
-                    let eventcollection  = _dengageEventQueue.dequeue()!
-                    
-                    queue.async {
-                        self.ApiCall(data: eventcollection, urlAddress: self.url)
-                    }
-                    
-                    self._logger.Log(message: "CLOUD_EVENT_SENT", logtype: .debug)
-                }
-                _logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
-                
-                _dengageEventQueue.enqueue(element: params)
+            let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
+            
+            queue.async {
+                self.ApiCall(data: params, urlAddress: self.url)
             }
             
-            //            ApiCall(data: params, urlAddress: url)
+            _logger.Log(message: "CLOUD_EVENT_SENT", logtype: .debug)
         }
         
     }

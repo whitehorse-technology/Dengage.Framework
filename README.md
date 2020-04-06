@@ -132,19 +132,9 @@ Navigate to the AppDelegate file and add the following ```Dengage``` code to ```
     }
 
 ```
-## 3. Sending EventCollection Manually
 
-Events has queues which clears themself automaticlly.  ``` SyncEventQueue ``` method enables manual syncronization.
 
-```swift
-        import Dengage_Framework
-
-        func someFunction(){
-            DengageEvent.shared.SyncEventQueue()
-        }
-```
-
-## 4. Logging
+## 3. Logging
 
 SDK logs any important operation by using logs. In default, logs will not be displayed. To enable logs call ```setLogStatus(isVisiable : BOOL)``` method.
 
@@ -156,7 +146,7 @@ SDK logs any important operation by using logs. In default, logs will not be dis
         }
 ```
 
-## 5. Callbacks
+## 4. Callbacks
 
 You can access to ```UNUserNotificationCenterDelegate``` callback with ```HandleNotificationActionBlock``` method. Callback object is type of ```UNNotificationResponse```
 
@@ -175,7 +165,7 @@ You can access to ```UNUserNotificationCenterDelegate``` callback with ```Handle
 
 ```
 
-## 6. Deeplinking
+## 5. Deeplinking
 
 SDK supports URL schema deeplink. If target url has a valid  link, it will redirect to related link.
 
