@@ -12,9 +12,9 @@ extension Dengage {
     
     // MARK:- Prompt Methods
     
-    /// Enables SDK for remote notification registration
+    /// Enables or Disables SDK for remote notification registration
     ///
-    ///      Dengage.registerForRemoteNotifications(enable : true)
+    ///      Dengage.registerForRemoteNotifications(enable : false)
     ///
     /// - Parameter enable : enables UIApplication.shared.registerForRemoteNotifications() method
     public static func registerForRemoteNotifications(enable : Bool) {

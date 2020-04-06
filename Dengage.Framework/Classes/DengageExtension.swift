@@ -51,6 +51,8 @@ extension Dengage {
     public static func setToken(token: String){
         
         _settings.setToken(token: token)
+        
+        DengageEvent.shared.TokenRefresh(token: token)
     }
     
     /// Sets  User Permission manually

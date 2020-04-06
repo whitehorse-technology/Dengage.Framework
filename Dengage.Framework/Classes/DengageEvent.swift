@@ -138,11 +138,11 @@ public class DengageEvent
     /// - Parameter memberId : *memberId*
     /// - Parameter status : *status*
     /// - Parameter origin : *origin*
-    public func RegisterAction(memberId: String, status: Bool, origin: String){
+    public func RegisterAction(memberId: String, success: Bool, origin: String){
         
         let parameters = [
             "memberId" : memberId,
-            "status" : status,
+            "success" : success,
             "origin" : origin,
             "eventType" : "registerAction"
             
@@ -158,13 +158,13 @@ public class DengageEvent
     /// - Parameter discountedPrice : *discountedPrice*
     /// - Parameter origin : *origin*
     /// - Parameter basketId : *basketId*
-    public func AddToBasket(item : CartItem, discountedPrice : Double, origin : String, basketId: String){
+    public func AddToBasket(item : CartItem, origin : String, basketId: String){
         
         let parameters = [
-            "discountedPrice" : discountedPrice,
+            "discountedPrice" : item.discountedPrice,
             "basketId" : basketId,
             "origin" : origin,
-            "eventType":"addToBasket",
+            "eventType": "addToBasket",
             "productId" : item.productId,
             "variantId" : item.variantId,
             "price" : item.price,
@@ -304,6 +304,7 @@ public class DengageEvent
 
     }
     
+    /// Sync Event Collection
     public func SyncEventQueue(){
         DengageEvent.eventCollectionService.syncEventQueue()
     }
@@ -319,6 +320,18 @@ public struct CartItem
     public var price : Double
     public var currency: String
     public var quantity: Int
+    public var discountedPrice : Double
+    
+    public init(){
+        
+        productId = ""
+        variantId = ""
+        price = 0.0
+        currency = ""
+        quantity = 0
+        discountedPrice = 0.0
+        
+    }
 }
 
 public enum PageType {

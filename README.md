@@ -1,4 +1,4 @@
-# Dengage.Framework v2.3.10
+# Dengage.Framework v2.3.11
 
 ## Requirements
 
@@ -76,12 +76,10 @@ Navigate to the AppDelegate file and add the following ```Dengage``` initializat
        Dengage.setDengageIntegrationKey(key: "dengage-integration-key")
        
        Dengage.useCloudForSubscription(enable: true)
-       
-       Dengage.registerForRemoteNotifications(enable: true)
-            
+        
        Dengage.initWithLaunchOptions(withLaunchOptions: launchOptions, badgeCountReset: true)
             
-       // add this to ask for user permission
+       // add this method to ask for user permission
        Dengage.promptForPushNotifications()
 
 
@@ -89,7 +87,7 @@ Navigate to the AppDelegate file and add the following ```Dengage``` initializat
     }
 
 ```
-**Note:** If you set  ```registerForRemoteNotifications``` to false, you need to implement ```UIApplication.shared.registerForRemoteNotifications()```
+**Note:** If you want SDK **not to manage** remote notification registration; set  ```registerForRemoteNotifications``` to false, you need to implement ```UIApplication.shared.registerForRemoteNotifications()```
 
 **Note:** If you prefer not to use ```promptForPushNotifications``` method, you should inform sdk about user permission by using ```setUserPermission(permission: BOOL)``` method.
 
@@ -104,12 +102,14 @@ Navigate to the AppDelegate file and add the following ```Dengage``` initializat
        
        Dengage.useCloudForSubscription(enable: true)
        
-       Dengage.registerForRemoteNotifications(enable: true)
-       
        Dengage.initWithLaunchOptions(withLaunchOptions: launchOptions, badgeCountReset: true)
        
-       // ask for user permission, and send permission status either false or true
-       Dengage.setUserPermission(true)
+       
+       ...{
+           // ask for user permission, and send permission status either false or true
+           Dengage.setUserPermission(true)
+       }
+
        
        return true
     }
@@ -127,48 +127,24 @@ Navigate to the AppDelegate file and add the following ```Dengage``` code to ```
         let token = tokenParts.joined()
         print("Device Token: \(token)")
         
-        // token is the push token where you get from apple servers after registration
-        Dengage.setToken(token: token)
+        Dengage.setToken(token : token)
         
-        // send subscription event to API to register token
-        Dengage.SyncSubscription()
-        
-        // send token to our servers
-        DengageEvent.shared.TokenRefresh(token: token)
     }
 
 ```
-## 3. Sending Subscription events to Dengage
+## 3. Sending EventCollection Manually
 
-To send subscription event add the following code to whereever you register your user
-
-#### Note: setContactKey is optional, you may only use SendSubscriptionEvent function
+Events has queues which clears themself automaticlly.  ``` SyncEventQueue ``` method enables manual syncronization.
 
 ```swift
         import Dengage_Framework
 
         func someFunction(){
-
-            Dengage.setContactKey(contactKey: email_textbox.text ?? "")
-            Dengage.SyncSubscription()
-
-        }
-
-```
-
-## 4. ContactKey
-
-ContactKey represents the information of a user; like email address, fullname or any other kind of string which has registered to your application. To set a contact key, call ```setContactKey(contactKey: String)``` function
-
-```swift
-        func someFunction(){
-
-            Dengage.setContactKey(contactKey: email_textbox.text ?? "")
-            
+            DengageEvent.shared.SyncEventQueue()
         }
 ```
 
-## 5. Logging
+## 4. Logging
 
 SDK logs any important operation by using logs. In default, logs will not be displayed. To enable logs call ```setLogStatus(isVisiable : BOOL)``` method.
 
@@ -180,7 +156,7 @@ SDK logs any important operation by using logs. In default, logs will not be dis
         }
 ```
 
-## 6. Callbacks
+## 5. Callbacks
 
 You can access to ```UNUserNotificationCenterDelegate``` callback with ```HandleNotificationActionBlock``` method. Callback object is type of ```UNNotificationResponse```
 
@@ -198,6 +174,14 @@ You can access to ```UNUserNotificationCenterDelegate``` callback with ```Handle
 
 
 ```
+
+## 6. Deeplinking
+
+SDK supports URL schema deeplink. If target url has a valid  link, it will redirect to related link.
+
+* [Apple URL Scheme Deeplinking](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app)
+
+* [Apple Universal Link](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content)
 
 
 # Event Collection
@@ -315,15 +299,14 @@ Framework provides Event Methods for integration.
     DengageEvent.shared.BasketPage(items : [CartItem], totalPrice : Double, basketId: String)
 ```
 
-### 13.  ```DengageEvent.shared.AddToBasket(item : CartItem, discountedPrice : Double, origin : String, basketId: String)```
+### 13.  ```DengageEvent.shared.AddToBasket(item : CartItem, origin : String, basketId: String)```
 
 - Parameter item : *item*
-- Parameter discountedPrice : *discountedPrice*
 - Parameter origin : *origin*
 - Parameter basketId : *basketId*
 
 ```swift
-    DengageEvent.shared.AddToBasket(item : CartItem, discountedPrice : Double, origin : String, basketId: String)
+    DengageEvent.shared.AddToBasket(item : CartItem, origin : String, basketId: String)
 ```
 
 ### 14.  ```DengageEvent.shared.RemoveFromBasket(productId: String, variantId: String, quantity : Int, basketId: String)```
