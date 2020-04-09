@@ -171,10 +171,12 @@ internal class DengageEventCollecitonService {
             
             if  entityType != nil && entityType!.isEmpty {
                 params["entityType"] = entityType
+                _logger.Log(message: "ENTITY_TYPE is %s", logtype: .debug, argument: entityType!)
             }
             
             if pageType != nil && pageType!.isEmpty {
                 params["pageType"] = pageType
+                _logger.Log(message: "PAGE_TYPE is %s", logtype: .debug, argument: pageType!)
             }
             
             params["eventName"] = eventName

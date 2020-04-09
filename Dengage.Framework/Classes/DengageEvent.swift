@@ -111,19 +111,20 @@ public class DengageEvent
     
     ///
     ///
-    /// - Parameter memberId : *memberId*
+    /// - Parameter contactKey : *contactKey*
     /// - Parameter status : *status*
     /// - Parameter origin : *origin*
-    public func LoginAction(memberId: String, status: Bool, origin: String){
+    public func LoginAction(contactKey: String, success: Bool, origin: String){
         
         let parameters = [
-            "memberId" : memberId,
-            "status" : status,
+            
+            "success" : success,
             "origin" : origin,
             "eventType" : "loginAction"
             
             ] as NSMutableDictionary
         
+        Dengage.setContactKey(contactKey: contactKey)
         DengageEvent.eventCollectionService.customEvent(eventName: "Action", entityType: nil, pageType: nil, params: parameters)
     }
     
@@ -135,19 +136,19 @@ public class DengageEvent
     
     ///
     ///
-    /// - Parameter memberId : *memberId*
+    /// - Parameter contactKey : *contactKey*
     /// - Parameter status : *status*
     /// - Parameter origin : *origin*
-    public func RegisterAction(memberId: String, success: Bool, origin: String){
+    public func RegisterAction(contactKey : String, success: Bool, origin: String){
         
         let parameters = [
-            "memberId" : memberId,
             "success" : success,
             "origin" : origin,
             "eventType" : "registerAction"
             
             ] as NSMutableDictionary
         
+        Dengage.setContactKey(contactKey: contactKey)
         DengageEvent.eventCollectionService.customEvent(eventName: "Action", entityType: nil, pageType: nil, params: parameters)
     }
     
