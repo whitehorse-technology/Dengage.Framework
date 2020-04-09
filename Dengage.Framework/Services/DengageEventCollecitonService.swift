@@ -169,12 +169,12 @@ internal class DengageEventCollecitonService {
             let testGroup = _settings.getTestGroup()
             
             
-            if  entityType != nil && entityType!.isEmpty {
+            if  entityType != nil && entityType!.isEmpty == false {
                 params["entityType"] = entityType
                 _logger.Log(message: "ENTITY_TYPE is %s", logtype: .debug, argument: entityType!)
             }
             
-            if pageType != nil && pageType!.isEmpty {
+            if pageType != nil && pageType!.isEmpty == false {
                 params["pageType"] = pageType
                 _logger.Log(message: "PAGE_TYPE is %s", logtype: .debug, argument: pageType!)
             }

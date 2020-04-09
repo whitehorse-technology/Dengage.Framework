@@ -61,7 +61,7 @@ public class DengageEvent
             
             ] as NSMutableDictionary
         
-        DengageEvent.eventCollectionService.customEvent(eventName: "PV", entityType: "category", pageType: "categoryPage", params: parameters)
+        DengageEvent.eventCollectionService.customEvent(eventName: "PV", entityType: "promotion", pageType: "promotionPage", params: parameters)
     }
     
     ///
@@ -76,7 +76,7 @@ public class DengageEvent
             
             ] as NSMutableDictionary
         
-        DengageEvent.eventCollectionService.customEvent(eventName: "PV", entityType: "promotion", pageType: "promotionPage", params: parameters)
+        DengageEvent.eventCollectionService.customEvent(eventName: "PV", entityType: "category", pageType: "categoryPage", params: parameters)
         
     }
     
