@@ -30,3 +30,27 @@ struct EventQueue {
         }
     }
 }
+
+
+struct DengageEventQueue {
+    
+    var items : [NSMutableDictionary] = []
+    
+    mutating func enqueue(element: NSMutableDictionary)
+    {
+        items.append(element)
+    }
+    
+    mutating func dequeue() -> NSMutableDictionary?
+    {
+        
+        if items.isEmpty {
+            return nil
+        }
+        else{
+            let tempElement = items.first
+            items.remove(at: 0)
+            return tempElement
+        }
+    }
+}

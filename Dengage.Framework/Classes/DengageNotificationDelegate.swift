@@ -40,14 +40,14 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     
     
     @available(iOS 10.0, *)
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
+    final func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert,.sound,.badge])
     }
     
     @available(iOS 10.0, *)
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
+    final func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         
@@ -93,7 +93,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         completionHandler()
     }
     
-    func openDeeplink(link: String?){
+    final func openDeeplink(link: String?){
         
         if link != nil
         {
@@ -104,7 +104,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     }
     
     
-    func sendEventWithContent(content:UNNotificationContent){
+    final func sendEventWithContent(content:UNNotificationContent){
         
         var messageId = 0
         if(content.userInfo["messageId"] != nil){
@@ -132,7 +132,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     }
     
     
-    func sendOpenEvent(messageId : Int, messageDetails : String) {
+    final func sendOpenEvent(messageId : Int, messageDetails : String) {
         
         var openEventHttpRequest = OpenEventHttpRequest()
         openEventHttpRequest.messageId = messageId
@@ -147,7 +147,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     }
     
     
-    func sendTransactionalOpenEvent(messageId : Int,transactionId : String, messageDetails : String) {
+    final func sendTransactionalOpenEvent(messageId : Int,transactionId : String, messageDetails : String) {
         
         var transactionalOpenEventHttpRequest = TransactionalOpenEventHttpRequest()
         transactionalOpenEventHttpRequest.integrationId = _settings.getDengageIntegrationKey()

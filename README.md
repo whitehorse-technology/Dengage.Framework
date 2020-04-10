@@ -1,4 +1,4 @@
-# Dengage.Framework
+# Dengage.Framework v2.3.16
 
 ## Requirements
 
@@ -64,7 +64,7 @@ Supports 11.0+
 
 ## 2. Add Required Code
 
-Navigate to the AppDelegate file and add the following ```Dengage``` initialization code to ```didFinishLaunchingWithOptions```.
+Navigate to the **AppDelegate** file and add the following ```Dengage``` initialization code to ```didFinishLaunchingWithOptions```.
 
 ```swift
     import Dengage_Framework // import sdk
@@ -74,10 +74,12 @@ Navigate to the AppDelegate file and add the following ```Dengage``` initializat
         
        // set integration key
        Dengage.setDengageIntegrationKey(key: "dengage-integration-key")
-            
+       
+       Dengage.useCloudForSubscription(enable: true)
+        
        Dengage.initWithLaunchOptions(withLaunchOptions: launchOptions, badgeCountReset: true)
             
-       // add this to ask for user permission
+       // add this method to ask for user permission
        Dengage.promptForPushNotifications()
 
 
@@ -86,7 +88,7 @@ Navigate to the AppDelegate file and add the following ```Dengage``` initializat
 
 ```
 
-Note: if you prefer not to use ```promptForPushNotifications``` method, you should inform sdk about user permission by using ```setUserPermission(permission: BOOL)``` method.
+**Note:** If you prefer not to use ```promptForPushNotifications``` method, you should inform sdk about user permission by using ```setUserPermission(permission: BOOL)``` method.
 
 ```swift
     import Dengage_Framework // import sdk
@@ -97,17 +99,26 @@ Note: if you prefer not to use ```promptForPushNotifications``` method, you shou
        // set integration key     
        Dengage.setDengageIntegrationKey(key: "dengage-integration-key")
        
+       Dengage.useCloudForSubscription(enable: true)
+       
        Dengage.initWithLaunchOptions(withLaunchOptions: launchOptions, badgeCountReset: true)
        
-       // ask for user permission, and send permission status either false or true
-       Dengage.setUserPermission(true)
+       
+       ...{
+           // ask for user permission, and send permission status either false or true
+           Dengage.setUserPermission(true)
+           
+           // sends subscription event
+           Dengage.SyncSubscription()
+       }
+
        
        return true
     }
 
 ```
 
-Navigate to the AppDelegate file and the following ```Dengage``` code to ```didRegisterForRemoteNotificationsWithDeviceToken```
+Navigate to the **AppDelegate** file and add the following ```Dengage``` code to ```didRegisterForRemoteNotificationsWithDeviceToken```
 
 ```swift 
 
@@ -118,29 +129,25 @@ Navigate to the AppDelegate file and the following ```Dengage``` code to ```didR
         let token = tokenParts.joined()
         print("Device Token: \(token)")
         
-        // token is the push token where you get from apple servers after registration
-        Dengage.setToken(token: token)
+        Dengage.setToken(token : token)
         
-        // send subscription event to API to register token
-        Dengage.SyncSubscription()
     }
 
 ```
-## 3. Sending Subscription events to Dengage
 
-To send subscription event add the following code to whereever you register your user
+**Note:** If you want SDK **not to manage** remote notification registration; set  ```registerForRemoteNotifications``` to false, you need to implement ```UIApplication.shared.registerForRemoteNotifications()```
 
-#### Note: setContactKey is optional, you may only use SendSubscriptionEvent function
+
+## 3. Subscription
+
+```Dengage.promptForPushNotifications()```  method will automaticlly sends subscription event. Otherwise; implement ```Dengage.SyncSubscription()``` method.
+
 
 ```swift
-        import Dengage_Framework
 
-        func someFunction(){
-
-            Dengage.setContactKey(contactKey: email_textbox.text ?? "")
-            Dengage.SyncSubscription()
-
-        }
+    {
+        Dengage.SyncSubscription()
+    }   
 
 ```
 
@@ -156,7 +163,8 @@ ContactKey represents the information of a user; like email address, fullname or
         }
 ```
 
-## 5. Logging
+
+## 6. Logging
 
 SDK logs any important operation by using logs. In default, logs will not be displayed. To enable logs call ```setLogStatus(isVisiable : BOOL)``` method.
 
@@ -187,6 +195,14 @@ You can access to ```UNUserNotificationCenterDelegate``` callback with ```Handle
 
 ```
 
+## 7. Deeplinking
+
+SDK supports URL schema deeplink. If target url has a valid  link, it will redirect to related link.
+
+* [Apple URL Scheme Deeplinking](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content/defining_a_custom_url_scheme_for_your_app)
+
+* [Apple Universal Link](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content)
+
 
 # Event Collection
 
@@ -194,42 +210,154 @@ You can access to ```UNUserNotificationCenterDelegate``` callback with ```Handle
 
 * Dengage.Framework
 
-Framework includes its own queue mechnaism which collects send events in a default limit. When queue reaches it's own limit, it will send events to event api asynchronously.
+Framework provides Event Methods for integration.
 
+**Note:** *Before sending an event, Dengage.Framework opens a Session by defualt. But according to implementation, developer can able to open a session manually.*
 
-### 1. Sending DeviceEvent
+### 1. ``` DengageEvent.shared.StartSession(actionUrl: location) ```
 
-SendDeviceEvent method, queues given event to internal queue and sends it when queue limit reaches to default limit.
+- Parameter location : *deeplink (page link)*
 
+```swift
+    DengageEvent.shared.StartSession(actionUrl: location)
+```
+
+### 2.  ```DengageEvent.shared.TokenRefresh(token : String)```
+
+- Parameter token : *apns token*
+
+```swift
+    DengageEvent.shared.TokenRefresh(token: String)
+```
+
+### 3.  ```DengageEvent.shared.ProductDetail(productId: String, price: Double, discountedPrice: Double, currency:String, supplierId:String)```
+
+- Parameter productId : *productId*
+- Parameter price : *price*
+- Parameter discountedPrice : *discountedPrice*
+- Parameter currency : *currency*
+- Parameter supplierId : *supplierId*
 
 ```swift
 
-  let eventDetails:NSDictionary = ["event_type":ADD_BASKET, "product_id":strProductID, "quantity": 1]
-
-  Dengage.SendDeviceEvent(toEventTable: EVENT_TABLE_NAME, andWithEventDetails: eventDetails)
+    DengageEvent.shared.ProductDetail(productId: String, price: Double, discountedPrice: Double, currency:String, supplierId:String)
 
 ```
 
-### 2. Sending CustomEvent
+### 4.  ```DengageEvent.shared.PromotionPage(promotionId: String)```
 
-SendCustomEvent method, queues given event to internal queue and sends it when queue limit reaches to default limit.
+- Parameter promotionId : *promotionId*
 
 ```swift
-
-        let eventDetails:NSDictionary = ["event_type":ADD_BASKET, "product_id":strProductID, "quantity": 1]
-
-        Dengage.SendCustomEvent(toEventTable: EVENT_TABLE_NAME, withKey:"custom-key" andWithEventDetails: eventDetails)
-
+    DengageEvent.shared.PromotionPage(promotionId: String)
 ```
 
-### 3. ( Optional ) SyncEvent
 
-Framework provides ```SyncEventQueues``` method to purge event queue manually.
+### 5.  ```DengageEvent.shared.CategoryPage(categoryId: String, parentCategoryId: String)```
+
+- Parameter categoryId : *categoryId*
+- Parameter parentCategoryId : *parentCategoryId*
 
 ```swift
-
-    Dengage.SyncEventQueues()
-
+    DengageEvent.shared.CategoryPage(categoryId: String, parentCategoryId: String)
 ```
 
+### 6.  ```DengageEvent.shared.HomePage()```
 
+```swift
+    DengageEvent.shared.HomePage()
+```
+
+### 7.  ```DengageEvent.shared.SearchPage(keyword: String, resultCount:Int)```
+
+- Parameter keyword : *keyword*
+- Parameter resultCount : *resultCount*
+
+```swift
+    DengageEvent.shared.SearchPage(keyword: String, resultCount:Int)
+```
+
+### 8.  ```DengageEvent.shared.LoginPage()```
+
+```swift
+    DengageEvent.shared.LoginPage()
+```
+
+### 9.  ```DengageEvent.shared.LoginAction(contactKey: String, success: Bool, origin: String)```
+
+- Parameter contactKey : *contactKey*
+- Parameter success : *success*
+- Parameter origin : *origin Form|Facebook|Google*
+
+```swift
+    DengageEvent.shared.LoginAction(contactKey: String, status: Bool, origin: String)
+```
+
+### 10.  ```DengageEvent.shared.RegisterPage()```
+
+```swift
+    DengageEvent.shared.RegisterPage()
+```
+
+### 11.  ```DengageEvent.shared.RegisterAction(contactKey: String, success: Bool, origin: String)```
+
+- Parameter contactKey : *contactKey*
+- Parameter success : *success*
+- Parameter origin : *origin  Form|Facebook|Google*
+
+```swift
+    DengageEvent.shared.RegisterAction(contactKey: String, status: Bool, origin: String)
+```
+
+### 12.  ```DengageEvent.shared.BasketPage(items : [CartItem], totalPrice : Double, basketId: String)```
+
+- Parameter items : *items*
+- Parameter totalPrice : *totalPrice*
+- Parameter basketId : *basketId*
+
+```swift
+    DengageEvent.shared.BasketPage(items : [CartItem], totalPrice : Double, basketId: String)
+```
+
+### 13.  ```DengageEvent.shared.AddToBasket(item : CartItem, origin : String, basketId: String)```
+
+- Parameter item : *item*
+- Parameter origin : *origin*
+- Parameter basketId : *basketId*
+
+```swift
+    DengageEvent.shared.AddToBasket(item : CartItem, origin : String, basketId: String)
+```
+
+### 14.  ```DengageEvent.shared.RemoveFromBasket(productId: String, variantId: String, quantity : Int, basketId: String)```
+
+- Parameter productId : *productId*
+- Parameter variantId : *variantId*
+- Parameter quantity : *quantity*
+- Parameter basketId : *basketId*
+
+```swift
+    DengageEvent.shared.RemoveFromBasket(productId: String, variantId: String, quantity : Int, basketId: String)
+```
+
+### 15.  ```DengageEvent.shared.OrderSummary(items : [CartItem], totalPrice : Double, basketId: String, orderId: String, paymentMethod: String)```
+
+- Parameter items : *items*
+- Parameter totalPrice : *totalPrice*
+- Parameter basketId : *basketId*
+- Parameter orderId : *orderId*
+- Parameter paymentMethod : *paymentMethod*
+
+```swift
+    DengageEvent.shared.OrderSummary(items : [CartItem], totalPrice : Double, basketId: String, orderId: String, paymentMethod: String)
+```
+
+### 16.  ```DengageEvent.shared.Refinement(pageType : PageType, filters : Dictionary<String, [String]>, resultCount : Int)```
+
+- Parameter pageType : *pageType*
+- Parameter filters : *filters*
+- Parameter resultCount : *resultCount*
+
+```swift
+    DengageEvent.shared.Refinement(pageType : PageType, filters : Dictionary<String, [String]>, resultCount : Int)
+```
