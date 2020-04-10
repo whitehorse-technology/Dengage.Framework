@@ -1,4 +1,4 @@
-# Dengage.Framework v2.3.11
+# Dengage.Framework v2.3.16
 
 ## Requirements
 
@@ -64,7 +64,7 @@ Supports 11.0+
 
 ## 2. Add Required Code
 
-Navigate to the AppDelegate file and add the following ```Dengage``` initialization code to ```didFinishLaunchingWithOptions```.
+Navigate to the **AppDelegate** file and add the following ```Dengage``` initialization code to ```didFinishLaunchingWithOptions```.
 
 ```swift
     import Dengage_Framework // import sdk
@@ -87,7 +87,6 @@ Navigate to the AppDelegate file and add the following ```Dengage``` initializat
     }
 
 ```
-**Note:** If you want SDK **not to manage** remote notification registration; set  ```registerForRemoteNotifications``` to false, you need to implement ```UIApplication.shared.registerForRemoteNotifications()```
 
 **Note:** If you prefer not to use ```promptForPushNotifications``` method, you should inform sdk about user permission by using ```setUserPermission(permission: BOOL)``` method.
 
@@ -108,6 +107,9 @@ Navigate to the AppDelegate file and add the following ```Dengage``` initializat
        ...{
            // ask for user permission, and send permission status either false or true
            Dengage.setUserPermission(true)
+           
+           // sends subscription event
+           Dengage.SyncSubscription()
        }
 
        
@@ -116,7 +118,7 @@ Navigate to the AppDelegate file and add the following ```Dengage``` initializat
 
 ```
 
-Navigate to the AppDelegate file and add the following ```Dengage``` code to ```didRegisterForRemoteNotificationsWithDeviceToken```
+Navigate to the **AppDelegate** file and add the following ```Dengage``` code to ```didRegisterForRemoteNotificationsWithDeviceToken```
 
 ```swift 
 
@@ -133,8 +135,36 @@ Navigate to the AppDelegate file and add the following ```Dengage``` code to ```
 
 ```
 
+**Note:** If you want SDK **not to manage** remote notification registration; set  ```registerForRemoteNotifications``` to false, you need to implement ```UIApplication.shared.registerForRemoteNotifications()```
 
-## 3. Logging
+
+## 3. Subscription
+
+```Dengage.promptForPushNotifications()```  method will automaticlly sends subscription event. Otherwise; implement ```Dengage.SyncSubscription()``` method.
+
+
+```swift
+
+    {
+        Dengage.SyncSubscription()
+    }   
+
+```
+
+## 4. ContactKey
+
+ContactKey represents the information of a user; like email address, fullname or any other kind of string which has registered to your application. To set a contact key, call ```setContactKey(contactKey: String)``` function
+
+```swift
+        func someFunction(){
+
+            Dengage.setContactKey(contactKey: email_textbox.text ?? "")
+            
+        }
+```
+
+
+## 6. Logging
 
 SDK logs any important operation by using logs. In default, logs will not be displayed. To enable logs call ```setLogStatus(isVisiable : BOOL)``` method.
 
@@ -146,7 +176,7 @@ SDK logs any important operation by using logs. In default, logs will not be dis
         }
 ```
 
-## 4. Callbacks
+## 6. Callbacks
 
 You can access to ```UNUserNotificationCenterDelegate``` callback with ```HandleNotificationActionBlock``` method. Callback object is type of ```UNNotificationResponse```
 
@@ -165,7 +195,7 @@ You can access to ```UNUserNotificationCenterDelegate``` callback with ```Handle
 
 ```
 
-## 5. Deeplinking
+## 7. Deeplinking
 
 SDK supports URL schema deeplink. If target url has a valid  link, it will redirect to related link.
 
@@ -253,14 +283,14 @@ Framework provides Event Methods for integration.
     DengageEvent.shared.LoginPage()
 ```
 
-### 9.  ```DengageEvent.shared.LoginAction(memberId: String, status: Bool, origin: String)```
+### 9.  ```DengageEvent.shared.LoginAction(contactKey: String, success: Bool, origin: String)```
 
-- Parameter memberId : *memberId*
-- Parameter status : *status*
-- Parameter origin : *origin*
+- Parameter contactKey : *contactKey*
+- Parameter success : *success*
+- Parameter origin : *origin Form|Facebook|Google*
 
 ```swift
-    DengageEvent.shared.LoginAction(memberId: String, status: Bool, origin: String)
+    DengageEvent.shared.LoginAction(contactKey: String, status: Bool, origin: String)
 ```
 
 ### 10.  ```DengageEvent.shared.RegisterPage()```
@@ -269,14 +299,14 @@ Framework provides Event Methods for integration.
     DengageEvent.shared.RegisterPage()
 ```
 
-### 11.  ```DengageEvent.shared.RegisterAction(memberId: String, status: Bool, origin: String)```
+### 11.  ```DengageEvent.shared.RegisterAction(contactKey: String, success: Bool, origin: String)```
 
-- Parameter memberId : *memberId*
-- Parameter status : *status*
-- Parameter origin : *origin*
+- Parameter contactKey : *contactKey*
+- Parameter success : *success*
+- Parameter origin : *origin  Form|Facebook|Google*
 
 ```swift
-    DengageEvent.shared.RegisterAction(memberId: String, status: Bool, origin: String)
+    DengageEvent.shared.RegisterAction(contactKey: String, status: Bool, origin: String)
 ```
 
 ### 12.  ```DengageEvent.shared.BasketPage(items : [CartItem], totalPrice : Double, basketId: String)```
