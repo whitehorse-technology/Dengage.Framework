@@ -55,41 +55,36 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         let content = response.notification.request.content;
         switch response.actionIdentifier
         {
-            case UNNotificationDismissActionIdentifier:
-                os_log("UNNotificationDismissActionIdentifier TRIGGERED", log: .default, type: .info)
-            case UNNotificationDefaultActionIdentifier:
-                os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content)
-            case YES_ACTION:
-                os_log("YES ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content)
-            case NO_ACTION:
-                os_log("NO_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content)
-            case ACCEPT_ACTION:
-                os_log("ACCEPT_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content)
-            case DECLINE_ACTION:
-                os_log("DECLINE_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content)
-            case CONFIRM_ACTION:
-                os_log("CONFIRM_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content)
-            case CANCEL_ACTION:
-                os_log("CANCEL_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content)
-            default:
-                sendEventWithContent(content: content)
+        case UNNotificationDismissActionIdentifier:
+            os_log("UNNotificationDismissActionIdentifier TRIGGERED", log: .default, type: .info)
+        case UNNotificationDefaultActionIdentifier:
+            os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: content)
+        case YES_ACTION:
+            os_log("YES ACTION TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: content)
+        case NO_ACTION:
+            os_log("NO_ACTION TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: content)
+        case ACCEPT_ACTION:
+            os_log("ACCEPT_ACTION TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: content)
+        case DECLINE_ACTION:
+            os_log("DECLINE_ACTION TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: content)
+        case CONFIRM_ACTION:
+            os_log("CONFIRM_ACTION TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: content)
+        case CANCEL_ACTION:
+            os_log("CANCEL_ACTION TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: content)
+        default:
+            checkActionButtons(notificationResponse: response)
         }
         
         openTriggerCompletionHandler?(response)
+        checkTargetUrl(content: content)
         
-        let targetUrl = content.userInfo["targetUrl"] as? String;
-        
-        if targetUrl?.isEmpty == false{
-            openDeeplink(link: targetUrl)
-        }
-
         completionHandler()
     }
     
@@ -100,6 +95,47 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
             os_log("TARGET_URL is %s", log: .default, type: .debug, link!)
             
             UIApplication.shared.open(URL(string: link!)!, options: [:] , completionHandler: nil);
+        }
+    }
+    
+    final func checkTargetUrl(content: UNNotificationContent){
+        
+        let targetUrl = content.userInfo["targetUrl"] as? String;
+        
+        if targetUrl?.isEmpty == false{
+            openDeeplink(link: targetUrl)
+        }
+    }
+    
+    final func checkActionButtons(notificationResponse: UNNotificationResponse){
+        let content = notificationResponse.notification.request.content
+        
+        let actionButtons = content.userInfo["actionButtons"]
+        
+        if actionButtons == nil{
+            return
+        }
+        
+        let actionButtonArray = actionButtons  as! NSArray
+        
+        for item in actionButtonArray
+        {
+            let dic = item as! NSDictionary
+            let id = dic.value(forKey: "id") as! String
+            
+            if id == notificationResponse.actionIdentifier {
+                
+                let link = dic.value(forKey: "targetUrl") as? String
+                
+                if link?.isEmpty == false {
+                    os_log("Action Button Target URL IS %s", log: .default, type : .debug, link!)
+                    sendEventWithContent(content: content)
+                    openTriggerCompletionHandler?(notificationResponse)
+                    openDeeplink(link: link)
+                } else {
+                    sendEventWithContent(content: content)
+                }
+            }
         }
     }
     

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import UserNotifications
 
 class DengageNotificationExtension {
     
@@ -16,14 +16,17 @@ class DengageNotificationExtension {
     var _logger : SDKLogger
     
     var bestAttemptContent: UNMutableNotificationContent?
+    var userNotificationCenter : UNUserNotificationCenter
     
     
     init() {
         _logger = .shared
+        userNotificationCenter = .current()
     }
     
     init(logger: SDKLogger = .shared) {
         _logger = logger
+        userNotificationCenter = .current()
     }
     
     internal func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, withNotificationContent : UNMutableNotificationContent){
@@ -34,6 +37,8 @@ class DengageNotificationExtension {
         if (messageSource != nil) {
             
             if (MESSAGE_SOURCE == messageSource as? String){
+                
+                RegisterForActionButtons(receivedRequest: receivedRequest)
                 
                 self.bestAttemptContent = withNotificationContent
                 self.bestAttemptContent?.title = (receivedRequest.content.userInfo["title"] as? String)!
@@ -61,6 +66,43 @@ class DengageNotificationExtension {
                 }
             }
         }
+    }
+    
+    private func RegisterForActionButtons(receivedRequest : UNNotificationRequest){
+       
+        var categoryIdentifier = self.bestAttemptContent?.categoryIdentifier;
+        
+        if categoryIdentifier == nil {
+            
+            categoryIdentifier = ""
+        }
+        
+        let actionButtons = receivedRequest.content.userInfo["actionButtons"];
+        
+        if actionButtons == nil {
+            
+            return
+        }
+        
+        let actionButtonArray = actionButtons  as! NSArray
+        
+        var actionsArr : [UNNotificationAction] = []
+        for item in actionButtonArray
+        {
+            let dic = item as! NSDictionary
+            let id = dic.value(forKey: "id") as! String
+            let text = dic.value(forKey: "text") as! String
+            
+            let action = UNNotificationAction(identifier: id, title: text, options: .foreground)
+            actionsArr.append(action)
+            
+        }
+        
+        let category = UNNotificationCategory(identifier: categoryIdentifier!, actions: actionsArr, intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+        
+        var notificationCategories : Set<UNNotificationCategory> = .init()
+        notificationCategories.insert(category)
+        userNotificationCenter.setNotificationCategories(notificationCategories)
     }
 }
 
