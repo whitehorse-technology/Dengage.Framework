@@ -134,6 +134,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                     openDeeplink(link: link)
                 } else {
                     sendEventWithContent(content: content)
+                    break
                 }
             }
         }
