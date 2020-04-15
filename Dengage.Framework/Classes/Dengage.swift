@@ -27,7 +27,7 @@ public class Dengage
     static var _settings : Settings = .shared
     static var _logger : SDKLogger = .shared
     static var _eventQueue : EventQueue = EventQueue()
-    static var _dengageCategories : DengageCategories = .init(notificationCenter: center)
+
     
     //  MARK:- Initialize Methods
     /// Initiliazes SDK requiered parameters.
@@ -56,8 +56,7 @@ public class Dengage
                 return
             }
             
-            _dengageCategories.registerCategories(categories: categories!)
-            
+            center.setNotificationCategories(categories!)
         }
     }
     
@@ -76,8 +75,6 @@ public class Dengage
         center.delegate = notificationDelegate
         _settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         ConfigureSettings()
-        _dengageCategories.registerCategories()
-        
     }
     
     // MARK:- Rich Notification İnitiliaze

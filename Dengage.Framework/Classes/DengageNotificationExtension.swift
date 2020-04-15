@@ -8,25 +8,29 @@
 
 import Foundation
 import UserNotifications
+import os.log
 
 class DengageNotificationExtension {
     
     static let shared = DengageNotificationExtension()
     
+    
     var _logger : SDKLogger
     
     var bestAttemptContent: UNMutableNotificationContent?
     var userNotificationCenter : UNUserNotificationCenter
-    
+
     
     init() {
         _logger = .shared
         userNotificationCenter = .current()
+        
     }
     
     init(logger: SDKLogger = .shared) {
         _logger = logger
         userNotificationCenter = .current()
+        
     }
     
     internal func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, withNotificationContent : UNMutableNotificationContent){
@@ -38,7 +42,9 @@ class DengageNotificationExtension {
             
             if (MESSAGE_SOURCE == messageSource as? String){
                 
-                RegisterForActionButtons(receivedRequest: receivedRequest)
+                let categoryIdentifier = withNotificationContent.categoryIdentifier
+               
+                RegisterForActionButtons(receivedRequest: receivedRequest, categoryIdentifier: categoryIdentifier)
                 
                 self.bestAttemptContent = withNotificationContent
                 self.bestAttemptContent?.title = (receivedRequest.content.userInfo["title"] as? String)!
@@ -68,21 +74,20 @@ class DengageNotificationExtension {
         }
     }
     
-    private func RegisterForActionButtons(receivedRequest : UNNotificationRequest){
+    private func RegisterForActionButtons(receivedRequest : UNNotificationRequest, categoryIdentifier: String?){
        
-        var categoryIdentifier = self.bestAttemptContent?.categoryIdentifier;
-        
-        if categoryIdentifier == nil {
-            
-            categoryIdentifier = ""
-        }
+        let categoryIdentifier = categoryIdentifier ?? "dengage";
         
         let actionButtons = receivedRequest.content.userInfo["actionButtons"];
         
         if actionButtons == nil {
             
+            os_log("Action Button is nil")
+            //dengageCategories.registerCategories()
             return
         }
+        
+        os_log("Parsing action buttons")
         
         let actionButtonArray = actionButtons  as! NSArray
         
@@ -98,11 +103,9 @@ class DengageNotificationExtension {
             
         }
         
-        let category = UNNotificationCategory(identifier: categoryIdentifier!, actions: actionsArr, intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+        let category = UNNotificationCategory(identifier: categoryIdentifier, actions: actionsArr, intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
         
-        var notificationCategories : Set<UNNotificationCategory> = .init()
-        notificationCategories.insert(category)
-        userNotificationCenter.setNotificationCategories(notificationCategories)
+        userNotificationCenter.setNotificationCategories([category])
     }
 }
 
