@@ -10,10 +10,10 @@ import Foundation
 
 
 // MARK:- SERVICE URLS
-let SUBSCRIPTION_SERVICE_URL = "https://pushdev.dengage.com/api/device/subscription"
-let OPEN_EVENT_SERVICE_URL = "https://pushdev.dengage.com/api/mobile/open"
-let TRANSACTIONAL_OPEN_SERVICE_URL = "https://pushdev.dengage.com/api/transactional/mobile/open"
-let EVENT_SERVICE_URL = "https://eventdev.dengage.com/api/event"
+let SUBSCRIPTION_SERVICE_URL = "https://push.dengage.com/api/device/subscription"
+let OPEN_EVENT_SERVICE_URL = "https://push.dengage.com/api/mobile/open"
+let TRANSACTIONAL_OPEN_SERVICE_URL = "https://push.dengage.com/api/transactional/mobile/open"
+let EVENT_SERVICE_URL = "https://event.dengage.com/api/event"
 let DENGAGE_EVENT_SERVICE_URL = "https://ec.dengage.com/"
 let CLOUD_SUBSCRIPTION_SERVICE_URL = "https://ec.dengage.com/"
 
@@ -32,20 +32,20 @@ let MESSAGE_SOURCE = "DENGAGE"
 
 
 // MARK:- ACTION TYPES AND CATEGORIES
-let YES_ACTION = "YES_ACTION"
-let NO_ACTION = "NO_ACTION"
-
-let ACCEPT_ACTION = "ACCEPT_ACTION"
-let DECLINE_ACTION = "DECLINE_ACTION"
-
-let CONFIRM_ACTION = "CONFIRM_ACTION"
-let CANCEL_ACTION = "CANCEL_ACTION"
-
-let PREVIOUS_ACTION = "PREVIOUS_ACTION"
-let NEXT_ACTION = "NEXT_ACTION"
-
-let SIMPLE_CATEGORY = "DENGAGE_SIMPLE_CATEGORY"
-let ASK_CATEGORY = "DENGAGE_ASK_CATEGORY"
-let CONFIRM_CATEGORY = "DENGAGE_CONFIRM_CATEGORY"
-let CAROUSEL_CATEGORY = "DENGAGE_CAROUSEL_CATEGORY"
+//let YES_ACTION = "YES_ACTION"
+//let NO_ACTION = "NO_ACTION"
+//
+//let ACCEPT_ACTION = "ACCEPT_ACTION"
+//let DECLINE_ACTION = "DECLINE_ACTION"
+//
+//let CONFIRM_ACTION = "CONFIRM_ACTION"
+//let CANCEL_ACTION = "CANCEL_ACTION"
+//
+//let PREVIOUS_ACTION = "PREVIOUS_ACTION"
+//let NEXT_ACTION = "NEXT_ACTION"
+//
+//let SIMPLE_CATEGORY = "DENGAGE_SIMPLE_CATEGORY"
+//let ASK_CATEGORY = "DENGAGE_ASK_CATEGORY"
+//let CONFIRM_CATEGORY = "DENGAGE_CONFIRM_CATEGORY"
+//let CAROUSEL_CATEGORY = "DENGAGE_CAROUSEL_CATEGORY"
 

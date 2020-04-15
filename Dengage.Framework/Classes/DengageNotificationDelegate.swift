@@ -65,24 +65,6 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
             case UNNotificationDefaultActionIdentifier:
                 os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
                 sendEventWithContent(content: content, actionIdentifier: "DefaultAction")
-            case YES_ACTION:
-                os_log("YES ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
-            case NO_ACTION:
-                os_log("NO_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
-            case ACCEPT_ACTION:
-                os_log("ACCEPT_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
-            case DECLINE_ACTION:
-                os_log("DECLINE_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
-            case CONFIRM_ACTION:
-                os_log("CONFIRM_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
-            case CANCEL_ACTION:
-                os_log("CANCEL_ACTION TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
             default:
                 os_log("ACTION_ID: %s TRIGGERED", log: .default, type:.debug, actionIdentifier)
                 sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
