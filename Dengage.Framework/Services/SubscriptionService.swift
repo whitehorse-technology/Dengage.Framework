@@ -37,8 +37,11 @@ internal class SubscriptionService : BaseService
                           "sdkVersion": _settings.getSdkVersion(),
                           "advertisingId" : _settings.getAdvertisinId() as Any] as [String : Any]
         
-        ApiCall(data: parameters, urlAddress: urladdress)
+        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
         
+        queue.async {
+            self.ApiCall(data: parameters, urlAddress: urladdress)
+        }
         _logger.Log(message: "SUBSCRIPTION_EVENT_SENT", logtype: .info)
         
     }

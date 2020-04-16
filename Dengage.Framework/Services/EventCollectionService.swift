@@ -32,7 +32,11 @@ internal class EventCollectionService : BaseService
                           "eventDetails" : eventCollectionHttpRequest.eventDetails as Any
             ] as [String : Any]
         
-        ApiCall(data: parameters, urlAddress: urladdress)
+        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
+        
+        queue.async {
+            self.ApiCall(data: parameters, urlAddress: urladdress)
+        }
         
         _logger.Log(message: "EVENT_COLLECTION_SENT", logtype: .info)
         

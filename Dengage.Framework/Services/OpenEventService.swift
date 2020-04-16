@@ -30,10 +30,12 @@ internal class OpenEventService : BaseService
             parameters["buttonId"] = openEventHttpRequest.buttonId
         }
         
-        ApiCall(data: parameters, urlAddress: urladdress)
+        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
         
+        queue.async {
+            self.ApiCall(data: parameters, urlAddress: urladdress)
+        }
         _logger.Log(message: "OPEN_EVENT_SENT", logtype: .info)
-        
     }
     
 }

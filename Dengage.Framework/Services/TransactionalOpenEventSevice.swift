@@ -29,7 +29,11 @@ internal class TransactioanlOpenEventService : BaseService
             parameters["buttonId"] = transactionalOpenEventHttpRequest.buttonId
         }
         
-        ApiCall(data: parameters, urlAddress: urladdress)
+        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
+        
+        queue.async {
+            self.ApiCall(data: parameters, urlAddress: urladdress)
+        }
         
         _logger.Log(message: "TRANSACTIONAL_OPEN_EVENT_SENT", logtype: .info)
     }
