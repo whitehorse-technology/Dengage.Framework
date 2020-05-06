@@ -200,6 +200,8 @@ SDK supports URL schema deeplink. If target url has a valid  link, it will redir
 Action buttons can be pre-defined or can be defined on CDMP interface.
 IOS Action buttons can be defined up to four buttons. 
 
+Custom Action Buttons can contain target url links.
+
 # Event Collection
 
 ## Requirements

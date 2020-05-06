@@ -64,7 +64,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                 sendEventWithContent(content: content, actionIdentifier: "DismissAction")
             case UNNotificationDefaultActionIdentifier:
                 os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content, actionIdentifier: "DefaultAction")
+                sendEventWithContent(content: content, actionIdentifier: "")
             default:
                 os_log("ACTION_ID: %s TRIGGERED", log: .default, type:.debug, actionIdentifier)
                 sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
