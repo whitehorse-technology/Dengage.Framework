@@ -55,6 +55,10 @@ class DengageNotificationExtension {
                     urlString = urlImageString
                 }
                 
+                if((urlString == nil) == true){
+                    return
+                }
+                
                 if urlString != nil, let fileUrl = URL(string: urlString!) {
                     
                     guard let imageData = NSData(contentsOf: fileUrl) else {
