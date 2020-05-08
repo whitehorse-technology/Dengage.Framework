@@ -107,7 +107,14 @@ class DengageNotificationExtension {
             
         }
         
-        let category = UNNotificationCategory(identifier: categoryIdentifier, actions: actionsArr, intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+        let category : UNNotificationCategory;
+        if #available(iOS 11.0, *) {
+            category = UNNotificationCategory(identifier: categoryIdentifier, actions: actionsArr, intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+
+        } else {
+            // Fallback on earlier versions
+           category = UNNotificationCategory(identifier: categoryIdentifier, actions: actionsArr, intentIdentifiers: [], options: .customDismissAction)
+        }
         
         userNotificationCenter.setNotificationCategories([category])
     }
