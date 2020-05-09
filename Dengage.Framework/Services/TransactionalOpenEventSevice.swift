@@ -19,14 +19,21 @@ internal class TransactioanlOpenEventService : BaseService
         
         _logger.Log(message: "TRANSACTIONAL_OPEN_URL is %s", logtype: .info, argument: urladdress)
         
-        let parameters = ["integrationKey": transactionalOpenEventHttpRequest.integrationId,
+        var parameters = ["integrationKey": transactionalOpenEventHttpRequest.integrationId,
                           "transactionId" : transactionalOpenEventHttpRequest.transactionId,
                           "messageId" : transactionalOpenEventHttpRequest.messageId,
                           "messageDetails" : transactionalOpenEventHttpRequest.messageDetails
             ] as [String : Any]
         
+        if transactionalOpenEventHttpRequest.buttonId.isEmpty == false {
+            parameters["buttonId"] = transactionalOpenEventHttpRequest.buttonId
+        }
         
-        ApiCall(data: parameters, urlAddress: urladdress)
+        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
+        
+        queue.async {
+            self.ApiCall(data: parameters, urlAddress: urladdress)
+        }
         
         _logger.Log(message: "TRANSACTIONAL_OPEN_EVENT_SENT", logtype: .info)
     }

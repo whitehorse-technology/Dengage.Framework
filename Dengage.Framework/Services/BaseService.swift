@@ -39,7 +39,10 @@ internal class BaseService {
         request.httpMethod = "POST" //set http method as POST
         
         do {
+            
             request.httpBody = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted) // pass dictionary to nsdata object and set it as request body
+            
+            _logger.Log(message: "HTTP REQUEST BODY : %s", logtype: .debug, argument: String(data: request.httpBody!, encoding: String.Encoding.utf8)!)
         } catch let error {
             self._logger.Log(message: "%s", logtype: .error, argument: error.localizedDescription)
         }

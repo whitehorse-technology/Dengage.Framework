@@ -20,15 +20,22 @@ internal class OpenEventService : BaseService
         
         _logger.Log(message: "OPEN_API_URL is %s", logtype: .info, argument: urladdress)
         
-        let parameters = ["integrationKey": openEventHttpRequest.integrationKey,
+        var parameters = ["integrationKey": openEventHttpRequest.integrationKey,
                           "messageId" : openEventHttpRequest.messageId,
                           "messageDetails" : openEventHttpRequest.messageDetails
             ] as [String : Any]
         
-        ApiCall(data: parameters, urlAddress: urladdress)
         
+        if openEventHttpRequest.buttonId.isEmpty == false {
+            parameters["buttonId"] = openEventHttpRequest.buttonId
+        }
+        
+        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
+        
+        queue.async {
+            self.ApiCall(data: parameters, urlAddress: urladdress)
+        }
         _logger.Log(message: "OPEN_EVENT_SENT", logtype: .info)
-        
     }
     
 }

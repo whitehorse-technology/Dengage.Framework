@@ -10,6 +10,9 @@ import Foundation
 
 extension Dengage {
     
+    
+    
+    
     // MARK:- Prompt Methods
     
     /// Enables or Disables SDK for remote notification registration
@@ -53,6 +56,45 @@ extension Dengage {
                 self.getNotificationSettings()
                 
                 
+                _logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))
+                queue.async {
+                    Dengage.SyncSubscription()
+                }
+                
+        }
+    }
+    
+    //// Asks notification permission to user.
+    ///
+    /// - Warning:
+    ///
+    ///     Calls UNUserNotificationCenter.current().requestAuthorization method.
+    ///
+    /// - Parameter callback: IsUserGranted
+    public static func promptForPushNotifications(callback: @escaping (_ IsUserGranted : Bool)-> ())
+    {
+        let queue = DispatchQueue(label: SUBSCRIPTION_QUEUE, qos: .userInitiated)
+        
+        center
+            .requestAuthorization(options: [.alert, .sound, .badge]) {
+                [self] granted, error in
+                
+                IsUserGranted = granted
+                
+                guard granted else
+                {
+                    _logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
+                    _settings.setPermission(permission: IsUserGranted)
+                    queue.async {
+                        Dengage.SyncSubscription()
+                    }
+                    callback(IsUserGranted)
+                    return
+                }
+                
+                _settings.setPermission(permission: IsUserGranted)
+                self.getNotificationSettings()
+                callback(IsUserGranted)
                 _logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))
                 queue.async {
                     Dengage.SyncSubscription()

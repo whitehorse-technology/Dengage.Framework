@@ -90,6 +90,8 @@ Navigate to the **AppDelegate** file and add the following ```Dengage``` initial
 
 **Note:** If you prefer not to use ```promptForPushNotifications``` method, you should inform sdk about user permission by using ```setUserPermission(permission: BOOL)``` method.
 
+**Note:** ```Dengage.promptForPushNotifications``` function also has callback function if you want to be notified if user granted.
+
 ```swift
     import Dengage_Framework // import sdk
 
@@ -121,8 +123,6 @@ Navigate to the **AppDelegate** file and add the following ```Dengage``` initial
 Navigate to the **AppDelegate** file and add the following ```Dengage``` code to ```didRegisterForRemoteNotificationsWithDeviceToken```
 
 ```swift 
-
-
     func application( _ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         
         let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
@@ -132,54 +132,45 @@ Navigate to the **AppDelegate** file and add the following ```Dengage``` code to
         Dengage.setToken(token : token)
         
     }
-
 ```
 
 **Note:** If you want SDK **not to manage** remote notification registration; set  ```registerForRemoteNotifications``` to false, you need to implement ```UIApplication.shared.registerForRemoteNotifications()```
 
-
 ## 3. Subscription
 
-```Dengage.promptForPushNotifications()```  method will automaticlly sends subscription event. Otherwise; implement ```Dengage.SyncSubscription()``` method.
-
-
 ```swift
-
-    {
-        Dengage.SyncSubscription()
-    }   
-
+Dengage.SyncSubscription()
 ```
+
+*Note:* ```Dengage.promptForPushNotifications()```  method will automatically sends subscription event. Otherwise; implement ```Dengage.SyncSubscription()``` method.
 
 ## 4. ContactKey
 
-ContactKey represents the information of a user; like email address, fullname or any other kind of string which has registered to your application. To set a contact key, call ```setContactKey(contactKey: String)``` function
-
 ```swift
-        func someFunction(){
-
-            Dengage.setContactKey(contactKey: email_textbox.text ?? "")
-            
-        }
+Dengage.setContactKey(contactKey: email_textbox.text ?? "")
 ```
 
+ContactKey represents the information of a user; like email address, fullname or any other kind of string which has registered to your domain. To set a contact key, call ```setContactKey(contactKey: String)``` function
 
-## 6. Logging
+## 5. Logging
+
+```swift
+Dengage.setLogStatus(isVisible: true)
+```
 
 SDK logs any important operation by using logs. In default, logs will not be displayed. To enable logs call ```setLogStatus(isVisiable : BOOL)``` method.
 
-```swift
-        func someFunction(){
+## 6. Callback Methods
 
-            Dengage.setLogStatus(isVisible: true)
-            
-        }
+```swift
+Dengage.HandleNotificationActionBlock(callback: @escaping (_ notificationResponse : UNNotificationResponse)-> ())
 ```
 
-## 6. Callbacks
+When a notification opened  ```Dengage.HandleNotificationActionBlock``` method returns ```UNNotificationResponse```.
 
 You can access to ```UNUserNotificationCenterDelegate``` callback with ```HandleNotificationActionBlock``` method. Callback object is type of ```UNNotificationResponse```
 
+*Sample Usage:*
 ```swift
 
     Dengage.HandleNotificationActionBlock { (notificationResponse) in
@@ -203,6 +194,13 @@ SDK supports URL schema deeplink. If target url has a valid  link, it will redir
 
 * [Apple Universal Link](https://developer.apple.com/documentation/uikit/inter-process_communication/allowing_apps_and_websites_to_link_to_your_content)
 
+
+## 8. Action Buttons
+
+Action buttons can be pre-defined or can be defined on CDMP interface.
+IOS Action buttons can be defined up to four buttons. 
+
+Custom Action Buttons can contain target url links.
 
 # Event Collection
 

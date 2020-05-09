@@ -14,6 +14,7 @@ internal struct TransactionalOpenEventHttpRequest
     var messageId = 0
     var messageDetails = ""
     var transactionId = ""
+    var buttonId = ""
     
     public init(){}
     
