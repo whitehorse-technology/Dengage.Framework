@@ -32,7 +32,7 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Dengage.Framework/Classes/**/*' , 'Dengage.Framework/Models/**/*', 'Dengage.Framework/Services/**/*', 'Dengage.Framework/DataStructures/**/*'
   
-  #s.swift_versions = ['4.0','4.2','5.0']
+  s.swift_versions = ['4.0','4.2','5.0']
   # s.resource_bundles = {
   #    'Dengage.Framework' => ['Dengage.Framework/Views/*']
   # }
