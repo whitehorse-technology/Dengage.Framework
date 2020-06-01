@@ -52,7 +52,7 @@ extension Dengage {
         
         _settings.setToken(token: token)
         
-        DengageEvent.shared.TokenRefresh(token: token)
+//        DengageEvent.shared.TokenRefresh(token: token)
     }
     
     /// Sets  User Permission manually

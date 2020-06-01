@@ -15,11 +15,13 @@ public class DengageCustomEvent{
     var _utilities : Utilities = .shared
     var _sessionManager : SessionManager = .shared
     
+    public static let shared  = DengageCustomEvent()
+    
     ///Before sending an event Dengage.Framework opens  a Session by defualt.
     ///But according to implementation, developer can able to open a session manually.
     ///
     ///- Parameter location : *deeplinkUrl*
-    public func SessionStart(params : NSMutableDictionary){
+    public func SessionStart(location : String){
         
         
         if _settings.getSessionStart() {
@@ -33,7 +35,10 @@ public class DengageCustomEvent{
         
         let deviceId = _settings.getApplicationIdentifier()
         
+        let params = [:] as NSMutableDictionary
+        
         params["session_id"] = session.Id;
+        params["referral"] = location
     
         _eventCollectionService.SendEvent(table: "session_info", key: deviceId, params: params)
         
