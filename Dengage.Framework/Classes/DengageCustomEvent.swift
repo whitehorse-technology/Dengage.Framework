@@ -35,10 +35,15 @@ public class DengageCustomEvent{
         
         let deviceId = _settings.getApplicationIdentifier()
         
-        let params = [:] as NSMutableDictionary
-        
-        params["session_id"] = session.Id;
-        params["referral"] = location
+    
+        let params = ["session_id":session.Id,
+                      "referral": location,
+                      "utm_source":"",
+                      "utm_medium":"",
+                      "utm_campaign":"",
+                      "utm_content":"",
+                      "utm_term":"",
+                      "gclid":""] as NSMutableDictionary
     
         _eventCollectionService.SendEvent(table: "session_info", key: deviceId, params: params)
         
