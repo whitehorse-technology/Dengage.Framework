@@ -101,6 +101,12 @@ internal class Utilities {
         _logger.Log(message: "VERSION is %s" , logtype: .debug,  argument:  cfBundleShortVersionString)
         return cfBundleShortVersionString
     }
+    
+    
+    final func generateUUID() -> String{
+        
+       return NSUUID().uuidString.lowercased()
+    }
 }
 
 extension TimeZone {

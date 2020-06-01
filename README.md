@@ -1,4 +1,4 @@
-# Dengage.Framework v2.3.16
+# Dengage.Framework
 
 ## Requirements
 
@@ -6,6 +6,7 @@
 * iOS Push Cerificate
 * iOS Device ( you must test on real device for notifications)
 * A mac with latest Xcode
+* Supports min version 10 or higher
 
 ## Installation
 
