@@ -51,6 +51,7 @@ public class DengageCustomEvent{
         
     }
     
+    ///- Parameter params: NSMutableDictionary
     public func PageView(params : NSMutableDictionary){
         
         let sessionId = _settings.getSessionId()
@@ -67,24 +68,27 @@ public class DengageCustomEvent{
         sendListEvents(table: "shopping_cart_events", withDetailTable: "shopping_cart_events_detail", eventType: eventType, params: params)
     }
     
-    
+    ///- Parameter params: NSMutableDictionary
     public func AddToCart(params : NSMutableDictionary) {
         sendCartEvents(eventType: "add_to_cart", params: params);
     }
 
+    ///- Parameter params: NSMutableDictionary
     public func RemoveFromCart(params : NSMutableDictionary) {
         sendCartEvents(eventType: "remove_from_cart", params: params);
     }
 
+    ///- Parameter params: NSMutableDictionary
     public func ViewCart(params : NSMutableDictionary) {
         sendCartEvents(eventType: "view_cart", params: params);
     }
 
+    ///- Parameter params: NSMutableDictionary
     public func BeginCheckout(params : NSMutableDictionary) {
         sendCartEvents(eventType: "begin_checkout", params: params);
     }
     
-    
+    ///- Parameter params: NSMutableDictionary
     public func Order(params : NSMutableDictionary){
         
         let sessionId = _settings.getSessionId()
@@ -114,6 +118,7 @@ public class DengageCustomEvent{
         
     }
     
+    ///- Parameter params: NSMutableDictionary
     public func Search(params: NSMutableDictionary){
         
         let sessionId = _settings.getSessionId()
@@ -124,17 +129,19 @@ public class DengageCustomEvent{
         _eventCollectionService.SendEvent(table: "search_events", key: device_id, params: params);
     }
     
+
     private func sendWishlistEvents(eventType : String, params : NSMutableDictionary){
         
         sendListEvents(table: "wishlist_events", withDetailTable: "wishlist_events_detail", eventType: eventType, params: params)
     }
     
-    
+    ///- Parameter params: NSMutableDictionary
     public func AddToWithList(params: NSMutableDictionary){
         sendWishlistEvents(eventType: "add", params: params)
     }
     
-    public func RemoveToWithList(params: NSMutableDictionary){
+    ///- Parameter params: NSMutableDictionary
+    public func RemoveFromWithList(params: NSMutableDictionary){
         sendWishlistEvents(eventType: "remove", params: params)
     }
     

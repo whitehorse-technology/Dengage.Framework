@@ -203,6 +203,8 @@ IOS Action buttons can be defined up to four buttons.
 
 Custom Action Buttons can contain target url links.
 
+
+
 # Event Collection
 
 ## Requirements
@@ -213,150 +215,168 @@ Framework provides Event Methods for integration.
 
 **Note:** *Before sending an event, Dengage.Framework opens a Session by defualt. But according to implementation, developer can able to open a session manually.*
 
-### 1. ``` DengageEvent.shared.StartSession(actionUrl: location) ```
+#### 1. ``` DengageCustomEvent.shared.StartSession(location: String) ```
 
 - Parameter location : *deeplink (page link)*
 
 ```swift
-    DengageEvent.shared.StartSession(actionUrl: location)
-```
-
-### 2.  ```DengageEvent.shared.TokenRefresh(token : String)```
-
-- Parameter token : *apns token*
-
-```swift
-    DengageEvent.shared.TokenRefresh(token: String)
-```
-
-### 3.  ```DengageEvent.shared.ProductDetail(productId: String, price: Double, discountedPrice: Double, currency:String, supplierId:String)```
-
-- Parameter productId : *productId*
-- Parameter price : *price*
-- Parameter discountedPrice : *discountedPrice*
-- Parameter currency : *currency*
-- Parameter supplierId : *supplierId*
-
-```swift
-
-    DengageEvent.shared.ProductDetail(productId: String, price: Double, discountedPrice: Double, currency:String, supplierId:String)
-
-```
-
-### 4.  ```DengageEvent.shared.PromotionPage(promotionId: String)```
-
-- Parameter promotionId : *promotionId*
-
-```swift
-    DengageEvent.shared.PromotionPage(promotionId: String)
+    DengageCustomEvent.shared.StartSession(location: location)
 ```
 
 
-### 5.  ```DengageEvent.shared.CategoryPage(categoryId: String, parentCategoryId: String)```
+### PageView Events
 
-- Parameter categoryId : *categoryId*
-- Parameter parentCategoryId : *parentCategoryId*
+#### 1. ``` DengageCustomEvent.shared.PageView(params : NSMutableDictionary) ```
+
+- Parameter params : NSMutableDictionary
 
 ```swift
-    DengageEvent.shared.CategoryPage(categoryId: String, parentCategoryId: String)
+//category
+DengageCustomEvent.shared.PageView(params: ["page_type":"category","category_id":"1"])
+
+//product page view
+DengageCustomEvent.shared.PageView(params: ["page_type":"product","product_id":"1"])
+
+//promotion page view
+DengageCustomEvent.shared.PageView(params: ["page_type":"promotion","promotion_id":"1"])
+
+//login page view
+DengageCustomEvent.shared.PageView(params: ["page_type":"login"])
+
+//logout page view
+DengageCustomEvent.shared.PageView(params: ["page_type":"logout"])
+
+//welcome
+DengageCustomEvent.shared.PageView(params: ["page_type":"welcome"])
+
+//custom page view
+DengageCustomEvent.shared.PageView(params: ["page_type":"custom"])
+
 ```
 
-### 6.  ```DengageEvent.shared.HomePage()```
+### Cart Events
 
-```swift
-    DengageEvent.shared.HomePage()
+To send a cart event, a cart item must be created before sending as a pramater to function.
+
+```
+var cartItem = [:] as NSMutableDictionary
+
+cartItem["product_id"] = 1
+cartItem["product_variant_id"] = 1
+cartItem["quantity"] = 1
+cartItem["unit_price"] = 10.00
+cartItem["discounted_price"] = 9.99
+
+let cartItems = [] as [NSMutableDictionary]
+cartItems.append(cartItem)
+
 ```
 
-### 7.  ```DengageEvent.shared.SearchPage(keyword: String, resultCount:Int)```
 
-- Parameter keyword : *keyword*
-- Parameter resultCount : *resultCount*
+#### 1. ```DengageCustomEvent.shared.AddToCart(params : NSMutableDictionary)```
 
-```swift
-    DengageEvent.shared.SearchPage(keyword: String, resultCount:Int)
+
+```
+var params = ["product_id":1,
+              "product_variant_id":1,
+              "quantity":1,
+              "unit_price":10.00,
+              "discounted_price":9.99
+              "cartItems":cartItems]
+
+DengageCustomEvent.shared.AddToCart(params : params)
 ```
 
-### 8.  ```DengageEvent.shared.LoginPage()```
+#### 2. ```DengageCustomEvent.shared.RemoveFromCart(params : NSMutableDictionary)```
 
-```swift
-    DengageEvent.shared.LoginPage()
+```
+var params = ["product_id":1,
+              "product_variant_id":1,
+              "quantity":1,
+              "unit_price":10.00,
+              "discounted_price":9.99
+              "cartItems":cartItems]
+
+DengageCustomEvent.shared.RemoveFromCart(params : params)
 ```
 
-### 9.  ```DengageEvent.shared.LoginAction(contactKey: String, success: Bool, origin: String)```
+#### 3. ```DengageCustomEvent.shared.ViewCart(params : NSMutableDictionary)```
 
-- Parameter contactKey : *contactKey*
-- Parameter success : *success*
-- Parameter origin : *origin Form|Facebook|Google*
-
-```swift
-    DengageEvent.shared.LoginAction(contactKey: String, status: Bool, origin: String)
+```
+var params = ["cartItems":cartItems]
+DengageCustomEvent.shared.ViewCart(params : params)
 ```
 
-### 10.  ```DengageEvent.shared.RegisterPage()```
+#### 4. ```DengageCustomEvent.shared.BeginCheckout(params : NSMutableDictionary)```
 
-```swift
-    DengageEvent.shared.RegisterPage()
+```
+var params = ["cartItems":cartItems]
+DengageCustomEvent.shared.BeginCheckout(params : params)
 ```
 
-### 11.  ```DengageEvent.shared.RegisterAction(contactKey: String, success: Bool, origin: String)```
+### Order Events
 
-- Parameter contactKey : *contactKey*
-- Parameter success : *success*
-- Parameter origin : *origin  Form|Facebook|Google*
+#### 1. ```DengageCustomEvent.shared.Order(params : NSMutableDictionary)```
 
-```swift
-    DengageEvent.shared.RegisterAction(contactKey: String, status: Bool, origin: String)
+```
+var params = ["order_id":1,
+              "item_count":1,
+              "total_amount":1,
+              "payment_method":"CARD",
+              "shipping":5,
+              "coupon_code":"",
+              "discounted_price":9.99
+              "cartItems":cartItems]
+              
+              
+DengageCustomEvent.shared.Order(params : params)
 ```
 
-### 12.  ```DengageEvent.shared.BasketPage(items : [CartItem], totalPrice : Double, basketId: String)```
+### Search Event
 
-- Parameter items : *items*
-- Parameter totalPrice : *totalPrice*
-- Parameter basketId : *basketId*
+#### 1. ```DengageCustomEvent.shared.Search(params : NSMutableDictionary)```
 
-```swift
-    DengageEvent.shared.BasketPage(items : [CartItem], totalPrice : Double, basketId: String)
+```
+var params = ["keywords":"some product name",
+              "result_count":12,
+              "filters":""]
+              
+              
+DengageCustomEvent.shared.Search(params : params)
 ```
 
-### 13.  ```DengageEvent.shared.AddToBasket(item : CartItem, origin : String, basketId: String)```
+### WishList Events
 
-- Parameter item : *item*
-- Parameter origin : *origin*
-- Parameter basketId : *basketId*
 
-```swift
-    DengageEvent.shared.AddToBasket(item : CartItem, origin : String, basketId: String)
+```
+var wishListItem = [:] as NSMutableDictionary
+wishListItem["product_id"] = 1
+
+let wishListItems = [] as [NSMutableDictionary]
+wishListItems.append(wishListItem)
+
 ```
 
-### 14.  ```DengageEvent.shared.RemoveFromBasket(productId: String, variantId: String, quantity : Int, basketId: String)```
 
-- Parameter productId : *productId*
-- Parameter variantId : *variantId*
-- Parameter quantity : *quantity*
-- Parameter basketId : *basketId*
+#### 1. ```DengageCustomEvent.shared.AddToWithList(params : NSMutableDictionary)```
 
-```swift
-    DengageEvent.shared.RemoveFromBasket(productId: String, variantId: String, quantity : Int, basketId: String)
+
+```
+var params = ["product_id":1,
+              "items":wishlistItems]
+              
+              
+DengageCustomEvent.shared.AddToWithList(params : params)
 ```
 
-### 15.  ```DengageEvent.shared.OrderSummary(items : [CartItem], totalPrice : Double, basketId: String, orderId: String, paymentMethod: String)```
+#### 2. ```DengageCustomEvent.shared.RemoveFromWithList(params : NSMutableDictionary)```
 
-- Parameter items : *items*
-- Parameter totalPrice : *totalPrice*
-- Parameter basketId : *basketId*
-- Parameter orderId : *orderId*
-- Parameter paymentMethod : *paymentMethod*
 
-```swift
-    DengageEvent.shared.OrderSummary(items : [CartItem], totalPrice : Double, basketId: String, orderId: String, paymentMethod: String)
+
 ```
-
-### 16.  ```DengageEvent.shared.Refinement(pageType : PageType, filters : Dictionary<String, [String]>, resultCount : Int)```
-
-- Parameter pageType : *pageType*
-- Parameter filters : *filters*
-- Parameter resultCount : *resultCount*
-
-```swift
-    DengageEvent.shared.Refinement(pageType : PageType, filters : Dictionary<String, [String]>, resultCount : Int)
+var params = ["product_id":1,
+              "items":wishlistItems]
+              
+              
+DengageCustomEvent.shared.RemoveFromWithList(params : params)
 ```
