@@ -45,8 +45,7 @@ internal class EventCollectionService : BaseService
     
     internal func SendEvent(table : String, key : String, params : NSDictionary){
         
-        if(_settings.getSessionStart() == true)
-        {
+
             let urladdress = EVENT_SERVICE_URL
             
             _logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress)
@@ -66,10 +65,7 @@ internal class EventCollectionService : BaseService
             }
             
             _logger.Log(message: "EVENT_COLLECTION_SENT", logtype: .info)
-        }
-        else {
-            _logger.Log(message: "SESSION HAS NOT BEEN STARTED YET: Start Session", logtype: .info)
-        }
+        
     }
     
 }
