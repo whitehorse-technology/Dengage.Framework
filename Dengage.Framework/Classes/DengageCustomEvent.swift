@@ -14,6 +14,7 @@ public class DengageCustomEvent{
     var _eventCollectionService : EventCollectionService = EventCollectionService()
     var _utilities : Utilities = .shared
     var _sessionManager : SessionManager = .shared
+    let _logger : SDKLogger = .shared
     
     public static let shared  = DengageCustomEvent()
     
@@ -21,11 +22,10 @@ public class DengageCustomEvent{
     ///But according to implementation, developer can able to open a session manually.
     ///
     ///- Parameter location : *deeplinkUrl*
-    public func SessionStart(location : String){
+    public func SessionStart(referrer : String){
         
         
-        if _settings.getSessionStart() {
-            
+        if (_settings.getSessionStart() == true) {
             return
         }
         
@@ -37,18 +37,13 @@ public class DengageCustomEvent{
         
     
         let params = ["session_id":session.Id,
-                      "referral": location,
-                      "utm_source":"",
-                      "utm_medium":"",
-                      "utm_campaign":"",
-                      "utm_content":"",
-                      "utm_term":"",
-                      "gclid":""] as NSMutableDictionary
+                      "referrer": referrer ] as NSMutableDictionary
     
         _eventCollectionService.SendEvent(table: "session_info", key: deviceId, params: params)
         
         _settings.setSessionStart(status: true)
         
+        _logger.Log(message: "EVENT SESSION STARTED", logtype: .debug)
     }
     
     ///- Parameter params: NSMutableDictionary
@@ -113,7 +108,8 @@ public class DengageCustomEvent{
         
         for cartItem in cartItems
         {
-            _eventCollectionService.SendEvent(table: "order_events_details", key: order_id, params: cartItem)
+            cartItem["order_id"] = order_id
+            _eventCollectionService.SendEvent(table: "order_events_details", key: device_id, params: cartItem)
         }
         
     }
@@ -165,7 +161,8 @@ public class DengageCustomEvent{
         
         for cartItem in cartItems
         {
-            _eventCollectionService.SendEvent(table: withDetailTable, key: event_id, params: cartItem)
+            cartItem["event_id"] = event_id
+            _eventCollectionService.SendEvent(table: withDetailTable, key: device_id, params: cartItem)
         }
     }
     

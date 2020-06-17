@@ -45,25 +45,31 @@ internal class EventCollectionService : BaseService
     
     internal func SendEvent(table : String, key : String, params : NSDictionary){
         
-        let urladdress = EVENT_SERVICE_URL
-        
-        _logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress)
-        
-        let integrationKey = _settings.getDengageIntegrationKey()
-        
-        let parameters = ["integrationKey": integrationKey,
-                          "key" : key,
-                          "eventTable" : table,
-                          "eventDetails" :params as Any
-            ] as [String : Any]
-        
-        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
-        
-        queue.async {
-            self.ApiCall(data: parameters, urlAddress: urladdress)
+        if(_settings.getSessionStart() == true)
+        {
+            let urladdress = EVENT_SERVICE_URL
+            
+            _logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress)
+            
+            let integrationKey = _settings.getDengageIntegrationKey()
+            
+            let parameters = ["integrationKey": integrationKey,
+                              "key" : key,
+                              "eventTable" : table,
+                              "eventDetails" :params as Any
+                ] as [String : Any]
+            
+            let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
+            
+            queue.async {
+                self.ApiCall(data: parameters, urlAddress: urladdress)
+            }
+            
+            _logger.Log(message: "EVENT_COLLECTION_SENT", logtype: .info)
         }
-        
-        _logger.Log(message: "EVENT_COLLECTION_SENT", logtype: .info)
+        else {
+            _logger.Log(message: "SESSION HAS NOT BEEN STARTED YET: Start Session", logtype: .info)
+        }
     }
     
 }

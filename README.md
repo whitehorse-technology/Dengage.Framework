@@ -258,7 +258,8 @@ DengageCustomEvent.shared.PageView(params: ["page_type":"custom"])
 
 To send a cart event, a cart item must be created before sending as a pramater to function.
 
-```
+```swift
+
 var cartItem = [:] as NSMutableDictionary
 
 cartItem["product_id"] = 1
@@ -276,7 +277,7 @@ cartItems.append(cartItem)
 #### 1. ```DengageCustomEvent.shared.AddToCart(params : NSMutableDictionary)```
 
 
-```
+```swift
 var params = ["product_id":1,
               "product_variant_id":1,
               "quantity":1,
@@ -289,7 +290,7 @@ DengageCustomEvent.shared.AddToCart(params : params)
 
 #### 2. ```DengageCustomEvent.shared.RemoveFromCart(params : NSMutableDictionary)```
 
-```
+```swift
 var params = ["product_id":1,
               "product_variant_id":1,
               "quantity":1,
@@ -302,14 +303,14 @@ DengageCustomEvent.shared.RemoveFromCart(params : params)
 
 #### 3. ```DengageCustomEvent.shared.ViewCart(params : NSMutableDictionary)```
 
-```
+```swift
 var params = ["cartItems":cartItems]
 DengageCustomEvent.shared.ViewCart(params : params)
 ```
 
 #### 4. ```DengageCustomEvent.shared.BeginCheckout(params : NSMutableDictionary)```
 
-```
+```swift
 var params = ["cartItems":cartItems]
 DengageCustomEvent.shared.BeginCheckout(params : params)
 ```
@@ -318,7 +319,7 @@ DengageCustomEvent.shared.BeginCheckout(params : params)
 
 #### 1. ```DengageCustomEvent.shared.Order(params : NSMutableDictionary)```
 
-```
+```swift
 var params = ["order_id":1,
               "item_count":1,
               "total_amount":1,
@@ -336,7 +337,7 @@ DengageCustomEvent.shared.Order(params : params)
 
 #### 1. ```DengageCustomEvent.shared.Search(params : NSMutableDictionary)```
 
-```
+```swift
 var params = ["keywords":"some product name",
               "result_count":12,
               "filters":""]
@@ -347,8 +348,9 @@ DengageCustomEvent.shared.Search(params : params)
 
 ### WishList Events
 
+Create a wish list item.
 
-```
+```swift
 var wishListItem = [:] as NSMutableDictionary
 wishListItem["product_id"] = 1
 
@@ -361,7 +363,7 @@ wishListItems.append(wishListItem)
 #### 1. ```DengageCustomEvent.shared.AddToWithList(params : NSMutableDictionary)```
 
 
-```
+```swift
 var params = ["product_id":1,
               "items":wishlistItems]
               
@@ -372,8 +374,7 @@ DengageCustomEvent.shared.AddToWithList(params : params)
 #### 2. ```DengageCustomEvent.shared.RemoveFromWithList(params : NSMutableDictionary)```
 
 
-
-```
+```swift
 var params = ["product_id":1,
               "items":wishlistItems]
               
