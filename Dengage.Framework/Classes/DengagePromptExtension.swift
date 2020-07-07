@@ -74,7 +74,6 @@ extension Dengage {
     public static func promptForPushNotifications(callback: @escaping (_ IsUserGranted : Bool)-> ())
     {
         
-        
         center
             .requestAuthorization(options: [.alert, .sound, .badge]) {
                 [self] granted, error in
@@ -86,7 +85,7 @@ extension Dengage {
                     _logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
                     _settings.setPermission(permission: IsUserGranted)
 
-                        Dengage.SyncSubscription()
+                    Dengage.SyncSubscription()
                     
                     callback(IsUserGranted)
                     return
@@ -96,10 +95,6 @@ extension Dengage {
                 self.getNotificationSettings()
                 callback(IsUserGranted)
                 _logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))
-                
-                Dengage.SyncSubscription()
-                
-                
         }
     }
     
