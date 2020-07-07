@@ -86,7 +86,6 @@ extension Dengage {
                     _settings.setPermission(permission: IsUserGranted)
 
                     Dengage.SyncSubscription()
-                    
                     callback(IsUserGranted)
                     return
                 }
