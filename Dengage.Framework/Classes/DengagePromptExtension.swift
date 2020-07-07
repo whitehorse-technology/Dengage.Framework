@@ -33,8 +33,6 @@ extension Dengage {
     ///
     public static func promptForPushNotifications()
     {
-        let queue = DispatchQueue(label: SUBSCRIPTION_QUEUE, qos: .userInitiated)
-        
         center
             .requestAuthorization(options: [.alert, .sound, .badge]) {
                 [self] granted, error in
@@ -45,10 +43,9 @@ extension Dengage {
                 {
                     _logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
                     _settings.setPermission(permission: IsUserGranted)
+
+                    Dengage.SyncSubscription()
                     
-                    queue.async {
-                        Dengage.SyncSubscription()
-                    }
                     return
                 }
                 
@@ -56,11 +53,7 @@ extension Dengage {
                 self.getNotificationSettings()
                 
                 
-                _logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))
-                queue.async {
-                    Dengage.SyncSubscription()
-                }
-                
+                _logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))    
         }
     }
     
