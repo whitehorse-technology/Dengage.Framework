@@ -37,22 +37,35 @@ public class DengageCustomEvent{
         
         let deviceId = _settings.getApplicationIdentifier()
         
-        QueryStringParser(urlString: referrer)
+        var params : NSMutableDictionary = [:]
         
-        let utmSource = getQueryStringValue(forKey: "utm_source")
-        let utmMedium = getQueryStringValue(forKey: "utm_medium")
-        let utmCampaign = getQueryStringValue(forKey: "utm_campaign")
-        let utmContent = getQueryStringValue(forKey: "utm_content")
-        let utmTerm = getQueryStringValue(forKey: "utm_term")
-    
-        let params = ["session_id":session.Id,
+        if (!referrer.isEmpty){
+            
+            QueryStringParser(urlString: referrer)
+            
+            let utmSource = getQueryStringValue(forKey: "utm_source")
+            let utmMedium = getQueryStringValue(forKey: "utm_medium")
+            let utmCampaign = getQueryStringValue(forKey: "utm_campaign")
+            let utmContent = getQueryStringValue(forKey: "utm_content")
+            let utmTerm = getQueryStringValue(forKey: "utm_term")
+            
+            params = ["session_id":session.Id,
                       "referrer": referrer,
                       "utm_source": utmSource as Any,
                       "utm_medium": utmMedium as Any,
                       "utm_campaign":utmCampaign as Any,
                       "utm_content":utmContent as Any,
                       "utm_term":utmTerm as Any
-            ] as NSMutableDictionary
+                ] as NSMutableDictionary
+        }
+        else {
+            
+            params = ["session_id":session.Id,
+                      "referrer": referrer
+                ] as NSMutableDictionary
+        }
+        
+        
     
         _eventCollectionService.SendEvent(table: "session_info", key: deviceId, params: params)
         
