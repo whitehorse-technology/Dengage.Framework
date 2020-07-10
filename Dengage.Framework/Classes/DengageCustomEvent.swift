@@ -16,6 +16,8 @@ public class DengageCustomEvent{
     var _sessionManager : SessionManager = .shared
     let _logger : SDKLogger = .shared
     
+    var queryParams : [String : Any] = [:]
+    
     public static let shared  = DengageCustomEvent()
     
     ///Before sending an event Dengage.Framework opens  a Session by defualt.
@@ -35,9 +37,22 @@ public class DengageCustomEvent{
         
         let deviceId = _settings.getApplicationIdentifier()
         
+        QueryStringParser(urlString: referrer)
+        
+        let utmSource = getQueryStringValue(forKey: "utm_source")
+        let utmMedium = getQueryStringValue(forKey: "utm_medium")
+        let utmCampaign = getQueryStringValue(forKey: "utm_campaign")
+        let utmContent = getQueryStringValue(forKey: "utm_content")
+        let utmTerm = getQueryStringValue(forKey: "utm_term")
     
         let params = ["session_id":session.Id,
-                      "referrer": referrer ] as NSMutableDictionary
+                      "referrer": referrer,
+                      "utm_source": utmSource as Any,
+                      "utm_medium": utmMedium as Any,
+                      "utm_campaign":utmCampaign as Any,
+                      "utm_content":utmContent as Any,
+                      "utm_term":utmTerm as Any
+            ] as NSMutableDictionary
     
         _eventCollectionService.SendEvent(table: "session_info", key: deviceId, params: params)
         
@@ -164,6 +179,23 @@ public class DengageCustomEvent{
             cartItem["event_id"] = event_id
             _eventCollectionService.SendEvent(table: withDetailTable, key: device_id, params: cartItem)
         }
+    }
+    
+    private func QueryStringParser(urlString : String){
+        let url = URL(string: urlString)!
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        
+        if let queryItems = components?.queryItems {
+            for queryItem in queryItems {
+                
+                queryParams[queryItem.name] = queryItem.value
+                
+            }
+        }
+    }
+    
+    private func getQueryStringValue(forKey : String) -> Any? {
+        return queryParams[forKey] as? String
     }
     
 }
