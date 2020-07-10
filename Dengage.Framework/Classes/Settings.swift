@@ -223,7 +223,13 @@ internal class Settings {
     }
     
     final func setEventApiUrl(){
-        let eventUrl = (Bundle.main.object(forInfoDictionaryKey: "DengageEventApiUrl") as? String)!
+        var eventUrl = (Bundle.main.object(forInfoDictionaryKey: "DengageEventApiUrl") as? String)!
+        
+        if(eventUrl.isEmpty)
+        {
+            eventUrl = EVENT_SERVICE_URL
+        }
+        
         _storage.setValueWithKey(value: eventUrl, key: "EventUrl")
         _logger.Log(message:"EVENT_API_URL is %s",  logtype: .debug, argument: eventUrl)
     }
