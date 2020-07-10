@@ -86,12 +86,12 @@ public class Dengage
     
     // MARK:- Private Methods
     static func ConfigureSettings(){
-           
-           _settings.setCarrierId(carrierId: _utilities.identifierForCarrier())
-           _settings.setAdvertisingId(advertisingId: _utilities.identifierForAdvertising())
-           _settings.setApplicationIdentifier(applicationIndentifier: _utilities.identifierForApplication())
-           _settings.setAppVersion(appVersion: _utilities.indentifierForCFBundleShortVersionString())
-       }
+        
+        _settings.setCarrierId(carrierId: _utilities.identifierForCarrier())
+        _settings.setAdvertisingId(advertisingId: _utilities.identifierForAdvertising())
+        _settings.setApplicationIdentifier(applicationIndentifier: _utilities.identifierForApplication())
+        _settings.setAppVersion(appVersion: _utilities.indentifierForCFBundleShortVersionString())
+    }
     
     static func StartSession(actionUrl: String?){
         

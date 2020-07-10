@@ -214,6 +214,8 @@ Custom Action Buttons can contain target url links.
 
 Framework provides Event Methods for integration.
 
+* Add ```DengageEventApiUrl``` variable to application ```info.plist``` and set value to event service address. For example ```https://event.dengage.com/api/event```
+
 **Note:** *Before sending an event, Dengage.Framework opens a Session by defualt. But according to implementation, developer can able to open a session manually.*
 
 #### 1. ``` DengageCustomEvent.shared.StartSession(location: String) ```

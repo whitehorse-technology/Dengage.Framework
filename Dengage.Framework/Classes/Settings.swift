@@ -221,4 +221,14 @@ internal class Settings {
         
         return UAString()
     }
+    
+    final func setEventApiUrl(){
+        let eventUrl = (Bundle.main.object(forInfoDictionaryKey: "DengageEventApiUrl") as? String)!
+        _storage.setValueWithKey(value: eventUrl, key: "EventUrl")
+        _logger.Log(message:"EVENT_API_URL is %s",  logtype: .debug, argument: eventUrl)
+    }
+    
+    final func getEventApiUrl() -> String? {
+        return _storage.getValueWithKey(key: "EventUrl")
+    }
 }
