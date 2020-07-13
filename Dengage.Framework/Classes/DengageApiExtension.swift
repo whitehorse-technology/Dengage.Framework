@@ -30,6 +30,7 @@ extension Dengage {
         let sessionStarted = _settings.getSessionStart()
         
         if cloudEnabled == false {
+            DengageCustomEvent.shared.SessionStart(referrer: "")
             _subscriptionService.SendSubscriptionEvent()
         }
         else{

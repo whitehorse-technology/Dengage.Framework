@@ -18,6 +18,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     let _openEventService : OpenEventService!
     let _transactionalOpenEventService : TransactioanlOpenEventService!
     let _settings : Settings!
+    let _logger : SDKLogger = .shared
     
     var openTriggerCompletionHandler: ((_ notificationResponse: UNNotificationResponse)-> Void)?
     
@@ -54,8 +55,6 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         
         let content = response.notification.request.content;
         let actionIdentifier = response.actionIdentifier
-        let categoryIdentifier = response.notification.request.content.categoryIdentifier
-        os_log("CategoryIdentifier is %s", log: .default, categoryIdentifier)
         
         switch actionIdentifier
         {
@@ -73,8 +72,22 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         
         openTriggerCompletionHandler?(response)
         checkTargetUrl(content: content)
-        
+        ParseCampIdAndSendId(content: content)
+        DengageCustomEvent.shared.SessionStart(referrer: content.userInfo["targetUrl"] as? String ?? "")
         completionHandler()
+    }
+    
+    final func ParseCampIdAndSendId(content : UNNotificationContent){
+        let campId = content.userInfo["dengageCampId"] as? String ?? ""
+        let sendId = content.userInfo["dengageSendId"] as? String ?? ""
+        
+        if !campId.isEmpty {
+            _settings.setCampId(campId: campId)
+        }
+        
+        if !sendId.isEmpty {
+            _settings.setSendId(sendId: sendId)
+        }
     }
     
     final func openDeeplink(link: String?){

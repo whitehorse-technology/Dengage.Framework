@@ -17,7 +17,7 @@ public class DengageEvent
     ///But according to implementation, developer can able to open a session manually.
     ///
     ///- Parameter location : *deeplinkUrl*
-    public func SessionStart(location: String){
+    private func SessionStart(location: String){
         
         Dengage.StartSession(actionUrl: location)
         

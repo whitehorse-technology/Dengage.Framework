@@ -24,7 +24,7 @@ public class DengageCustomEvent{
     ///But according to implementation, developer can able to open a session manually.
     ///
     ///- Parameter location : *deeplinkUrl*
-    public func SessionStart(referrer : String){
+    internal func SessionStart(referrer : String){
         
         
         if (_settings.getSessionStart() == true) {
@@ -65,7 +65,17 @@ public class DengageCustomEvent{
                 ] as NSMutableDictionary
         }
         
-        
+        let campId = _settings.getCampId()
+        if !campId!.isEmpty {
+            
+            let campDate = _settings.getCampDate()
+            if Int(campDate!.timeIntervalSinceNow) > dn_camp_attribution_duration {
+                
+                params["camp_id"] = campId
+                params["send_id"] = _settings.getSendId()
+            }
+            
+        }
     
         _eventCollectionService.SendEvent(table: "session_info", key: deviceId, params: params)
         

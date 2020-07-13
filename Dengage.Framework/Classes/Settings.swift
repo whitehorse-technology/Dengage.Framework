@@ -223,7 +223,7 @@ internal class Settings {
     }
     
     final func setEventApiUrl(){
-        var eventUrl = (Bundle.main.object(forInfoDictionaryKey: "DengageEventApiUrl") as? String)!
+        var eventUrl = (Bundle.main.object(forInfoDictionaryKey: "DengageEventApiUrl") as? String) ?? ""
         
         if(eventUrl.isEmpty)
         {
@@ -236,5 +236,48 @@ internal class Settings {
     
     final func getEventApiUrl() -> String? {
         return _storage.getValueWithKey(key: "EventUrl")
+    }
+    
+    final func setCampId(campId : String){
+        _storage.setValueWithKey(value: campId, key: "dn_camp_id")
+        setCampDate()
+        _logger.Log(message:"CAMP_ID is %s",  logtype: .debug, argument: campId)
+    }
+    
+    final func getCampId()-> String? {
+        
+        return _storage.getValueWithKey(key: "dn_camp_id")
+    }
+    
+    final func setSendId(sendId : String){
+        _storage.setValueWithKey(value: sendId, key: "dn_send_id")
+        _logger.Log(message:"SEND_ID is %s",  logtype: .debug, argument: sendId)
+    }
+    
+    final func getSendId()-> String? {
+        
+        return _storage.getValueWithKey(key: "dn_send_id")
+    }
+    
+    final func setCampDate(){
+        let date = NSDate() // Get Todays Date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
+        let stringDate: String = dateFormatter.string(from: date as Date)
+        
+        _storage.setValueWithKey(value: stringDate, key: "dn_camp_date")
+        _logger.Log(message:"CampDate is %s",  logtype: .debug, argument: stringDate)
+    }
+    
+    final func getCampDate()-> NSDate? {
+        
+        let dateFormatter = DateFormatter()
+        // Our date format needs to match our input string format
+        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
+
+        let campDate = _storage.getValueWithKey(key: "dn_camp_date")
+        let dateFromString = dateFormatter.date(from: campDate!)
+        
+        return dateFromString as NSDate?
     }
 }
