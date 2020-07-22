@@ -78,8 +78,8 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     }
     
     final func ParseCampIdAndSendId(content : UNNotificationContent){
-        let campId = content.userInfo["dengageCampId"] as? String ?? ""
-        let sendId = content.userInfo["dengageSendId"] as? String ?? ""
+        let campId = String(content.userInfo["dengageCampId"] as! Int)
+        let sendId = String(content.userInfo["dengageSendId"] as! Int)
         
         if !campId.isEmpty {
             _settings.setCampId(campId: campId)

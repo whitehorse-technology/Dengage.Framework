@@ -25,6 +25,7 @@ internal class Settings {
     private var _contactKey :       String = ""
     private var _appVersion :       String = ""
     private var _sessionId  :       String = ""
+    private var _referrer   :       String = ""
 
     private var _testGroup : String = ""
     
@@ -279,5 +280,13 @@ internal class Settings {
         let dateFromString = dateFormatter.date(from: campDate!)
         
         return dateFromString as NSDate?
+    }
+    
+    final func setReferrer(referrer : String){
+        self._referrer = referrer
+    }
+    
+    final func getReferrer()-> String? {
+        return self._referrer
     }
 }

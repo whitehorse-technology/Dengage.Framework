@@ -27,11 +27,12 @@ public class DengageCustomEvent{
     internal func SessionStart(referrer : String){
         
         
-        if (_settings.getSessionStart() == true) {
-            return
-        }
+//        if (_settings.getSessionStart() == true) {
+//            return
+//        }
         
         let session = _sessionManager.getSession()
+        let referrerAdress = _settings.getReferrer() ?? referrer
         
         _settings.setSessionId(sessionId: session.Id)
         
@@ -50,7 +51,7 @@ public class DengageCustomEvent{
             let utmTerm = getQueryStringValue(forKey: "utm_term")
             
             params = ["session_id":session.Id,
-                      "referrer": referrer,
+                      "referrer": referrerAdress,
                       "utm_source": utmSource as Any,
                       "utm_medium": utmMedium as Any,
                       "utm_campaign":utmCampaign as Any,
@@ -66,10 +67,11 @@ public class DengageCustomEvent{
         }
         
         let campId = _settings.getCampId()
-        if !campId!.isEmpty {
+        if campId != nil {
             
             let campDate = _settings.getCampDate()
-            if Int(campDate!.timeIntervalSinceNow) > dn_camp_attribution_duration {
+            let timeInterval = Calendar.current.dateComponents([.day], from: campDate! as Date, to: Date()).day
+            if timeInterval! < dn_camp_attribution_duration {
                 
                 params["camp_id"] = campId
                 params["send_id"] = _settings.getSendId()

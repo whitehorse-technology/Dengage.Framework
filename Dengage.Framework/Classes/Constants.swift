@@ -24,10 +24,10 @@ let SUBSCRIPTION_QUEUE = "subscription-queue"
 let QUEUE_LIMIT = 5
 
 // MARK:- SETTINGS
-let SDK_VERSION = "2.4.9.3"
+let SDK_VERSION = "2.4.9.4"
 let SUIT_NAME = "group.dengage"
 
 let DEFAULT_CARRIER_ID = "1"
 let MESSAGE_SOURCE = "DENGAGE"
 
-let dn_camp_attribution_duration = -7
+let dn_camp_attribution_duration = 7
