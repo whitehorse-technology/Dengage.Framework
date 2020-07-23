@@ -73,7 +73,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         openTriggerCompletionHandler?(response)
         checkTargetUrl(content: content)
         ParseCampIdAndSendId(content: content)
-        DengageCustomEvent.shared.SessionStart(referrer: content.userInfo["targetUrl"] as? String ?? "")
+        
         completionHandler()
     }
     

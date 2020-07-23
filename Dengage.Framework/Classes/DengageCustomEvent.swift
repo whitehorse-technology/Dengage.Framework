@@ -132,6 +132,19 @@ public class DengageCustomEvent{
         
         params["session_id"] = sessionId
         
+        let campId = _settings.getCampId()
+        if campId != nil {
+            
+            let campDate = _settings.getCampDate()
+            let timeInterval = Calendar.current.dateComponents([.day], from: campDate! as Date, to: Date()).day
+            if timeInterval! < dn_camp_attribution_duration {
+                
+                params["camp_id"] = campId
+                params["send_id"] = _settings.getSendId()
+            }
+            
+        }
+        
         let temp = params.mutableCopy() as! NSMutableDictionary
         temp.removeObject(forKey: "cartItems")
         
