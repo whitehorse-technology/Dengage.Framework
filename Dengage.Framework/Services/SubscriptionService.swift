@@ -35,6 +35,7 @@ internal class SubscriptionService : BaseService
                           "carrierId":  _settings.getCarrierId(),
                           "appVersion": subscriptionHttpRequest.appVersion,
                           "sdkVersion": _settings.getSdkVersion(),
+                          "tokenType": "I",
                           "advertisingId" : _settings.getAdvertisinId() as Any] as [String : Any]
         
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
