@@ -15,10 +15,10 @@ class DengageNotificationExtension {
     static let shared = DengageNotificationExtension()
     
     
-    var _logger : SDKLogger
+    var _logger: SDKLogger
     
     var bestAttemptContent: UNMutableNotificationContent?
-    var userNotificationCenter : UNUserNotificationCenter
+    var userNotificationCenter: UNUserNotificationCenter
 
     
     init() {
@@ -38,7 +38,7 @@ class DengageNotificationExtension {
         _logger.Log(message: "NOTIFICATION_RECEIVED", logtype: .info)
         let messageSource = receivedRequest.content.userInfo["messageSource"]
         
-        if (messageSource != nil) {
+        if messageSource != nil {
             
             if (MESSAGE_SOURCE == messageSource as? String){
                 
@@ -55,7 +55,7 @@ class DengageNotificationExtension {
                     urlString = urlImageString
                 }
                 
-                if((urlString == nil) == true){
+                if((urlString == nil) == true) {
                     return
                 }
                 
@@ -80,9 +80,9 @@ class DengageNotificationExtension {
     
     private func RegisterForActionButtons(receivedRequest : UNNotificationRequest, categoryIdentifier: String?){
        
-        let categoryIdentifier = categoryIdentifier ?? "dengage";
+        let categoryIdentifier = categoryIdentifier ?? "dengage"
         
-        let actionButtons = receivedRequest.content.userInfo["actionButtons"];
+        let actionButtons = receivedRequest.content.userInfo["actionButtons"]
         
         if actionButtons == nil {
             

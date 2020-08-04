@@ -10,11 +10,11 @@ import Foundation
 
 
 internal struct EventCollectionHttpRequest{
-    
+
     public init(){}
-    
+
     public var IntegrationKey: String = ""
-    public var key : String = ""
-    public var eventTable : String = ""
-    public var eventDetails : NSDictionary? = nil
+    public var key: String = ""
+    public var eventTable: String = ""
+    public var eventDetails: NSDictionary? = nil
 }
