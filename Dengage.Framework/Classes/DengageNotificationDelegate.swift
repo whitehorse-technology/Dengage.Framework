@@ -30,7 +30,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         super.init()
     }
     
-    init(_settings: Settings = .shared, _openEventService: OpenEventService , _transactionalOpenEventService: TransactioanlOpenEventService){
+    init(_settings: Settings = .shared, _openEventService: OpenEventService, _transactionalOpenEventService: TransactioanlOpenEventService) {
         
         settings = _settings
         openEventService = _openEventService
@@ -51,7 +51,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                                       withCompletionHandler completionHandler: @escaping () -> Void) {
         
         
-        let content = response.notification.request.content;
+        let content = response.notification.request.content
         let actionIdentifier = response.actionIdentifier
         
         switch actionIdentifier {
@@ -69,12 +69,12 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         
         openTriggerCompletionHandler?(response)
         checkTargetUrl(content: content)
-        ParseCampIdAndSendId(content: content)
+        parseCampIdAndSendId(content: content)
         DengageCustomEvent.shared.SessionStart(referrer: content.userInfo["targetUrl"] as? String ?? "")
         completionHandler()
     }
     
-    final func ParseCampIdAndSendId(content: UNNotificationContent) {
+    final func parseCampIdAndSendId(content: UNNotificationContent) {
         let campId = String(content.userInfo["dengageCampId"] as! Int)
         let sendId = String(content.userInfo["dengageSendId"] as! Int)
         
@@ -86,26 +86,25 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
             settings.setSendId(sendId: sendId)
         }
     }
-    
+
     final func openDeeplink(link: String?) {
         
-        if link != nil
-        {
+        if link != nil {
             os_log("TARGET_URL is %s", log: .default, type: .debug, link!)
             
             UIApplication.shared.open(URL(string: link!)!, options: [:], completionHandler: nil)
         }
     }
-    
+
     final func checkTargetUrl(content: UNNotificationContent) {
         
-        let targetUrl = content.userInfo["targetUrl"] as? String;
+        let targetUrl = content.userInfo["targetUrl"] as? String
         
         if targetUrl?.isEmpty == false{
             openDeeplink(link: targetUrl)
         }
     }
-    
+
     final func checkTargetUrlInActionButtons(content: UNNotificationContent, actionIdentifier: String) {
         
         let actionButtons = content.userInfo["actionButtons"]
@@ -126,45 +125,43 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                 let link = dic.value(forKey: "targetUrl") as? String
                 
                 if link?.isEmpty == false {
-                    os_log("Action Button Target URL IS %s", log: .default, type : .debug, link!)
+                    os_log("Action Button Target URL IS %s", log: .default, type: .debug, link!)
                     openDeeplink(link: link)
                 }
             }
         }
     }
-    
-    
+
     final func sendEventWithContent(content:UNNotificationContent, actionIdentifier: String?) {
         
         var messageId = 0
-        if(content.userInfo["messageId"] != nil){
-            messageId = content.userInfo["messageId"] as! Int;
+        if content.userInfo["messageId"] != nil {
+            messageId = content.userInfo["messageId"] as! Int
             os_log("MSG_ID is %s", log: .default, type: .debug, String(messageId))
         }
         
         var messageDetails = ""
-        if(content.userInfo["messageDetails"] != nil){
-            messageDetails = content.userInfo["messageDetails"] as! String;
+        if content.userInfo["messageDetails"] != nil {
+            messageDetails = content.userInfo["messageDetails"] as! String
             os_log("MSG_DETAILS is %s", log: .default, type: .debug, messageDetails)
         } else {
-            return;
+            return
         }
         
-        if actionIdentifier?.isEmpty == false{
+        if actionIdentifier?.isEmpty == false {
             os_log("BUTTON_ID is %s", log: .default, type: .debug, actionIdentifier!)
         }
         
         var transactionId = ""
-        if(content.userInfo["transactionId"] != nil){
-            transactionId = content.userInfo["transactionId"] as! String;
+        if content.userInfo["transactionId"] != nil {
+            transactionId = content.userInfo["transactionId"] as! String
             os_log("TRANSACTION_ID is %s", log: .default, type: .debug, transactionId)
             sendTransactionalOpenEvent(messageId: messageId, transactionId: transactionId, messageDetails: messageDetails, buttonId: actionIdentifier)
-        }else{
+        } else {
             sendOpenEvent(messageId: messageId, messageDetails: messageDetails, buttonId: actionIdentifier)
         }
     }
-    
-    
+
     final func sendOpenEvent(messageId: Int, messageDetails: String, buttonId: String?) {
         
         var openEventHttpRequest = OpenEventHttpRequest()
@@ -180,8 +177,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         }
         
     }
-    
-    
+
     final func sendTransactionalOpenEvent(messageId: Int,transactionId: String, messageDetails: String, buttonId: String?) {
         
         var transactionalOpenEventHttpRequest = TransactionalOpenEventHttpRequest()

@@ -9,19 +9,18 @@ import Foundation
 
 
 extension Dengage {
-    
-    
-    //    MARK:-
-    //    MARK:- API calls
+
+    //    MARK: -
+    //    MARK: - API calls
     @available(*, renamed: "SendSubscriptionEvent")
     public static func SyncSubscription() {
         
         
-        if(_settings.getAdvertisinId()!.isEmpty){
+        if _settings.getAdvertisinId()!.isEmpty {
             _logger.Log(message: "ADV_ID_IS_EMPTY", logtype: .info)
             return
         }
-        if(_settings.getApplicationIdentifier().isEmpty){
+        if _settings.getApplicationIdentifier().isEmpty  {
             _logger.Log(message: "APP_IDF_ID_IS_EMPTY", logtype: .info)
             return
         }
@@ -43,10 +42,10 @@ extension Dengage {
         
     }
     
-    @available(*, renamed: "SendEventCollection")
-    public static func SendDeviceEvent(toEventTable: String, andWithEventDetails: NSDictionary) -> Bool {
+    @available(*, obsoleted:2.4.9, renamed: "SendEventCollection")
+    public static func sendDeviceEvent(toEventTable: String, andWithEventDetails: NSDictionary) -> Bool {
         
-        if _settings.getDengageIntegrationKey().isEmpty{
+        if _settings.getDengageIntegrationKey().isEmpty {
             _logger.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
             return false
         }
@@ -62,13 +61,14 @@ extension Dengage {
         eventCollectionModel.eventTable = toEventTable
         eventCollectionModel.eventDetails = andWithEventDetails
         
-        SyncEventQueues(eventCollectionModel: eventCollectionModel)
+        syncEventQueues(eventCollectionModel: eventCollectionModel)
         return true
     }
     
-    public static func SendCustomEvent(toEventTable: String, withKey : String, andWithEventDetails: NSDictionary) -> Bool {
+    @available(*, obsoleted:2.4.9)
+    public static func sendCustomEvent(toEventTable: String, withKey: String, andWithEventDetails: NSDictionary) -> Bool {
         
-        if _settings.getDengageIntegrationKey().isEmpty{
+        if _settings.getDengageIntegrationKey().isEmpty {
             _logger.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
             return false
         }
@@ -84,16 +84,16 @@ extension Dengage {
         eventCollectionModel.key = withKey
         eventCollectionModel.eventDetails = andWithEventDetails
         
-        SyncEventQueues(eventCollectionModel: eventCollectionModel)
+        syncEventQueues(eventCollectionModel: eventCollectionModel)
         return true
     }
-
-    public static func SyncEventQueues(){
+    
+    @available(*, obsoleted:2.4.9)
+    public static func syncEventQueues(){
         
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
         
-        if(_eventQueue.items.count > QUEUE_LIMIT)
-        {
+        if _eventQueue.items.count > QUEUE_LIMIT {
             _logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
             while _eventQueue.items.count > 0 {
                 
@@ -107,10 +107,10 @@ extension Dengage {
         }
     }
     
-
+    
     
     // MARK:- Private Methods
-    static func SyncEventQueues(eventCollectionModel: EventCollectionModel) {
+    static func syncEventQueues(eventCollectionModel: EventCollectionModel) {
         
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
         
@@ -133,7 +133,7 @@ extension Dengage {
             
             _eventQueue.enqueue(element: eventCollectionModel)
         }
-
+        
     }
     
 }
