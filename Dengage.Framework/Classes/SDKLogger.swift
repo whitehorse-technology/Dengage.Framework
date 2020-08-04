@@ -18,25 +18,25 @@ internal class SDKLogger{
     
     init(){}
     
-    internal func setIsDisabled(isDisabled : Bool){
+    internal func setIsDisabled(isDisabled: Bool) {
         
         self.isVisiable = isDisabled
     }
     
-    internal func Log(message: StaticString, logtype : OSLogType, argument: String ){
+    internal func Log(message: StaticString, logtype: OSLogType, argument: String) {
         
-//        guard isDisabled else { return }
+        //        guard isDisabled else { return }
         
-        if(isVisiable){
+        if isVisiable {
             os_log(message, log: .default, type: logtype, argument)
         }
-
+        
     }
     
-    internal func Log(message: StaticString, logtype : OSLogType){
+    internal func Log(message: StaticString, logtype: OSLogType) {
         
-//        guard isDisabled else { return }
-        if(isVisiable){
+        //        guard isDisabled else { return }
+        if isVisiable {
             os_log(message, log: .default, type: logtype)
         }
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-
+@available(*, obsoleted: 2.4.9)
 public class DengageEvent
 {
     public static let shared  = DengageEvent()

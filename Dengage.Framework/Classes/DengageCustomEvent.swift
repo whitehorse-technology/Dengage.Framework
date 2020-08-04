@@ -7,8 +7,8 @@
 
 import Foundation
 
+@available(*, introduced: 2.4.9)
 public class DengageCustomEvent{
-    
     
     var _settings : Settings = .shared
     var _eventCollectionService : EventCollectionService = EventCollectionService()
@@ -24,12 +24,7 @@ public class DengageCustomEvent{
     ///But according to implementation, developer can able to open a session manually.
     ///
     ///- Parameter location : *deeplinkUrl*
-    internal func SessionStart(referrer : String){
-        
-        
-//        if (_settings.getSessionStart() == true) {
-//            return
-//        }
+    internal func SessionStart(referrer: String) {
         
         let session = _sessionManager.getSession()
         let referrerAdress = _settings.getReferrer() ?? referrer
@@ -40,7 +35,7 @@ public class DengageCustomEvent{
         
         var params : NSMutableDictionary = [:]
         
-        if (!referrer.isEmpty){
+        if  !referrer.isEmpty {
             
             QueryStringParser(urlString: referrer)
             
@@ -58,8 +53,7 @@ public class DengageCustomEvent{
                       "utm_content":utmContent as Any,
                       "utm_term":utmTerm as Any
                 ] as NSMutableDictionary
-        }
-        else {
+        } else {
             
             params = ["session_id":session.Id,
                       "referrer": referrer
@@ -78,16 +72,14 @@ public class DengageCustomEvent{
             }
             
         }
-    
+        
         _eventCollectionService.SendEvent(table: "session_info", key: deviceId, params: params)
-        
         _settings.setSessionStart(status: true)
-        
         _logger.Log(message: "EVENT SESSION STARTED", logtype: .debug)
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func PageView(params : NSMutableDictionary){
+    public func pageView(params: NSMutableDictionary) {
         
         let sessionId = _settings.getSessionId()
         let deviceId = _settings.getApplicationIdentifier()
@@ -104,31 +96,31 @@ public class DengageCustomEvent{
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func AddToCart(params : NSMutableDictionary) {
-        sendCartEvents(eventType: "add_to_cart", params: params);
-    }
-
-    ///- Parameter params: NSMutableDictionary
-    public func RemoveFromCart(params : NSMutableDictionary) {
-        sendCartEvents(eventType: "remove_from_cart", params: params);
-    }
-
-    ///- Parameter params: NSMutableDictionary
-    public func ViewCart(params : NSMutableDictionary) {
-        sendCartEvents(eventType: "view_cart", params: params);
-    }
-
-    ///- Parameter params: NSMutableDictionary
-    public func BeginCheckout(params : NSMutableDictionary) {
-        sendCartEvents(eventType: "begin_checkout", params: params);
+    public func addToCart(params: NSMutableDictionary) {
+        sendCartEvents(eventType: "add_to_cart", params: params)
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func Order(params : NSMutableDictionary){
+    public func removeFromCart(params: NSMutableDictionary) {
+        sendCartEvents(eventType: "remove_from_cart", params: params)
+    }
+    
+    ///- Parameter params: NSMutableDictionary
+    public func viewCart(params: NSMutableDictionary) {
+        sendCartEvents(eventType: "view_cart", params: params)
+    }
+    
+    ///- Parameter params: NSMutableDictionary
+    public func beginCheckout(params: NSMutableDictionary) {
+        sendCartEvents(eventType: "begin_checkout", params: params)
+    }
+    
+    ///- Parameter params: NSMutableDictionary
+    public func order(params: NSMutableDictionary){
         
         let sessionId = _settings.getSessionId()
-        let device_id = _settings.getApplicationIdentifier();
-        let order_id = params["order_id"] as! String
+        let device_id = _settings.getApplicationIdentifier()
+        let order_id = params["order_id"]
         
         params["session_id"] = sessionId
         
@@ -155,7 +147,7 @@ public class DengageCustomEvent{
                                "event_type":"order",
                                "event_id":event_id] as NSMutableDictionary
         
-        _eventCollectionService.SendEvent(table: "shopping_cart_events", key: device_id, params: cartEventParams);
+        _eventCollectionService.SendEvent(table: "shopping_cart_events", key: device_id, params: cartEventParams)
         
         let cartItems = params["cartItems"] as! [NSMutableDictionary]
         
@@ -168,37 +160,37 @@ public class DengageCustomEvent{
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func Search(params: NSMutableDictionary){
+    public func search(params: NSMutableDictionary) {
         
         let sessionId = _settings.getSessionId()
-        let device_id = _settings.getApplicationIdentifier();
+        let device_id = _settings.getApplicationIdentifier()
         
         params["session_id"] = sessionId
         
-        _eventCollectionService.SendEvent(table: "search_events", key: device_id, params: params);
+        _eventCollectionService.SendEvent(table: "search_events", key: device_id, params: params)
     }
     
-
-    private func sendWishlistEvents(eventType : String, params : NSMutableDictionary){
+    
+    private func sendWishlistEvents(eventType: String, params: NSMutableDictionary) {
         
         sendListEvents(table: "wishlist_events", withDetailTable: "wishlist_events_detail", eventType: eventType, params: params)
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func AddToWithList(params: NSMutableDictionary){
+    public func addToWithList(params: NSMutableDictionary) {
         sendWishlistEvents(eventType: "add", params: params)
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func RemoveFromWithList(params: NSMutableDictionary){
+    public func removeFromWithList(params: NSMutableDictionary) {
         sendWishlistEvents(eventType: "remove", params: params)
     }
     
     
-    private func sendListEvents(table : String, withDetailTable: String, eventType:String,  params: NSMutableDictionary){
+    private func sendListEvents(table: String, withDetailTable: String, eventType:String,  params: NSMutableDictionary) {
         
         let sessionId = _settings.getSessionId()
-        let device_id = _settings.getApplicationIdentifier();
+        let device_id = _settings.getApplicationIdentifier()
         let event_id = _utilities.generateUUID()
         
         params["session_id"] = sessionId
@@ -219,7 +211,7 @@ public class DengageCustomEvent{
         }
     }
     
-    private func QueryStringParser(urlString : String){
+    private func QueryStringParser(urlString : String) {
         let url = URL(string: urlString)!
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         

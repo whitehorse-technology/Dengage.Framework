@@ -8,12 +8,13 @@
 import Foundation
 
 
+@available(*, obsoleted: 2.4.9)
 internal class DengageEventCollecitonService {
     
     
     internal static let shared  = DengageEventCollecitonService()
     
-    var EVENT_URL = DENGAGE_EVENT_SERVICE_URL
+    let EVENT_URL = DENGAGE_EVENT_SERVICE_URL
     
     let _logger : SDKLogger
     let _session : URLSession

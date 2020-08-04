@@ -2,7 +2,7 @@
 //  DengageNotificationExtension.swift
 //  dengage.ios.sdk
 //
-//  Created by Ekin Bulut on 27.11.2019.
+//  Created by Developer on 27.11.2019.
 //  Copyright © 2019 Dengage. All rights reserved.
 //
 
@@ -19,7 +19,7 @@ class DengageNotificationExtension {
     
     var bestAttemptContent: UNMutableNotificationContent?
     var userNotificationCenter: UNUserNotificationCenter
-
+    
     
     init() {
         _logger = .shared
@@ -33,17 +33,18 @@ class DengageNotificationExtension {
         
     }
     
-    internal func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, withNotificationContent : UNMutableNotificationContent){
+    internal func didReceiveNotificationExtentionRequest(receivedRequest: UNNotificationRequest, withNotificationContent: UNMutableNotificationContent){
         
         _logger.Log(message: "NOTIFICATION_RECEIVED", logtype: .info)
         let messageSource = receivedRequest.content.userInfo["messageSource"]
         
         if messageSource != nil {
             
-            if (MESSAGE_SOURCE == messageSource as? String){
+            if (MESSAGE_SOURCE == messageSource as? String) {
                 
                 let categoryIdentifier = withNotificationContent.categoryIdentifier
-               
+                
+                //parse message and if there are any action buttons on payload register them to notification center
                 RegisterForActionButtons(receivedRequest: receivedRequest, categoryIdentifier: categoryIdentifier)
                 
                 self.bestAttemptContent = withNotificationContent
@@ -78,8 +79,8 @@ class DengageNotificationExtension {
         }
     }
     
-    private func RegisterForActionButtons(receivedRequest : UNNotificationRequest, categoryIdentifier: String?){
-       
+    private func RegisterForActionButtons(receivedRequest: UNNotificationRequest, categoryIdentifier: String?) {
+        
         let categoryIdentifier = categoryIdentifier ?? "dengage"
         
         let actionButtons = receivedRequest.content.userInfo["actionButtons"]
@@ -110,10 +111,10 @@ class DengageNotificationExtension {
         let category : UNNotificationCategory;
         if #available(iOS 11.0, *) {
             category = UNNotificationCategory(identifier: categoryIdentifier, actions: actionsArr, intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
-
+            
         } else {
             // Fallback on earlier versions
-           category = UNNotificationCategory(identifier: categoryIdentifier, actions: actionsArr, intentIdentifiers: [], options: .customDismissAction)
+            category = UNNotificationCategory(identifier: categoryIdentifier, actions: actionsArr, intentIdentifiers: [], options: .customDismissAction)
         }
         
         userNotificationCenter.setNotificationCategories([category])

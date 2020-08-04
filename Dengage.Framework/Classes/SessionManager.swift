@@ -2,7 +2,7 @@
 //  SessionManager.swift
 //  Dengage.Framework
 //
-//  Created by Ekin Bulut on 21.03.2020.
+//  Created by Developer on 21.03.2020.
 //
 
 import Foundation
@@ -28,16 +28,13 @@ internal class SessionManager
             sessionObj?.ExpireIn = interval
             
             return sessionObj!
-        }
-        else
-        {
+        } else {
             if sessionObj!.ExpireIn > Date() {
                 
                 sessionObj!.ExpireIn = sessionObj!.ExpireIn.addingTimeInterval(sessionInterval)
                 return sessionObj!
                 
-            }
-            else {
+            } else {
                 
                 sessionObj?.Id = generateSessionId()
                 sessionObj?.ExpireIn = Date().addingTimeInterval(sessionInterval)
@@ -45,7 +42,6 @@ internal class SessionManager
                 return sessionObj!
                 
             }
-
         }
     }
     

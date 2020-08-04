@@ -3,7 +3,7 @@
 //  dengage.ios.sdk
 //
 //  Created by Developer on 15.08.2019.
-//  Copyright © 2019 Whitehorse.Technology All rights reserved.
+//  Copyright © 2019 Dengage All rights reserved.
 //
 
 import Foundation
@@ -93,7 +93,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         {
             os_log("TARGET_URL is %s", log: .default, type: .debug, link!)
             
-            UIApplication.shared.open(URL(string: link!)!, options: [:] , completionHandler: nil)
+            UIApplication.shared.open(URL(string: link!)!, options: [:], completionHandler: nil)
         }
     }
     
@@ -146,8 +146,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         if(content.userInfo["messageDetails"] != nil){
             messageDetails = content.userInfo["messageDetails"] as! String;
             os_log("MSG_DETAILS is %s", log: .default, type: .debug, messageDetails)
-        }
-        else{
+        } else {
             return;
         }
         
