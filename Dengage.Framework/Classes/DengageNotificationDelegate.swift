@@ -15,59 +15,56 @@ import UIKit
 
 class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     
-    let _openEventService : OpenEventService!
-    let _transactionalOpenEventService : TransactioanlOpenEventService!
-    let _settings : Settings!
-    let _logger : SDKLogger = .shared
+    let openEventService: OpenEventService!
+    let transactionalOpenEventService: TransactioanlOpenEventService!
+    let settings: Settings!
     
     var openTriggerCompletionHandler: ((_ notificationResponse: UNNotificationResponse)-> Void)?
     
     override init() {
         
-        _settings = Settings.shared
-        _openEventService = OpenEventService()
-        _transactionalOpenEventService = TransactioanlOpenEventService()
+        settings = Settings.shared
+        openEventService = OpenEventService()
+        transactionalOpenEventService = TransactioanlOpenEventService()
         
         super.init()
     }
     
-    init(settings : Settings = .shared, openEventService : OpenEventService , transactionalOpenEventService : TransactioanlOpenEventService){
+    init(_settings: Settings = .shared, _openEventService: OpenEventService , _transactionalOpenEventService: TransactioanlOpenEventService){
         
-        _settings = settings
-        _openEventService = openEventService
-        _transactionalOpenEventService = transactionalOpenEventService
-        
+        settings = _settings
+        openEventService = _openEventService
+        transactionalOpenEventService = _transactionalOpenEventService
     }
     
     
     @available(iOS 10.0, *)
     final func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+                                      willPresent notification: UNNotification,
+                                      withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.alert,.sound,.badge])
     }
     
     @available(iOS 10.0, *)
     final func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse,
-                                withCompletionHandler completionHandler: @escaping () -> Void) {
+                                      didReceive response: UNNotificationResponse,
+                                      withCompletionHandler completionHandler: @escaping () -> Void) {
         
         
         let content = response.notification.request.content;
         let actionIdentifier = response.actionIdentifier
         
-        switch actionIdentifier
-        {
-            case UNNotificationDismissActionIdentifier:
-                os_log("UNNotificationDismissActionIdentifier TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content, actionIdentifier: "DismissAction")
-            case UNNotificationDefaultActionIdentifier:
-                os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
-                sendEventWithContent(content: content, actionIdentifier: "")
-            default:
-                os_log("ACTION_ID: %s TRIGGERED", log: .default, type:.debug, actionIdentifier)
-                sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
-                checkTargetUrlInActionButtons(content: content, actionIdentifier: actionIdentifier)
+        switch actionIdentifier {
+        case UNNotificationDismissActionIdentifier:
+            os_log("UNNotificationDismissActionIdentifier TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: content, actionIdentifier: "DismissAction")
+        case UNNotificationDefaultActionIdentifier:
+            os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: content, actionIdentifier: "")
+        default:
+            os_log("ACTION_ID: %s TRIGGERED", log: .default, type:.debug, actionIdentifier)
+            sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
+            checkTargetUrlInActionButtons(content: content, actionIdentifier: actionIdentifier)
         }
         
         openTriggerCompletionHandler?(response)
@@ -77,30 +74,30 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         completionHandler()
     }
     
-    final func ParseCampIdAndSendId(content : UNNotificationContent){
+    final func ParseCampIdAndSendId(content: UNNotificationContent) {
         let campId = String(content.userInfo["dengageCampId"] as! Int)
         let sendId = String(content.userInfo["dengageSendId"] as! Int)
         
         if !campId.isEmpty {
-            _settings.setCampId(campId: campId)
+            settings.setCampId(campId: campId)
         }
         
         if !sendId.isEmpty {
-            _settings.setSendId(sendId: sendId)
+            settings.setSendId(sendId: sendId)
         }
     }
     
-    final func openDeeplink(link: String?){
+    final func openDeeplink(link: String?) {
         
         if link != nil
         {
             os_log("TARGET_URL is %s", log: .default, type: .debug, link!)
             
-            UIApplication.shared.open(URL(string: link!)!, options: [:] , completionHandler: nil);
+            UIApplication.shared.open(URL(string: link!)!, options: [:] , completionHandler: nil)
         }
     }
     
-    final func checkTargetUrl(content: UNNotificationContent){
+    final func checkTargetUrl(content: UNNotificationContent) {
         
         let targetUrl = content.userInfo["targetUrl"] as? String;
         
@@ -109,11 +106,11 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         }
     }
     
-    final func checkTargetUrlInActionButtons(content: UNNotificationContent, actionIdentifier : String){
+    final func checkTargetUrlInActionButtons(content: UNNotificationContent, actionIdentifier: String) {
         
         let actionButtons = content.userInfo["actionButtons"]
         
-        if actionButtons == nil{
+        if actionButtons == nil {
             return
         }
         
@@ -137,7 +134,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     }
     
     
-    final func sendEventWithContent(content:UNNotificationContent, actionIdentifier: String?){
+    final func sendEventWithContent(content:UNNotificationContent, actionIdentifier: String?) {
         
         var messageId = 0
         if(content.userInfo["messageId"] != nil){
@@ -169,35 +166,35 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     }
     
     
-    final func sendOpenEvent(messageId : Int, messageDetails : String, buttonId : String?) {
+    final func sendOpenEvent(messageId: Int, messageDetails: String, buttonId: String?) {
         
         var openEventHttpRequest = OpenEventHttpRequest()
         openEventHttpRequest.messageId = messageId
         openEventHttpRequest.messageDetails = messageDetails
-        openEventHttpRequest.integrationKey = _settings.getDengageIntegrationKey()
+        openEventHttpRequest.integrationKey = settings.getDengageIntegrationKey()
         openEventHttpRequest.buttonId = buttonId ?? ""
         
         
-        _openEventService.PostOpenEvent(openEventHttpRequest: openEventHttpRequest)
-        if _settings.getBadgeCountReset() == true {
+        openEventService.PostOpenEvent(openEventHttpRequest: openEventHttpRequest)
+        if settings.getBadgeCountReset() == true {
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
         
     }
     
     
-    final func sendTransactionalOpenEvent(messageId : Int,transactionId : String, messageDetails : String, buttonId : String?) {
+    final func sendTransactionalOpenEvent(messageId: Int,transactionId: String, messageDetails: String, buttonId: String?) {
         
         var transactionalOpenEventHttpRequest = TransactionalOpenEventHttpRequest()
-        transactionalOpenEventHttpRequest.integrationId = _settings.getDengageIntegrationKey()
+        transactionalOpenEventHttpRequest.integrationId = settings.getDengageIntegrationKey()
         transactionalOpenEventHttpRequest.messageId = messageId
         transactionalOpenEventHttpRequest.transactionId = transactionId
         transactionalOpenEventHttpRequest.messageDetails = messageDetails
         transactionalOpenEventHttpRequest.buttonId =  buttonId ?? ""
         
-        _transactionalOpenEventService.PostOpenEvent(transactionalOpenEventHttpRequest: transactionalOpenEventHttpRequest)
+        transactionalOpenEventService.PostOpenEvent(transactionalOpenEventHttpRequest: transactionalOpenEventHttpRequest)
         
-        if _settings.getBadgeCountReset() == true {
+        if settings.getBadgeCountReset() == true {
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
     }

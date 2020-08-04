@@ -33,8 +33,7 @@ extension Dengage {
     ///
     public static func promptForPushNotifications() {
         center
-            .requestAuthorization(options: [.alert, .sound, .badge]) {
-                [self] granted, _ in
+            .requestAuthorization(options: [.alert, .sound, .badge]) { [self] granted, _ in
                 
                 IsUserGranted = granted
                 
@@ -63,7 +62,7 @@ extension Dengage {
     ///     Calls UNUserNotificationCenter.current().requestAuthorization method.
     ///
     /// - Parameter callback: IsUserGranted
-    public static func promptForPushNotifications(callback: @escaping (_ IsUserGranted : Bool)-> ()) {
+    public static func promptForPushNotifications(callback: @escaping (_ IsUserGranted : Bool)-> Void) {
         
         center
             .requestAuthorization(options: [.alert, .sound, .badge]) {

@@ -16,21 +16,21 @@ internal class Settings {
     let logger: SDKLogger
 
 //    MARK:- Variables
-    private var _integrationKey:   String = ""
-    private var _token:            String? = ""
-    private var _carrierId:        String = ""
-    private var _sdkVersion:       String
-    private var _advertisingId:    String = ""
+    private var _integrationKey: String = ""
+    private var _token: String? = ""
+    private var _carrierId: String = ""
+    private var _sdkVersion: String
+    private var _advertisingId: String = ""
     private var _applicationIdentifier : String = ""
-    private var _contactKey:       String = ""
-    private var _appVersion:       String = ""
-    private var _sessionId:       String = ""
-    private var _referrer:       String = ""
+    private var _contactKey: String = ""
+    private var _appVersion: String = ""
+    private var _sessionId: String = ""
+    private var _referrer: String = ""
 
     private var _testGroup: String = ""
     
-    private var _badgeCountReset:  Bool?
-    private var _permission:       Bool?
+    private var _badgeCountReset: Bool?
+    private var _permission: Bool?
     private var _sessionStarted: Bool
     
     private var _useCloudForSubscription: Bool = false
@@ -185,7 +185,7 @@ internal class Settings {
         
         self._token = token
         storage.setValueWithKey(value: token, key: "Token")
-        logger.Log(message:"TOKEN %s",  logtype: .debug, argument: self._token!)
+        logger.Log(message:"TOKEN %s", logtype: .debug, argument: self._token!)
         
     }
     
@@ -230,7 +230,7 @@ internal class Settings {
         }
         
         storage.setValueWithKey(value: eventUrl, key: "EventUrl")
-        logger.Log(message:"EVENT_API_URL is %s",  logtype: .debug, argument: eventUrl)
+        logger.Log(message:"EVENT_API_URL is %s", logtype: .debug, argument: eventUrl)
     }
     
     final func getEventApiUrl() -> String? {
@@ -240,7 +240,7 @@ internal class Settings {
     final func setCampId(campId: String) {
         storage.setValueWithKey(value: campId, key: "dn_camp_id")
         setCampDate()
-        logger.Log(message:"CAMP_ID is %s",  logtype: .debug, argument: campId)
+        logger.Log(message:"CAMP_ID is %s", logtype: .debug, argument: campId)
     }
     
     final func getCampId()-> String? {
@@ -250,7 +250,7 @@ internal class Settings {
     
     final func setSendId(sendId: String) {
         storage.setValueWithKey(value: sendId, key: "dn_send_id")
-        logger.Log(message:"SEND_ID is %s",  logtype: .debug, argument: sendId)
+        logger.Log(message:"SEND_ID is %s", logtype: .debug, argument: sendId)
     }
     
     final func getSendId()-> String? {
@@ -265,7 +265,7 @@ internal class Settings {
         let stringDate: String = dateFormatter.string(from: date as Date)
         
         storage.setValueWithKey(value: stringDate, key: "dn_camp_date")
-        logger.Log(message:"CampDate is %s",  logtype: .debug, argument: stringDate)
+        logger.Log(message:"CampDate is %s", logtype: .debug, argument: stringDate)
     }
     
     final func getCampDate()-> NSDate? {
