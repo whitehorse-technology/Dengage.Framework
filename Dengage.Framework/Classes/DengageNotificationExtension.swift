@@ -63,7 +63,11 @@ class DengageNotificationExtension {
                 let contentUrl = URL(string: urlString!)
                 var lastPathComponent = contentUrl?.lastPathComponent
                 
-                if !((lastPathComponent?.contains("jpeg"))! && (lastPathComponent?.contains("gif"))!) {
+                if !((lastPathComponent?.contains("jpeg"))!
+                    && (lastPathComponent?.contains("gif"))!
+                    && (lastPathComponent?.contains("mov"))!
+                    && (lastPathComponent?.contains("mp4"))!
+                    && (lastPathComponent?.contains("m4v"))!) {
                     lastPathComponent?.append(contentsOf: ".gif")
                 }
                 
