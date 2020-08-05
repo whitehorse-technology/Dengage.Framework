@@ -26,11 +26,6 @@ public class DengageCustomEvent{
     ///- Parameter location : *deeplinkUrl*
     internal func SessionStart(referrer : String){
         
-        
-//        if (_settings.getSessionStart() == true) {
-//            return
-//        }
-        
         let session = _sessionManager.getSession()
         let referrerAdress = _settings.getReferrer() ?? referrer
         

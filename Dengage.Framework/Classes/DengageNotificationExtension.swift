@@ -46,7 +46,6 @@ class DengageNotificationExtension {
                 let categoryIdentifier = withNotificationContent.categoryIdentifier
                
                 RegisterForActionButtons(receivedRequest: receivedRequest, categoryIdentifier: categoryIdentifier)
-                ParseCampIdAndSendId(notificationRequest: receivedRequest)
                 
                 self.bestAttemptContent = withNotificationContent
                 self.bestAttemptContent?.title = (receivedRequest.content.userInfo["title"] as? String)!
@@ -62,7 +61,11 @@ class DengageNotificationExtension {
                 }
                 
                 let contentUrl = URL(string: urlString!)
-                let lastPathComponent = contentUrl?.lastPathComponent
+                var lastPathComponent = contentUrl?.lastPathComponent
+                
+                if !((lastPathComponent?.contains("jpeg"))! && (lastPathComponent?.contains("gif"))!) {
+                    lastPathComponent?.append(contentsOf: ".gif")
+                }
                 
                 if urlString != nil, let fileUrl = contentUrl {
                     
@@ -82,19 +85,6 @@ class DengageNotificationExtension {
             }
         }
     }
-    
-    private func ParseCampIdAndSendId(notificationRequest: UNNotificationRequest) {
-        let campId = String(notificationRequest.content.userInfo["dengageCampId"] as! Int)
-        let sendId = String(notificationRequest.content.userInfo["dengageSendId"] as! Int)
-          
-          if !campId.isEmpty {
-              _settings.setCampId(campId: campId)
-          }
-          
-          if !sendId.isEmpty {
-              _settings.setSendId(sendId: sendId)
-          }
-      }
     
     private func RegisterForActionButtons(receivedRequest : UNNotificationRequest, categoryIdentifier: String?){
        
