@@ -16,6 +16,7 @@ class DengageNotificationExtension {
     
     
     var _logger: SDKLogger
+    var _settings: Settings
     
     var bestAttemptContent: UNMutableNotificationContent?
     var userNotificationCenter: UNUserNotificationCenter
@@ -24,13 +25,13 @@ class DengageNotificationExtension {
     init() {
         _logger = .shared
         userNotificationCenter = .current()
-        
+        _settings = .shared
     }
     
-    init(logger: SDKLogger = .shared) {
+    init(logger: SDKLogger = .shared, settings: Settings = .shared) {
         _logger = logger
         userNotificationCenter = .current()
-        
+        _settings = settings
     }
     
     internal func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, withNotificationContent : UNMutableNotificationContent){
@@ -45,6 +46,7 @@ class DengageNotificationExtension {
                 let categoryIdentifier = withNotificationContent.categoryIdentifier
                
                 RegisterForActionButtons(receivedRequest: receivedRequest, categoryIdentifier: categoryIdentifier)
+                ParseCampIdAndSendId(notificationRequest: receivedRequest)
                 
                 self.bestAttemptContent = withNotificationContent
                 self.bestAttemptContent?.title = (receivedRequest.content.userInfo["title"] as? String)!
@@ -80,6 +82,19 @@ class DengageNotificationExtension {
             }
         }
     }
+    
+    private func ParseCampIdAndSendId(notificationRequest: UNNotificationRequest) {
+        let campId = String(notificationRequest.content.userInfo["dengageCampId"] as! Int)
+        let sendId = String(notificationRequest.content.userInfo["dengageSendId"] as! Int)
+          
+          if !campId.isEmpty {
+              _settings.setCampId(campId: campId)
+          }
+          
+          if !sendId.isEmpty {
+              _settings.setSendId(sendId: sendId)
+          }
+      }
     
     private func RegisterForActionButtons(receivedRequest : UNNotificationRequest, categoryIdentifier: String?){
        
