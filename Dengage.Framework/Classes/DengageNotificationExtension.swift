@@ -60,7 +60,11 @@ class DengageNotificationExtension {
                 }
                 
                 let contentUrl = URL(string: urlString!)
-                let lastPathComponent = contentUrl?.lastPathComponent
+                var lastPathComponent = contentUrl?.lastPathComponent
+                
+                if !((lastPathComponent?.contains("jpeg"))! && (lastPathComponent?.contains("gif"))!) {
+                    lastPathComponent?.append(contentsOf: ".gif")
+                }
                 
                 if urlString != nil, let fileUrl = contentUrl {
                     
