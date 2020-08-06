@@ -8,13 +8,11 @@
 
 import Foundation
 
-
 internal struct OpenEventHttpRequest {
-
+    
     var integrationKey = ""
     var messageId = 0
     var messageDetails = ""
     var buttonId = ""
-    
     public init() {}
 }
