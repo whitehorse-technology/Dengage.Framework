@@ -11,21 +11,20 @@ import UserNotifications
 import AdSupport
 
 public class Dengage {
-    
+
     static var center = UNUserNotificationCenter.current()
     
     static var notificationDelegate = DengageNotificationDelegate()
     static var openEventService: OpenEventService = OpenEventService()
     static var eventCollectionService: EventCollectionService = EventCollectionService()
-    static var sessionManager:  SessionManager = .shared
+    static var sessionManager: SessionManager = .shared
     
     static var utilities: Utilities = .shared
     static var settings: Settings = .shared
     static var logger: SDKLogger = .shared
     static var eventQueue: EventQueue = EventQueue()
     
-    
-    //  MARK: - Initialize Methods
+    //MARK: - Initialize Methods
     /// Initiliazes SDK requiered parameters.
     ///
     /// -  Usage:
@@ -44,11 +43,10 @@ public class Dengage {
         center.delegate = notificationDelegate
         
         settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
-        ConfigureSettings()
+        configureSettings()
         
         
-        if(categories != nil)
-        {
+        if categories != nil {
             if (categories!.count < 0 || categories!.count == 0)
             {
                 return
@@ -68,22 +66,25 @@ public class Dengage {
     /// - Parameter withLaunchOptions: *withLaunchOptions*
     /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
     @available(iOS 10.0, *)
-    public static func initWithLaunchOptions(withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?, badgeCountReset: Bool?) {
+    public static func initWithLaunchOptions(withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
+                                             badgeCountReset: Bool?) {
         
         center.delegate = notificationDelegate
         settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
-        ConfigureSettings()
+        configureSettings()
     }
     
     // MARK: - Rich Notification İnitiliaze
     @available(iOSApplicationExtension 10.0, *)
-    public static func didReceiveNotificationExtentionRequest(receivedRequest: UNNotificationRequest, withNotificationContent: UNMutableNotificationContent) {
+    public static func didReceiveNotificationExtentionRequest(receivedRequest: UNNotificationRequest,
+                                                              withNotificationContent: UNMutableNotificationContent) {
         
-        DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest, withNotificationContent: withNotificationContent)
+        DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest,
+                                                                                   withNotificationContent: withNotificationContent)
     }
     
-    // MARK: - Private Methods
-    static func ConfigureSettings() {
+    //MARK: - Private Methods
+    static func configureSettings() {
 
         settings.setCarrierId(carrierId: utilities.identifierForCarrier())
         settings.setAdvertisingId(advertisingId: utilities.identifierForAdvertising())
@@ -93,7 +94,7 @@ public class Dengage {
     }
     
     @available(swift, deprecated: 2.5.0)
-    static func StartSession(actionUrl: String?){
+    static func startSession(actionUrl: String?) {
         
         if settings.getSessionStart() {
             

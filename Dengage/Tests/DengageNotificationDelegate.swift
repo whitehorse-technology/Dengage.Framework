@@ -10,12 +10,12 @@ import XCTest
 @testable import Dengage_Framework
 
 class DengageNotificationDelegateTestCase: XCTestCase {
-    
+
     var openEventServiceMock: OpenEventServiceMock = OpenEventServiceMock()
     var transactionalOpenEventServiceMock: TransactioanlOpenEventServiceMock = TransactioanlOpenEventServiceMock()
     var settingsMock: SettingsMock = SettingsMock()
     
-    var sut : DengageNotificationDelegate = DengageNotificationDelegate()
+    var sut: DengageNotificationDelegate = DengageNotificationDelegate()
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -45,9 +45,6 @@ class DengageNotificationDelegateTestCase: XCTestCase {
         
         let mock = UNNotificationContent()
         
-        sut.sendEventWithContent(content: mock,actionIdentifier: "")
+        sut.sendEventWithContent(content: mock, actionIdentifier: "")
     } 
 }
-
-
-

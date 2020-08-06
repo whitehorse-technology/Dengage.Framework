@@ -37,7 +37,7 @@ extension Dengage {
         else{
             
             if sessionStarted == false {
-                StartSession(actionUrl: "")
+                startSession(actionUrl: "")
                 DengageEventCollecitonService.shared.subscriptionEvent()
             }
         }

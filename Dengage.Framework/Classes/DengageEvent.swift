@@ -18,7 +18,7 @@ public class DengageEvent
     ///
     ///- Parameter location: *deeplinkUrl*
     private func SessionStart(location: String) {
-        Dengage.StartSession(actionUrl: location)
+        Dengage.startSession(actionUrl: location)
     }
     
     /// - Parameter token: *token*
