@@ -60,14 +60,26 @@ class DengageNotificationExtension {
                     return
                 }
                 
-                if urlString != nil, let fileUrl = URL(string: urlString!) {
+                let contentUrl = URL(string: urlString!)
+                var lastPathComponent = contentUrl?.lastPathComponent
+                
+                if !((lastPathComponent?.contains(".jpeg"))!
+                    || (lastPathComponent?.contains(".jpg"))!
+                    || (lastPathComponent?.contains(".gif"))!
+                    || (lastPathComponent?.contains(".mov"))!
+                    || (lastPathComponent?.contains(".mp4"))!
+                    || (lastPathComponent?.contains(".m4v"))!) {
+                    lastPathComponent?.append(contentsOf: ".gif")
+                }
+                
+                if urlString != nil, let fileUrl = contentUrl {
                     
                     guard let imageData = NSData(contentsOf: fileUrl) else {
                         
                         _logger.Log(message: "URL_STR_IS_NULL", logtype: .info)
                         return
                     }
-                    guard let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: "image.gif", data: imageData, options: nil) else {
+                    guard let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: lastPathComponent!, data: imageData, options: nil) else {
                         _logger.Log(message: "UNNotificationAttachment.saveImageToDisk()", logtype: .error)
                         return
                     }
