@@ -10,19 +10,16 @@ import Foundation
 
 extension Dengage {
     
-    
-    
-    
-    // MARK:- Prompt Methods
+    static var isUserGranted: Bool = false
+    // MARK: - Prompt Methods
     
     /// Enables or Disables SDK for remote notification registration
     ///
-    ///      Dengage.registerForRemoteNotifications(enable : false)
+    ///      Dengage.registerForRemoteNotifications(enable: false)
     ///
     /// - Parameter enable : enables UIApplication.shared.registerForRemoteNotifications() method
-    public static func registerForRemoteNotifications(enable : Bool) {
-        
-        _settings.setRegiterForRemoteNotification(enable: enable)
+    public static func registerForRemoteNotifications(enable: Bool) {
+        settings.setRegiterForRemoteNotification(enable: enable)
     }
     
     /// Asks notification permission to user.
@@ -35,23 +32,20 @@ extension Dengage {
         center
             .requestAuthorization(options: [.alert, .sound, .badge]) { [self] granted, _ in
                 
-                IsUserGranted = granted
+                isUserGranted = granted
                 
-                guard granted else
-                {
-                    _logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
-                    _settings.setPermission(permission: IsUserGranted)
-
+                guard granted else {
+                    logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
+                    settings.setPermission(permission: isUserGranted)
+                    
                     Dengage.SyncSubscription()
                     
                     return
                 }
                 
-                _settings.setPermission(permission: IsUserGranted)
+                settings.setPermission(permission: isUserGranted)
                 self.getNotificationSettings()
-                
-                
-                _logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))    
+                logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))    
         }
     }
     
@@ -62,34 +56,33 @@ extension Dengage {
     ///     Calls UNUserNotificationCenter.current().requestAuthorization method.
     ///
     /// - Parameter callback: IsUserGranted
-    public static func promptForPushNotifications(callback: @escaping (_ IsUserGranted : Bool)-> Void) {
+    public static func promptForPushNotifications(callback: @escaping (_ IsUserGranted: Bool) -> Void) {
         
         center
             .requestAuthorization(options: [.alert, .sound, .badge]) {
                 [self] granted, error in
                 
-                IsUserGranted = granted
+                isUserGranted = granted
                 
-                guard granted else
-                {
-                    _logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
-                    _settings.setPermission(permission: IsUserGranted)
-
+                guard granted else {
+                    logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
+                    settings.setPermission(permission: isUserGranted)
+                    
                     Dengage.SyncSubscription()
-                    callback(IsUserGranted)
+                    callback(isUserGranted)
                     return
                 }
                 
-                _settings.setPermission(permission: IsUserGranted)
+                settings.setPermission(permission: isUserGranted)
                 self.getNotificationSettings()
-                callback(IsUserGranted)
-                _logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))
+                logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))
+                callback(isUserGranted)
         }
     }
     
     static func getNotificationSettings() {
         
-        let registerForRemoteNotification = _settings.getRegiterForRemoteNotification()
+        let registerForRemoteNotification = settings.getRegiterForRemoteNotification()
         
         if registerForRemoteNotification {
             
@@ -97,9 +90,9 @@ extension Dengage {
                 
                 guard settings.authorizationStatus == .authorized else { return }
                 
-                DispatchQueue.main.async{
-                    
-                    _logger.Log(message: "REGISTER_TOKEN", logtype: .debug)
+                DispatchQueue.main.async {
+
+                    logger.Log(message: "REGISTER_TOKEN", logtype: .debug)
                     UIApplication.shared.registerForRemoteNotifications()
                 }
             }

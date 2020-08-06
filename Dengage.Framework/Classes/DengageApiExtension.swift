@@ -10,54 +10,57 @@ import Foundation
 
 extension Dengage {
 
+     static var subscriptionService: SubscriptionService = SubscriptionService()
+     static var dengageEventCollectionService: DengageEventCollecitonService = .shared
+    
     //    MARK: -
     //    MARK: - API calls
     @available(*, renamed: "SendSubscriptionEvent")
     public static func SyncSubscription() {
         
         
-        if _settings.getAdvertisinId()!.isEmpty {
-            _logger.Log(message: "ADV_ID_IS_EMPTY", logtype: .info)
+        if settings.getAdvertisinId()!.isEmpty {
+            logger.Log(message: "ADV_ID_IS_EMPTY", logtype: .info)
             return
         }
-        if _settings.getApplicationIdentifier().isEmpty  {
-            _logger.Log(message: "APP_IDF_ID_IS_EMPTY", logtype: .info)
+        if settings.getApplicationIdentifier().isEmpty  {
+            logger.Log(message: "APP_IDF_ID_IS_EMPTY", logtype: .info)
             return
         }
         
-        let cloudEnabled = _settings.getCloudEnabled()
-        let sessionStarted = _settings.getSessionStart()
+        let cloudEnabled = settings.getCloudEnabled()
+        let sessionStarted = settings.getSessionStart()
         
         if cloudEnabled == false {
             DengageCustomEvent.shared.SessionStart(referrer: "")
-            _subscriptionService.SendSubscriptionEvent()
+            subscriptionService.SendSubscriptionEvent()
         }
         else{
             
             if sessionStarted == false {
                 StartSession(actionUrl: "")
-                _dengageEventCollectionService.subscriptionEvent()
+                dengageEventCollectionService.subscriptionEvent()
             }
         }
         
     }
     
-    @available(*, obsoleted:2.4.9, renamed: "SendEventCollection")
+    @available(*, obsoleted:2.5.0, renamed: "SendEventCollection")
     public static func sendDeviceEvent(toEventTable: String, andWithEventDetails: NSDictionary) -> Bool {
         
-        if _settings.getDengageIntegrationKey().isEmpty {
-            _logger.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
+        if settings.getDengageIntegrationKey().isEmpty {
+            logger.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
             return false
         }
         
         if toEventTable.isEmpty {
-            _logger.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
+            logger.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
             return false
         }
         
         var eventCollectionModel = EventCollectionModel()
         
-        eventCollectionModel.key = _settings.getApplicationIdentifier()
+        eventCollectionModel.key = settings.getApplicationIdentifier()
         eventCollectionModel.eventTable = toEventTable
         eventCollectionModel.eventDetails = andWithEventDetails
         
@@ -65,16 +68,16 @@ extension Dengage {
         return true
     }
     
-    @available(*, obsoleted:2.4.9)
+    @available(*, obsoleted:2.5.0)
     public static func sendCustomEvent(toEventTable: String, withKey: String, andWithEventDetails: NSDictionary) -> Bool {
         
-        if _settings.getDengageIntegrationKey().isEmpty {
-            _logger.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
+        if settings.getDengageIntegrationKey().isEmpty {
+            logger.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
             return false
         }
         
         if toEventTable.isEmpty {
-            _logger.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
+            logger.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
             return false
         }
         
@@ -88,22 +91,22 @@ extension Dengage {
         return true
     }
     
-    @available(*, obsoleted:2.4.9)
+    @available(*, obsoleted:2.5.0)
     public static func syncEventQueues(){
         
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
         
-        if _eventQueue.items.count > QUEUE_LIMIT {
-            _logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
-            while _eventQueue.items.count > 0 {
+        if eventQueue.items.count > QUEUE_LIMIT {
+            logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
+            while eventQueue.items.count > 0 {
                 
-                let eventcollection  = _eventQueue.dequeue()!
+                let eventcollection  = eventQueue.dequeue()!
                 
                 queue.async {
                     _eventCollectionService.PostEventCollection(eventCollectionModel: eventcollection)
                 }
             }
-            _logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
+            logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
         }
     }
     
@@ -114,24 +117,24 @@ extension Dengage {
         
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
         
-        if(_eventQueue.items.count < QUEUE_LIMIT)
+        if(eventQueue.items.count < QUEUE_LIMIT)
         {
-            _eventQueue.enqueue(element: eventCollectionModel)
+            eventQueue.enqueue(element: eventCollectionModel)
         }
         else{
             
-            _logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
-            while _eventQueue.items.count > 0 {
+            logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
+            while eventQueue.items.count > 0 {
                 
-                let eventcollection  = _eventQueue.dequeue()!
+                let eventcollection  = eventQueue.dequeue()!
                 
                 queue.async {
                     _eventCollectionService.PostEventCollection(eventCollectionModel: eventcollection)
                 }
             }
-            _logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
+            logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
             
-            _eventQueue.enqueue(element: eventCollectionModel)
+            eventQueue.enqueue(element: eventCollectionModel)
         }
         
     }
