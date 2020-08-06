@@ -50,8 +50,9 @@ class DengageNotificationExtension {
                 if let urlImageString = receivedRequest.content.userInfo["urlImageString"] as? String {
                     urlString = urlImageString
                 }
-                
+
                 if (urlString == nil) == true {
+
                     return
                 }
                 
@@ -88,7 +89,7 @@ class DengageNotificationExtension {
     }
     
     private func registerForActionButtons(receivedRequest: UNNotificationRequest, categoryIdentifier: String?) {
-        
+
         let categoryIdentifier = categoryIdentifier ?? "dengage"
         
         let actionButtons = receivedRequest.content.userInfo["actionButtons"]

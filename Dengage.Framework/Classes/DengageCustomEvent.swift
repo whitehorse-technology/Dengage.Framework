@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 @available(swift, introduced: 2.5.0)
 public class DengageCustomEvent {
 
@@ -17,10 +18,12 @@ public class DengageCustomEvent {
     var queryParams: [String: Any] = [:]
 
     public static let shared = DengageCustomEvent()
+
     
     ///Before sending an event Dengage.Framework opens  a Session by defualt.
     ///But according to implementation, developer can able to open a session manually.
     ///
+
     ///- Parameter location: *deeplinkUrl*
     internal func SessionStart(referrer: String) {
         
@@ -36,13 +39,14 @@ public class DengageCustomEvent {
         if  !referrer.isEmpty {
             
             queryStringParser(urlString: referrer)
-            
+
             let utmSource = getQueryStringValue(forKey: "utm_source")
             let utmMedium = getQueryStringValue(forKey: "utm_medium")
             let utmCampaign = getQueryStringValue(forKey: "utm_campaign")
             let utmContent = getQueryStringValue(forKey: "utm_content")
             let utmTerm = getQueryStringValue(forKey: "utm_term")
             
+
             params = ["session_id": session.Id,
                       "referrer": referrerAdress,
                       "utm_source": utmSource as Any,
@@ -51,8 +55,7 @@ public class DengageCustomEvent {
                       "utm_content": utmContent as Any,
                       "utm_term": utmTerm as Any
                 ] as NSMutableDictionary
-        } else {
-            
+        } else {           
             params = ["session_id":session.Id,
                       "referrer": referrer
                 ] as NSMutableDictionary
@@ -62,6 +65,7 @@ public class DengageCustomEvent {
         if campId != nil {
             
             let campDate = settings.getCampDate()
+
             let timeInterval = Calendar.current.dateComponents([.day], from: campDate! as Date, to: Date()).day
             if timeInterval! < dn_camp_attribution_duration {
                 
@@ -132,17 +136,20 @@ public class DengageCustomEvent {
         if campId != nil {
             
             let campDate = settings.getCampDate()
+
             let timeInterval = Calendar.current.dateComponents([.day], from: campDate! as Date, to: Date()).day
             if timeInterval! < dn_camp_attribution_duration {
                 
                 params["camp_id"] = campId
                 params["send_id"] = settings.getSendId()
             }
+
         }
         
         let temp = params.mutableCopy() as! NSMutableDictionary
         temp.removeObject(forKey: "cartItems")
         
+
         eventCollectionService.SendEvent(table: "order_events", key: deviceId, params: temp)
         
         let event_id = Utilities.shared.generateUUID()
@@ -173,6 +180,7 @@ public class DengageCustomEvent {
     }
 
     private func sendWishlistEvents(eventType: String, params: NSMutableDictionary) {
+
         
         sendListEvents(table: "wishlist_events", withDetailTable: "wishlist_events_detail", eventType: eventType, params: params)
     }
@@ -196,7 +204,7 @@ public class DengageCustomEvent {
         params["session_id"] = sessionId
         params["event_type"] = eventType
         params["event_id"] = eventId
-        
+      
         let temp = params.mutableCopy() as! NSMutableDictionary
         temp.removeObject(forKey: "cartItems")
         
@@ -211,6 +219,7 @@ public class DengageCustomEvent {
     }
  
     private func queryStringParser(urlString: String) {
+
         let url = URL(string: urlString)!
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         
@@ -222,6 +231,7 @@ public class DengageCustomEvent {
     }
 
     private func getQueryStringValue(forKey: String) -> Any? {
+
         return queryParams[forKey] as? String
     }
     

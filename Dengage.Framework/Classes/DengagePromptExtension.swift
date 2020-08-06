@@ -57,7 +57,7 @@ extension Dengage {
     ///
     /// - Parameter callback: IsUserGranted
     public static func promptForPushNotifications(callback: @escaping (_ IsUserGranted: Bool) -> Void) {
-        
+       
         center
             .requestAuthorization(options: [.alert, .sound, .badge]) {
                 [self] granted, error in

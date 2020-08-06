@@ -99,9 +99,7 @@ internal class Utilities {
         return cfBundleShortVersionString
     }
     
-    
     func generateUUID() -> String {
-        
         return NSUUID().uuidString.lowercased()
     }
 }
