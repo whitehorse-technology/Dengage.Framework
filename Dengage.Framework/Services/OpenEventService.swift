@@ -10,17 +10,16 @@ import Foundation
 import os.log
 
 internal class OpenEventService : BaseService {
-    
-    internal func PostOpenEvent(openEventHttpRequest: OpenEventHttpRequest) {
+
+    internal func postOpenEvent(openEventHttpRequest: OpenEventHttpRequest) {
         let urladdress = OPEN_EVENT_SERVICE_URL
 
         logger.Log(message: "OPEN_API_URL is %s", logtype: .info, argument: urladdress)
         
         var parameters = ["integrationKey": openEventHttpRequest.integrationKey,
-                          "messageId" : openEventHttpRequest.messageId,
-                          "messageDetails" : openEventHttpRequest.messageDetails
-            ] as [String : Any]
-        
+                          "messageId": openEventHttpRequest.messageId,
+                          "messageDetails": openEventHttpRequest.messageDetails
+            ] as [String: Any]
         
         if openEventHttpRequest.buttonId.isEmpty == false {
             parameters["buttonId"] = openEventHttpRequest.buttonId
@@ -35,7 +34,3 @@ internal class OpenEventService : BaseService {
     }
     
 }
-
-
-
-

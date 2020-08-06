@@ -174,7 +174,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         openEventHttpRequest.buttonId = buttonId ?? ""
         
         
-        openEventService.PostOpenEvent(openEventHttpRequest: openEventHttpRequest)
+        openEventService.postOpenEvent(openEventHttpRequest: openEventHttpRequest)
         if settings.getBadgeCountReset() == true {
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
