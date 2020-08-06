@@ -11,10 +11,9 @@ import Foundation
 extension Dengage {
 
      static var subscriptionService: SubscriptionService = SubscriptionService()
-     static var dengageEventCollectionService: DengageEventCollecitonService = .shared
-    
-    //    MARK: -
-    //    MARK: - API calls
+         
+    //MARK: -
+    //MARK: - API calls
     @available(*, renamed: "SendSubscriptionEvent")
     public static func SyncSubscription() {
         
@@ -39,13 +38,13 @@ extension Dengage {
             
             if sessionStarted == false {
                 StartSession(actionUrl: "")
-                dengageEventCollectionService.subscriptionEvent()
+                DengageEventCollecitonService.shared.subscriptionEvent()
             }
         }
         
     }
     
-    @available(*, obsoleted:2.5.0, renamed: "SendEventCollection")
+    @available(swift, obsoleted:2.5.0, renamed: "SendEventCollection")
     public static func sendDeviceEvent(toEventTable: String, andWithEventDetails: NSDictionary) -> Bool {
         
         if settings.getDengageIntegrationKey().isEmpty {
@@ -68,7 +67,7 @@ extension Dengage {
         return true
     }
     
-    @available(*, obsoleted:2.5.0)
+    @available(swift, obsoleted:2.5.0)
     public static func sendCustomEvent(toEventTable: String, withKey: String, andWithEventDetails: NSDictionary) -> Bool {
         
         if settings.getDengageIntegrationKey().isEmpty {
@@ -91,7 +90,7 @@ extension Dengage {
         return true
     }
     
-    @available(*, obsoleted:2.5.0)
+    @available(swift, obsoleted:2.5.0)
     public static func syncEventQueues() {
 
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
@@ -109,10 +108,8 @@ extension Dengage {
             logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
         }
     }
-    
-    
-    
-    // MARK:- Private Methods
+
+    //MARK: - Private Methods
     static func syncEventQueues(eventCollectionModel: EventCollectionModel) {
         
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)

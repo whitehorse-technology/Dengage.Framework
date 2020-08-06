@@ -19,10 +19,10 @@ public class Dengage {
     static var eventCollectionService: EventCollectionService = EventCollectionService()
     static var sessionManager:  SessionManager = .shared
     
-    static var utilities : Utilities = .shared
-    static var settings : Settings = .shared
-    static var logger : SDKLogger = .shared
-    static var eventQueue : EventQueue = EventQueue()
+    static var utilities: Utilities = .shared
+    static var settings: Settings = .shared
+    static var logger: SDKLogger = .shared
+    static var eventQueue: EventQueue = EventQueue()
     
     
     //  MARK: - Initialize Methods
@@ -30,9 +30,9 @@ public class Dengage {
     ///
     /// -  Usage:
     ///
-    ///      Dengage.initWithLaunchOptions(categories : [], withLaunchOptions: launchOptions, badgeCountReset: true)
+    ///      Dengage.initWithLaunchOptions(categories: [], withLaunchOptions: launchOptions, badgeCountReset: true)
     ///
-    /// - Parameter categories : *categories* custom action buttons
+    /// - Parameter categories: *categories* custom action buttons
     /// - Parameter withLaunchOptions: *withLaunchOptions*
     /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
     @available(iOS 10.0, *)
@@ -92,6 +92,7 @@ public class Dengage {
         settings.setEventApiUrl()
     }
     
+    @available(swift, deprecated: 2.5.0)
     static func StartSession(actionUrl: String?){
         
         if settings.getSessionStart() {
@@ -103,6 +104,6 @@ public class Dengage {
         
         settings.setSessionId(sessionId: session.Id)
         
-        dengageEventCollectionService.startSession(actionUrl: actionUrl)
+        DengageEventCollecitonService.shared.startSession(actionUrl: actionUrl)
     }
 }

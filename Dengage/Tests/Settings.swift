@@ -11,9 +11,7 @@ class SettingsTests: XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        
-        sut = Settings.init(storage: storageMock, logger: logMock)
-        
+        sut = Settings.init(storage: storageMock, logger: logMock) 
     }
     
     override func tearDown() {
@@ -21,57 +19,57 @@ class SettingsTests: XCTestCase {
         super.tearDown()
     }
     
-    func testSetAndGetSdkVersion(){
+    func testSetAndGetSdkVersion() {
         sut.setSdkVersion(sdkVersion: "2.0")
         XCTAssertEqual("2.0", sut.getSdkVersion())
     }
     
-    func testSetAndGetCarrierId(){
+    func testSetAndGetCarrierId() {
         sut.setCarrierId(carrierId: "20500")
         XCTAssertEqual("20500", sut.getCarrierId())
     }
     
-    func testSetAndGetAdvertisingId(){
+    func testSetAndGetAdvertisingId() {
         sut.setAdvertisingId(advertisingId: "id")
         XCTAssertEqual("id", sut.getAdvertisinId())
     }
     
-    func testSetAndGetApplicationIdentifier(){
+    func testSetAndGetApplicationIdentifier() {
         sut.setApplicationIdentifier(applicationIndentifier: "id")
         XCTAssertEqual("id", sut.getApplicationIdentifier())
     }
     
-    func testSetAndGetDengageIntegrationKey(){
+    func testSetAndGetDengageIntegrationKey() {
         sut.setDengageIntegrationKey(integrationKey:"id")
         XCTAssertEqual("id", sut.getDengageIntegrationKey())
     }
     
-    func testSetAndGetBadgeCountReset(){
+    func testSetAndGetBadgeCountReset() {
         sut.setBadgeCountReset(badgeCountReset: true)
         XCTAssertTrue(sut.getBadgeCountReset()!)
     }
     
-    func testSetAndGetContactKey(){
+    func testSetAndGetContactKey() {
         sut.setContactKey(contactKey: "mail_address")
         XCTAssertEqual("mail_address", sut.getContactKey())
     }
     
-    func testSetAndGetContactKeyWithNil(){
+    func testSetAndGetContactKeyWithNil() {
         sut.setContactKey(contactKey: nil)
         XCTAssertEqual("", sut.getContactKey())
     }
     
-    func testSetAndGetToken(){
+    func testSetAndGetToken() {
         sut.setToken(token: "token")
         XCTAssertEqual("token", sut.getToken())
     }
     
-    func testSetAndGetPermission(){
+    func testSetAndGetPermission() {
         sut.setPermission(permission: false)
         XCTAssertFalse(sut.getPermission()!)
     }
     
-    func testSetAndGetAppversion(){
+    func testSetAndGetAppversion() {
         sut.setAppVersion(appVersion: "5.0")
         let appversion = sut.getAppversion()
         XCTAssertEqual("5.0", appversion)

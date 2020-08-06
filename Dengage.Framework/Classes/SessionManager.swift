@@ -7,17 +7,12 @@
 
 import Foundation
 
-
-internal class SessionManager
-{
+internal class SessionManager {
     static let shared  = SessionManager()
-    
-    var sessionObj : Session? = nil
-    
+    var sessionObj: Session? = nil
     let sessionInterval: Double = 1800
     
-    internal func getSession()-> Session{
-        
+    internal func getSession()-> Session {
         
         if sessionObj == nil {
             
@@ -40,13 +35,11 @@ internal class SessionManager
                 sessionObj?.ExpireIn = Date().addingTimeInterval(sessionInterval)
                 
                 return sessionObj!
-                
             }
         }
     }
     
     private func generateSessionId() -> String {
-        
         return NSUUID().uuidString.lowercased()
     }
 }

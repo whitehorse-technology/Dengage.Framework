@@ -7,13 +7,13 @@
 
 import Foundation
 
-@available(*, introduced: 2.5.0)
+@available(swift, introduced: 2.5.0)
 public class DengageCustomEvent {
-    
+
     let settings: Settings = .shared
     let logger: SDKLogger = .shared
     let eventCollectionService: EventCollectionService = EventCollectionService()
-    
+
     var queryParams: [String: Any] = [:]
 
     public static let shared = DengageCustomEvent()
@@ -43,13 +43,13 @@ public class DengageCustomEvent {
             let utmContent = getQueryStringValue(forKey: "utm_content")
             let utmTerm = getQueryStringValue(forKey: "utm_term")
             
-            params = ["session_id":session.Id,
+            params = ["session_id": session.Id,
                       "referrer": referrerAdress,
                       "utm_source": utmSource as Any,
                       "utm_medium": utmMedium as Any,
-                      "utm_campaign":utmCampaign as Any,
-                      "utm_content":utmContent as Any,
-                      "utm_term":utmTerm as Any
+                      "utm_campaign": utmCampaign as Any,
+                      "utm_content": utmContent as Any,
+                      "utm_term": utmTerm as Any
                 ] as NSMutableDictionary
         } else {
             
@@ -88,7 +88,7 @@ public class DengageCustomEvent {
         
     }
     
-    private func sendCartEvents(eventType: String, params: NSMutableDictionary){
+    private func sendCartEvents(eventType: String, params: NSMutableDictionary) {
         
         sendListEvents(table: "shopping_cart_events",
                        withDetailTable: "shopping_cart_events_detail",
@@ -121,12 +121,11 @@ public class DengageCustomEvent {
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func order(params: NSMutableDictionary){
+    public func order(params: NSMutableDictionary) {
         
         let sessionId = settings.getSessionId()
-        let device_id = settings.getApplicationIdentifier()
-        let order_id = params["order_id"]
-        
+        let deviceId = settings.getApplicationIdentifier()
+                
         params["session_id"] = sessionId
         
         let campId = settings.getCampId()
@@ -139,27 +138,25 @@ public class DengageCustomEvent {
                 params["camp_id"] = campId
                 params["send_id"] = settings.getSendId()
             }
-            
         }
         
         let temp = params.mutableCopy() as! NSMutableDictionary
         temp.removeObject(forKey: "cartItems")
         
-        eventCollectionService.SendEvent(table: "order_events", key: device_id, params: temp)
+        eventCollectionService.SendEvent(table: "order_events", key: deviceId, params: temp)
         
         let event_id = Utilities.shared.generateUUID()
         let cartEventParams = ["session_id": sessionId,
-                               "event_type":"order",
-                               "event_id":event_id] as NSMutableDictionary
+                               "event_type": "order",
+                               "event_id": event_id] as NSMutableDictionary
         
-        eventCollectionService.SendEvent(table: "shopping_cart_events", key: device_id, params: cartEventParams)
+        eventCollectionService.SendEvent(table: "shopping_cart_events", key: deviceId, params: cartEventParams)
         
         let cartItems = params["cartItems"] as! [NSMutableDictionary]
         
-        for cartItem in cartItems
-        {
-            cartItem["order_id"] = order_id
-            eventCollectionService.SendEvent(table: "order_events_details", key: device_id, params: cartItem)
+        for cartItem in cartItems {
+            cartItem["order_id"] = params["order_id"]
+            eventCollectionService.SendEvent(table: "order_events_details", key: deviceId, params: cartItem)
         }
         
     }
@@ -168,14 +165,13 @@ public class DengageCustomEvent {
     public func search(params: NSMutableDictionary) {
         
         let sessionId = settings.getSessionId()
-        let device_id = settings.getApplicationIdentifier()
+        let deviceId = settings.getApplicationIdentifier()
         
         params["session_id"] = sessionId
         
-        eventCollectionService.SendEvent(table: "search_events", key: device_id, params: params)
+        eventCollectionService.SendEvent(table: "search_events", key: deviceId, params: params)
     }
-    
-    
+
     private func sendWishlistEvents(eventType: String, params: NSMutableDictionary) {
         
         sendListEvents(table: "wishlist_events", withDetailTable: "wishlist_events_detail", eventType: eventType, params: params)
@@ -190,32 +186,30 @@ public class DengageCustomEvent {
     public func removeFromWithList(params: NSMutableDictionary) {
         sendWishlistEvents(eventType: "remove", params: params)
     }
-    
-    
-    private func sendListEvents(table: String, withDetailTable: String, eventType:String,  params: NSMutableDictionary) {
+
+    private func sendListEvents(table: String, withDetailTable: String, eventType:String, params: NSMutableDictionary) {
         
         let sessionId = settings.getSessionId()
-        let device_id = settings.getApplicationIdentifier()
-        let event_id = Utilities.shared.generateUUID()
+        let deviceId = settings.getApplicationIdentifier()
+        let eventId = Utilities.shared.generateUUID()
         
         params["session_id"] = sessionId
         params["event_type"] = eventType
-        params["event_id"] = event_id
+        params["event_id"] = eventId
         
         let temp = params.mutableCopy() as! NSMutableDictionary
         temp.removeObject(forKey: "cartItems")
         
-        eventCollectionService.SendEvent(table: table, key: device_id, params: temp)
+        eventCollectionService.SendEvent(table: table, key: deviceId, params: temp)
         
         let cartItems = params["cartItems"] as! [NSMutableDictionary]
         
-        for cartItem in cartItems
-        {
-            cartItem["event_id"] = event_id
-            eventCollectionService.SendEvent(table: withDetailTable, key: device_id, params: cartItem)
+        for cartItem in cartItems {
+            cartItem["event_id"] = eventId
+            eventCollectionService.SendEvent(table: withDetailTable, key: deviceId, params: cartItem)
         }
     }
-    
+ 
     private func queryStringParser(urlString: String) {
         let url = URL(string: urlString)!
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
@@ -226,7 +220,7 @@ public class DengageCustomEvent {
             }
         }
     }
-    
+
     private func getQueryStringValue(forKey: String) -> Any? {
         return queryParams[forKey] as? String
     }

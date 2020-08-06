@@ -30,11 +30,13 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         super.init()
     }
     
-    init(_settings: Settings = .shared, _openEventService: OpenEventService, _transactionalOpenEventService: TransactioanlOpenEventService) {
+    init(settings: Settings = .shared,
+         openEventService: OpenEventService,
+         transactionalOpenEventService: TransactioanlOpenEventService) {
         
-        settings = _settings
-        openEventService = _openEventService
-        transactionalOpenEventService = _transactionalOpenEventService
+        self.settings = settings
+        self.openEventService = openEventService
+        self.transactionalOpenEventService = transactionalOpenEventService
     }
     
     

@@ -8,55 +8,50 @@
 
 import Foundation
 import UserNotifications
-import os.log
 
 class DengageNotificationExtension {
-    
+
     static let shared = DengageNotificationExtension()
-    
-    
-    var _logger: SDKLogger
+
+    var logger: SDKLogger
     
     var bestAttemptContent: UNMutableNotificationContent?
     var userNotificationCenter: UNUserNotificationCenter
-    
-    
+
     init() {
-        _logger = .shared
+        logger = .shared
         userNotificationCenter = .current()
-        
     }
     
     init(logger: SDKLogger = .shared) {
-        _logger = logger
+        self.logger = logger
         userNotificationCenter = .current()
-        
     }
     
     internal func didReceiveNotificationExtentionRequest(receivedRequest: UNNotificationRequest, withNotificationContent: UNMutableNotificationContent){
         
-        _logger.Log(message: "NOTIFICATION_RECEIVED", logtype: .info)
+        logger.Log(message: "NOTIFICATION_RECEIVED", logtype: .info)
         let messageSource = receivedRequest.content.userInfo["messageSource"]
         
         if messageSource != nil {
             
-            if (MESSAGE_SOURCE == messageSource as? String) {
+            if MESSAGE_SOURCE == messageSource as? String {
                 
                 let categoryIdentifier = withNotificationContent.categoryIdentifier
                 
                 //parse message and if there are any action buttons on payload register them to notification center
-                RegisterForActionButtons(receivedRequest: receivedRequest, categoryIdentifier: categoryIdentifier)
+                registerForActionButtons(receivedRequest: receivedRequest, categoryIdentifier: categoryIdentifier)
                 
                 self.bestAttemptContent = withNotificationContent
                 self.bestAttemptContent?.title = (receivedRequest.content.userInfo["title"] as? String)!
                 self.bestAttemptContent?.subtitle = (receivedRequest.content.userInfo["subtitle"] as? String)!
                 
-                var urlString:String? = nil
+                var urlString: String?
                 if let urlImageString = receivedRequest.content.userInfo["urlImageString"] as? String {
                     urlString = urlImageString
                 }
                 
-                if((urlString == nil) == true) {
+                if (urlString == nil) == true {
                     return
                 }
                 
@@ -75,12 +70,13 @@ class DengageNotificationExtension {
                 if urlString != nil, let fileUrl = contentUrl {
                     
                     guard let imageData = NSData(contentsOf: fileUrl) else {
-                        
-                        _logger.Log(message: "URL_STR_IS_NULL", logtype: .info)
+                        logger.Log(message: "URL_STR_IS_NULL", logtype: .info)
                         return
                     }
-                    guard let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: lastPathComponent!, data: imageData, options: nil) else {
-                        _logger.Log(message: "UNNotificationAttachment.saveImageToDisk()", logtype: .error)
+                    guard let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: lastPathComponent!,
+                                                                                    data: imageData,
+                                                                                    options: nil) else {
+                        logger.Log(message: "UNNotificationAttachment.saveImageToDisk()", logtype: .error)
                         return
                     }
                     
@@ -91,7 +87,7 @@ class DengageNotificationExtension {
         }
     }
     
-    private func RegisterForActionButtons(receivedRequest: UNNotificationRequest, categoryIdentifier: String?) {
+    private func registerForActionButtons(receivedRequest: UNNotificationRequest, categoryIdentifier: String?) {
         
         let categoryIdentifier = categoryIdentifier ?? "dengage"
         
@@ -99,34 +95,38 @@ class DengageNotificationExtension {
         
         if actionButtons == nil {
             
-            os_log("Action Button is nil")
+            logger.Log(message: "Action Button is nil", logtype: .debug)
             //dengageCategories.registerCategories()
             return
         }
         
-        os_log("Parsing action buttons")
+        logger.Log(message: "Parsing action buttons", logtype: .debug)
         
         let actionButtonArray = actionButtons  as! NSArray
         
-        var actionsArr : [UNNotificationAction] = []
-        for item in actionButtonArray
-        {
+        var actionsArr: [UNNotificationAction] = []
+        for item in actionButtonArray {
             let dic = item as! NSDictionary
             let id = dic.value(forKey: "id") as! String
             let text = dic.value(forKey: "text") as! String
             
             let action = UNNotificationAction(identifier: id, title: text, options: .foreground)
             actionsArr.append(action)
-            
         }
         
-        let category : UNNotificationCategory;
+        let category: UNNotificationCategory;
         if #available(iOS 11.0, *) {
-            category = UNNotificationCategory(identifier: categoryIdentifier, actions: actionsArr, intentIdentifiers: [], hiddenPreviewsBodyPlaceholder: "", options: .customDismissAction)
+            category = UNNotificationCategory(identifier: categoryIdentifier,
+                                              actions: actionsArr, intentIdentifiers: [],
+                                              hiddenPreviewsBodyPlaceholder: "",
+                                              options: .customDismissAction)
             
         } else {
             // Fallback on earlier versions
-            category = UNNotificationCategory(identifier: categoryIdentifier, actions: actionsArr, intentIdentifiers: [], options: .customDismissAction)
+            category = UNNotificationCategory(identifier: categoryIdentifier,
+                                              actions: actionsArr,
+                                              intentIdentifiers: [],
+                                              options: .customDismissAction)
         }
         
         userNotificationCenter.setNotificationCategories([category])
@@ -136,10 +136,11 @@ class DengageNotificationExtension {
 @available(iOSApplicationExtension 10.0, *)
 public extension UNNotificationAttachment {
     
-    static func saveImageToDisk(fileIdentifier: String, data: NSData, options: [NSObject : AnyObject]?) -> UNNotificationAttachment? {
+    static func saveImageToDisk(fileIdentifier: String, data: NSData, options: [NSObject: AnyObject]?) -> UNNotificationAttachment? {
         let fileManager = FileManager.default
         let folderName = ProcessInfo.processInfo.globallyUniqueString
-        let folderURL = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(folderName, isDirectory: true)
+        let folderURL = NSURL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent(folderName, isDirectory: true)
         
         do {
             try fileManager.createDirectory(at: folderURL!, withIntermediateDirectories: true, attributes: nil)
@@ -148,7 +149,7 @@ public extension UNNotificationAttachment {
             let attachment = try UNNotificationAttachment(identifier: fileIdentifier, url: fileURL!, options: options)
             return attachment
         } catch let error {
-            SDKLogger.shared.Log(message:"ERROR_LOG %s",  logtype: .error, argument: error.localizedDescription)
+            SDKLogger.shared.Log(message:"ERROR_LOG %s", logtype: .error, argument: error.localizedDescription)
         }
         
         return nil

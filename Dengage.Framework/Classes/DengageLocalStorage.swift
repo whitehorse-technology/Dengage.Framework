@@ -14,22 +14,22 @@ internal class DengageLocalStorage : NSObject {
     
     static let shared = DengageLocalStorage(suitName: SUIT_NAME)
     
-    var _userDefaults = UserDefaults.init()
+    var userDefaults = UserDefaults.init()
     
     init(suitName: String){
-        _userDefaults = UserDefaults.init(suiteName: suitName)!
+        userDefaults = UserDefaults.init(suiteName: suitName)!
     }
     
-    internal func setValueWithKey(value: String, key: String){
+    internal func setValueWithKey(value: String, key: String) {
         
-        _userDefaults.set(value, forKey: key);
+        userDefaults.set(value, forKey: key);
     }
     
-    internal func getValueWithKey(key: String) -> String?{
+    internal func getValueWithKey(key: String) -> String? {
         
-        if _userDefaults.object(forKey: key) != nil{
+        if userDefaults.object(forKey: key) != nil {
             
-            let returnValue = _userDefaults.string(forKey: key)!
+            let returnValue = userDefaults.string(forKey: key)!
 
             return returnValue
         }

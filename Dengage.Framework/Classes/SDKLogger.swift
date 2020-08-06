@@ -9,10 +9,9 @@
 import Foundation
 import os.log
 
-
-internal class SDKLogger{
+internal class SDKLogger {
     
-    private var isVisiable : Bool = false
+    private var isVisiable: Bool = false
     
     static let shared = SDKLogger()
     
@@ -24,8 +23,6 @@ internal class SDKLogger{
     }
     
     internal func Log(message: StaticString, logtype: OSLogType, argument: String) {
-        
-        //        guard isDisabled else { return }
         
         if isVisiable {
             os_log(message, log: .default, type: logtype, argument)
