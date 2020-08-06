@@ -192,7 +192,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         transactionalOpenEventHttpRequest.messageDetails = messageDetails
         transactionalOpenEventHttpRequest.buttonId =  buttonId ?? ""
         
-        transactionalOpenEventService.PostOpenEvent(transactionalOpenEventHttpRequest:
+        transactionalOpenEventService.postOpenEvent(transactionalOpenEventHttpRequest:
             transactionalOpenEventHttpRequest)
         
         if settings.getBadgeCountReset() == true {

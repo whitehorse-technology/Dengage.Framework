@@ -9,18 +9,18 @@
 import Foundation
 import os.log
 
-internal class TransactioanlOpenEventService : BaseService {
-    
-    internal func PostOpenEvent(transactionalOpenEventHttpRequest: TransactionalOpenEventHttpRequest) {
+internal class TransactioanlOpenEventService: BaseService {
+
+    internal func postOpenEvent(transactionalOpenEventHttpRequest: TransactionalOpenEventHttpRequest) {
         let urladdress = TRANSACTIONAL_OPEN_SERVICE_URL
         
         logger.Log(message: "TRANSACTIONAL_OPEN_URL is %s", logtype: .info, argument: urladdress)
         
         var parameters = ["integrationKey": transactionalOpenEventHttpRequest.integrationId,
-                          "transactionId" : transactionalOpenEventHttpRequest.transactionId,
-                          "messageId" : transactionalOpenEventHttpRequest.messageId,
-                          "messageDetails" : transactionalOpenEventHttpRequest.messageDetails
-            ] as [String : Any]
+                          "transactionId": transactionalOpenEventHttpRequest.transactionId,
+                          "messageId": transactionalOpenEventHttpRequest.messageId,
+                          "messageDetails": transactionalOpenEventHttpRequest.messageDetails
+            ] as [String: Any]
         
         if transactionalOpenEventHttpRequest.buttonId.isEmpty == false {
             parameters["buttonId"] = transactionalOpenEventHttpRequest.buttonId
