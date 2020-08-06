@@ -10,7 +10,7 @@ import Foundation
 import UserNotifications
 
 class DengageNotificationExtension {
-
+    
     static let shared = DengageNotificationExtension()
 
     var logger: SDKLogger
