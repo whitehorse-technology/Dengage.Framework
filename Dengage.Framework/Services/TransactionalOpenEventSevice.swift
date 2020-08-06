@@ -9,15 +9,12 @@
 import Foundation
 import os.log
 
-internal class TransactioanlOpenEventService : BaseService
-{
+internal class TransactioanlOpenEventService : BaseService {
     
-
-    internal func PostOpenEvent(transactionalOpenEventHttpRequest : TransactionalOpenEventHttpRequest)
-    {
+    internal func PostOpenEvent(transactionalOpenEventHttpRequest: TransactionalOpenEventHttpRequest) {
         let urladdress = TRANSACTIONAL_OPEN_SERVICE_URL
         
-        _logger.Log(message: "TRANSACTIONAL_OPEN_URL is %s", logtype: .info, argument: urladdress)
+        logger.Log(message: "TRANSACTIONAL_OPEN_URL is %s", logtype: .info, argument: urladdress)
         
         var parameters = ["integrationKey": transactionalOpenEventHttpRequest.integrationId,
                           "transactionId" : transactionalOpenEventHttpRequest.transactionId,
@@ -32,10 +29,10 @@ internal class TransactioanlOpenEventService : BaseService
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
         
         queue.async {
-            self.ApiCall(data: parameters, urlAddress: urladdress)
+            self.apiCall(data: parameters, urlAddress: urladdress)
         }
         
-        _logger.Log(message: "TRANSACTIONAL_OPEN_EVENT_SENT", logtype: .info)
+        logger.Log(message: "TRANSACTIONAL_OPEN_EVENT_SENT", logtype: .info)
     }
     
 }

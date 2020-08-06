@@ -9,8 +9,8 @@ import Foundation
 
 extension Dengage {
     
-    //    MARK: -
-    //    MARK: - Setters
+    //MARK: -
+    //MARK: - Setters
     /// Sets Dengage Integration Key
     ///
     ///- Important: This method is required to be filled with key.
@@ -112,17 +112,4 @@ extension Dengage {
     public static func setReferrer(referrer: String) {
         settings.setReferrer(referrer: referrer)
     }
-    
-    /// Referrer is the source address from where application opens up
-    /// Usage :
-    ///
-    ///     Dengage.setReferrer(referrer : "http://sample.com")
-    ///
-    /// - Parameter referrer : **url address**
-    public static func setReferrer(referrer : String){
-        
-        _settings.setReferrer(referrer: referrer)
-    }
-    
-    
 }
