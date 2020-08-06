@@ -55,8 +55,7 @@ internal class Settings {
         badgeCountReset = true
         sessionStarted = false
     }
-    
-    
+
     // MARK: -  functions
     func setRegiterForRemoteNotification(enable: Bool)
     {
@@ -107,7 +106,6 @@ internal class Settings {
         return  self.sessionId
     }
     
-    
     func setSdkVersion(sdkVersion: String) {
         
         self.sdkVersion = sdkVersion
@@ -127,7 +125,7 @@ internal class Settings {
         
         return self.carrierId
     }
-    
+
     func setAdvertisingId(advertisingId:String) {
         
         self.advertisingId = advertisingId
@@ -137,7 +135,7 @@ internal class Settings {
         
         return self.advertisingId
     }
-    
+
     func setApplicationIdentifier(applicationIndentifier: String) {
         
         self.applicationIdentifier = applicationIndentifier
@@ -167,7 +165,7 @@ internal class Settings {
         
         return self.badgeCountReset
     }
-    
+
     func setContactKey(contactKey: String?) {
         
         self.contactKey = contactKey ?? ""
@@ -195,7 +193,7 @@ internal class Settings {
         self.token = storage.getValueWithKey(key: "Token")
         return self.token
     }
-    
+
     func setAppVersion(appVersion: String) {
         
         self.appVersion = appVersion
@@ -239,7 +237,6 @@ internal class Settings {
     }
     
     func getCampId()-> String? {
-        
         return storage.getValueWithKey(key: "dn_camp_id")
     }
     
@@ -254,6 +251,7 @@ internal class Settings {
     }
     
     func setCampDate() {
+      
         let date = NSDate() // Get Todays Date
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
@@ -268,7 +266,6 @@ internal class Settings {
         let dateFormatter = DateFormatter()
         // Our date format needs to match our input string format
         dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
-        
         let campDate = storage.getValueWithKey(key: "dn_camp_date")
         let dateFromString = dateFormatter.date(from: campDate!)
         

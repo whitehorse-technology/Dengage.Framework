@@ -42,9 +42,8 @@ internal class EventCollectionService : BaseService
         
     }
     
-    
     internal func SendEvent(table: String, key: String, params: NSDictionary) {
-        
+
         let urladdress = _settings.getEventApiUrl()
         
         _logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress!)

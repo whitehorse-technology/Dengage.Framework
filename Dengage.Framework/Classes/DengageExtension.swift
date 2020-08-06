@@ -113,5 +113,16 @@ extension Dengage {
         settings.setReferrer(referrer: referrer)
     }
     
+    /// Referrer is the source address from where application opens up
+    /// Usage :
+    ///
+    ///     Dengage.setReferrer(referrer : "http://sample.com")
+    ///
+    /// - Parameter referrer : **url address**
+    public static func setReferrer(referrer : String){
+        
+        _settings.setReferrer(referrer: referrer)
+    }
+    
     
 }
