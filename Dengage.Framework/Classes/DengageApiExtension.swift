@@ -92,8 +92,8 @@ extension Dengage {
     }
     
     @available(*, obsoleted:2.5.0)
-    public static func syncEventQueues(){
-        
+    public static func syncEventQueues() {
+
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
         
         if eventQueue.items.count > QUEUE_LIMIT {
@@ -103,7 +103,7 @@ extension Dengage {
                 let eventcollection  = eventQueue.dequeue()!
                 
                 queue.async {
-                    _eventCollectionService.PostEventCollection(eventCollectionModel: eventcollection)
+                    eventCollectionService.PostEventCollection(eventCollectionModel: eventcollection)
                 }
             }
             logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
@@ -129,7 +129,7 @@ extension Dengage {
                 let eventcollection  = eventQueue.dequeue()!
                 
                 queue.async {
-                    _eventCollectionService.PostEventCollection(eventCollectionModel: eventcollection)
+                    eventCollectionService.PostEventCollection(eventCollectionModel: eventcollection)
                 }
             }
             logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
