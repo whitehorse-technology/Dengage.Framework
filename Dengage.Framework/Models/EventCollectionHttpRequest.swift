@@ -8,13 +8,12 @@
 
 import Foundation
 
+internal struct EventCollectionHttpRequest {
 
-internal struct EventCollectionHttpRequest{
+    public init() {}
 
-    public init(){}
-
-    public var IntegrationKey: String = ""
+    public var integrationKey: String = ""
     public var key: String = ""
     public var eventTable: String = ""
-    public var eventDetails: NSDictionary? = nil
+    public var eventDetails: NSDictionary?
 }

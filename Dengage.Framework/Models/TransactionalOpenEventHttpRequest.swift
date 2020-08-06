@@ -8,14 +8,14 @@
 
 import Foundation
 
-internal struct TransactionalOpenEventHttpRequest
-{
+internal struct TransactionalOpenEventHttpRequest {
+    
     var integrationId = ""
     var messageId = 0
     var messageDetails = ""
     var transactionId = ""
     var buttonId = ""
     
-    public init(){}
+    public init() {}
     
 }

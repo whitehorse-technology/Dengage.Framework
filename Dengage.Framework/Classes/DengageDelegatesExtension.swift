@@ -8,7 +8,6 @@
 import Foundation
 
 extension Dengage {
-    
     /// Notification Delegate which returns *UNNotificationResponse*
     /// - Usage:
     /// ```
@@ -19,11 +18,12 @@ extension Dengage {
     ///     }
     /// ```
     /// - Parameter callback : *a function which will receive UNNotificationResponse*
-    public static func handleNotificationActionBlock(callback: @escaping (_ notificationResponse: UNNotificationResponse) -> Void) {
+    public static func handleNotificationActionBlock(callback: @escaping
+        (_ notificationResponse: UNNotificationResponse) -> Void) {
         notificationDelegate.openTriggerCompletionHandler = {
-           response in
+            response in
             callback(response)
         }
     }
-
+    
 }

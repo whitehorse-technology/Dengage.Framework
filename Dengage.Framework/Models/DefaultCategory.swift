@@ -7,10 +7,9 @@
 
 import Foundation
 
-
 class DefaultCategory {
-    
-    var identifier : String = ""
-    var actions : [String : String] = [:]
+
+    var identifier: String = ""
+    var actions: [String: String] = [:]
     
 }

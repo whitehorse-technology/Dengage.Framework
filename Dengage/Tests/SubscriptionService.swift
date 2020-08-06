@@ -11,11 +11,11 @@ import XCTest
 
 class SubscriptionServiceTestCase: XCTestCase {
     
-    var logMock : SDKLoggerMock = SDKLoggerMock()
-    var urlSessionMock : URLSessionMock = URLSessionMock()
-    var settingsMock : SettingsMock = SettingsMock()
+    var logMock: SDKLoggerMock = SDKLoggerMock()
+    var urlSessionMock: URLSessionMock = URLSessionMock()
+    var settingsMock: SettingsMock = SettingsMock()
     
-    var sut : SubscriptionService = SubscriptionService()
+    var sut: SubscriptionService = SubscriptionService()
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.

@@ -18,12 +18,12 @@ internal class EventCollectionService: BaseService {
         logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress)
         
         var eventCollectionHttpRequest = EventCollectionHttpRequest()
-        eventCollectionHttpRequest.IntegrationKey = settings.getDengageIntegrationKey()
+        eventCollectionHttpRequest.integrationKey = settings.getDengageIntegrationKey()
         eventCollectionHttpRequest.key = eventCollectionModel.key
         eventCollectionHttpRequest.eventTable = eventCollectionModel.eventTable
         eventCollectionHttpRequest.eventDetails = eventCollectionModel.eventDetails
 
-        let parameters = ["integrationKey": eventCollectionHttpRequest.IntegrationKey,
+        let parameters = ["integrationKey": eventCollectionHttpRequest.integrationKey,
                           "key": eventCollectionHttpRequest.key,
                           "eventTable": eventCollectionHttpRequest.eventTable,
                           "eventDetails": eventCollectionHttpRequest.eventDetails as Any
