@@ -11,11 +11,10 @@ import XCTest
 
 class EventCollectionServiceTestCase: XCTestCase {
 
-    var logMock : SDKLoggerMock = SDKLoggerMock()
-    var urlSessionMock : URLSessionMock = URLSessionMock()
-    var settingsMock : SettingsMock = SettingsMock()
-    
-    var sut : EventCollectionService = EventCollectionService()
+    var logMock: SDKLoggerMock = SDKLoggerMock()
+    var urlSessionMock: URLSessionMock = URLSessionMock()
+    var settingsMock: SettingsMock = SettingsMock()
+    var sut: EventCollectionService = EventCollectionService()
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -37,10 +36,6 @@ class EventCollectionServiceTestCase: XCTestCase {
         data.eventTable = "table"
         data.key = "key"
     
-        
         sut.PostEventCollection(eventCollectionModel: data)
     }
-
-  
-
 }

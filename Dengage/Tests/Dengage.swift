@@ -133,7 +133,7 @@ class DengageTestCase : XCTestCase {
 class SettingMockForThisCase : Settings {
     
     var appIdentifer : String!
-    var advertisingId : String!
+    //var advertisingId: String
     
     override func getApplicationIdentifier() -> String {
         return appIdentifer

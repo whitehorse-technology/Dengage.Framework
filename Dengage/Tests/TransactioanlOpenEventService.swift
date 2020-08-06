@@ -37,7 +37,7 @@ class TransactioanlOpenEventServiceTestCase: XCTestCase {
         request.messageDetails = ""
         request.messageId = 1
         
-        sut.PostOpenEvent(transactionalOpenEventHttpRequest: request)
+        sut.postOpenEvent(transactionalOpenEventHttpRequest: request)
     }
     
     

@@ -37,7 +37,7 @@ class OpenEventServiceTestCase: XCTestCase {
         request.messageDetails = ""
         request.messageId = 1
         
-        sut.PostOpenEvent(openEventHttpRequest: request)
+        sut.postOpenEvent(openEventHttpRequest: request)
     }
 
     

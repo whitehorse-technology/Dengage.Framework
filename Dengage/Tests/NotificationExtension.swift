@@ -12,9 +12,9 @@ import XCTest
 
 class NotificationExtensionTests: XCTestCase {
 
-    var logMock : SDKLoggerMock = SDKLoggerMock()
-    
-    var sut : DengageNotificationExtension?
+    var logMock: SDKLoggerMock = SDKLoggerMock()
+
+    var sut: DengageNotificationExtension?
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -31,9 +31,12 @@ class NotificationExtensionTests: XCTestCase {
         
         let mutableNotificationContent = UNMutableNotificationContent()
         
-        let notificationRequest = UNNotificationRequest.init(identifier: "request", content: mutableNotificationContent, trigger: nil)
-        sut!.didReceiveNotificationExtentionRequest(receivedRequest: notificationRequest, withNotificationContent: mutableNotificationContent)
+        let notificationRequest = UNNotificationRequest.init(identifier: "request",
+                                                             content: mutableNotificationContent,
+                                                             trigger: nil)
         
+        sut!.didReceiveNotificationExtentionRequest(receivedRequest: notificationRequest,
+                                                    withNotificationContent: mutableNotificationContent)
     }
     
 

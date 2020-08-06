@@ -9,30 +9,29 @@
 import Foundation
 @testable import Dengage_Framework
 
-class OpenEventServiceMock : OpenEventService {
+class OpenEventServiceMock: OpenEventService {
     
-    override func PostOpenEvent(openEventHttpRequest: OpenEventHttpRequest) {
+    override func postOpenEvent(openEventHttpRequest: OpenEventHttpRequest) {
         
     }
     
 }
 
-class TransactioanlOpenEventServiceMock : TransactioanlOpenEventService {
+class TransactioanlOpenEventServiceMock: TransactioanlOpenEventService {
     
-    
-    override func PostOpenEvent(transactionalOpenEventHttpRequest: TransactionalOpenEventHttpRequest) {
+    override func postOpenEvent(transactionalOpenEventHttpRequest: TransactionalOpenEventHttpRequest) {
         
     }
 }
 
-class SubscriptionServiceMock : SubscriptionService {
+class SubscriptionServiceMock: SubscriptionService {
     
-    override func SendSubscriptionEvent() {
+    override func sendSubscriptionEvent() {
         
     }
 }
 
-class EventCollectionServiceMock : EventCollectionService {
+class EventCollectionServiceMock: EventCollectionService {
     
     override func PostEventCollection(eventCollectionModel: EventCollectionModel) {
         

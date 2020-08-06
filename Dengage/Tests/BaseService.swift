@@ -33,7 +33,7 @@ class BaseServiceTestCase: XCTestCase {
         
         let parameters = [] as Any
         
-        sut.ApiCall(data: parameters, urlAddress: "https://pushdev.dengage.com/api/subscription")
+        sut.apiCall(data: parameters, urlAddress: "https://pushdev.dengage.com/api/subscription")
         
     }
 

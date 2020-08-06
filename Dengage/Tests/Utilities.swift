@@ -12,11 +12,11 @@ import XCTest
 
 class UtilitiesTestCase: XCTestCase {
     
-    var storageMock : DengageLocalStorageMock =  DengageLocalStorageMock(suitName: "")
-    var ctTelephonyNetworkInfoMock : CTTelephonyNetworkInfoMock = CTTelephonyNetworkInfoMock()
-    var logMock : SDKLoggerMock = SDKLoggerMock()
-    var asIdentifierManagerMock : ASIdentifierManagerMock = ASIdentifierManagerMock()
-    var sut : Utilities = Utilities.init()
+    var storageMock: DengageLocalStorageMock =  DengageLocalStorageMock(suitName: "")
+    var ctTelephonyNetworkInfoMock: CTTelephonyNetworkInfoMock = CTTelephonyNetworkInfoMock()
+    var logMock: SDKLoggerMock = SDKLoggerMock()
+    var asIdentifierManagerMock: ASIdentifierManagerMock = ASIdentifierManagerMock()
+    var sut: Utilities = Utilities.init()
     
     override func setUp() {
         
@@ -27,7 +27,7 @@ class UtilitiesTestCase: XCTestCase {
         
         sut = Utilities.init(storage: storageMock,
                              logger: logMock,
-                             asIdentifierManager : asIdentifierManagerMock,
+                             asIdentifierManager: asIdentifierManagerMock,
                              ctTelephonyNetworkInfo: ctTelephonyNetworkInfoMock)
         
         
@@ -37,12 +37,9 @@ class UtilitiesTestCase: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
     
-    func testIfStorageReturnsNilGetIdentifierForApplication(){
+    func testIfStorageReturnsNilGetIdentifierForApplication() {
         
-        //TODO : mock storage
-        
-        
-        //let sut = Utilities.init(storage: storageMock, logger: logMock, asIdentifierManager : asIdentifierManagerMock)
+        //let sut = Utilities.init(storage: storageMock, logger: logMock, asIdentifierManager: asIdentifierManagerMock)
         
         let actual = sut.identifierForApplication()
         
@@ -50,14 +47,14 @@ class UtilitiesTestCase: XCTestCase {
         
     }
     
-    func testIfIsAdvertisingTrackingEnabledGenerateAdvertisingId(){
+    func testIfIsAdvertisingTrackingEnabledGenerateAdvertisingId() {
         
         let actual = sut.identifierForAdvertising()
         
         XCTAssertNotNil(actual)
     }
     
-    func testIdentifierForCarrier(){
+    func testIdentifierForCarrier() {
         
         let actual = sut.identifierForCarrier()
         
@@ -65,5 +62,3 @@ class UtilitiesTestCase: XCTestCase {
     }
     
 }
-
-
