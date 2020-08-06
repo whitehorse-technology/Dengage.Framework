@@ -116,8 +116,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         
         let actionButtonArray = actionButtons  as! NSArray
         
-        for item in actionButtonArray
-        {
+        for item in actionButtonArray {
             let dic = item as! NSDictionary
             let id = dic.value(forKey: "id") as! String
             
@@ -140,7 +139,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
             messageId = content.userInfo["messageId"] as! Int
             os_log("MSG_ID is %s", log: .default, type: .debug, String(messageId))
         }
-        
+
         var messageDetails = ""
         if content.userInfo["messageDetails"] != nil {
             messageDetails = content.userInfo["messageDetails"] as! String
