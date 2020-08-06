@@ -9,10 +9,10 @@
 import Foundation
 import os.log
 
-internal class SubscriptionService : BaseService {
+internal class SubscriptionService: BaseService {
 
-    internal func SendSubscriptionEvent() {
-        
+    internal func sendSubscriptionEvent() {
+
         let  urladdress = SUBSCRIPTION_SERVICE_URL
         
         logger.Log(message: "SUBSCRIPTION_URL is %s", logtype: .info, argument: urladdress)
@@ -23,17 +23,16 @@ internal class SubscriptionService : BaseService {
         subscriptionHttpRequest.permission = settings.getPermission() ?? false
         subscriptionHttpRequest.appVersion = settings.getAppversion() ?? "1.0"
         
-        
         let parameters = ["integrationKey": subscriptionHttpRequest.integrationKey,
                           "token": settings.getToken() ?? "",
                           "contactKey": subscriptionHttpRequest.contactKey,
                           "permission": subscriptionHttpRequest.permission,
-                          "udid":       settings.getApplicationIdentifier(),
-                          "carrierId":  settings.getCarrierId(),
+                          "udid": settings.getApplicationIdentifier(),
+                          "carrierId": settings.getCarrierId(),
                           "appVersion": subscriptionHttpRequest.appVersion,
                           "sdkVersion": settings.getSdkVersion(),
                           "tokenType": "I",
-                          "advertisingId" : settings.getAdvertisinId() as Any] as [String : Any]
+                          "advertisingId" : settings.getAdvertisinId() as Any] as [String: Any]
         
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
         

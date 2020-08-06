@@ -32,7 +32,7 @@ extension Dengage {
         
         if cloudEnabled == false {
             DengageCustomEvent.shared.SessionStart(referrer: "")
-            subscriptionService.SendSubscriptionEvent()
+            subscriptionService.sendSubscriptionEvent()
         }
         else{
             
