@@ -125,7 +125,7 @@ class DengageTestCase : XCTestCase {
         
         let actual = Dengage.eventQueue.items.count
         
-        XCTAssertEqual(3, actual)
+        XCTAssertEqual(1, actual)
     }
     
 }

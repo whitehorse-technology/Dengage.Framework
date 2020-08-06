@@ -110,6 +110,7 @@ extension Dengage {
     }
 
     //MARK: - Private Methods
+    @available(swift, deprecated:2.5.0)
     static func syncEventQueues(eventCollectionModel: EventCollectionModel) {
         
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .userInitiated)
