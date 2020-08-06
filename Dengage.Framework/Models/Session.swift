@@ -7,9 +7,8 @@
 
 import Foundation
 
-
 class Session {
     
-    var Id : String = " "
-    var ExpireIn : Date = Date()
+    var sessionId: String = ""
+    var expireIn: Date = Date()
 }

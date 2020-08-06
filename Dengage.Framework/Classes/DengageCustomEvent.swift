@@ -30,7 +30,7 @@ public class DengageCustomEvent {
         let session = SessionManager.shared.getSession()
         let referrerAdress = settings.getReferrer() ?? referrer
         
-        settings.setSessionId(sessionId: session.Id)
+        settings.setSessionId(sessionId: session.sessionId)
         
         let deviceId = settings.getApplicationIdentifier()
         
@@ -47,7 +47,7 @@ public class DengageCustomEvent {
             let utmTerm = getQueryStringValue(forKey: "utm_term")
             
 
-            params = ["session_id": session.Id,
+            params = ["session_id": session.sessionId,
                       "referrer": referrerAdress,
                       "utm_source": utmSource as Any,
                       "utm_medium": utmMedium as Any,
@@ -56,7 +56,7 @@ public class DengageCustomEvent {
                       "utm_term": utmTerm as Any
                 ] as NSMutableDictionary
         } else {           
-            params = ["session_id":session.Id,
+            params = ["session_id":session.sessionId,
                       "referrer": referrer
                 ] as NSMutableDictionary
         }

@@ -102,7 +102,7 @@ public class Dengage {
         
         let session = sessionManager.getSession()
         
-        settings.setSessionId(sessionId: session.Id)
+        settings.setSessionId(sessionId: session.sessionId)
         
         DengageEventCollecitonService.shared.startSession(actionUrl: actionUrl)
     }

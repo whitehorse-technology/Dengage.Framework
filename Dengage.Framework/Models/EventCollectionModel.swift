@@ -9,10 +9,10 @@
 import Foundation
 
 internal struct EventCollectionModel {
+
+    public init() {}
     
-    public init(){}
-    
-    public var key : String = ""
-    public var eventTable : String = ""
-    public var eventDetails : NSDictionary? = nil
+    public var key: String = ""
+    public var eventTable: String = ""
+    public var eventDetails: NSDictionary?
 }
