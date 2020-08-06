@@ -2,7 +2,7 @@
 //  BaseService.swift
 //  dengage.ios.sdk
 //
-//  Created by Ekin Bulut on 27.11.2019.
+//  Created by Developer on 27.11.2019.
 //  Copyright © 2019 Dengage. All rights reserved.
 //
 
@@ -21,7 +21,7 @@ internal class BaseService {
         _settings = .shared
     }
     
-    init(logger: SDKLogger = .shared, session : URLSession = .shared, settings : Settings = .shared){
+    init(logger: SDKLogger = .shared, session : URLSession = .shared, settings : Settings = .shared) {
         
         _logger  = logger
         _session = session
@@ -29,7 +29,7 @@ internal class BaseService {
     }
     
     
-    internal func ApiCall(data: Any, urlAddress: String){
+    internal func ApiCall(data: Any, urlAddress: String) {
         
         
         let url = URL(string: urlAddress)!

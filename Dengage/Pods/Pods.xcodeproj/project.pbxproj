@@ -650,7 +650,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.4.9.5;
+				MARKETING_VERSION = 2.5.0;
 				MODULEMAP_FILE = "Target Support Files/Dengage.Framework/Dengage.Framework.modulemap";
 				PRODUCT_MODULE_NAME = Dengage_Framework;
 				PRODUCT_NAME = Dengage_Framework;
@@ -686,7 +686,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 2.4.9.5;
+				MARKETING_VERSION = 2.5.0;
 				MODULEMAP_FILE = "Target Support Files/Dengage.Framework/Dengage.Framework.modulemap";
 				PRODUCT_MODULE_NAME = Dengage_Framework;
 				PRODUCT_NAME = Dengage_Framework;

@@ -2,8 +2,8 @@
 //  SubscriptionService.swift
 //  test.application
 //
-//  Created by Ekin Bulut on 8.08.2019.
-//  Copyright © 2019 Whitehorse.Technology All rights reserved.
+//  Created by Developer on 8.08.2019.
+//  Copyright © 2019 Dengage All rights reserved.
 //
 
 import Foundation
@@ -11,12 +11,11 @@ import os.log
 
 internal class SubscriptionService : BaseService
 {
-
+    
     internal func SendSubscriptionEvent()
     {
         
         let  urladdress = SUBSCRIPTION_SERVICE_URL
-        
         
         _logger.Log(message: "SUBSCRIPTION_URL is %s", logtype: .info, argument: urladdress)
         

@@ -129,7 +129,6 @@ class SettingsMock : Settings{
     }
 }
 
-
 class UtilitiesMock  :Utilities {
     
     override func identifierForCarrier() -> String {

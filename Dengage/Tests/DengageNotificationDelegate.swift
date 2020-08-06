@@ -11,16 +11,18 @@ import XCTest
 
 class DengageNotificationDelegateTestCase: XCTestCase {
     
-    var openEventServiceMock : OpenEventServiceMock = OpenEventServiceMock()
-    var transactionalOpenEventServiceMock : TransactioanlOpenEventServiceMock = TransactioanlOpenEventServiceMock()
-    var settingsMock : SettingsMock = SettingsMock()
+    var openEventServiceMock: OpenEventServiceMock = OpenEventServiceMock()
+    var transactionalOpenEventServiceMock: TransactioanlOpenEventServiceMock = TransactioanlOpenEventServiceMock()
+    var settingsMock: SettingsMock = SettingsMock()
     
     var sut : DengageNotificationDelegate = DengageNotificationDelegate()
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
-        sut = DengageNotificationDelegate(settings: settingsMock, openEventService: openEventServiceMock, transactionalOpenEventService: transactionalOpenEventServiceMock)
+        sut = DengageNotificationDelegate(settings: settingsMock,
+                                          openEventService: openEventServiceMock,
+                                          transactionalOpenEventService: transactionalOpenEventServiceMock)
     }
     
     override func tearDown() {
@@ -31,19 +33,19 @@ class DengageNotificationDelegateTestCase: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         
-        sut.sendOpenEvent(messageId: 1, messageDetails: "")
+        sut.sendOpenEvent(messageId: 1, messageDetails: "", buttonId: "")
     }
     
-    func testsendTransactionalOpenEvent(){
+    func testsendTransactionalOpenEvent() {
         
-        sut.sendTransactionalOpenEvent(messageId: 1, transactionId: "", messageDetails: "")
+        sut.sendTransactionalOpenEvent(messageId: 1, transactionId: "", messageDetails: "", buttonId: "")
     }
     
-    func testsendEventWithContent(){
+    func testsendEventWithContent() {
         
         let mock = UNNotificationContent()
         
-        sut.sendEventWithContent(content: mock)
+        sut.sendEventWithContent(content: mock,actionIdentifier: "")
     } 
 }
 

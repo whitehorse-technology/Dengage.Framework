@@ -12,105 +12,100 @@ import AdSupport
 
 internal class Utilities {
     
-    static let shared   = Utilities()
-    var _storage  : DengageLocalStorage
-    var _logger   : SDKLogger
-    var _asIdentifierManager : ASIdentifierManager
-    var _ctTelephonyNetworkInfo : CTTelephonyNetworkInfo
+    static let shared = Utilities()
+    var storage: DengageLocalStorage
+    var logger: SDKLogger
+    var asIdentifierManager: ASIdentifierManager
+    var ctTelephonyNetworkInfo: CTTelephonyNetworkInfo
     
     init() {
-        _storage = DengageLocalStorage.shared
-        _logger = SDKLogger.shared
-        _asIdentifierManager = ASIdentifierManager.shared()
-        _ctTelephonyNetworkInfo = CTTelephonyNetworkInfo()
-    }
-
-    init(storage: DengageLocalStorage = .shared,
-         logger: SDKLogger = .shared,
-         asIdentifierManager : ASIdentifierManager = .shared(),
-         ctTelephonyNetworkInfo : CTTelephonyNetworkInfo = .init()){
-        
-        _logger = logger
-        _storage = storage
-        _asIdentifierManager = asIdentifierManager
-        _ctTelephonyNetworkInfo = ctTelephonyNetworkInfo
+        storage = DengageLocalStorage.shared
+        logger = SDKLogger.shared
+        asIdentifierManager = ASIdentifierManager.shared()
+        ctTelephonyNetworkInfo = CTTelephonyNetworkInfo()
     }
     
-    final func identifierForApplication() -> String{
+    init(storage: DengageLocalStorage = .shared,
+         logger: SDKLogger = .shared,
+         asIdentifierManager: ASIdentifierManager = .shared(),
+         ctTelephonyNetworkInfo: CTTelephonyNetworkInfo = .init()) {
+        
+        self.logger = logger
+        self.storage = storage
+        self.asIdentifierManager = asIdentifierManager
+        self.ctTelephonyNetworkInfo = ctTelephonyNetworkInfo
+    }
+    
+    func identifierForApplication() -> String {
         
         var appIdentifier = ""
         
-        let returnValue = _storage.getValueWithKey(key: "ApplicationIdentifier")
+        let returnValue = storage.getValueWithKey(key: "ApplicationIdentifier")
         
         if returnValue == nil {
             
-            _logger.Log(message:"GENERATING_NSUUID", logtype: .info)
+            logger.Log(message:"GENERATING_NSUUID", logtype: .info)
             appIdentifier = NSUUID().uuidString.lowercased()
-            _storage.setValueWithKey(value: appIdentifier, key: "ApplicationIdentifier")
+            storage.setValueWithKey(value: appIdentifier, key: "ApplicationIdentifier")
             
-        }
-        else{
+        } else {
             appIdentifier = returnValue!
         }
         
-        _logger.Log(message:"APP_IDENTIFIER is %s " , logtype: .debug, argument: appIdentifier)
+        logger.Log(message:"APP_IDENTIFIER is %s " , logtype: .debug, argument: appIdentifier)
         
         return appIdentifier
     }
-
-    final func identifierForCarrier() -> String{
+    
+    func identifierForCarrier() -> String {
         var carrierId = DEFAULT_CARRIER_ID
         
-        let carrier = _ctTelephonyNetworkInfo.subscriberCellularProvider
+        let carrier = ctTelephonyNetworkInfo.subscriberCellularProvider
         
-        _logger.Log(message: "READ_CARRIER_INFO" , logtype: .debug)
+        logger.Log(message: "READ_CARRIER_INFO" , logtype: .debug)
         
-        if((carrier?.mobileCountryCode != nil))
-        {
+        if carrier?.mobileCountryCode != nil {
             carrierId = carrier?.mobileCountryCode ?? carrierId
         }
         
-        if((carrier?.mobileNetworkCode != nil))
-        {
+        if carrier?.mobileNetworkCode != nil {
             carrierId += carrier?.mobileNetworkCode ?? carrierId
         }
         
-        _logger.Log(message: "CARRIER_ID is %s" , logtype: .debug, argument: carrierId)
+        logger.Log(message: "CARRIER_ID is %s" , logtype: .debug, argument: carrierId)
         
         return carrierId
         
     }
     
-    final func identifierForAdvertising() -> String {
+    func identifierForAdvertising() -> String {
         // check if advertising tracking is enabled in user’s setting
         var advertisingId = ""
         
-    
-        if _asIdentifierManager.isAdvertisingTrackingEnabled {
-            advertisingId = _asIdentifierManager.advertisingIdentifier.uuidString.lowercased()
+        
+        if asIdentifierManager.isAdvertisingTrackingEnabled {
+            advertisingId = asIdentifierManager.advertisingIdentifier.uuidString.lowercased()
         }
         
-        _logger.Log(message: "ADVERTISING_ID is %s" , logtype: .debug,  argument:  advertisingId)
+        logger.Log(message: "ADVERTISING_ID is %s" , logtype: .debug, argument: advertisingId)
         return advertisingId
     }
     
-    final func indentifierForCFBundleShortVersionString() -> String {
+    func indentifierForCFBundleShortVersionString() -> String {
         
         let cfBundleShortVersionString = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
         
-        _logger.Log(message: "VERSION is %s" , logtype: .debug,  argument:  cfBundleShortVersionString)
+        logger.Log(message: "VERSION is %s" , logtype: .debug, argument: cfBundleShortVersionString)
         return cfBundleShortVersionString
     }
     
-    
-    final func generateUUID() -> String{
-        
-       return NSUUID().uuidString.lowercased()
+    func generateUUID() -> String {
+        return NSUUID().uuidString.lowercased()
     }
 }
 
 extension TimeZone {
-
+    
     func offsetFromUTC() -> String
     {
         let localTimeZoneFormatter = DateFormatter()
@@ -118,10 +113,10 @@ extension TimeZone {
         localTimeZoneFormatter.dateFormat = "Z"
         return localTimeZoneFormatter.string(from: Date())
     }
-
+    
     func offsetInHours() -> String
     {
-
+        
         let hours = secondsFromGMT()/3600
         let minutes = abs(secondsFromGMT()/60) % 60
         let tz_hr = String(format: "%+.2d:%.2d", hours, minutes) // "+hh:mm"
