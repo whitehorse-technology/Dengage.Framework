@@ -11,7 +11,7 @@ import CoreTelephony
 import AdSupport
 
 internal class Utilities {
-    
+
     static let shared = Utilities()
     var storage: DengageLocalStorage
     var logger: SDKLogger
@@ -44,7 +44,7 @@ internal class Utilities {
         
         if returnValue == nil {
             
-            logger.Log(message:"GENERATING_NSUUID", logtype: .info)
+            logger.Log(message: "GENERATING_NSUUID", logtype: .info)
             appIdentifier = NSUUID().uuidString.lowercased()
             storage.setValueWithKey(value: appIdentifier, key: "ApplicationIdentifier")
             
@@ -52,7 +52,7 @@ internal class Utilities {
             appIdentifier = returnValue!
         }
         
-        logger.Log(message:"APP_IDENTIFIER is %s " , logtype: .debug, argument: appIdentifier)
+        logger.Log(message: "APP_IDENTIFIER is %s ", logtype: .debug, argument: appIdentifier)
         
         return appIdentifier
     }
@@ -62,7 +62,7 @@ internal class Utilities {
         
         let carrier = ctTelephonyNetworkInfo.subscriberCellularProvider
         
-        logger.Log(message: "READ_CARRIER_INFO" , logtype: .debug)
+        logger.Log(message: "READ_CARRIER_INFO", logtype: .debug)
         
         if carrier?.mobileCountryCode != nil {
             carrierId = carrier?.mobileCountryCode ?? carrierId
@@ -72,7 +72,7 @@ internal class Utilities {
             carrierId += carrier?.mobileNetworkCode ?? carrierId
         }
         
-        logger.Log(message: "CARRIER_ID is %s" , logtype: .debug, argument: carrierId)
+        logger.Log(message: "CARRIER_ID is %s", logtype: .debug, argument: carrierId)
         
         return carrierId
         
@@ -82,18 +82,17 @@ internal class Utilities {
         // check if advertising tracking is enabled in user’s setting
         var advertisingId = ""
         
-        
         if asIdentifierManager.isAdvertisingTrackingEnabled {
             advertisingId = asIdentifierManager.advertisingIdentifier.uuidString.lowercased()
         }
         
-        logger.Log(message: "ADVERTISING_ID is %s" , logtype: .debug, argument: advertisingId)
+        logger.Log(message: "ADVERTISING_ID is %s", logtype: .debug, argument: advertisingId)
         return advertisingId
     }
     
     func indentifierForCFBundleShortVersionString() -> String {
         
-        let cfBundleShortVersionString = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as! String
+        let cfBundleShortVersionString = Bundle.main.infoDictionary!["CFBundleShortVersionString"] as? String ?? "1.0"
         
         logger.Log(message: "VERSION is %s" , logtype: .debug, argument: cfBundleShortVersionString)
         return cfBundleShortVersionString
@@ -106,16 +105,14 @@ internal class Utilities {
 
 extension TimeZone {
     
-    func offsetFromUTC() -> String
-    {
+    func offsetFromUTC() -> String {
         let localTimeZoneFormatter = DateFormatter()
         localTimeZoneFormatter.timeZone = self
         localTimeZoneFormatter.dateFormat = "Z"
         return localTimeZoneFormatter.string(from: Date())
     }
     
-    func offsetInHours() -> String
-    {
+    func offsetInHours() -> String {
         
         let hours = secondsFromGMT()/3600
         let minutes = abs(secondsFromGMT()/60) % 60
