@@ -25,7 +25,9 @@ internal class Settings {
     var contactKey: String = ""
     var appVersion: String = ""
     var sessionId: String = ""
-    var referrer: String = ""
+    var referrer: String?
+    var campdId: String?
+    var sendId: String?
     
     var testGroup: String = ""
     
@@ -195,7 +197,7 @@ internal class Settings {
     }
 
     func setAppVersion(appVersion: String) {
-        
+
         self.appVersion = appVersion
     }
     
@@ -215,39 +217,37 @@ internal class Settings {
         return UAString()
     }
     
-    func setEventApiUrl() {
+    func getEventApiUrl() -> String? {
         var eventUrl = (Bundle.main.object(forInfoDictionaryKey: "DengageEventApiUrl") as? String) ?? ""
-        
         if eventUrl.isEmpty {
             eventUrl = EVENT_SERVICE_URL
         }
-        
-        storage.setValueWithKey(value: eventUrl, key: "EventUrl")
         logger.Log(message:"EVENT_API_URL is %s", logtype: .debug, argument: eventUrl)
-    }
-    
-    func getEventApiUrl() -> String? {
-        return storage.getValueWithKey(key: "EventUrl")
+        return eventUrl
     }
     
     func setCampId(campId: String) {
-        storage.setValueWithKey(value: campId, key: "dn_camp_id")
+//        storage.setValueWithKey(value: campId, key: "dn_camp_id")
+        self.campdId = campId
         setCampDate()
-        logger.Log(message:"CAMP_ID is %s", logtype: .debug, argument: campId)
+        logger.Log(message:"CAMP_ID is %s", logtype: .debug, argument: self.campdId ?? "")
     }
-    
+
     func getCampId()-> String? {
-        return storage.getValueWithKey(key: "dn_camp_id")
+//        return storage.getValueWithKey(key: "dn_camp_id")
+        return self.campdId
     }
-    
+
     func setSendId(sendId: String) {
-        storage.setValueWithKey(value: sendId, key: "dn_send_id")
-        logger.Log(message:"SEND_ID is %s", logtype: .debug, argument: sendId)
+//        storage.setValueWithKey(value: sendId, key: "dn_send_id")
+        self.sendId = sendId
+        logger.Log(message:"SEND_ID is %s", logtype: .debug, argument: self.sendId ?? "")
     }
-    
+
     func getSendId() -> String? {
-        
-        return storage.getValueWithKey(key: "dn_send_id")
+
+        return self.sendId
+//        return storage.getValueWithKey(key: "dn_send_id")
     }
     
     func setCampDate() {

@@ -90,7 +90,6 @@ public class Dengage {
         settings.setAdvertisingId(advertisingId: utilities.identifierForAdvertising())
         settings.setApplicationIdentifier(applicationIndentifier: utilities.identifierForApplication())
         settings.setAppVersion(appVersion: utilities.indentifierForCFBundleShortVersionString())
-        settings.setEventApiUrl()
     }
     
     @available(swift, deprecated: 2.5.0)
