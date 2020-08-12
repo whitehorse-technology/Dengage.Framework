@@ -25,9 +25,9 @@ public class DengageCustomEvent {
     ///
 
     ///- Parameter location: *deeplinkUrl*
-    internal func SessionStart(referrer: String) {
+    internal func SessionStart(referrer: String, restart: Bool) {
         
-        let session = SessionManager.shared.getSession()
+        let session = SessionManager.shared.getSession(restart: restart)
         let referrerAdress = settings.getReferrer() ?? referrer
         
         settings.setSessionId(sessionId: session.sessionId)
@@ -46,7 +46,6 @@ public class DengageCustomEvent {
             let utmContent = getQueryStringValue(forKey: "utm_content")
             let utmTerm = getQueryStringValue(forKey: "utm_term")
             
-
             params = ["session_id": session.sessionId,
                       "referrer": referrerAdress,
                       "utm_source": utmSource as Any,
@@ -63,16 +62,8 @@ public class DengageCustomEvent {
         
         let campId = settings.getCampId()
         if campId != nil {
-            
-            let campDate = settings.getCampDate()
-
-            let timeInterval = Calendar.current.dateComponents([.day], from: campDate! as Date, to: Date()).day
-            if timeInterval! < dn_camp_attribution_duration {
-                
-                params["camp_id"] = campId
-                params["send_id"] = settings.getSendId()
-            }
-            
+            params["camp_id"] = campId
+            params["send_id"] = settings.getSendId()
         }
         
         eventCollectionService.SendEvent(table: "session_info", key: deviceId, params: params)
@@ -129,27 +120,13 @@ public class DengageCustomEvent {
         
         let sessionId = settings.getSessionId()
         let deviceId = settings.getApplicationIdentifier()
-                
-        params["session_id"] = sessionId
         
-        let campId = settings.getCampId()
-        if campId != nil {
-            
-            let campDate = settings.getCampDate()
-
-            let timeInterval = Calendar.current.dateComponents([.day], from: campDate! as Date, to: Date()).day
-            if timeInterval! < dn_camp_attribution_duration {
-                
-                params["camp_id"] = campId
-                params["send_id"] = settings.getSendId()
-            }
-
-        }
+        params["session_id"] = sessionId
+        params["event_type"] = "order"
         
         let temp = params.mutableCopy() as! NSMutableDictionary
         temp.removeObject(forKey: "cartItems")
         
-
         eventCollectionService.SendEvent(table: "order_events", key: deviceId, params: temp)
         
         let event_id = Utilities.shared.generateUUID()
@@ -158,6 +135,30 @@ public class DengageCustomEvent {
                                "event_id": event_id] as NSMutableDictionary
         
         eventCollectionService.SendEvent(table: "shopping_cart_events", key: deviceId, params: cartEventParams)
+        
+        let cartItems = params["cartItems"] as! [NSMutableDictionary]
+        
+        for cartItem in cartItems {
+            cartItem["order_id"] = params["order_id"]
+            eventCollectionService.SendEvent(table: "order_events_details", key: deviceId, params: cartItem)
+        }
+        
+    }
+    
+    ///- Parameter params: NSMutableDictionary
+    public func cancelOrder(params: NSMutableDictionary) {
+        
+        let sessionId = settings.getSessionId()
+        let deviceId = settings.getApplicationIdentifier()
+        
+        params["session_id"] = sessionId
+        params["event_type"] = "cancel"
+        params["total_amount"] = -(params["total_amount"] as! Int)
+        
+        let temp = params.mutableCopy() as! NSMutableDictionary
+        temp.removeObject(forKey: "cartItems")
+        
+        eventCollectionService.SendEvent(table: "order_events", key: deviceId, params: temp)
         
         let cartItems = params["cartItems"] as! [NSMutableDictionary]
         

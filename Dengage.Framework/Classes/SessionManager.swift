@@ -12,7 +12,7 @@ internal class SessionManager {
     var sessionObj: Session? = nil
     let sessionInterval: Double = 1800
     
-    internal func getSession() -> Session {
+    internal func getSession(restart: Bool) -> Session {
         
         if sessionObj == nil {
             
@@ -24,17 +24,25 @@ internal class SessionManager {
             
             return sessionObj!
         } else {
-            if sessionObj!.expireIn > Date() {
-                
-                sessionObj!.expireIn = sessionObj!.expireIn.addingTimeInterval(sessionInterval)
-                return sessionObj!
-                
-            } else {
+            if restart {
                 
                 sessionObj?.sessionId = generateSessionId()
                 sessionObj?.expireIn = Date().addingTimeInterval(sessionInterval)
                 
                 return sessionObj!
+            } else {
+                if sessionObj!.expireIn > Date() {
+                    
+                    sessionObj!.expireIn = sessionObj!.expireIn.addingTimeInterval(sessionInterval)
+                    return sessionObj!
+                    
+                } else {
+                    
+                    sessionObj?.sessionId = generateSessionId()
+                    sessionObj?.expireIn = Date().addingTimeInterval(sessionInterval)
+                    
+                    return sessionObj!
+                }
             }
         }
     }

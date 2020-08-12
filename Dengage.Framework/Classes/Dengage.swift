@@ -100,7 +100,7 @@ public class Dengage {
             return
         }
         
-        let session = sessionManager.getSession()
+        let session = sessionManager.getSession(restart: false)
         
         settings.setSessionId(sessionId: session.sessionId)
         
