@@ -17,6 +17,8 @@ class DengageNotificationExtension {
     
     var bestAttemptContent: UNMutableNotificationContent?
     var userNotificationCenter: UNUserNotificationCenter
+    
+    internal static var delegate: DengageDelegate?
 
     init() {
         logger = .shared
@@ -32,6 +34,8 @@ class DengageNotificationExtension {
         
         logger.Log(message: "NOTIFICATION_RECEIVED", logtype: .info)
         let messageSource = receivedRequest.content.userInfo["messageSource"]
+        
+        DengageNotificationExtension.delegate?.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest, withNotificationContent: withNotificationContent)
         
         if messageSource != nil {
             

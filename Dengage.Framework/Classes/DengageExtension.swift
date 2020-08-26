@@ -82,17 +82,7 @@ extension Dengage {
     public static func getDeviceId() -> String? {
         return settings.getApplicationIdentifier()
     }
-    
-    /// Redirects all event endpoints to Cloud Services
-    /// Usage:
-    ///
-    ///     Dengage.useCloudForSubscription(enable : true)
-    ///
-    /// - Parameter enable : **enable**
-    public static func useCloudForSubscription(enable: Bool) {
-        settings.setCloudEnabled(status: enable)
-    }
-    
+        
     /// Set test group key for A/B testing.
     /// Usage :
     ///
@@ -103,7 +93,8 @@ extension Dengage {
         settings.setTestGroup(testGroup: testGroup)
     }
     
-    /// Referrer is the source address from where application opens up
+    /// Referrer is the source address from where application initialize
+    /// Example : if application opens up from deeplink referrer can be link source
     /// Usage :
     ///
     ///     Dengage.setReferrer(referrer : "http://sample.com")
@@ -111,5 +102,15 @@ extension Dengage {
     /// - Parameter referrer : **url address**
     public static func setReferrer(referrer: String) {
         settings.setReferrer(referrer: referrer)
+    }
+    
+    ///
+    /// Usage :
+    ///
+    ///     Dengage.setSource(source : "PUSH")
+    ///
+    /// - Parameter referrer : **url address**
+    public static func setSource(source: String) {
+        settings.setChannel(source: source)
     }
 }

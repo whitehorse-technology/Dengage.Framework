@@ -26,7 +26,7 @@ internal class Settings {
     var appVersion: String = ""
     var sessionId: String = ""
     var referrer: String?
-    var campdId: String?
+    var campSource: String?
     var sendId: String?
     
     var testGroup: String = ""
@@ -226,16 +226,16 @@ internal class Settings {
         return eventUrl
     }
     
-    func setCampId(campId: String) {
+    func setChannel(source: String) {
 //        storage.setValueWithKey(value: campId, key: "dn_camp_id")
-        self.campdId = campId
+        self.campSource = source
         setCampDate()
-        logger.Log(message:"CAMP_ID is %s", logtype: .debug, argument: self.campdId ?? "")
+        logger.Log(message:"CHANNEL is %s", logtype: .debug, argument: self.campSource ?? "")
     }
 
-    func getCampId()-> String? {
+    func getChannel()-> String? {
 //        return storage.getValueWithKey(key: "dn_camp_id")
-        return self.campdId
+        return self.campSource
     }
 
     func setSendId(sendId: String) {

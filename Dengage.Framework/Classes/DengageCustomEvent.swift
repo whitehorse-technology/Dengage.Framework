@@ -60,9 +60,9 @@ public class DengageCustomEvent {
                 ] as NSMutableDictionary
         }
         
-        let campId = settings.getCampId()
-        if campId != nil {
-            params["camp_id"] = campId
+        let sendId = settings.getSendId()
+        if sendId != nil {
+            params["channel"] = settings.getChannel() ?? "PUSH"
             params["send_id"] = settings.getSendId()
         }
         

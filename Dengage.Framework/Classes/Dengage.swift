@@ -11,7 +11,7 @@ import UserNotifications
 import AdSupport
 
 public class Dengage {
-
+    
     static var center = UNUserNotificationCenter.current()
     
     static var notificationDelegate = DengageNotificationDelegate()
@@ -24,6 +24,8 @@ public class Dengage {
     static var logger: SDKLogger = .shared
     static var eventQueue: EventQueue = EventQueue()
     
+    public static var delegate: DengageDelegate?
+    
     //MARK: - Initialize Methods
     /// Initiliazes SDK requiered parameters.
     ///
@@ -35,6 +37,7 @@ public class Dengage {
     /// - Parameter withLaunchOptions: *withLaunchOptions*
     /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
     @available(iOS 10.0, *)
+    
     // will support rich notifications with categories
     public static func initWithLaunchOptions(categories: Set<UNNotificationCategory>?,
                                              withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
@@ -69,6 +72,7 @@ public class Dengage {
     public static func initWithLaunchOptions(withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
                                              badgeCountReset: Bool?) {
         
+        DengageNotificationExtension.delegate = self.delegate
         center.delegate = notificationDelegate
         settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         configureSettings()
