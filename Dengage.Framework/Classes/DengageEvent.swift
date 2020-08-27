@@ -1,335 +1,245 @@
 //
-//  public func swift
+//  DengageCustomEvent.swift
 //  Dengage.Framework
 //
-//  Created by Ekin Bulut on 25.03.2020.
+//  Created by Ekin Bulut on 30.05.2020.
 //
 
 import Foundation
 
-@available(swift, deprecated: 2.5.0)
-public class DengageEvent
-{
-    public static let shared  = DengageEvent()
-    static var eventCollectionService: DengageEventCollecitonService = .shared
+
+@available(swift, introduced: 2.5.0)
+public class DengageEvent {
+
+    let settings: Settings = .shared
+    let logger: SDKLogger = .shared
+    let eventCollectionService: EventCollectionService = EventCollectionService()
+
+    var queryParams: [String: Any] = [:]
+
+    public static let shared = DengageEvent()
+
     
     ///Before sending an event Dengage.Framework opens  a Session by defualt.
     ///But according to implementation, developer can able to open a session manually.
     ///
+
     ///- Parameter location: *deeplinkUrl*
-    private func SessionStart(location: String) {
-        Dengage.startSession(actionUrl: location)
-    }
-    
-    /// - Parameter token: *token*
-    public func TokenRefresh(token: String) {
-        DengageEvent.eventCollectionService.TokenRefresh(token: token)
-    }
-    
-    
-    ///
-    ///- Parameter productId: *productId*
-    ///- Parameter price: *price*
-    ///- Parameter discountedPrice: *discountedPrice*
-    ///- Parameter currency: *currency*
-    ///- Parameter supplierId: *supplierId*
-    public func ProductDetail(productId: String, price: Double, discountedPrice: Double, currency:String, supplierId:String) {
+    internal func SessionStart(referrer: String, restart: Bool) {
+        
+        let session = SessionManager.shared.getSession(restart: restart)
+        let referrerAdress = settings.getReferrer() ?? referrer
+        
+        settings.setSessionId(sessionId: session.sessionId)
+        
+        let deviceId = settings.getApplicationIdentifier()
+        
+        var params: NSMutableDictionary = [:]
+        
+        if  !referrer.isEmpty {
+            
+            queryStringParser(urlString: referrer)
 
-        let parameters = [ "entityId": productId,
-                           "price": price,
-                           "discountedPrice": discountedPrice,
-                           "currency": currency,
-                           "supplierId": supplierId
-            ] as NSMutableDictionary
-        
-        DengageEvent.eventCollectionService.customEvent(eventName: "PV",
-                                                        entityType: "product",
-                                                        pageType: "productDetail",
-                                                        params: parameters)
-    }
-    
-    ///
-    ///
-    /// - Parameter promotionId: *promotionId*
-    public func PromotionPage(promotionId: String) {
-        
-        let parameters = [
-            "entityId": promotionId
+            let utmSource = getQueryStringValue(forKey: "utm_source")
+            let utmMedium = getQueryStringValue(forKey: "utm_medium")
+            let utmCampaign = getQueryStringValue(forKey: "utm_campaign")
+            let utmContent = getQueryStringValue(forKey: "utm_content")
+            let utmTerm = getQueryStringValue(forKey: "utm_term")
+            let channel = getQueryStringValue(forKey: "dn_channel")
+            let sendId = getQueryStringValue(forKey: "dn_send_id")
             
-            ] as NSMutableDictionary
-        
-        DengageEvent.eventCollectionService.customEvent(eventName: "PV",
-                                                        entityType: "promotion",
-                                                        pageType: "promotionPage",
-                                                        params: parameters)
-    }
-    
-    ///
-    ///
-    /// - Parameter categoryId: *categoryId*
-    /// - Parameter parentCategoryId: *parentCategoryId*
-    public func CategoryPage(categoryId: String, parentCategoryId: String) {
-        
-        let parameters = [
-            "entityId": categoryId,
-            "parentCategory": parentCategoryId] as NSMutableDictionary
-        
-        DengageEvent.eventCollectionService.customEvent(eventName: "PV",
-                                                        entityType: "category",
-                                                        pageType: "categoryPage",
-                                                        params: parameters)
-        
-    }
-    
-    ///
-    public func HomePage() {
-        
-        DengageEvent.eventCollectionService.customEvent(eventName: "PV",
-                                                        entityType: nil,
-                                                        pageType: "homePage",
-                                                        params: [: ] as NSMutableDictionary)
-    }
-    
-    ///
-    ///
-    /// - Parameter keyword: *keyword*
-    /// - Parameter resultCount: *resultCount*
-    public func SearchPage(keyword: String, resultCount:Int) {
-        
-        let parameters = [
-            "keyword": keyword,
-            "resultCount": resultCount
+            settings.setChannel(source: channel ?? "")
+            settings.setSendId(sendId: sendId ?? "")
             
-            ] as NSMutableDictionary
-        
-        DengageEvent.eventCollectionService.customEvent(eventName: "PV",
-                                                        entityType: nil,
-                                                        pageType: "searchPage",
-                                                        params: parameters)
-        
-    }
-    
-    ///
-    public func LoginPage() {
-        DengageEvent.eventCollectionService.customEvent(eventName: "PV",
-                                                        entityType: nil,
-                                                        pageType: "loginPage",
-                                                        params: [: ] as NSMutableDictionary)
-    }
-    
-    /// - Parameter contactKey: *contactKey*
-    /// - Parameter status: *status*
-    /// - Parameter origin: *origin*
-    public func LoginAction(contactKey: String, success: Bool, origin: String) {
-        
-        let parameters = [
-            
-            "success": success,
-            "origin": origin,
-            "eventType": "loginAction"
-            
-            ] as NSMutableDictionary
-        
-        Dengage.setContactKey(contactKey: contactKey)
-        DengageEvent.eventCollectionService.customEvent(eventName: "Action", entityType: nil, pageType: nil, params: parameters)
-    }
-    
-    ///
-    public func RegisterPage() {
-        
-        DengageEvent.eventCollectionService.customEvent(eventName: "PV", entityType: nil, pageType: "registerPage", params: [: ] as NSMutableDictionary)
-    }
-    
-    /// - Parameter contactKey: *contactKey*
-    /// - Parameter status: *status*
-    /// - Parameter origin: *origin*
-    public func RegisterAction(contactKey: String, success: Bool, origin: String) {
-        
-        let parameters = [
-            "success": success,
-            "origin": origin,
-            "eventType": "registerAction"
-            
-            ] as NSMutableDictionary
-        
-        Dengage.setContactKey(contactKey: contactKey)
-        DengageEvent.eventCollectionService.customEvent(eventName: "Action", entityType: nil, pageType: nil, params: parameters)
-    }
-
-    /// - Parameter item: *item*
-    /// - Parameter discountedPrice: *discountedPrice*
-    /// - Parameter origin: *origin*
-    /// - Parameter basketId: *basketId*
-    public func AddToBasket(item: CartItem, origin: String, basketId: String) {
-        
-        let parameters = [
-            "discountedPrice": item.discountedPrice,
-            "basketId": basketId,
-            "origin": origin,
-            "eventType": "addToBasket",
-            "productId": item.productId,
-            "variantId": item.variantId,
-            "price": item.price,
-            "currency": item.currency,
-            "quantity": item.quantity
-            
-            ] as NSMutableDictionary
-        
-        DengageEvent.eventCollectionService.customEvent(eventName: "Action", entityType: nil, pageType: nil, params: parameters)
-    }
-    
-    ///
-    ///
-    /// - Parameter productId: *productId*
-    /// - Parameter variantId: *variantId*
-    /// - Parameter quantity: *quantity*
-    /// - Parameter basketId: *basketId*
-    public func RemoveFromBasket(productId: String, variantId: String, quantity: Int, basketId: String) {
-        
-        let parameters = [
-            "eventType": "removeFromBasket",
-            "productId": productId,
-            "variantId": variantId,
-            "quantity": quantity,
-            "basketId": basketId
-            
-            ] as NSMutableDictionary
-        
-        DengageEvent.eventCollectionService.customEvent(eventName: "Action", entityType: nil, pageType: nil, params: parameters)
-    }
-    
-    ///
-    ///
-    /// - Parameter items: *items*
-    /// - Parameter totalPrice: *totalPrice*
-    /// - Parameter basketId: *basketId*
-    public func BasketPage(items: [CartItem], totalPrice: Double, basketId: String) {
-        
-        var productIds = ""
-        var prices = ""
-        var quantities = ""
-        var variantIds = ""
-        var currencies = ""
-        
-        for item in items {
-            
-            prices.append(String(item.price) + "|")
-            quantities.append(String(item.quantity) + "|")
-            productIds.append(item.productId + "|")
-            variantIds.append(item.variantId + "|")
-            currencies.append(item.currency + "|")
+            params = ["session_id": session.sessionId,
+                      "referrer": referrerAdress,
+                      "utm_source": utmSource as Any,
+                      "utm_medium": utmMedium as Any,
+                      "utm_campaign": utmCampaign as Any,
+                      "utm_content": utmContent as Any,
+                      "utm_term": utmTerm as Any
+                ] as NSMutableDictionary
+        } else {           
+            params = ["session_id":session.sessionId,
+                      "referrer": referrer
+                ] as NSMutableDictionary
         }
         
-        let parameters = [
-            "productIds": productIds.dropLast(),
-            "variantIds": variantIds.dropLast(),
-            "quantities": quantities.dropLast(),
-            "prices": prices.dropLast(),
-            "currencies": currencies.dropLast(),
-            "basketId": basketId,
-            "totalPrice": totalPrice
-            
-            ] as NSMutableDictionary
         
-        DengageEvent.eventCollectionService.customEvent(eventName: "PV", entityType: nil, pageType: "basketPage", params: parameters)
-        
-    }
-    
-    ///
-    ///
-    /// - Parameter items: *items*
-    /// - Parameter totalPrice: *totalPrice*
-    /// - Parameter basketId: *basketId*
-    /// - Parameter orderId: *orderId*
-    /// - Parameter paymentMethod: *paymentMethod*
-    public func OrderSummary(items: [CartItem], totalPrice: Double, basketId: String, orderId: String, paymentMethod: String) {
-        
-        var productIds = ""
-        var prices = ""
-        var quantities = ""
-        var variantIds = ""
-        var currencies = ""
-        
-        for item in items {
-            
-            prices.append(String(item.price) + "|")
-            quantities.append(String(item.quantity) + "|")
-            productIds.append(item.productId + "|")
-            variantIds.append(item.variantId + "|")
-            currencies.append(item.currency + "|")
+        let sendId = settings.getSendId()
+        if sendId != nil {
+            params["channel"] = settings.getChannel() ?? "PUSH"
+            params["send_id"] = settings.getSendId()
         }
-
-        let parameters = [
-            "productIds": productIds.dropLast(),
-            "variantIds": variantIds.dropLast(),
-            "quantities": quantities.dropLast(),
-            "prices": prices.dropLast(),
-            "currencies": currencies.dropLast(),
-            "basketId": basketId,
-            "totalPrice": totalPrice,
-            "orderId": orderId,
-            "paymentMethod": paymentMethod
-            
-            ] as NSMutableDictionary
         
-        DengageEvent.eventCollectionService.customEvent(eventName: "PV", entityType: nil, pageType: "orderSummary", params: parameters)
+        eventCollectionService.SendEvent(table: "session_info", key: deviceId, params: params)
+        settings.setSessionStart(status: true)
+        logger.Log(message: "EVENT SESSION STARTED", logtype: .debug)
     }
     
-    /// - Parameter pageType: *pageType*
-    /// - Parameter filters: *filters*
-    /// - Parameter resultCount: *resultCount*
-    public func Refinement(pageType: PageType, filters: Dictionary<String, [String]>, resultCount: Int) {
+    ///- Parameter params: NSMutableDictionary
+    public func pageView(params: NSMutableDictionary) {
         
-        var pt = ""
+        let sessionId = settings.getSessionId()
+        let deviceId = settings.getApplicationIdentifier()
         
-        switch pageType {
-        case .SearchPage:
-            pt = "searchPage"
-        case .CategoryPage:
-            pt = "categoryPage"
-        case .PromotionPage:
-            pt = "promotionPage"
+        params["session_id"] = sessionId
+        
+        eventCollectionService.SendEvent(table: "page_view_events", key: deviceId, params: params)
+        
+    }
+    
+    private func sendCartEvents(eventType: String, params: NSMutableDictionary) {
+        
+        sendListEvents(table: "shopping_cart_events",
+                       withDetailTable: "shopping_cart_events_detail",
+                       eventType: eventType,
+                       params: params)
+    }
+    
+    ///- Parameter params: NSMutableDictionary
+    public func addToCart(params: NSMutableDictionary) {
+        sendCartEvents(eventType: "add_to_cart",
+                       params: params)
+    }
+    
+    ///- Parameter params: NSMutableDictionary
+    public func removeFromCart(params: NSMutableDictionary) {
+        sendCartEvents(eventType: "remove_from_cart",
+                       params: params)
+    }
+    
+    ///- Parameter params: NSMutableDictionary
+    public func viewCart(params: NSMutableDictionary) {
+        sendCartEvents(eventType: "view_cart",
+                       params: params)
+    }
+    
+    ///- Parameter params: NSMutableDictionary
+    public func beginCheckout(params: NSMutableDictionary) {
+        sendCartEvents(eventType: "begin_checkout",
+                       params: params)
+    }
+    
+    ///- Parameter params: NSMutableDictionary
+    public func order(params: NSMutableDictionary) {
+        
+        let sessionId = settings.getSessionId()
+        let deviceId = settings.getApplicationIdentifier()
+        
+        params["session_id"] = sessionId
+        params["event_type"] = "order"
+        
+        let temp = params.mutableCopy() as! NSMutableDictionary
+        temp.removeObject(forKey: "cartItems")
+        
+        eventCollectionService.SendEvent(table: "order_events", key: deviceId, params: temp)
+        
+        let event_id = Utilities.shared.generateUUID()
+        let cartEventParams = ["session_id": sessionId,
+                               "event_type": "order",
+                               "event_id": event_id] as NSMutableDictionary
+        
+        eventCollectionService.SendEvent(table: "shopping_cart_events", key: deviceId, params: cartEventParams)
+        
+        let cartItems = params["cartItems"] as! [NSMutableDictionary]
+        
+        for cartItem in cartItems {
+            cartItem["order_id"] = params["order_id"]
+            eventCollectionService.SendEvent(table: "order_events_details", key: deviceId, params: cartItem)
         }
-
-        let parameters = [
-            "filters": filters as NSDictionary,
-            "resultCount": resultCount,
-            "pageType": pt
-            
-            ] as NSMutableDictionary
-        
-        DengageEvent.eventCollectionService.customEvent(eventName: "Action", entityType: "products", pageType: pt, params: parameters)
         
     }
     
-    /// Sync Event Collection
-    private func SyncEventQueue() {
-        DengageEvent.eventCollectionService.syncEventQueue()
-    }
-}
-
-public struct CartItem {
-    public var productId: String
-    public var variantId: String
-    public var price: Double
-    public var currency: String
-    public var quantity: Int
-    public var discountedPrice: Double
-    
-    public init() {
+    ///- Parameter params: NSMutableDictionary
+    public func cancelOrder(params: NSMutableDictionary) {
         
-        productId = ""
-        variantId = ""
-        price = 0.0
-        currency = ""
-        quantity = 0
-        discountedPrice = 0.0
+        let sessionId = settings.getSessionId()
+        let deviceId = settings.getApplicationIdentifier()
+        
+        params["session_id"] = sessionId
+        params["event_type"] = "cancel"
+        params["total_amount"] = -(params["total_amount"] as! Int)
+        
+        let temp = params.mutableCopy() as! NSMutableDictionary
+        temp.removeObject(forKey: "cartItems")
+        
+        eventCollectionService.SendEvent(table: "order_events", key: deviceId, params: temp)
+        
+        let cartItems = params["cartItems"] as! [NSMutableDictionary]
+        
+        for cartItem in cartItems {
+            cartItem["order_id"] = params["order_id"]
+            eventCollectionService.SendEvent(table: "order_events_details", key: deviceId, params: cartItem)
+        }
+        
     }
-}
-
-public enum PageType {
     
-    case SearchPage
-    case CategoryPage
-    case PromotionPage
+    ///- Parameter params: NSMutableDictionary
+    public func search(params: NSMutableDictionary) {
+        
+        let sessionId = settings.getSessionId()
+        let deviceId = settings.getApplicationIdentifier()
+        
+        params["session_id"] = sessionId
+        
+        eventCollectionService.SendEvent(table: "search_events", key: deviceId, params: params)
+    }
+
+    private func sendWishlistEvents(eventType: String, params: NSMutableDictionary) {
+
+        
+        sendListEvents(table: "wishlist_events", withDetailTable: "wishlist_events_detail", eventType: eventType, params: params)
+    }
+    
+    ///- Parameter params: NSMutableDictionary
+    public func addToWithList(params: NSMutableDictionary) {
+        sendWishlistEvents(eventType: "add", params: params)
+    }
+    
+    ///- Parameter params: NSMutableDictionary
+    public func removeFromWithList(params: NSMutableDictionary) {
+        sendWishlistEvents(eventType: "remove", params: params)
+    }
+
+    private func sendListEvents(table: String, withDetailTable: String, eventType:String, params: NSMutableDictionary) {
+        
+        let sessionId = settings.getSessionId()
+        let deviceId = settings.getApplicationIdentifier()
+        let eventId = Utilities.shared.generateUUID()
+        
+        params["session_id"] = sessionId
+        params["event_type"] = eventType
+        params["event_id"] = eventId
+      
+        let temp = params.mutableCopy() as! NSMutableDictionary
+        temp.removeObject(forKey: "cartItems")
+        
+        eventCollectionService.SendEvent(table: table, key: deviceId, params: temp)
+        
+        let cartItems = params["cartItems"] as! [NSMutableDictionary]
+        
+        for cartItem in cartItems {
+            cartItem["event_id"] = eventId
+            eventCollectionService.SendEvent(table: withDetailTable, key: deviceId, params: cartItem)
+        }
+    }
+ 
+    private func queryStringParser(urlString: String) {
+
+        let url = URL(string: urlString)!
+        let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        
+        if let queryItems = components?.queryItems {
+            for queryItem in queryItems {
+                queryParams[queryItem.name] = queryItem.value
+            }
+        }
+    }
+
+    private func getQueryStringValue(forKey: String) -> String? {
+
+        return queryParams[forKey] as? String
+    }
+    
 }

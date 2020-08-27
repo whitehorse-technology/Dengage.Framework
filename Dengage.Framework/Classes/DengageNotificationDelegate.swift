@@ -72,7 +72,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         checkTargetUrl(content: content)
         parseCampIdAndSendId(content: content)
         let refferer = parseReferrer(content: content)
-        DengageCustomEvent.shared.SessionStart(referrer: refferer, restart: true)
+        DengageEvent.shared.SessionStart(referrer: refferer, restart: true)
         completionHandler()
     }
     

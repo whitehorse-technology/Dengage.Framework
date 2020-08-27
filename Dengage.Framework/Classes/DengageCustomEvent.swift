@@ -9,7 +9,7 @@ import Foundation
 
 
 @available(swift, introduced: 2.5.0)
-public class DengageCustomEvent {
+public class DengageEvent {
 
     let settings: Settings = .shared
     let logger: SDKLogger = .shared
@@ -17,7 +17,7 @@ public class DengageCustomEvent {
 
     var queryParams: [String: Any] = [:]
 
-    public static let shared = DengageCustomEvent()
+    public static let shared = DengageEvent()
 
     
     ///Before sending an event Dengage.Framework opens  a Session by defualt.
