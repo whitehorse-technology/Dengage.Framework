@@ -45,6 +45,11 @@ public class DengageCustomEvent {
             let utmCampaign = getQueryStringValue(forKey: "utm_campaign")
             let utmContent = getQueryStringValue(forKey: "utm_content")
             let utmTerm = getQueryStringValue(forKey: "utm_term")
+            let channel = getQueryStringValue(forKey: "dn_channel")
+            let sendId = getQueryStringValue(forKey: "dn_send_id")
+            
+            settings.setChannel(source: channel ?? "")
+            settings.setSendId(sendId: sendId ?? "")
             
             params = ["session_id": session.sessionId,
                       "referrer": referrerAdress,
@@ -59,6 +64,7 @@ public class DengageCustomEvent {
                       "referrer": referrer
                 ] as NSMutableDictionary
         }
+        
         
         let sendId = settings.getSendId()
         if sendId != nil {
@@ -231,7 +237,7 @@ public class DengageCustomEvent {
         }
     }
 
-    private func getQueryStringValue(forKey: String) -> Any? {
+    private func getQueryStringValue(forKey: String) -> String? {
 
         return queryParams[forKey] as? String
     }

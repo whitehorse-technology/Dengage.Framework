@@ -24,8 +24,6 @@ public class Dengage {
     static var logger: SDKLogger = .shared
     static var eventQueue: EventQueue = EventQueue()
     
-    public static var delegate: DengageDelegate?
-    
     //MARK: - Initialize Methods
     /// Initiliazes SDK requiered parameters.
     ///
@@ -72,7 +70,6 @@ public class Dengage {
     public static func initWithLaunchOptions(withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
                                              badgeCountReset: Bool?) {
         
-        DengageNotificationExtension.delegate = self.delegate
         center.delegate = notificationDelegate
         settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         configureSettings()

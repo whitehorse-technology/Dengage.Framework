@@ -103,14 +103,4 @@ extension Dengage {
     public static func setReferrer(referrer: String) {
         settings.setReferrer(referrer: referrer)
     }
-    
-    ///
-    /// Usage :
-    ///
-    ///     Dengage.setSource(source : "PUSH")
-    ///
-    /// - Parameter referrer : **url address**
-    public static func setSource(source: String) {
-        settings.setChannel(source: source)
-    }
 }
