@@ -86,25 +86,11 @@ public class Dengage {
     
     //MARK: - Private Methods
     static func configureSettings() {
-
+        
         settings.setCarrierId(carrierId: utilities.identifierForCarrier())
         settings.setAdvertisingId(advertisingId: utilities.identifierForAdvertising())
         settings.setApplicationIdentifier(applicationIndentifier: utilities.identifierForApplication())
         settings.setAppVersion(appVersion: utilities.indentifierForCFBundleShortVersionString())
     }
     
-    @available(swift, deprecated: 2.5.0)
-    static func startSession(actionUrl: String?) {
-        
-        if settings.getSessionStart() {
-            
-            return
-        }
-        
-        let session = sessionManager.getSession(restart: false)
-        
-        settings.setSessionId(sessionId: session.sessionId)
-        
-        DengageEventCollecitonService.shared.startSession(actionUrl: actionUrl)
-    }
 }
