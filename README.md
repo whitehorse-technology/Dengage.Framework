@@ -1,6 +1,8 @@
 # Dengage.Framework
 
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/5bff8a0fa6b44ddabf44a849dc81275f)](https://app.codacy.com/manual/whitehorse-technology/Dengage.Framework?utm_source=github.com&utm_medium=referral&utm_content=whitehorse-technology/Dengage.Framework&utm_campaign=Badge_Grade_Dashboard)
+
 ## Requirements
 
 * Dengage Integration Key
