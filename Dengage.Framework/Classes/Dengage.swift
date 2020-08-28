@@ -10,47 +10,44 @@ import Foundation
 import UserNotifications
 import AdSupport
 
-
-public class Dengage
-{
+public class Dengage {
+    
     static var center = UNUserNotificationCenter.current()
     
     static var notificationDelegate = DengageNotificationDelegate()
-    static var _subscriptionService : SubscriptionService = SubscriptionService()
-    static var _openEventService : OpenEventService = OpenEventService()
-    static var _eventCollectionService : EventCollectionService = EventCollectionService()
-    static var _dengageEventCollectionService : DengageEventCollecitonService = .shared
-    static var _sessionManager :  SessionManager = .shared
-    static var IsUserGranted : Bool = false
+    static var openEventService: OpenEventService = OpenEventService()
+    static var eventCollectionService: EventCollectionService = EventCollectionService()
+    static var sessionManager: SessionManager = .shared
     
-    static var _utilities : Utilities = .shared
-    static var _settings : Settings = .shared
-    static var _logger : SDKLogger = .shared
-    static var _eventQueue : EventQueue = EventQueue()
-
+    static var utilities: Utilities = .shared
+    static var settings: Settings = .shared
+    static var logger: SDKLogger = .shared
+    static var eventQueue: EventQueue = EventQueue()
     
-    //  MARK:- Initialize Methods
+    //MARK: - Initialize Methods
     /// Initiliazes SDK requiered parameters.
     ///
     /// -  Usage:
     ///
-    ///      Dengage.initWithLaunchOptions(categories : [], withLaunchOptions: launchOptions, badgeCountReset: true)
+    ///      Dengage.initWithLaunchOptions(categories: [], withLaunchOptions: launchOptions, badgeCountReset: true)
     ///
-    /// - Parameter categories : *categories* custom action buttons
+    /// - Parameter categories: *categories* custom action buttons
     /// - Parameter withLaunchOptions: *withLaunchOptions*
     /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
     @available(iOS 10.0, *)
+    
     // will support rich notifications with categories
-    public static func initWithLaunchOptions(categories : Set<UNNotificationCategory>?, withLaunchOptions : [UIApplication.LaunchOptionsKey: Any]?, badgeCountReset : Bool?) {
+    public static func initWithLaunchOptions(categories: Set<UNNotificationCategory>?,
+                                             withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
+                                             badgeCountReset: Bool?) {
         
         center.delegate = notificationDelegate
         
-        _settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
-        ConfigureSettings()
+        settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
+        configureSettings()
         
         
-        if(categories != nil)
-        {
+        if categories != nil {
             if (categories!.count < 0 || categories!.count == 0)
             {
                 return
@@ -70,40 +67,30 @@ public class Dengage
     /// - Parameter withLaunchOptions: *withLaunchOptions*
     /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
     @available(iOS 10.0, *)
-    public static func initWithLaunchOptions(withLaunchOptions : [UIApplication.LaunchOptionsKey: Any]?, badgeCountReset : Bool?) {
+    public static func initWithLaunchOptions(withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
+                                             badgeCountReset: Bool?) {
         
         center.delegate = notificationDelegate
-        _settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
-        ConfigureSettings()
+        settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
+        configureSettings()
     }
     
-    // MARK:- Rich Notification İnitiliaze
+    // MARK: - Rich Notification İnitiliaze
     @available(iOSApplicationExtension 10.0, *)
-    public static func didReceiveNotificationExtentionRequest(receivedRequest : UNNotificationRequest, withNotificationContent : UNMutableNotificationContent){
+    public static func didReceiveNotificationExtentionRequest(receivedRequest: UNNotificationRequest,
+                                                              withNotificationContent: UNMutableNotificationContent) {
         
-        DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest, withNotificationContent: withNotificationContent)
+        DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest,
+                                                                                   withNotificationContent: withNotificationContent)
     }
     
-    // MARK:- Private Methods
-    static func ConfigureSettings(){
-           
-           _settings.setCarrierId(carrierId: _utilities.identifierForCarrier())
-           _settings.setAdvertisingId(advertisingId: _utilities.identifierForAdvertising())
-           _settings.setApplicationIdentifier(applicationIndentifier: _utilities.identifierForApplication())
-           _settings.setAppVersion(appVersion: _utilities.indentifierForCFBundleShortVersionString())
-       }
-    
-    static func StartSession(actionUrl: String?){
+    //MARK: - Private Methods
+    static func configureSettings() {
         
-        if _settings.getSessionStart() {
-            
-            return
-        }
-        
-        let session = _sessionManager.getSession()
-        
-        _settings.setSessionId(sessionId: session.Id)
-        
-        _dengageEventCollectionService.startSession(actionUrl: actionUrl)
+        settings.setCarrierId(carrierId: utilities.identifierForCarrier())
+        settings.setAdvertisingId(advertisingId: utilities.identifierForAdvertising())
+        settings.setApplicationIdentifier(applicationIndentifier: utilities.identifierForApplication())
+        settings.setAppVersion(appVersion: utilities.indentifierForCFBundleShortVersionString())
     }
+    
 }

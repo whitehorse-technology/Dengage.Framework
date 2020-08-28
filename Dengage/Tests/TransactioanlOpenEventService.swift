@@ -10,12 +10,12 @@ import XCTest
 @testable import Dengage_Framework
 
 class TransactioanlOpenEventServiceTestCase: XCTestCase {
+
+    var logMock: SDKLoggerMock = SDKLoggerMock()
+    var urlSessionMock: URLSessionMock = URLSessionMock()
+    var settingsMock: SettingsMock = SettingsMock()
     
-    var logMock : SDKLoggerMock = SDKLoggerMock()
-    var urlSessionMock : URLSessionMock = URLSessionMock()
-    var settingsMock : SettingsMock = SettingsMock()
-    
-    var sut : TransactioanlOpenEventService = TransactioanlOpenEventService()
+    var sut: TransactioanlOpenEventService = TransactioanlOpenEventService()
     
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -37,9 +37,6 @@ class TransactioanlOpenEventServiceTestCase: XCTestCase {
         request.messageDetails = ""
         request.messageId = 1
         
-        sut.PostOpenEvent(transactionalOpenEventHttpRequest: request)
+        sut.postOpenEvent(transactionalOpenEventHttpRequest: request)
     }
-    
-    
-    
 }

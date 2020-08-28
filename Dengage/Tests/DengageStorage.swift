@@ -25,7 +25,7 @@ class DengageStorageTestCase: XCTestCase {
         
         sut.setValueWithKey(value: "1", key: "test")
         
-        let actual = sut._userDefaults.string(forKey: "test")
+        let actual = sut.userDefaults.string(forKey: "test")
         
         XCTAssertEqual("1", actual)
     }

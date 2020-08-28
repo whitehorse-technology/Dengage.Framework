@@ -10,12 +10,12 @@ import XCTest
 @testable import Dengage_Framework
 
 class OpenEventServiceTestCase: XCTestCase {
+
+    var logMock: SDKLoggerMock = SDKLoggerMock()
+    var urlSessionMock: URLSessionMock = URLSessionMock()
+    var settingsMock: SettingsMock = SettingsMock()
     
-    var logMock : SDKLoggerMock = SDKLoggerMock()
-    var urlSessionMock : URLSessionMock = URLSessionMock()
-    var settingsMock : SettingsMock = SettingsMock()
-    
-    var sut : OpenEventService = OpenEventService()
+    var sut: OpenEventService = OpenEventService()
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -37,9 +37,6 @@ class OpenEventServiceTestCase: XCTestCase {
         request.messageDetails = ""
         request.messageId = 1
         
-        sut.PostOpenEvent(openEventHttpRequest: request)
+        sut.postOpenEvent(openEventHttpRequest: request)
     }
-
-    
-
 }

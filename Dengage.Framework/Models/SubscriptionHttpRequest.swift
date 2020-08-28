@@ -8,12 +8,12 @@
 
 import Foundation
 
-internal struct SubscriptionHttpRequest{
-    
+internal struct SubscriptionHttpRequest {
+
     public var integrationKey = ""
     public var contactKey = ""
     public var permission = false
     public var appVersion = ""
     
-    public init(){}
+    public init() {}
 }

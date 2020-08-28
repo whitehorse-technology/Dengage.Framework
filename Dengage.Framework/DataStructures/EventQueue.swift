@@ -2,7 +2,7 @@
 //  EventQueue.swift
 //  Dengage.Framework
 //
-//  Created by Ekin Bulut on 19.12.2019.
+//  Created by Developer on 19.12.2019.
 //
 
 import Foundation
@@ -22,8 +22,7 @@ struct EventQueue {
         
         if items.isEmpty {
             return nil
-        }
-        else{
+        } else {
             let tempElement = items.first
             items.remove(at: 0)
             return tempElement
@@ -46,8 +45,7 @@ struct DengageEventQueue {
         
         if items.isEmpty {
             return nil
-        }
-        else{
+        } else {
             let tempElement = items.first
             items.remove(at: 0)
             return tempElement

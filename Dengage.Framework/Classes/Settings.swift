@@ -9,216 +9,274 @@
 import Foundation
 
 internal class Settings {
-    
+
     static let shared = Settings()
     
-    let _storage : DengageLocalStorage
-    let _logger : SDKLogger
+    let storage: DengageLocalStorage
+    let logger: SDKLogger
     
-//    MARK:- Variables
-    private var _integrationKey :   String = ""
-    private var _token :            String? = ""
-    private var _carrierId :        String = ""
-    private var _sdkVersion :       String
-    private var _advertisingId :    String = ""
-    private var _applicationIdentifier : String = ""
-    private var _contactKey :       String = ""
-    private var _appVersion :       String = ""
-    private var _sessionId  :       String = ""
-
-    private var _testGroup : String = ""
+    //MARK: - Variables
+    var integrationKey: String = ""
+    var token: String? = ""
+    var carrierId: String = ""
+    var sdkVersion: String
+    var advertisingId: String = ""
+    var applicationIdentifier : String = ""
+    var contactKey: String = ""
+    var appVersion: String = ""
+    var sessionId: String = ""
+    var referrer: String?
+    var campSource: String?
+    var sendId: String?
     
-    private var _badgeCountReset :  Bool?
-    private var _permission :       Bool?
-    private var _sessionStarted : Bool
+    var testGroup: String = ""
     
-    private var _useCloudForSubscription : Bool = false
-    private var _registerForRemoteNotification : Bool = true;
+    var badgeCountReset: Bool?
+    var permission: Bool?
+    var sessionStarted: Bool
+    
+    var useCloudForSubscription: Bool = false
+    var registerForRemoteNotification: Bool = true
     
     init() {
-        _sdkVersion = SDK_VERSION
-        _permission = false
-        _badgeCountReset = true
-        _storage = DengageLocalStorage.shared
-        _logger = SDKLogger.shared
-        _sessionStarted = false
+        sdkVersion = SDK_VERSION
+        permission = false
+        badgeCountReset = true
+        storage = DengageLocalStorage.shared
+        logger = SDKLogger.shared
+        sessionStarted = false
         
     }
     
-    init(storage :  DengageLocalStorage = .shared, logger : SDKLogger = .shared){
+    init(storage:  DengageLocalStorage = .shared, logger: SDKLogger = .shared){
         
-        _storage = storage
-        _logger = logger
-        _sdkVersion = SDK_VERSION
-        _permission = false
-        _badgeCountReset = true
-        _sessionStarted = false
+        self.storage = storage
+        self.logger = logger
+        sdkVersion = SDK_VERSION
+        permission = false
+        badgeCountReset = true
+        sessionStarted = false
     }
-    
 
-    //MARK:- Private functions
-    final func setRegiterForRemoteNotification(enable : Bool)
+    // MARK: -  functions
+    func setRegiterForRemoteNotification(enable: Bool)
     {
-        self._registerForRemoteNotification = enable
+        self.registerForRemoteNotification = enable
     }
     
-    final func getRegiterForRemoteNotification() -> Bool {
+    func getRegiterForRemoteNotification() -> Bool {
         
-        return self._registerForRemoteNotification
+        return self.registerForRemoteNotification
     }
     
-    final func setCloudEnabled(status : Bool)
-    {
-        self._useCloudForSubscription = status
+    @available(swift, deprecated: 2.5.0)
+    func setCloudEnabled(status: Bool) {
+        self.useCloudForSubscription = status
     }
     
-    final func getCloudEnabled() -> Bool {
+    func getCloudEnabled() -> Bool {
         
-        return self._useCloudForSubscription
+        return self.useCloudForSubscription
     }
     
-    final func setTestGroup(testGroup : String){
+    func setTestGroup(testGroup: String) {
         
-        _testGroup = testGroup
+        self.testGroup = testGroup
     }
     
-    final func getTestGroup() -> String {
+    func getTestGroup() -> String {
         
-        return _testGroup
+        return testGroup
     }
     
-    final func setSessionStart(status : Bool)
-    {
-        self._sessionStarted = status
+    func setSessionStart(status: Bool) {
+        self.sessionStarted = status
     }
     
-    final func getSessionStart() -> Bool {
+    func getSessionStart() -> Bool {
         
-        return self._sessionStarted
+        return self.sessionStarted
     }
     
-    final func setSessionId(sessionId : String) {
+    func setSessionId(sessionId: String) {
         
-        self._sessionId = sessionId
+        self.sessionId = sessionId
     }
     
-    final func getSessionId() -> String {
-           
-         return  self._sessionId
-    }
-       
-    
-    final func setSdkVersion(sdkVersion: String){
+    func getSessionId() -> String {
         
-        self._sdkVersion = sdkVersion
+        return  self.sessionId
     }
     
-    final func getSdkVersion() -> String {
+    func setSdkVersion(sdkVersion: String) {
         
-        return self._sdkVersion
+        self.sdkVersion = sdkVersion
     }
     
-    final func setCarrierId(carrierId: String){
+    func getSdkVersion() -> String {
         
-        self._carrierId = carrierId;
+        return self.sdkVersion
     }
     
-    final func getCarrierId() -> String {
+    func setCarrierId(carrierId: String) {
         
-        return self._carrierId
+        self.carrierId = carrierId;
     }
     
-    final func setAdvertisingId(advertisingId :String){
+    func getCarrierId() -> String {
         
-        self._advertisingId = advertisingId
+        return self.carrierId
+    }
+
+    func setAdvertisingId(advertisingId:String) {
+        
+        self.advertisingId = advertisingId
     }
     
-    final func getAdvertisinId() -> String? {
+    func getAdvertisinId() -> String? {
         
-        return self._advertisingId
+        return self.advertisingId
+    }
+
+    func setApplicationIdentifier(applicationIndentifier: String) {
+        
+        self.applicationIdentifier = applicationIndentifier
     }
     
-    final func setApplicationIdentifier(applicationIndentifier:String){
+    func getApplicationIdentifier() -> String {
         
-        self._applicationIdentifier = applicationIndentifier
+        return applicationIdentifier;
     }
     
-    final func getApplicationIdentifier() -> String {
+    func setDengageIntegrationKey(integrationKey: String) {
         
-        return _applicationIdentifier;
+        self.integrationKey = integrationKey
     }
     
-    final func setDengageIntegrationKey(integrationKey: String){
+    func getDengageIntegrationKey() -> String {
         
-        self._integrationKey = integrationKey
+        return self.integrationKey
     }
     
-    final func getDengageIntegrationKey() -> String {
+    func  setBadgeCountReset(badgeCountReset: Bool?) {
         
-        return self._integrationKey
+        self.badgeCountReset = badgeCountReset
     }
     
-    final func  setBadgeCountReset(badgeCountReset : Bool?) {
+    func getBadgeCountReset() -> Bool? {
         
-        self._badgeCountReset = badgeCountReset
+        return self.badgeCountReset
+    }
+
+    func setContactKey(contactKey: String?) {
+        
+        self.contactKey = contactKey ?? ""
+        storage.setValueWithKey(value: contactKey ?? "", key: "ContactKey")
+        self.contactKey = storage.getValueWithKey(key: "ContactKey") ?? ""
     }
     
-    final func getBadgeCountReset() -> Bool? {
+    func getContactKey() -> String? {
         
-        return self._badgeCountReset
+        self.contactKey = storage.getValueWithKey(key: "ContactKey") ?? ""
+        //        logger.Log(message: "CONTACT_KEY is %s", logtype: .debug, argument: self.contactKey)
+        return self.contactKey
     }
     
-    final func setContactKey(contactKey : String?){
+    func setToken(token: String) {
         
-        self._contactKey = contactKey ?? ""
-        _storage.setValueWithKey(value: contactKey ?? "", key: "ContactKey")
-        self._contactKey = _storage.getValueWithKey(key: "ContactKey") ?? ""
-    }
-    
-    final func getContactKey() -> String? {
-        
-        self._contactKey = _storage.getValueWithKey(key: "ContactKey") ?? ""
-//        _logger.Log(message: "CONTACT_KEY is %s", logtype: .debug, argument: self._contactKey)
-        return self._contactKey
-    }
-    
-    final func setToken(token: String){
-        
-        self._token = token
-        _storage.setValueWithKey(value: token, key: "Token")
-        _logger.Log(message:"TOKEN %s",  logtype: .debug, argument: self._token!)
+        self.token = token
+        storage.setValueWithKey(value: token, key: "Token")
+        logger.Log(message:"TOKEN %s", logtype: .debug, argument: self.token!)
         
     }
     
-    final func getToken() -> String?{
+    func getToken() -> String?{
         
-        self._token = _storage.getValueWithKey(key: "Token")
-        return self._token
+        self.token = storage.getValueWithKey(key: "Token")
+        return self.token
+    }
+
+    func setAppVersion(appVersion: String) {
+
+        self.appVersion = appVersion
     }
     
-    final func setAppVersion(appVersion: String){
-        
-        self._appVersion = appVersion
+    func getAppversion() -> String? {
+        return self.appVersion
     }
     
-    final func getAppversion() -> String? {
-        
-        return self._appVersion
+    func setPermission(permission: Bool?) {
+        self.permission = permission
     }
     
-    
-    final func setPermission(permission: Bool?){
-        
-        self._permission = permission
+    func getPermission() -> Bool? {
+        return self.permission
     }
     
-    final func getPermission() -> Bool? {
-        
-        return self._permission
-    }
-    
-    final func getUserAgent() -> String {
-        
+    func getUserAgent() -> String {
         return UAString()
+    }
+    
+    func getEventApiUrl() -> String? {
+        var eventUrl = (Bundle.main.object(forInfoDictionaryKey: "DengageEventApiUrl") as? String) ?? ""
+        if eventUrl.isEmpty {
+            eventUrl = EVENT_SERVICE_URL
+        }
+        logger.Log(message:"EVENT_API_URL is %s", logtype: .debug, argument: eventUrl)
+        return eventUrl
+    }
+    
+    func setChannel(source: String) {
+//        storage.setValueWithKey(value: campId, key: "dn_camp_id")
+        self.campSource = source
+        setCampDate()
+        logger.Log(message:"CHANNEL is %s", logtype: .debug, argument: self.campSource ?? "")
+    }
+
+    func getChannel()-> String? {
+//        return storage.getValueWithKey(key: "dn_camp_id")
+        return self.campSource
+    }
+
+    func setSendId(sendId: String) {
+//        storage.setValueWithKey(value: sendId, key: "dn_send_id")
+        self.sendId = sendId
+        logger.Log(message:"SEND_ID is %s", logtype: .debug, argument: self.sendId ?? "")
+    }
+
+    func getSendId() -> String? {
+
+        return self.sendId
+//        return storage.getValueWithKey(key: "dn_send_id")
+    }
+    
+    func setCampDate() {
+      
+        let date = NSDate() // Get Todays Date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
+        let stringDate: String = dateFormatter.string(from: date as Date)
+        
+        storage.setValueWithKey(value: stringDate, key: "dn_camp_date")
+        logger.Log(message:"CampDate is %s", logtype: .debug, argument: stringDate)
+    }
+    
+    func getCampDate() -> NSDate? {
+        
+        let dateFormatter = DateFormatter()
+        // Our date format needs to match our input string format
+        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm:ss"
+        let campDate = storage.getValueWithKey(key: "dn_camp_date")
+        let dateFromString = dateFormatter.date(from: campDate!)
+        
+        return dateFromString as NSDate?
+    }
+    
+    func setReferrer(referrer: String) {
+        self.referrer = referrer
+    }
+    
+    func getReferrer()-> String? {
+        return self.referrer
     }
 }

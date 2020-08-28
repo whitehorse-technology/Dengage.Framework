@@ -12,12 +12,11 @@ import XCTest
 
 class BaseServiceTestCase: XCTestCase {
     
-    var logMock : SDKLoggerMock = SDKLoggerMock()
-    var urlSessionMock : URLSessionMock = URLSessionMock()
-    var settingsMock : SettingsMock = SettingsMock()
+    var logMock: SDKLoggerMock = SDKLoggerMock()
+    var urlSessionMock: URLSessionMock = URLSessionMock()
+    var settingsMock: SettingsMock = SettingsMock()
     
-    
-    var sut : BaseService = BaseService.init()
+    var sut: BaseService = BaseService.init()
 
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -33,10 +32,7 @@ class BaseServiceTestCase: XCTestCase {
         
         let parameters = [] as Any
         
-        sut.ApiCall(data: parameters, urlAddress: "https://pushdev.dengage.com/api/subscription")
+        sut.apiCall(data: parameters, urlAddress: "https://pushdev.dengage.com/api/subscription")
         
     }
-
-    
-
 }
