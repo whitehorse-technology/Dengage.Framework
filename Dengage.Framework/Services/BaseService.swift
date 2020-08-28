@@ -57,36 +57,31 @@ internal class BaseService {
         request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
         
         logger.Log(message:"USER_AGENT is %s",  logtype: .debug, argument:  userAgent)
-
-        //create dataTask using the session object to send data to the server
-        let task = session.dataTask(with: request as URLRequest, completionHandler: { data, _, error in
-            
-            guard error == nil else {
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            guard data.count != 0 else {
-                return
-            }
-            
-            do {
-                //create json object from data
-                if let json = try JSONSerialization.jsonObject(with: data,
-                                                               options: .mutableContainers) as? [String: Any] {
-                    
-                    self.logger.Log(message: "API_RESPONSE %s", logtype: .debug, argument: "\(json)")
-                    // handle json...
-                }
-            } catch let error {
-                self.logger.Log(message: "API_CALL_ERROR %s", logtype: .error, argument: error.localizedDescription)
-                
-            }
-        })
+        
+        let task = session.dataTask(with: request, completionHandler: handler(data:urlResponse:error:))
         
         task.resume()
+    }
+    
+    func handler(data: Data?, urlResponse: URLResponse?, error: Error?){
+        
+        if error != nil {
+            self.logger.Log(message: "API_CALL_ERROR %s", logtype: .error, argument: error!.localizedDescription)
+        }
+        
+        if let response = urlResponse as? HTTPURLResponse {
+            
+            self.logger.Log(message: "RESPONSE_STATUS %s", logtype: .debug, argument: "\(response.statusCode)")
+
+        }
+        
+        if let safeData = data {
+            let dataString = String(data:safeData, encoding: .utf8)
+            
+            if dataString!.isEmpty == false {
+                self.logger.Log(message: "API_RESPONSE %s", logtype: .debug, argument: dataString!)
+            }
+        }
+        
     }
 }
