@@ -70,9 +70,7 @@ internal class BaseService {
         }
         
         if let response = urlResponse as? HTTPURLResponse {
-            
             self.logger.Log(message: "RESPONSE_STATUS %s", logtype: .debug, argument: "\(response.statusCode)")
-
         }
         
         if let safeData = data {
