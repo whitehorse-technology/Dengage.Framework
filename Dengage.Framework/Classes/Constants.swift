@@ -24,7 +24,7 @@ let SUBSCRIPTION_QUEUE = "subscription-queue"
 let QUEUE_LIMIT = 5
 
 // MARK:- SETTINGS
-let SDK_VERSION = "2.5.6"
+let SDK_VERSION = "2.5.7"
 
 let SUIT_NAME = "group.dengage"
 
