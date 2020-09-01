@@ -60,15 +60,13 @@ public class DengageEvent {
                       "utm_term": utmTerm as Any
                 ] as NSMutableDictionary
         } else {           
-            params = ["session_id":session.sessionId,
-                      "referrer": referrer
-                ] as NSMutableDictionary
+            params = ["session_id":session.sessionId] as NSMutableDictionary
         }
         
         
         let sendId = settings.getSendId()
         if sendId != nil {
-            params["channel"] = settings.getChannel() ?? "PUSH"
+            params["channel"] = settings.getChannel()?.lowercased() ?? "push"
             params["send_id"] = settings.getSendId()
         }
         
