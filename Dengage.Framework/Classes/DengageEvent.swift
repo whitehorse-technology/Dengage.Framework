@@ -36,7 +36,7 @@ public class DengageEvent {
         
         var params: NSMutableDictionary = [:]
         
-        if  !referrer.isEmpty {
+        if  !referrerAdress.isEmpty {
             
             queryStringParser(urlString: referrer)
 
@@ -60,7 +60,8 @@ public class DengageEvent {
                       "utm_term": utmTerm as Any
                 ] as NSMutableDictionary
         } else {           
-            params = ["session_id":session.sessionId] as NSMutableDictionary
+            params = ["referrer": referrerAdress,
+                      "session_id":session.sessionId] as NSMutableDictionary
         }
         
         
