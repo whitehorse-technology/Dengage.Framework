@@ -103,4 +103,14 @@ extension Dengage {
     public static func setReferrer(referrer: String) {
         settings.setReferrer(referrer: referrer)
     }
+    
+    /// ApplicationIdentifier is a unique identifier for user device.
+    /// Usage :
+    ///
+    ///     Dengage.setApplicationIdentifier(applicationIdentifier: "device-id")
+    ///
+    /// - Parameter applicationIdentifier : unique-device-id
+    public static func setApplicationIdentifier(applicationIdentifier: String) {
+        settings.setApplicationIdentifier(applicationIndentifier: applicationIdentifier)
+    }
 }
