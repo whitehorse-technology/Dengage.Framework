@@ -17,7 +17,7 @@ Dengage.Framework is available through [CocoaPods](https://cocoapods.org). To in
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'Dengage.Framework', '2.5.6'
+pod 'Dengage.Framework', '2.5.8'
 ```
 
 ## License
@@ -26,7 +26,7 @@ Dengage.Framework is available under the GNU General Public License v3.0 license
 
 ***Dengage.Framework*** provides necessary classes and functions which handles notification registration and sending open events to developer.  Also it gives classes to send subscription events to dengage infrastructure.
 
-Supports 11.0+
+Supports 10.0+
 
 ## Docs 
 

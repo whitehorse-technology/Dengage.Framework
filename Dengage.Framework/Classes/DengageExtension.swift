@@ -110,7 +110,7 @@ extension Dengage {
     ///     Dengage.setApplicationIdentifier(applicationIdentifier: "device-id")
     ///
     /// - Parameter applicationIdentifier : unique-device-id
-    public static func setApplicationIdentifier(applicationIdentifier: String) {
+    public static func setDeviceId(applicationIdentifier: String) {
         settings.setApplicationIdentifier(applicationIndentifier: applicationIdentifier)
     }
 }
