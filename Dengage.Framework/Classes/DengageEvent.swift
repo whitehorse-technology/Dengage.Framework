@@ -60,8 +60,7 @@ public class DengageEvent {
                       "utm_term": utmTerm as Any
                 ] as NSMutableDictionary
         } else {           
-            params = ["referrer": referrerAdress,
-                      "session_id":session.sessionId] as NSMutableDictionary
+            params = ["session_id":session.sessionId] as NSMutableDictionary
         }
         
         

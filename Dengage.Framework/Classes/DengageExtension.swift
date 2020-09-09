@@ -37,6 +37,18 @@ extension Dengage {
         settings.setContactKey(contactKey: contactKey)
     }
     
+    /// Returns Contact Key. Contact key can be your memberId, email of member who has logged in to the application.
+    ///
+    ///
+    /// - Usage:
+    ///
+    ///     Dengage.getContactKey()
+    ///
+    ///- Parameter contactKey : **contactKey**
+    public static func getContactKey() -> String {
+       return settings.getContactKey() ?? ""
+    }
+    
     /// Sets Apns Token
     ///
     /// - Precondition: If you want to set Token anywhere in application without using sdk, use this method.
@@ -102,5 +114,15 @@ extension Dengage {
     /// - Parameter referrer : **url address**
     public static func setReferrer(referrer: String) {
         settings.setReferrer(referrer: referrer)
+    }
+    
+    /// ApplicationIdentifier is a unique identifier for user device.
+    /// Usage :
+    ///
+    ///     Dengage.setApplicationIdentifier(applicationIdentifier: "device-id")
+    ///
+    /// - Parameter applicationIdentifier : unique-device-id
+    public static func setDeviceId(applicationIdentifier: String) {
+        settings.setApplicationIdentifier(applicationIndentifier: applicationIdentifier)
     }
 }
