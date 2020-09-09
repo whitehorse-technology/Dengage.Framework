@@ -37,6 +37,18 @@ extension Dengage {
         settings.setContactKey(contactKey: contactKey)
     }
     
+    /// Returns Contact Key. Contact key can be your memberId, email of member who has logged in to the application.
+    ///
+    ///
+    /// - Usage:
+    ///
+    ///     Dengage.getContactKey()
+    ///
+    ///- Parameter contactKey : **contactKey**
+    public static func getContactKey() -> String {
+       return settings.getContactKey() ?? ""
+    }
+    
     /// Sets Apns Token
     ///
     /// - Precondition: If you want to set Token anywhere in application without using sdk, use this method.
