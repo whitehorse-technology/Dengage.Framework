@@ -124,6 +124,8 @@ internal class Utilities {
         } else {
             if asIdentifierManager.isAdvertisingTrackingEnabled {
                 advertisingId = asIdentifierManager.advertisingIdentifier.uuidString.lowercased()
+            } else {
+                advertisingId = ""
             }
         }
         
