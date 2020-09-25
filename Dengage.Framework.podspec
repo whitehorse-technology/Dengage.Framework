@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Dengage.Framework'
-  s.version          = '2.5.10'
+  s.version          = '2.5.11'
   s.summary          = 'Dengage.Framework contains tools for integration with Dengage'
 
 # This description is used to generate tags and improve search results.
@@ -24,7 +24,7 @@ Pod::Spec.new do |s|
   s.homepage         = 'https://github.com/whitehorse-technology/Dengage.Framework'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'GNU GPLv3', :file => 'LICENSE' }
-  s.author           = { 'ekin@whitehorse.technology' => 'ekin@whitehorse.technology' }
+  s.author           = { 'tech@dengage.com' => 'tech@dengage.com' }
   s.source           = { :git => 'https://github.com/whitehorse-technology/Dengage.Framework.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
