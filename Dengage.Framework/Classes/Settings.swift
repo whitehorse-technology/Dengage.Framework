@@ -281,7 +281,7 @@ internal class Settings {
     }
     
     func getSubscriptionApi() -> String {
-        guard let dengageApiUrl = Bundle.main.path(forResource: "DengageApiUrl", ofType: "plist") else { return SUBSCRIPTION_SERVICE_URL }
+        guard let dengageApiUrl = Bundle.main.object(forInfoDictionaryKey: "DengageApiUrl") as? String else { return SUBSCRIPTION_SERVICE_URL }
         return dengageApiUrl
     }
 }

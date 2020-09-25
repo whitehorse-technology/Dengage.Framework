@@ -13,7 +13,7 @@ internal class SubscriptionService: BaseService {
 
     internal func sendSubscriptionEvent() {
 
-        let  urladdress = SUBSCRIPTION_SERVICE_URL + "/api/device/subscription"
+        let  urladdress = settings.getSubscriptionApi() + "/api/device/subscription"
         
         logger.Log(message: "SUBSCRIPTION_URL is %s", logtype: .info, argument: urladdress)
         
