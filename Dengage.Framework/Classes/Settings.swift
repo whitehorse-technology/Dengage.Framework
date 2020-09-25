@@ -220,11 +220,8 @@ internal class Settings {
         return UAString()
     }
     
-    func getEventApiUrl() -> String? {
-        var eventUrl = (Bundle.main.object(forInfoDictionaryKey: "DengageEventApiUrl") as? String) ?? ""
-        if eventUrl.isEmpty {
-            eventUrl = EVENT_SERVICE_URL
-        }
+    func getEventApiUrl() -> String {
+        guard let eventUrl = Bundle.main.object(forInfoDictionaryKey: "DengageEventApiUrl") as? String else { return EVENT_SERVICE_URL }
         logger.Log(message:"EVENT_API_URL is %s", logtype: .debug, argument: eventUrl)
         return eventUrl
     }
@@ -281,5 +278,10 @@ internal class Settings {
     
     func getReferrer()-> String? {
         return self.referrer
+    }
+    
+    func getSubscriptionApi() -> String {
+        guard let dengageApiUrl = Bundle.main.path(forResource: "DengageApiUrl", ofType: "plist") else { return SUBSCRIPTION_SERVICE_URL }
+        return dengageApiUrl
     }
 }

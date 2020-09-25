@@ -13,7 +13,7 @@ internal class EventCollectionService: BaseService {
     
     internal func PostEventCollection(eventCollectionModel: EventCollectionModel) {
         
-        let urladdress = EVENT_SERVICE_URL
+        let urladdress = settings.getEventApiUrl() + "/api/event"
         
         logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress)
         
@@ -43,7 +43,7 @@ internal class EventCollectionService: BaseService {
         
         let urladdress = settings.getEventApiUrl()
         
-        logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress!)
+        logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress)
         
         let integrationKey = settings.getDengageIntegrationKey()
         
@@ -56,7 +56,7 @@ internal class EventCollectionService: BaseService {
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
         
         queue.async {
-            self.apiCall(data: parameters, urlAddress: urladdress!)
+            self.apiCall(data: parameters, urlAddress: urladdress)
         }
         
         logger.Log(message: "EVENT_COLLECTION_SENT", logtype: .info)

@@ -12,7 +12,8 @@ import os.log
 internal class TransactioanlOpenEventService: BaseService {
 
     internal func postOpenEvent(transactionalOpenEventHttpRequest: TransactionalOpenEventHttpRequest) {
-        let urladdress = TRANSACTIONAL_OPEN_SERVICE_URL
+    
+        let urladdress = settings.getSubscriptionApi() + "/api/transactional/mobile/open"
         
         logger.Log(message: "TRANSACTIONAL_OPEN_URL is %s", logtype: .info, argument: urladdress)
         

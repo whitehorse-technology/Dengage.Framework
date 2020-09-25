@@ -12,7 +12,7 @@ import os.log
 internal class OpenEventService : BaseService {
 
     internal func postOpenEvent(openEventHttpRequest: OpenEventHttpRequest) {
-        let urladdress = OPEN_EVENT_SERVICE_URL
+        let urladdress = settings.getSubscriptionApi() + "/api/mobile/open"
 
         logger.Log(message: "OPEN_API_URL is %s", logtype: .info, argument: urladdress)
         
