@@ -18,11 +18,6 @@ extension Dengage {
     @available(*, renamed: "SendSubscriptionEvent")
     public static func SyncSubscription() {
         
-        
-        if settings.getAdvertisinId()!.isEmpty {
-            logger.Log(message: "ADV_ID_IS_EMPTY", logtype: .info)
-            return
-        }
         if settings.getApplicationIdentifier().isEmpty  {
             logger.Log(message: "APP_IDF_ID_IS_EMPTY", logtype: .info)
             return
