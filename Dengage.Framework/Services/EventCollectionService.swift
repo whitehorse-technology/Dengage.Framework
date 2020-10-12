@@ -43,11 +43,6 @@ internal class EventCollectionService: BaseService {
         
         let urladdress = settings.getEventApiUrl()
         
-        if ((settings.getAdvertisinId()?.isEmpty) != nil){
-            logger.Log(message: "ADVERTISING_ID_IS_EMPTY", logtype: .info)
-            return
-        }
-        
         logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress)
         
         let integrationKey = settings.getDengageIntegrationKey()
