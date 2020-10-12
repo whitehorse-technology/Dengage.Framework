@@ -41,11 +41,6 @@ extension Dengage {
             return false
         }
         
-        if ((settings.getAdvertisinId()?.isEmpty) != nil){
-            logger.Log(message: "ADVERTISING_ID_IS_EMPTY", logtype: .info)
-            return false
-        }
-        
         andWithEventDetails["session_id"] = settings.getSessionId()
         
         var eventCollectionModel = EventCollectionModel()
@@ -67,11 +62,6 @@ extension Dengage {
         
         if toEventTable.isEmpty {
             logger.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
-            return false
-        }
-        
-        if ((settings.getAdvertisinId()?.isEmpty) != nil){
-            logger.Log(message: "ADVERTISING_ID_IS_EMPTY", logtype: .info)
             return false
         }
         
