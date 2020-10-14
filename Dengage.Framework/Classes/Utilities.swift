@@ -9,7 +9,6 @@
 import Foundation
 import CoreTelephony
 import AdSupport
-import AppTrackingTransparency
 
 internal class Utilities {
 
@@ -77,40 +76,6 @@ internal class Utilities {
         
         return carrierId
         
-    }
-    
-    func identifierForAdvertising(enabled: Bool) -> String {
-        var advertisingId = ""
-        if #available(iOS 14, *) {
-            ATTrackingManager.requestTrackingAuthorization(completionHandler: { status in
-                switch status {
-                
-                case .notDetermined:
-                    advertisingId = ""
-                    self.logger.Log(message: "Tracking not determined", logtype: .debug)
-                case .restricted:
-                    advertisingId = ""
-                    self.logger.Log(message: "Tracking restricted", logtype: .debug)
-                case .denied:
-                    advertisingId = ""
-                    self.logger.Log(message: "Tracking is denied", logtype: .debug)
-                case .authorized:
-                    advertisingId =  self.asIdentifierManager.advertisingIdentifier.uuidString.lowercased()
-                @unknown default:
-                    advertisingId = ""
-                    self.logger.Log(message: "Tracking not determined", logtype: .debug)
-                }
-            })
-        } else {
-            
-            if asIdentifierManager.isAdvertisingTrackingEnabled {
-                advertisingId = asIdentifierManager.advertisingIdentifier.uuidString.lowercased()
-            }
-            logger.Log(message: "ADVERTISING_ID is %s", logtype: .debug, argument: advertisingId)
-            return advertisingId
-        }
-        
-        return advertisingId
     }
     
     func identifierForAdvertising() -> String {
