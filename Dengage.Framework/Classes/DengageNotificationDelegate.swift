@@ -51,28 +51,33 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                                       didReceive response: UNNotificationResponse,
                                       withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        
         let content = response.notification.request.content
-        let actionIdentifier = response.actionIdentifier
+        let messageSource = content.userInfo["messageSource"]
         
-        switch actionIdentifier {
-        case UNNotificationDismissActionIdentifier:
-            os_log("UNNotificationDismissActionIdentifier TRIGGERED", log: .default, type: .info)
-            sendEventWithContent(content: content, actionIdentifier: "DismissAction")
-        case UNNotificationDefaultActionIdentifier:
-            os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
-            sendEventWithContent(content: content, actionIdentifier: "")
-        default:
-            os_log("ACTION_ID: %s TRIGGERED", log: .default, type: .debug, actionIdentifier)
-            sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
-            checkTargetUrlInActionButtons(content: content, actionIdentifier: actionIdentifier)
+        if messageSource != nil {
+            if MESSAGE_SOURCE == messageSource as? String {
+                let actionIdentifier = response.actionIdentifier
+                switch actionIdentifier {
+                case UNNotificationDismissActionIdentifier:
+                    os_log("UNNotificationDismissActionIdentifier TRIGGERED", log: .default, type: .info)
+                    sendEventWithContent(content: content, actionIdentifier: "DismissAction")
+                case UNNotificationDefaultActionIdentifier:
+                    os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
+                    sendEventWithContent(content: content, actionIdentifier: "")
+                default:
+                    os_log("ACTION_ID: %s TRIGGERED", log: .default, type: .debug, actionIdentifier)
+                    sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
+                    checkTargetUrlInActionButtons(content: content, actionIdentifier: actionIdentifier)
+                }
+                
+                openTriggerCompletionHandler?(response)
+                checkTargetUrl(content: content)
+                parseCampIdAndSendId(content: content)
+                let refferer = parseReferrer(content: content)
+                DengageEvent.shared.SessionStart(referrer: refferer, restart: true)
+            }
         }
         
-        openTriggerCompletionHandler?(response)
-        checkTargetUrl(content: content)
-        parseCampIdAndSendId(content: content)
-        let refferer = parseReferrer(content: content)
-        DengageEvent.shared.SessionStart(referrer: refferer, restart: true)
         completionHandler()
     }
     
@@ -81,7 +86,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     }
     
     final func parseCampIdAndSendId(content: UNNotificationContent) {        
-        let sendId = String(content.userInfo["dengageSendId"] as! Int)
+        let sendId = content.userInfo["dengageSendId"] as? String ?? ""
         
         if !sendId.isEmpty {
             settings.setSendId(sendId: sendId)
