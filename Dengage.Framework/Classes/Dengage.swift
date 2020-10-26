@@ -40,7 +40,8 @@ public class Dengage {
     public static func initWithLaunchOptions(categories: Set<UNNotificationCategory>?,
                                              withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
                                              badgeCountReset: Bool?) {
-        
+        let currentNotificationCenter = center.delegate
+        notificationDelegate.delegate = currentNotificationCenter
         center.delegate = notificationDelegate
         
         settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
@@ -53,7 +54,7 @@ public class Dengage {
                 return
             }
             
-            center.setNotificationCategories(categories!)
+           center.setNotificationCategories(categories!)
         }
     }
     
@@ -70,6 +71,8 @@ public class Dengage {
     public static func initWithLaunchOptions(withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
                                              badgeCountReset: Bool?) {
         
+        let currentNotificationCenter = center.delegate
+        notificationDelegate.delegate = currentNotificationCenter
         center.delegate = notificationDelegate
         settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         configureSettings()

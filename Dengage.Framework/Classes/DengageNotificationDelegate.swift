@@ -18,6 +18,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     let openEventService: OpenEventService!
     let transactionalOpenEventService: TransactioanlOpenEventService!
     let settings: Settings!
+    var delegate: UNUserNotificationCenterDelegate?
     
     var openTriggerCompletionHandler: ((_ notificationResponse: UNNotificationResponse) -> Void)?
     
@@ -26,6 +27,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         settings = Settings.shared
         openEventService = OpenEventService()
         transactionalOpenEventService = TransactioanlOpenEventService()
+        self.delegate = nil
         
         super.init()
     }
@@ -37,6 +39,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         self.settings = settings
         self.openEventService = openEventService
         self.transactionalOpenEventService = transactionalOpenEventService
+        self.delegate = nil
     }
 
     @available(iOS 10.0, *)
@@ -75,10 +78,11 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                 parseCampIdAndSendId(content: content)
                 let refferer = parseReferrer(content: content)
                 DengageEvent.shared.SessionStart(referrer: refferer, restart: true)
+                completionHandler()
             }
+        } else {
+            delegate?.userNotificationCenter?(center, didReceive: response, withCompletionHandler: completionHandler)
         }
-        
-        completionHandler()
     }
     
     final func parseReferrer(content: UNNotificationContent) -> String {
