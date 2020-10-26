@@ -78,12 +78,11 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                 parseCampIdAndSendId(content: content)
                 let refferer = parseReferrer(content: content)
                 DengageEvent.shared.SessionStart(referrer: refferer, restart: true)
+                completionHandler()
             }
         } else {
             delegate?.userNotificationCenter?(center, didReceive: response, withCompletionHandler: completionHandler)
         }
-        
-        completionHandler()
     }
     
     final func parseReferrer(content: UNNotificationContent) -> String {
