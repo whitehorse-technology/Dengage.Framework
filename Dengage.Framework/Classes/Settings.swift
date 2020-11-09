@@ -209,11 +209,13 @@ internal class Settings {
     }
     
     func setPermission(permission: Bool?) {
+        storage.setValueWithKey(value: permission, key: "userPermission")
         self.permission = permission
     }
     
     func getPermission() -> Bool? {
-        return self.permission
+        let permission = storage.getValueWithKeyWith(key: "userPermission") as Any?
+        return permission as! Bool?
     }
     
     func getUserAgent() -> String {
