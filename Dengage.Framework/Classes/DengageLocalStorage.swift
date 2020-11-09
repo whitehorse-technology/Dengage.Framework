@@ -35,4 +35,21 @@ internal class DengageLocalStorage: NSObject {
         
         return nil
     }
+    
+    internal func setValueWithKey(value: Any?, key: String) {
+        
+        userDefaults.set(value, forKey: key)
+    }
+    
+    internal func getValueWithKeyWith(key: String) -> Any? {
+        
+        if userDefaults.object(forKey: key) != nil {
+            
+            let returnValue = userDefaults.object(forKey: key)!
+            
+            return returnValue
+        }
+        
+        return nil
+    }
 }
