@@ -36,9 +36,6 @@ extension Dengage {
                 
                 guard granted else {
                     logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
-                    settings.setPermission(permission: isUserGranted)
-                    
-                    Dengage.SyncSubscription()
                     
                     return
                 }
@@ -66,9 +63,7 @@ extension Dengage {
                 
                 guard granted else {
                     logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
-                    settings.setPermission(permission: isUserGranted)
-                    
-                    Dengage.SyncSubscription()
+                
                     callback(isUserGranted)
                     return
                 }
