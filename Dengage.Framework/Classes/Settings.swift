@@ -74,6 +74,7 @@ internal class Settings {
         self.useCloudForSubscription = status
     }
     
+    @available(swift, deprecated: 2.5.0)
     func getCloudEnabled() -> Bool {
         
         return self.useCloudForSubscription
@@ -173,24 +174,33 @@ internal class Settings {
 
     func setContactKey(contactKey: String?) {
         
-        self.contactKey = contactKey ?? ""
-        storage.setValueWithKey(value: contactKey ?? "", key: "ContactKey")
-        self.contactKey = storage.getValueWithKey(key: "ContactKey") ?? ""
+        let previous = getContactKey()
+        if(previous != contactKey){
+            self.contactKey = contactKey ?? ""
+            storage.setValueWithKey(value: contactKey ?? "", key: "ContactKey")
+            self.contactKey = storage.getValueWithKey(key: "ContactKey") ?? ""
+            
+            Dengage.SyncSubscription()
+        }
+        
     }
     
     func getContactKey() -> String? {
         
         self.contactKey = storage.getValueWithKey(key: "ContactKey") ?? ""
-        //        logger.Log(message: "CONTACT_KEY is %s", logtype: .debug, argument: self.contactKey)
         return self.contactKey
     }
     
     func setToken(token: String) {
         
-        self.token = token
-        storage.setValueWithKey(value: token, key: "Token")
-        logger.Log(message:"TOKEN %s", logtype: .debug, argument: self.token!)
-        
+        let previous = getToken()
+        if(previous != token){
+            self.token = token
+            storage.setValueWithKey(value: token, key: "Token")
+            logger.Log(message:"TOKEN %s", logtype: .debug, argument: self.token!)
+            
+            Dengage.SyncSubscription()
+        }
     }
     
     func getToken() -> String?{
@@ -209,8 +219,12 @@ internal class Settings {
     }
     
     func setPermission(permission: Bool?) {
-        storage.setValueWithKey(value: permission, key: "userPermission")
-        self.permission = permission
+        let previous = getPermission()
+        if(previous != permission){
+            storage.setValueWithKey(value: permission, key: "userPermission")
+            self.permission = permission
+            Dengage.SyncSubscription()
+        }
     }
     
     func getPermission() -> Bool? {
