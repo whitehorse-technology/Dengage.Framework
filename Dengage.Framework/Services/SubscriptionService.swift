@@ -20,7 +20,7 @@ internal class SubscriptionService: BaseService {
         var subscriptionHttpRequest = SubscriptionHttpRequest()
         subscriptionHttpRequest.integrationKey = settings.getDengageIntegrationKey()
         subscriptionHttpRequest.contactKey = settings.getContactKey() ?? ""
-        subscriptionHttpRequest.permission = settings.getPermission() ?? false
+        subscriptionHttpRequest.permission = settings.getPermission() ?? true
         subscriptionHttpRequest.appVersion = settings.getAppversion() ?? "1.0"
         
         let parameters = ["integrationKey": subscriptionHttpRequest.integrationKey,
