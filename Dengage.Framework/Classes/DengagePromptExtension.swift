@@ -36,11 +36,10 @@ extension Dengage {
                 
                 guard granted else {
                     logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
-                    
+                    Dengage.setToken(token: "")
                     return
                 }
-                
-                settings.setPermission(permission: isUserGranted)
+
                 self.getNotificationSettings()
                 logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))    
         }
@@ -63,12 +62,11 @@ extension Dengage {
                 
                 guard granted else {
                     logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
-                
+                    Dengage.setToken(token: "")
                     callback(isUserGranted)
                     return
                 }
                 
-                settings.setPermission(permission: isUserGranted)
                 self.getNotificationSettings()
                 logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))
                 callback(isUserGranted)
