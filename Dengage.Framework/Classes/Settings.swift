@@ -179,8 +179,7 @@ internal class Settings {
             self.contactKey = contactKey ?? ""
             storage.setValueWithKey(value: contactKey ?? "", key: "ContactKey")
             self.contactKey = storage.getValueWithKey(key: "ContactKey") ?? ""
-            
-            Dengage.SyncSubscription()
+            Dengage.syncSubscription()
         }
         
     }
@@ -198,8 +197,7 @@ internal class Settings {
             self.token = token
             storage.setValueWithKey(value: token, key: "Token")
             logger.Log(message:"TOKEN %s", logtype: .debug, argument: self.token!)
-            
-            Dengage.SyncSubscription()
+            Dengage.syncSubscription()
         }
     }
     
@@ -223,7 +221,7 @@ internal class Settings {
         if(previous != permission){
             storage.setValueWithKey(value: permission, key: "userPermission")
             self.permission = permission
-            Dengage.SyncSubscription()
+            Dengage.syncSubscription()
         }
     }
     

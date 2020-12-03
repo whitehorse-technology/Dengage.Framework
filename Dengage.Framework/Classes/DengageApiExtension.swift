@@ -15,8 +15,12 @@ extension Dengage {
     
     //MARK: -
     //MARK: - API calls
-    @available(*, renamed: "SendSubscriptionEvent")
+    @available(*, renamed: "SendSubscriptionEvent", deprecated, message: "This function will be removed in next cycle")
     public static func SyncSubscription() {
+        
+    }
+    
+    internal static func syncSubscription(){
         
         if settings.getApplicationIdentifier().isEmpty  {
             logger.Log(message: "APP_IDF_ID_IS_EMPTY", logtype: .info)
@@ -25,8 +29,8 @@ extension Dengage {
         
         DengageEvent.shared.SessionStart(referrer: "", restart: false)
         subscriptionService.sendSubscriptionEvent()
-        
     }
+    
     
     @available(*, renamed: "SendEventCollection")
     public static func SendDeviceEvent(toEventTable: String, andWithEventDetails: NSMutableDictionary) -> Bool {

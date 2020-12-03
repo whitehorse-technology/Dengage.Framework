@@ -46,7 +46,7 @@ public class Dengage {
         
         settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         configureSettings()
-        
+        Dengage.syncSubscription()
         
         if categories != nil {
             if (categories!.count < 0 || categories!.count == 0)
@@ -76,6 +76,7 @@ public class Dengage {
         center.delegate = notificationDelegate
         settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         configureSettings()
+        Dengage.syncSubscription()
     }
     
     // MARK: - Rich Notification İnitiliaze
