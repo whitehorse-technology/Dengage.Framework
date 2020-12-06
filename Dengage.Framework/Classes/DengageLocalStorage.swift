@@ -72,8 +72,10 @@ extension DengageLocalStorage {
         let encoder = JSONEncoder()
         do {
             let encoded = try encoder.encode(messages)
-            userDefaults.set(encoded, forKey: "DengageInboxMessages")
+            userDefaults.setValue(encoded, forKey: "DengageInboxMessages")
             userDefaults.synchronize()
+//            userDefaults.set(encoded, forKey: "DengageInboxMessages")
+
         } catch {
             os_log("[DENGAGE] saving inbox message fail", log: .default, type: .debug)
         }

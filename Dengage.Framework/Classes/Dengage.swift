@@ -103,7 +103,7 @@ extension Dengage {
     public static func getInboxMessages() -> [DengageMessage]{
         let messages = localStorage.getInboxMessages().filter{ item in
             guard let itemDate = item.expireDate else {return false}
-            return itemDate < Date()
+            return itemDate > Date()
         }
         return messages.sorted(by: { firstItem, secondItem in
             guard let firstExpireDate = firstItem.expireDate,

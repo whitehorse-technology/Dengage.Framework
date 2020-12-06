@@ -38,6 +38,7 @@ public struct DengageMessage: Codable{
         guard let dateString = date else {return nil}
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYY-MM-dd'T'HH:mm:ss.SSSZ"
+        formatter.timeZone = TimeZone(abbreviation: "UTC")
         return formatter.date(from: dateString)
     }
 }
