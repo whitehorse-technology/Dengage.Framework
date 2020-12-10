@@ -53,3 +53,31 @@ internal class DengageLocalStorage: NSObject {
         return nil
     }
 }
+
+
+extension DengageLocalStorage {
+    func getInboxMessages() -> [DengageMessage]{
+        guard let savedMessageData = userDefaults.object(forKey: "DengageInboxMessages") as? Data else { return [] }
+        let decoder = JSONDecoder()
+        do {
+            let messages = try decoder.decode([DengageMessage].self, from: savedMessageData)
+            return messages
+        } catch {
+            os_log("[DENGAGE] getInboxMessage fail", log: .default, type: .debug)
+            return []
+        }
+    }
+    
+    func saveMessages(with messages: [DengageMessage]) {
+        let encoder = JSONEncoder()
+        do {
+            let encoded = try encoder.encode(messages)
+            userDefaults.setValue(encoded, forKey: "DengageInboxMessages")
+            userDefaults.synchronize()
+//            userDefaults.set(encoded, forKey: "DengageInboxMessages")
+
+        } catch {
+            os_log("[DENGAGE] saving inbox message fail", log: .default, type: .debug)
+        }
+    }
+}

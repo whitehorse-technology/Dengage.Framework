@@ -73,6 +73,7 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                     checkTargetUrlInActionButtons(content: content, actionIdentifier: actionIdentifier)
                 }
                 
+                Dengage.saveNewMessageIfNeeded(with: content)
                 openTriggerCompletionHandler?(response)
                 checkTargetUrl(content: content)
                 parseCampIdAndSendId(content: content)
