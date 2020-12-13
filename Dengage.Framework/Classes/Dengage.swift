@@ -129,8 +129,14 @@ extension Dengage {
     
     static func saveNewMessageIfNeeded(with content: UNNotificationContent){
         guard let message = DengageMessage(with: content) else {return}
-        var messages = Dengage.getInboxMessages()
+        var messages = Dengage.getInboxMessages().filter{$0.id != message.id}
         messages.append(message)
         localStorage.saveMessages(with: messages)
+    }
+    
+    public static func collectInboxMessages(){
+        center.getDeliveredNotifications { notifications in
+            notifications.map(\.request.content).forEach(Dengage.saveNewMessageIfNeeded(with:))
+        }
     }
 }
