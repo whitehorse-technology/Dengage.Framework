@@ -9,7 +9,7 @@ import Foundation
 
 public struct DengageMessage: Codable{
     
-    public let id: Int
+    public let id: String
     public let title: String?
     public let message: String?
     public let mediaURL: String?
@@ -21,12 +21,11 @@ public struct DengageMessage: Codable{
     init?(with notification: UNNotificationContent){
         let source = notification.userInfo
         guard let addToInbox = source["addToInbox"] as? Bool, addToInbox else { return nil }
-        guard let id = source["messageId"] as? Int else { return nil }
-        self.id = id
+        guard let messageId =  notification.dengageMessageId else {return nil}
+        self.id = messageId
         self.title = source["title"] as? String
         self.message = source["subtitle"] as? String
         self.mediaURL = source["urlImageString"] as? String
-        
         self.targetURL = source["targetUrl"] as? String
         self.receiveDate = Date()
         let expireDateString = source["expireDate"] as? String

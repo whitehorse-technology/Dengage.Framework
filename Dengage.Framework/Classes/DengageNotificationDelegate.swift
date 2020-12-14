@@ -73,8 +73,8 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                     checkTargetUrlInActionButtons(content: content, actionIdentifier: actionIdentifier)
                 }
                 
-                let messageId = content.userInfo["dengageSendId"] as? Int
-                Dengage.markInboxMessageAsRead(with: messageId)
+          
+                Dengage.markInboxMessageAsRead(with: content.dengageMessageId)
                 openTriggerCompletionHandler?(response)
                 checkTargetUrl(content: content)
                 parseCampIdAndSendId(content: content)
@@ -209,5 +209,14 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         if settings.getBadgeCountReset() == true {
             UIApplication.shared.applicationIconBadgeNumber = 0
         }
+    }
+}
+
+
+extension UNNotificationContent {
+    var dengageMessageId:String? {
+        guard let senderId = self.userInfo["dengageSendId"] as? String else {return nil}
+        guard let messageId = self.userInfo["messageId"] as? String else {return nil}
+        return "\(senderId)-\(messageId)"
     }
 }

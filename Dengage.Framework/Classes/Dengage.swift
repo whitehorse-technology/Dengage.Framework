@@ -84,12 +84,12 @@ extension Dengage {
         })
     }
     
-    public static func deleteInboxMessage(with id: Int){
+    public static func deleteInboxMessage(with id: String){
         let messages = Dengage.getInboxMessages().filter{$0.id != id}
         localStorage.saveMessages(with: messages)
     }
     
-    public static func markInboxMessageAsRead(with id: Int?){
+    public static func markInboxMessageAsRead(with id: String?){
         guard let messageId = id else { return }
         var messages = Dengage.getInboxMessages()
         var message = messages.first(where: {$0.id == messageId})
