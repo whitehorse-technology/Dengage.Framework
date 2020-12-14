@@ -125,4 +125,14 @@ extension Dengage {
     public static func setDeviceId(applicationIdentifier: String) {
         settings.setApplicationIdentifier(applicationIndentifier: applicationIdentifier)
     }
+    
+    /// App group name  is a func which sets notfication extension groupname
+    /// Usage :
+    ///
+    ///     Dengage.setAppGroupName(with: "group.dengage.example")
+    ///
+    /// - Parameter appGroupName : app group name
+    public static func setAppGroupName(with name: String) {
+        INBOX_SUIT_NAME = name
+    }
 }

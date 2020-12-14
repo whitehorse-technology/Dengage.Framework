@@ -22,6 +22,7 @@ public class Dengage {
     static var utilities: Utilities = .shared
     static var settings: Settings = .shared
     static var logger: SDKLogger = .shared
+    static var localStorage: DengageLocalStorage = .shared
     static var eventQueue: EventQueue = EventQueue()
     
     //MARK: - Initialize Methods
@@ -35,48 +36,19 @@ public class Dengage {
     /// - Parameter withLaunchOptions: *withLaunchOptions*
     /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
     @available(iOS 10.0, *)
-    
     // will support rich notifications with categories
-    public static func initWithLaunchOptions(categories: Set<UNNotificationCategory>?,
+    public static func initWithLaunchOptions(categories: Set<UNNotificationCategory>? = nil,
                                              withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
-                                             badgeCountReset: Bool?) {
-        let currentNotificationCenter = center.delegate
-        notificationDelegate.delegate = currentNotificationCenter
-        center.delegate = notificationDelegate
-        
-        settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
-        configureSettings()
-        Dengage.syncSubscription()
-        
-        if categories != nil {
-            if (categories!.count < 0 || categories!.count == 0)
-            {
-                return
-            }
-            
-           center.setNotificationCategories(categories!)
-        }
-    }
-    
-    /// Initiliazes SDK requiered parameters.
-    ///
-    ///
-    /// - Usage:
-    ///
-    ///      Dengage.initWithLaunchOptions(withLaunchOptions: launchOptions, badgeCountReset: true)
-    ///
-    /// - Parameter withLaunchOptions: *withLaunchOptions*
-    /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
-    @available(iOS 10.0, *)
-    public static func initWithLaunchOptions(withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
-                                             badgeCountReset: Bool?) {
-        
+                                             badgeCountReset: Bool? = nil, appGroupName: String? = nil) {
         let currentNotificationCenter = center.delegate
         notificationDelegate.delegate = currentNotificationCenter
         center.delegate = notificationDelegate
         settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         configureSettings()
         Dengage.syncSubscription()
+        INBOX_SUIT_NAME = appGroupName
+        guard let pushCategories = categories else {return}
+        center.setNotificationCategories(pushCategories)
     }
     
     // MARK: - Rich Notification İnitiliaze
@@ -96,5 +68,43 @@ public class Dengage {
         settings.setApplicationIdentifier(applicationIndentifier: utilities.identifierForApplication())
         settings.setAppVersion(appVersion: utilities.indentifierForCFBundleShortVersionString())
     }
-    
 }
+
+//MARK: - Inbox
+extension Dengage {
+    public static func getInboxMessages() -> [DengageMessage]{
+        let messages = localStorage.getInboxMessages().filter{ item in
+            guard let itemDate = item.expireDate else {return false}
+            return itemDate > Date()
+        }
+        return messages.sorted(by: { firstItem, secondItem in
+            guard let firstExpireDate = firstItem.expireDate,
+                  let secondExpireDate = secondItem.expireDate else {return false}
+            return firstExpireDate < secondExpireDate
+        })
+    }
+    
+    public static func deleteInboxMessage(with id: String){
+        let messages = Dengage.getInboxMessages().filter{$0.id != id}
+        localStorage.saveMessages(with: messages)
+    }
+    
+    public static func markInboxMessageAsRead(with id: String?){
+        guard let messageId = id else { return }
+        var messages = Dengage.getInboxMessages()
+        var message = messages.first(where: {$0.id == messageId})
+        message?.isRead = true
+        messages = messages.filter{$0.id != messageId}
+        guard let readedMessage = message else { return }
+        messages.append(readedMessage)
+        localStorage.saveMessages(with: messages)
+    }
+    
+    static func saveNewMessageIfNeeded(with content: UNNotificationContent){
+        guard let message = DengageMessage(with: content) else {return}
+        var messages = Dengage.getInboxMessages().filter{$0.id != message.id}
+        messages.append(message)
+        localStorage.saveMessages(with: messages)
+    }
+}
+
