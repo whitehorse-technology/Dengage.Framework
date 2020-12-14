@@ -36,7 +36,7 @@ public class Dengage {
     /// - Parameter withLaunchOptions: *withLaunchOptions*
     /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
     @available(iOS 10.0, *)
-    
+    @available(*, renamed: "start(with:badgeCountReset:categories:)", deprecated, message: "This function will be removed in next cycle")
     // will support rich notifications with categories
     public static func initWithLaunchOptions(categories: Set<UNNotificationCategory>?,
                                              withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
@@ -69,6 +69,7 @@ public class Dengage {
     /// - Parameter withLaunchOptions: *withLaunchOptions*
     /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
     @available(iOS 10.0, *)
+    @available(*, renamed: "start(with:badgeCountReset:categories:)", deprecated, message: "This function will be removed in next cycle")
     public static func initWithLaunchOptions(withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
                                              badgeCountReset: Bool?) {
         
@@ -79,6 +80,33 @@ public class Dengage {
         configureSettings()
         Dengage.syncSubscription()
     }
+    
+    
+    /// Initiliazes SDK requiered parameters.
+    ///
+    /// -  Usage:
+    ///
+    ///      Dengage.start(with: launchOptions, badgeCountReset: true, categories: [])
+    ///
+    /// - Parameter categories: *categories* custom action buttons
+    /// - Parameter withLaunchOptions: *withLaunchOptions*
+    /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
+    public static func start(with launchOptions: [UIApplication.LaunchOptionsKey: Any]?,
+                             badgeCountReset: Bool?,
+                             categories: Set<UNNotificationCategory>? = nil) {
+        
+        let currentNotificationCenter = center.delegate
+        notificationDelegate.delegate = currentNotificationCenter
+        center.delegate = notificationDelegate
+        settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
+        configureSettings()
+        Dengage.syncSubscription()
+        
+        guard let pushCategories = categories else {return}
+        center.setNotificationCategories(pushCategories)
+    }
+    
+    
     
     // MARK: - Rich Notification İnitiliaze
     @available(iOSApplicationExtension 10.0, *)
@@ -118,13 +146,15 @@ extension Dengage {
         localStorage.saveMessages(with: messages)
     }
     
-    public static func markInboxMessageAsRead(with id: Int){
+    public static func markInboxMessageAsRead(with id: Int?){
+        guard let messageId = id else { return }
         var messages = Dengage.getInboxMessages()
-        var message = messages.first(where: {$0.id == id})
+        var message = messages.first(where: {$0.id == messageId})
         message?.isRead = true
-        messages = messages.filter{$0.id != id}
-        guard let readedMessage = message else {return}
+        messages = messages.filter{$0.id != messageId}
+        guard let readedMessage = message else { return }
         messages.append(readedMessage)
+        localStorage.saveMessages(with: messages)
     }
     
     static func saveNewMessageIfNeeded(with content: UNNotificationContent){
@@ -133,10 +163,5 @@ extension Dengage {
         messages.append(message)
         localStorage.saveMessages(with: messages)
     }
-    
-    public static func collectInboxMessages(){
-        center.getDeliveredNotifications { notifications in
-            notifications.map(\.request.content).forEach(Dengage.saveNewMessageIfNeeded(with:))
-        }
-    }
 }
+
