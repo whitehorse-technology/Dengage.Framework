@@ -36,65 +36,10 @@ public class Dengage {
     /// - Parameter withLaunchOptions: *withLaunchOptions*
     /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
     @available(iOS 10.0, *)
-    @available(*, renamed: "start(with:badgeCountReset:categories:)", deprecated, message: "This function will be removed in next cycle")
     // will support rich notifications with categories
-    public static func initWithLaunchOptions(categories: Set<UNNotificationCategory>?,
+    public static func initWithLaunchOptions(categories: Set<UNNotificationCategory>? = nil,
                                              withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
-                                             badgeCountReset: Bool?) {
-        let currentNotificationCenter = center.delegate
-        notificationDelegate.delegate = currentNotificationCenter
-        center.delegate = notificationDelegate
-        
-        settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
-        configureSettings()
-        Dengage.syncSubscription()
-        
-        if categories != nil {
-            if (categories!.count < 0 || categories!.count == 0)
-            {
-                return
-            }
-            
-           center.setNotificationCategories(categories!)
-        }
-    }
-    
-    /// Initiliazes SDK requiered parameters.
-    ///
-    ///
-    /// - Usage:
-    ///
-    ///      Dengage.initWithLaunchOptions(withLaunchOptions: launchOptions, badgeCountReset: true)
-    ///
-    /// - Parameter withLaunchOptions: *withLaunchOptions*
-    /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
-    @available(iOS 10.0, *)
-    @available(*, renamed: "start(with:badgeCountReset:categories:)", deprecated, message: "This function will be removed in next cycle")
-    public static func initWithLaunchOptions(withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
-                                             badgeCountReset: Bool?) {
-        
-        let currentNotificationCenter = center.delegate
-        notificationDelegate.delegate = currentNotificationCenter
-        center.delegate = notificationDelegate
-        settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
-        configureSettings()
-        Dengage.syncSubscription()
-    }
-    
-    
-    /// Initiliazes SDK requiered parameters.
-    ///
-    /// -  Usage:
-    ///
-    ///      Dengage.start(with: launchOptions, badgeCountReset: true, categories: [])
-    ///
-    /// - Parameter categories: *categories* custom action buttons
-    /// - Parameter withLaunchOptions: *withLaunchOptions*
-    /// - Parameter badgeCountReset: *badgeCountReset* clears badge count icon on notification enable
-    public static func start(with launchOptions: [UIApplication.LaunchOptionsKey: Any]?,
-                             badgeCountReset: Bool?,
-                             categories: Set<UNNotificationCategory>? = nil) {
-        
+                                             badgeCountReset: Bool? = nil) {
         let currentNotificationCenter = center.delegate
         notificationDelegate.delegate = currentNotificationCenter
         center.delegate = notificationDelegate
@@ -105,8 +50,6 @@ public class Dengage {
         guard let pushCategories = categories else {return}
         center.setNotificationCategories(pushCategories)
     }
-    
-    
     
     // MARK: - Rich Notification İnitiliaze
     @available(iOSApplicationExtension 10.0, *)
