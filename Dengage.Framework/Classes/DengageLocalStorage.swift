@@ -15,8 +15,9 @@ internal class DengageLocalStorage: NSObject {
     
     var userDefaults: UserDefaults
     
-    var inboxUserDefaults: UserDefaults{
-        return UserDefaults(suiteName: INBOX_SUIT_NAME)!
+    var inboxUserDefaults: UserDefaults?{
+        guard let suitName = INBOX_SUIT_NAME else {return nil}
+        return UserDefaults(suiteName: suitName)
     }
     
     init(suitName: String) {
@@ -61,7 +62,7 @@ internal class DengageLocalStorage: NSObject {
 
 extension DengageLocalStorage {
     func getInboxMessages() -> [DengageMessage]{
-        guard let savedMessageData = inboxUserDefaults.object(forKey: "DengageInboxMessages") as? Data else { return [] }
+        guard let savedMessageData = inboxUserDefaults?.object(forKey: "DengageInboxMessages") as? Data else { return [] }
         let decoder = JSONDecoder()
         do {
             let messages = try decoder.decode([DengageMessage].self, from: savedMessageData)
@@ -76,8 +77,8 @@ extension DengageLocalStorage {
         let encoder = JSONEncoder()
         do {
             let encoded = try encoder.encode(messages)
-            inboxUserDefaults.setValue(encoded, forKey: "DengageInboxMessages")
-            inboxUserDefaults.synchronize()
+            inboxUserDefaults?.setValue(encoded, forKey: "DengageInboxMessages")
+            inboxUserDefaults?.synchronize()
         } catch {
             os_log("[DENGAGE] saving inbox message fail", log: .default, type: .debug)
         }

@@ -39,14 +39,14 @@ public class Dengage {
     // will support rich notifications with categories
     public static func initWithLaunchOptions(categories: Set<UNNotificationCategory>? = nil,
                                              withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
-                                             badgeCountReset: Bool? = nil) {
+                                             badgeCountReset: Bool? = nil, appGroupName: String? = nil) {
         let currentNotificationCenter = center.delegate
         notificationDelegate.delegate = currentNotificationCenter
         center.delegate = notificationDelegate
         settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
         configureSettings()
         Dengage.syncSubscription()
-        
+        INBOX_SUIT_NAME = appGroupName
         guard let pushCategories = categories else {return}
         center.setNotificationCategories(pushCategories)
     }

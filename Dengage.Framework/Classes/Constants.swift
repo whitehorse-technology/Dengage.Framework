@@ -24,7 +24,7 @@ let SDK_VERSION = "2.5.18"
 
 let SUIT_NAME = "group.dengage"
 
-let INBOX_SUIT_NAME = "group.dengage.Inbox"
+var INBOX_SUIT_NAME: String?
 
 let DEFAULT_CARRIER_ID = "1"
 let MESSAGE_SOURCE = "DENGAGE"
