@@ -39,6 +39,7 @@ class DengageNotificationExtension {
                 
                 let categoryIdentifier = withNotificationContent.categoryIdentifier
                 
+                Dengage.saveNewMessageIfNeeded(with: withNotificationContent)
                 //parse message and if there are any action buttons on payload register them to notification center
                 registerForActionButtons(receivedRequest: receivedRequest, categoryIdentifier: categoryIdentifier)
                 
