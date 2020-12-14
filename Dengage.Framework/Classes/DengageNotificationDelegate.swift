@@ -215,8 +215,8 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
 
 extension UNNotificationContent {
     var dengageMessageId:String? {
-        guard let senderId = self.userInfo["dengageSendId"] as? String else {return nil}
-        guard let messageId = self.userInfo["messageId"] as? String else {return nil}
+        guard let senderId = self.userInfo["dengageSendId"] as? Int else {return nil}
+        guard let messageId = self.userInfo["messageId"] as? Int else {return nil}
         return "\(senderId)-\(messageId)"
     }
 }
