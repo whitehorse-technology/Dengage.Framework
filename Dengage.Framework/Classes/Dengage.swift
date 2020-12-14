@@ -72,6 +72,13 @@ public class Dengage {
 
 //MARK: - Inbox
 extension Dengage {
+    
+    /// Gets Dengage Push Notifications
+    ///
+    /// -  Usage:
+    ///
+    /// Dengage.getInboxMessages()
+    ///
     public static func getInboxMessages() -> [DengageMessage]{
         let messages = localStorage.getInboxMessages().filter{ item in
             guard let itemDate = item.expireDate else {return false}
@@ -84,11 +91,25 @@ extension Dengage {
         })
     }
     
+    /// Deletes Specific Dengage Push Notification
+    ///
+    /// -  Usage:
+    ///
+    /// Dengage.deleteInboxMessage(with: message.id)
+    ///
+    /// - Parameter id: *message id
     public static func deleteInboxMessage(with id: String){
         let messages = Dengage.getInboxMessages().filter{$0.id != id}
         localStorage.saveMessages(with: messages)
     }
     
+    /// Marks specific push notification as read
+    ///
+    /// -  Usage:
+    ///
+    /// Dengage.markInboxMessageAsRead(with: message.id)
+    ///
+    /// - Parameter id: *message id
     public static func markInboxMessageAsRead(with id: String?){
         guard let messageId = id else { return }
         var messages = Dengage.getInboxMessages()
