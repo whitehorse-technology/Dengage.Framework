@@ -44,6 +44,7 @@ public class Dengage {
         notificationDelegate.delegate = currentNotificationCenter
         center.delegate = notificationDelegate
         settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
+        settings.removeTokenIfNeeded()
         configureSettings()
         Dengage.syncSubscription()
         INBOX_SUIT_NAME = appGroupName
