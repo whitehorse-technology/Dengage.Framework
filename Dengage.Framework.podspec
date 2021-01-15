@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Dengage.Framework'
-  s.version          = '2.5.20-alpha'
+  s.version          = '2.5.20'
   s.summary          = 'Dengage.Framework contains tools for integration with Dengage'
 
 # This description is used to generate tags and improve search results.
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-    Dengage.Framework provides necessary classes and functions which handles notification registration and sending open events to developer.  Also it gives classes to send subscription events to dengage infrastructure.
+    Dengage.Framework provides necessary classes and functions which handles notification registration and sending events.
                        DESC
 
   s.homepage         = 'https://github.com/whitehorse-technology/Dengage.Framework'
