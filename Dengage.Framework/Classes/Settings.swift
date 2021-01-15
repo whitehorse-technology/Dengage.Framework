@@ -184,6 +184,21 @@ internal class Settings {
         
     }
     
+    internal func removeTokenIfNeeded(){
+        let current = UNUserNotificationCenter.current()
+
+        current.getNotificationSettings(completionHandler: { [self] (settings) in
+            switch settings.authorizationStatus {
+            case .notDetermined, .denied:
+                self.setToken(token: "")
+            case .authorized:
+                Dengage.promptForPushNotifications()
+            default:
+                break
+            }
+        })
+    }
+    
     func getContactKey() -> String? {
         
         self.contactKey = storage.getValueWithKey(key: "ContactKey") ?? ""
