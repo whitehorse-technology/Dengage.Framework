@@ -32,13 +32,12 @@ internal class SubscriptionService: BaseService {
                           "appVersion": subscriptionHttpRequest.appVersion,
                           "sdkVersion": settings.getSdkVersion(),
                           "tokenType": "I",
-                          "advertisingId" : settings.getAdvertisinId() as Any] as [String: Any]
+                          "country":settings.getDeviceCountry(),
+                          "language":settings.getLanguage(),
+                          "timezone":settings.getTimeZone(),
+                          "advertisingId" : settings.getAdvertisinId() as Any]
         
-        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
-        
-        queue.async {
-            self.apiCall(data: parameters, urlAddress: urladdress)
-        }
+        eventCall(with: parameters, for: urladdress)
         logger.Log(message: "SUBSCRIPTION_EVENT_SENT", logtype: .info)
         
     }

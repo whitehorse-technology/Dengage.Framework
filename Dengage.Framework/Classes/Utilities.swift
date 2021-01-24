@@ -40,13 +40,13 @@ internal class Utilities {
         
         var appIdentifier = ""
         
-        let returnValue = storage.getValueWithKey(key: "ApplicationIdentifier")
+        let returnValue = storage.getValue(key: .applicationIdentifier)
         
         if returnValue == nil {
             
             logger.Log(message: "GENERATING_NSUUID", logtype: .info)
             appIdentifier = NSUUID().uuidString.lowercased()
-            storage.setValueWithKey(value: appIdentifier, key: "ApplicationIdentifier")
+            storage.set(value: appIdentifier, for: .applicationIdentifier)
             
         } else {
             appIdentifier = returnValue!
@@ -121,7 +121,6 @@ extension TimeZone {
     }
     
     func offsetInHours() -> String {
-        
         let hours = secondsFromGMT()/3600
         let minutes = abs(secondsFromGMT()/60) % 60
         let tz_hr = String(format: "%+.2d:%.2d", hours, minutes) // "+hh:mm"

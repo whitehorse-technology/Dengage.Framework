@@ -54,22 +54,19 @@ extension Dengage {
     /// - Parameter callback: IsUserGranted
     public static func promptForPushNotifications(callback: @escaping (_ IsUserGranted: Bool) -> Void) {
        
-        center
-            .requestAuthorization(options: [.alert, .sound, .badge]) {
-                [self] granted, error in
-                
-                isUserGranted = granted
-                
-                guard granted else {
-                    logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
-                    Dengage.setToken(token: "")
-                    callback(isUserGranted)
-                    return
-                }
-                
-                self.getNotificationSettings()
-                logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))
+        center.requestAuthorization(options: [.alert, .sound, .badge]) { [self] granted, error in                
+            isUserGranted = granted
+            
+            guard granted else {
+                logger.Log(message: "PERMISSION_NOT_GRANTED %s", logtype: .debug, argument: String(granted))
+                Dengage.setToken(token: "")
                 callback(isUserGranted)
+                return
+            }
+            
+            self.getNotificationSettings()
+            logger.Log(message: "PERMISSION_GRANTED %s", logtype: .debug, argument: String(granted))
+            callback(isUserGranted)
         }
     }
     
