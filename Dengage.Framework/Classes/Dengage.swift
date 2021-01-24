@@ -11,21 +11,21 @@ import UserNotifications
 import AdSupport
 
 public class Dengage {
-    
+
     static var center = UNUserNotificationCenter.current()
-    
+
     static var notificationDelegate = DengageNotificationDelegate()
     static var openEventService: OpenEventService = OpenEventService()
     static var eventCollectionService: EventCollectionService = EventCollectionService()
+    static var baseService = BaseService()
     static var sessionManager: SessionManager = .shared
-    
+
     static var utilities: Utilities = .shared
     static var settings: Settings = .shared
     static var logger: SDKLogger = .shared
     static var localStorage: DengageLocalStorage = .shared
-    static var eventQueue: EventQueue = EventQueue()
-    
-    //MARK: - Initialize Methods
+
+    // MARK: - Initialize Methods
     /// Initiliazes SDK requiered parameters.
     ///
     /// -  Usage:
@@ -44,25 +44,27 @@ public class Dengage {
         notificationDelegate.delegate = currentNotificationCenter
         center.delegate = notificationDelegate
         settings.setBadgeCountReset(badgeCountReset: badgeCountReset)
+        settings.removeTokenIfNeeded()
         configureSettings()
         Dengage.syncSubscription()
+        Dengage.getInitalInboxMessages()
         INBOX_SUIT_NAME = appGroupName
         guard let pushCategories = categories else {return}
         center.setNotificationCategories(pushCategories)
     }
-    
+
     // MARK: - Rich Notification İnitiliaze
     @available(iOSApplicationExtension 10.0, *)
     public static func didReceiveNotificationExtentionRequest(receivedRequest: UNNotificationRequest,
                                                               withNotificationContent: UNMutableNotificationContent) {
-        
+
         DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest,
                                                                                    withNotificationContent: withNotificationContent)
     }
-    
-    //MARK: - Private Methods
+
+    // MARK: - Private Methods
     static func configureSettings() {
-        
+
         settings.setCarrierId(carrierId: utilities.identifierForCarrier())
         settings.setAdvertisingId(advertisingId: utilities.identifierForAdvertising())
         settings.setApplicationIdentifier(applicationIndentifier: utilities.identifierForApplication())
@@ -70,41 +72,84 @@ public class Dengage {
     }
 }
 
-//MARK: - Inbox
+// MARK: - Inbox
 extension Dengage {
-    public static func getInboxMessages() -> [DengageMessage]{
-        let messages = localStorage.getInboxMessages().filter{ item in
-            guard let itemDate = item.expireDate else {return false}
-            return itemDate > Date()
+    public static func getInboxMessages(offset: Int,
+                                        limit: Int = 20,
+                                        completion: @escaping (Result<[DengageMessage], Error>) -> Void) {
+        guard offset != 1 else {
+            let messages = localStorage.getInboxMessages()
+            completion(.success(messages))
+            return
         }
-        return messages.sorted(by: { firstItem, secondItem in
-            guard let firstExpireDate = firstItem.expireDate,
-                  let secondExpireDate = secondItem.expireDate else {return false}
-            return firstExpireDate < secondExpireDate
-        })
+        let contactKey = settings.getContactKey() ?? settings.getApplicationIdentifier()
+        let request = GetMessagesRequest(contactKey: contactKey,
+                                         offset: offset,
+                                         limit: limit)
+        baseService.send(request: request) { result in
+            switch result {
+            case .success(let response):
+                completion(.success(response.messages))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
-    
-    public static func deleteInboxMessage(with id: String){
-        let messages = Dengage.getInboxMessages().filter{$0.id != id}
+
+    public static func deleteInboxMessage(with id: String,
+                                          completion: @escaping (Result<Bool, Error>) -> Void) {
+        let messages = localStorage.getInboxMessages().filter {$0.id != id}
         localStorage.saveMessages(with: messages)
+        let contactKey = settings.getContactKey() ?? settings.getApplicationIdentifier()
+        let request = DeleteMessagesRequest(contactKey: contactKey, id: id)
+        baseService.send(request: request) { result in
+            switch result {
+            case .success(let response):
+                completion(.success(response))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
-    
-    public static func markInboxMessageAsRead(with id: String?){
+
+    public static func markInboxMessageAsRead(with id: String,
+                                              completion: @escaping (Result<Bool, Error>) -> Void) {
+        markLocalMessageIfNeeded(with: id)
+        let contactKey = settings.getContactKey() ?? settings.getApplicationIdentifier()
+        let request = MarkAsReadRequest(contactKey: contactKey, id: id)
+        baseService.send(request: request) { result in
+            switch result {
+            case .success(let response):
+                completion(.success(response))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    static func getInitalInboxMessages() {
+        let contactKey = settings.getContactKey() ?? settings.getApplicationIdentifier()
+        let request = GetMessagesRequest(contactKey: contactKey,
+                                         offset: 1,
+                                         limit: 20)
+        baseService.send(request: request) { result in
+            switch result {
+            case .success(let response):
+                localStorage.saveMessages(with: response.messages)
+            case .failure:
+                break
+            }
+        }
+    }
+
+    static func markLocalMessageIfNeeded(with id: String?) {
         guard let messageId = id else { return }
-        var messages = Dengage.getInboxMessages()
+        var messages = localStorage.getInboxMessages()
         var message = messages.first(where: {$0.id == messageId})
-        message?.isRead = true
-        messages = messages.filter{$0.id != messageId}
+        message?.isClicked = true
+        messages = messages.filter {$0.id != messageId}
         guard let readedMessage = message else { return }
         messages.append(readedMessage)
         localStorage.saveMessages(with: messages)
     }
-    
-    static func saveNewMessageIfNeeded(with content: UNNotificationContent){
-        guard let message = DengageMessage(with: content) else {return}
-        var messages = Dengage.getInboxMessages().filter{$0.id != message.id}
-        messages.append(message)
-        localStorage.saveMessages(with: messages)
-    }
 }
-

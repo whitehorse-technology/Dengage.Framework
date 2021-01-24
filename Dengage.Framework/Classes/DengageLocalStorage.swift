@@ -21,48 +21,26 @@ internal class DengageLocalStorage: NSObject {
     }
     
     init(suitName: String) {
-        userDefaults = UserDefaults.init(suiteName: suitName)!
+        userDefaults = UserDefaults(suiteName: suitName)!
     }
     
-    internal func setValueWithKey(value: String, key: String) {
-        
-        userDefaults.set(value, forKey: key)
+    internal func set(value: Any?, for key: Key) {
+        userDefaults.set(value, forKey: key.rawValue)
     }
     
-    internal func getValueWithKey(key: String) -> String? {
-        
-        if userDefaults.object(forKey: key) != nil {
-            
-            let returnValue = userDefaults.string(forKey: key)!
-            
-            return returnValue
-        }
-        
-        return nil
+    internal func getValue(key: Key) -> String? {
+        guard let value = userDefaults.string(forKey: key.rawValue) else {return nil}
+        return value
     }
     
-    internal func setValueWithKey(value: Any?, key: String) {
-        
-        userDefaults.set(value, forKey: key)
-    }
-    
-    internal func getValueWithKeyWith(key: String) -> Any? {
-        
-        if userDefaults.object(forKey: key) != nil {
-            
-            let returnValue = userDefaults.object(forKey: key)!
-            
-            return returnValue
-        }
-        
-        return nil
+    internal func getValue(for key: Key) -> Any? {
+        return userDefaults.object(forKey: key.rawValue)
     }
 }
 
-
-extension DengageLocalStorage {
+extension DengageLocalStorage{
     func getInboxMessages() -> [DengageMessage]{
-        guard let savedMessageData = inboxUserDefaults?.object(forKey: "DengageInboxMessages") as? Data else { return [] }
+        guard let savedMessageData = inboxUserDefaults?.object(forKey: Key.inboxMessages.rawValue) as? Data else { return [] }
         let decoder = JSONDecoder()
         do {
             let messages = try decoder.decode([DengageMessage].self, from: savedMessageData)
@@ -77,10 +55,21 @@ extension DengageLocalStorage {
         let encoder = JSONEncoder()
         do {
             let encoded = try encoder.encode(messages)
-            inboxUserDefaults?.setValue(encoded, forKey: "DengageInboxMessages")
+            inboxUserDefaults?.setValue(encoded, forKey: Key.inboxMessages.rawValue)
             inboxUserDefaults?.synchronize()
         } catch {
             os_log("[DENGAGE] saving inbox message fail", log: .default, type: .debug)
         }
+    }
+}
+extension DengageLocalStorage{
+    
+    enum Key: String{
+        case applicationIdentifier = "ApplicationIdentifier"
+        case contactKey = "ContactKey"
+        case token = "Token"
+        case campDate = "dn_camp_date"
+        case userPermission = "userPermission"
+        case inboxMessages = "inboxMessages"
     }
 }
