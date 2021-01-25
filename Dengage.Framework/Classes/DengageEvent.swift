@@ -14,7 +14,7 @@ public class DengageEvent {
     let settings: Settings = .shared
     let logger: SDKLogger = .shared
     let eventCollectionService: EventCollectionService = EventCollectionService()
-
+    var flushTimer: Timer?
     var queryParams: [String: Any] = [:]
 
     public static let shared = DengageEvent()
@@ -59,7 +59,7 @@ public class DengageEvent {
                       "utm_content": utmContent as Any,
                       "utm_term": utmTerm as Any
                 ] as NSMutableDictionary
-        } else {           
+        } else {
             params = ["session_id":session.sessionId] as NSMutableDictionary
         }
         
@@ -73,6 +73,10 @@ public class DengageEvent {
         eventCollectionService.SendEvent(table: "session_info", key: deviceId, params: params)
         settings.setSessionStart(status: true)
         logger.Log(message: "EVENT SESSION STARTED", logtype: .debug)
+        
+        if flushTimer == nil {
+            flushTimer = Timer.scheduledTimer(timeInterval: QUEUE_FLUSH_TIME, target: self, selector: #selector(flushEvents), userInfo: nil, repeats: true)
+        }
     }
     
     ///- Parameter params: NSMutableDictionary
@@ -240,4 +244,11 @@ public class DengageEvent {
         return queryParams[forKey] as? String
     }
     
+    @objc public func flushEvents() {
+        guard settings.getSessionStart() else {
+            logger.Log(message: "FLUSH_CALLED_BEFORE_SESSION_START", logtype: .info)
+            return
+        }
+        eventCollectionService.flush()
+    }
 }

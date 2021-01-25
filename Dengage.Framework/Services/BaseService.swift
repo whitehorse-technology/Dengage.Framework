@@ -30,7 +30,7 @@ internal class BaseService {
         self.settings = settings
     }
 
-    internal func apiCall(data: Any, urlAddress: String) {
+    internal func apiCall(data: Any, urlAddress: String, completion: ((Bool) -> Void)? = nil) {
 
         let url = URL(string: urlAddress)!
         
@@ -58,19 +58,17 @@ internal class BaseService {
         
         logger.Log(message:"USER_AGENT is %s",  logtype: .debug, argument:  userAgent)
         
-        let task = session.dataTask(with: request, completionHandler: handler(data:urlResponse:error:))
+        let task = session.dataTask(with: request) { (data, urlResponse, error) in
+            self.handler(data: data, urlResponse: urlResponse, error: error, completion: completion)
+        }
         
         task.resume()
     }
     
-    func handler(data: Data?, urlResponse: URLResponse?, error: Error?){
+    func handler(data: Data?, urlResponse: URLResponse?, error: Error?, completion: ((Bool) -> Void)? = nil){
         
         if error != nil {
             self.logger.Log(message: "API_CALL_ERROR %s", logtype: .error, argument: error!.localizedDescription)
-        }
-        
-        if let response = urlResponse as? HTTPURLResponse {
-            self.logger.Log(message: "RESPONSE_STATUS %s", logtype: .debug, argument: "\(response.statusCode)")
         }
         
         if let safeData = data {
@@ -81,5 +79,13 @@ internal class BaseService {
             }
         }
         
+        if let response = urlResponse as? HTTPURLResponse {
+            self.logger.Log(message: "RESPONSE_STATUS %s", logtype: .debug, argument: "\(response.statusCode)")
+            if response.statusCode == 200 {
+                completion?(true)
+            } else {
+                completion?(false)
+            }
+        }
     }
 }

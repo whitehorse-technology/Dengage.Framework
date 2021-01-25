@@ -38,6 +38,8 @@ internal class Settings {
     var useCloudForSubscription: Bool = false
     var registerForRemoteNotification: Bool = true
     
+    var queueLimit = QUEUE_LIMIT
+    
     init() {
         sdkVersion = SDK_VERSION
         permission = false
@@ -297,5 +299,9 @@ internal class Settings {
     func getSubscriptionApi() -> String {
         guard let dengageApiUrl = Bundle.main.object(forInfoDictionaryKey: "DengageApiUrl") as? String else { return SUBSCRIPTION_SERVICE_URL }
         return dengageApiUrl
+    }
+    
+    func getQueueLimit() -> Int {
+        return self.queueLimit
     }
 }

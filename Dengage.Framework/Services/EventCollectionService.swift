@@ -11,11 +11,10 @@ import os.log
 
 internal class EventCollectionService: BaseService {
     
+    private var events = [[String : Any]]()
+    private var requestInProgress = false
+    
     internal func PostEventCollection(eventCollectionModel: EventCollectionModel) {
-        
-        let urladdress = settings.getEventApiUrl() + "/api/event"
-        
-        logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress)
         
         var eventCollectionHttpRequest = EventCollectionHttpRequest()
         eventCollectionHttpRequest.integrationKey = settings.getDengageIntegrationKey()
@@ -29,38 +28,57 @@ internal class EventCollectionService: BaseService {
                           "eventDetails": eventCollectionHttpRequest.eventDetails as Any
             ] as [String: Any]
         
-        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
-        
-        queue.async {
-            self.apiCall(data: parameters, urlAddress: urladdress)
-        }
-        
-        logger.Log(message: "EVENT_COLLECTION_SENT", logtype: .info)
-        
+        addEventToQueue(event: parameters)
+    
     }
     
     internal func SendEvent(table: String, key: String, params: NSDictionary) {
         
-        let urladdress = settings.getEventApiUrl() + "/api/event"
-        
-        logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress)
-        
-        let integrationKey = settings.getDengageIntegrationKey()
-        
-        let parameters = ["integrationKey": integrationKey,
-                          "key": key,
-                          "eventTable": table,
-                          "eventDetails":params as Any
-            ] as [String: Any]
-        
-        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
-        
-        queue.async {
-            self.apiCall(data: parameters, urlAddress: urladdress)
-        }
-        
-        logger.Log(message: "EVENT_COLLECTION_SENT", logtype: .info)
+        var eventCollectionModel = EventCollectionModel()
+        eventCollectionModel.key = key
+        eventCollectionModel.eventTable = table
+        eventCollectionModel.eventDetails = params
+        PostEventCollection(eventCollectionModel: eventCollectionModel)
         
     }
     
+    internal func flush() {
+        let queueLimit = QUEUE_LIMIT
+        let batches = stride(from: 0, to: events.count, by: queueLimit).map {
+            Array(events[$0..<min($0 + queueLimit, events.count)])
+        }
+        events.removeAll()
+        for batch in batches {
+            uploadEventsBatch(batch: batch)
+        }
+    }
+    
+    private func addEventToQueue(event: [String: Any]) {
+        events.append(event)
+        sendEvents()
+    }
+    
+    private func sendEvents() {
+        let maxBatchCount = settings.getQueueLimit()
+        if events.count >= maxBatchCount && events.count > 0 {
+            let batch = Array(events.prefix(maxBatchCount))
+            events.removeFirst(batch.count)
+            uploadEventsBatch(batch: batch)
+        }
+    }
+    
+    private func uploadEventsBatch(batch: [[String: Any]]) {
+        let urladdress = settings.getEventApiUrl() + "/api/event"
+        logger.Log(message: "EVENT_API_URL is %s", logtype: .info, argument: urladdress)
+        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
+        queue.sync {
+            self.apiCall(data: batch, urlAddress: urladdress) { [weak self] (success) in
+                if success {
+                    self?.logger.Log(message: "EVENT_COLLECTION_SENT", logtype: .info)
+                } else {
+                    self?.events.append(contentsOf: batch)
+                }
+            }
+        }
+    }
 }
