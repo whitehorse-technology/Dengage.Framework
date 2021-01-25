@@ -24,7 +24,7 @@ public class Dengage {
     static var logger: SDKLogger = .shared
     static var localStorage: DengageLocalStorage = .shared
     static var eventQueue: EventQueue = EventQueue()
-    
+    static var flushTimer: Timer?
     //MARK: - Initialize Methods
     /// Initiliazes SDK requiered parameters.
     ///
@@ -47,6 +47,7 @@ public class Dengage {
         configureSettings()
         Dengage.syncSubscription()
         INBOX_SUIT_NAME = appGroupName
+        configureBatchUpload()
         guard let pushCategories = categories else {return}
         center.setNotificationCategories(pushCategories)
     }
@@ -67,6 +68,19 @@ public class Dengage {
         settings.setAdvertisingId(advertisingId: utilities.identifierForAdvertising())
         settings.setApplicationIdentifier(applicationIndentifier: utilities.identifierForApplication())
         settings.setAppVersion(appVersion: utilities.indentifierForCFBundleShortVersionString())
+    }
+}
+
+//MARK: - Batch Upload
+extension Dengage {
+    static func configureBatchUpload() {
+        if flushTimer == nil {
+            flushTimer = Timer.scheduledTimer(timeInterval: QUEUE_FLUSH_TIME, target: self, selector: #selector(flushEvents), userInfo: nil, repeats: true)
+        }
+    }
+    
+    @objc static func flushEvents() {
+        DengageEvent.shared.flushEvents()
     }
 }
 

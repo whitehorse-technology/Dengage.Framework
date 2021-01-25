@@ -14,7 +14,6 @@ public class DengageEvent {
     let settings: Settings = .shared
     let logger: SDKLogger = .shared
     let eventCollectionService: EventCollectionService = EventCollectionService()
-    var flushTimer: Timer?
     var queryParams: [String: Any] = [:]
 
     public static let shared = DengageEvent()
@@ -74,9 +73,6 @@ public class DengageEvent {
         settings.setSessionStart(status: true)
         logger.Log(message: "EVENT SESSION STARTED", logtype: .debug)
         
-        if flushTimer == nil {
-            flushTimer = Timer.scheduledTimer(timeInterval: QUEUE_FLUSH_TIME, target: self, selector: #selector(flushEvents), userInfo: nil, repeats: true)
-        }
     }
     
     ///- Parameter params: NSMutableDictionary
