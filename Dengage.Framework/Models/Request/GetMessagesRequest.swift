@@ -29,8 +29,9 @@ struct GetMessagesRequest: APIRequest {
     let limit: String
     let offset: String
     let contactKey: String
-
-    init(contactKey: String, offset: Int, limit: Int = 20) {
+    let accountName:String
+    init(accountName:String, contactKey: String, offset: Int, limit: Int = 20) {
+        self.accountName = accountName
         self.contactKey = contactKey
         self.offset = String(offset)
         self.limit = String(limit)

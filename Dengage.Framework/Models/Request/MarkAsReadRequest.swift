@@ -19,7 +19,7 @@ struct MarkAsReadRequest: APIRequest{
     
     var queryParameters: [URLQueryItem] {
         [
-            URLQueryItem(name: "acc", value: "account_NAME"), // todo
+            URLQueryItem(name: "acc", value: accountName),
             URLQueryItem(name: "cdkey", value: contactKey),
             URLQueryItem(name: "msgid", value: id)
         ]
@@ -27,8 +27,10 @@ struct MarkAsReadRequest: APIRequest{
 
     let id: String
     let contactKey: String
-
-    init(contactKey: String, id: String) {
+    let accountName: String
+    
+    init(accountName:String, contactKey: String, id: String) {
+        self.accountName = accountName
         self.contactKey = contactKey
         self.id = id
     }
