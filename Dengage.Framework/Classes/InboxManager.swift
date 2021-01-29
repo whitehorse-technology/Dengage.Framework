@@ -21,7 +21,7 @@ internal class InboxManager: NSObject {
                 switch result {
                 case .success(let response):
                     
-                    completion(.success(response.messages))
+                    completion(.success(response))
                 case .failure(let error):
                     completion(.failure(error))
                 }

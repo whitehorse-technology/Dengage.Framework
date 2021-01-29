@@ -9,7 +9,7 @@ import Foundation
 
 struct GetMessagesRequest: APIRequest {
 
-    typealias Response = GetMessagesResponse
+    typealias Response = [DengageMessage]
 
     let method: HTTPMethod = .get
     let baseURL: String = SUBSCRIPTION_SERVICE_URL
@@ -38,6 +38,4 @@ struct GetMessagesRequest: APIRequest {
     }
 }
 
-struct GetMessagesResponse: Decodable {
-    let messages: [DengageMessage]
-}
+
