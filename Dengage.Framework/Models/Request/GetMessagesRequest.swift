@@ -23,7 +23,7 @@ struct GetMessagesRequest: APIRequest {
             URLQueryItem(name: "cdkey", value: contactKey),
             URLQueryItem(name: "limit", value: limit),
             URLQueryItem(name: "offset", value: offset),
-            URLQueryItem(name: "type", value: offset)
+            URLQueryItem(name: "type", value: type)
         ]
     }
 
