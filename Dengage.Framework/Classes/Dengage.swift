@@ -81,7 +81,8 @@ extension Dengage {
        
         let accountName = settings.configuration?.accountName ?? ""
         let request = GetMessagesRequest(accountName: accountName,
-                                         contactKey: settings.contactKey,
+                                         contactKey: settings.contactKey.0,
+                                         type:settings.contactKey.type,
                                          offset: offset,
                                          limit: limit)
         inboxManager.getInboxMessages(request: request) { result in
@@ -99,7 +100,7 @@ extension Dengage {
 
         let accountName = settings.configuration?.accountName ?? ""
         let request = DeleteMessagesRequest(accountName:accountName,
-                                            contactKey: settings.contactKey,
+                                            contactKey: settings.contactKey.0,
                                             id: id)
         inboxManager.deleteInboxMessage(with: request) { result in
             switch result {
@@ -115,7 +116,7 @@ extension Dengage {
                                               completion: @escaping (Result<Bool, Error>) -> Void) {
         let accountName = settings.configuration?.accountName ?? ""
         let request = MarkAsReadRequest(accountName: accountName,
-                                        contactKey: settings.contactKey,
+                                        contactKey: settings.contactKey.0,
                                         id: id)
         inboxManager.markInboxMessageAsRead(with: request) { result in
             switch result {

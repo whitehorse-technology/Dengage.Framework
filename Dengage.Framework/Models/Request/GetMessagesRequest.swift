@@ -19,10 +19,11 @@ struct GetMessagesRequest: APIRequest {
 
     var queryParameters: [URLQueryItem] {
         [
-            URLQueryItem(name: "acc", value: "account_NAME"), //todo
+            URLQueryItem(name: "acc", value: accountName),
             URLQueryItem(name: "cdkey", value: contactKey),
             URLQueryItem(name: "limit", value: limit),
-            URLQueryItem(name: "offset", value: offset)
+            URLQueryItem(name: "offset", value: offset),
+            URLQueryItem(name: "type", value: offset)
         ]
     }
 
@@ -30,11 +31,14 @@ struct GetMessagesRequest: APIRequest {
     let offset: String
     let contactKey: String
     let accountName:String
-    init(accountName:String, contactKey: String, offset: Int, limit: Int = 20) {
+    let type:String
+    
+    init(accountName:String, contactKey: String, type:String, offset: Int, limit: Int = 20) {
         self.accountName = accountName
         self.contactKey = contactKey
         self.offset = String(offset)
         self.limit = String(limit)
+        self.type = type
     }
 }
 
