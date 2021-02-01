@@ -30,13 +30,13 @@ internal class InboxManager: NSObject {
     }
 
     func deleteInboxMessage(with request: DeleteMessagesRequest,
-                                          completion: @escaping (Result<Bool, Error>) -> Void) {
+                                          completion: @escaping (Result<Void, Error>) -> Void) {
         let messages = inboxMessages.filter {$0.id != request.id}
         inboxMessages = messages
         Dengage.baseService.send(request: request) { result in
             switch result {
-            case .success(let response):
-                completion(.success(response))
+            case .success(let _):
+                completion(.success(()))
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -44,12 +44,12 @@ internal class InboxManager: NSObject {
     }
 
     func markInboxMessageAsRead(with request: MarkAsReadRequest,
-                                              completion: @escaping (Result<Bool, Error>) -> Void) {
+                                              completion: @escaping (Result<Void, Error>) -> Void) {
         markLocalMessageIfNeeded(with: request.id)
         Dengage.baseService.send(request: request) { result in
             switch result {
-            case .success(let response):
-                completion(.success(response))
+            case .success(let _):
+                completion(.success(()))
             case .failure(let error):
                 completion(.failure(error))
             }
