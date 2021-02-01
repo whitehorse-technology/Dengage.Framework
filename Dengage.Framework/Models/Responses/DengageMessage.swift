@@ -38,13 +38,13 @@ public struct DengageMessage: Codable {
     enum CodingKeys: String, CodingKey {
 
         enum DataContainer: String, CodingKey {
-            case dataContainer = "data"
+            case dataContainer = "message_json"
 
             enum DataValueContainer: String, CodingKey {
                 case title, message, mediaUrl, targetUrl, receiveDate
             }
         }
-        case id, isClicked
+        case id = "smsg_id", isClicked
     }
 
     static func convertDate(to date: String?) -> Date? {

@@ -20,7 +20,7 @@ internal class InboxManager: NSObject {
             Dengage.baseService.send(request: request) { result in
                 switch result {
                 case .success(let response):
-                    
+                    self.saveInitalInboxMessagesIfNeeded(request: request, messages: response)
                     completion(.success(response))
                 case .failure(let error):
                     completion(.failure(error))
