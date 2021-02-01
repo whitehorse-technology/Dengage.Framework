@@ -24,8 +24,8 @@ public class Dengage {
     static var settings: Settings = .shared
     static var logger: SDKLogger = .shared
     static var localStorage: DengageLocalStorage = .shared
-    static var inboxManager:InboxManager = .shared
-    
+    static var inboxManager: InboxManager = .shared
+
     // MARK: - Initialize Methods
     /// Initiliazes SDK requiered parameters.
     ///
@@ -78,11 +78,11 @@ extension Dengage {
     public static func getInboxMessages(offset: Int,
                                         limit: Int = 20,
                                         completion: @escaping (Result<[DengageMessage], Error>) -> Void) {
-       
+
         let accountName = settings.configuration?.accountName ?? ""
         let request = GetMessagesRequest(accountName: accountName,
                                          contactKey: settings.contactKey.0,
-                                         type:settings.contactKey.type,
+                                         type: settings.contactKey.type,
                                          offset: offset,
                                          limit: limit)
         inboxManager.getInboxMessages(request: request) { result in
@@ -99,7 +99,9 @@ extension Dengage {
                                           completion: @escaping (Result<Bool, Error>) -> Void) {
 
         let accountName = settings.configuration?.accountName ?? ""
-        let request = DeleteMessagesRequest(accountName:accountName,
+        let request = DeleteMessagesRequest(type: settings.contactKey.type,
+                                            deviceID: settings.getApplicationIdentifier(),
+                                            accountName: accountName,
                                             contactKey: settings.contactKey.0,
                                             id: id)
         inboxManager.deleteInboxMessage(with: request) { result in
@@ -115,7 +117,9 @@ extension Dengage {
     public static func markInboxMessageAsRead(with id: String,
                                               completion: @escaping (Result<Bool, Error>) -> Void) {
         let accountName = settings.configuration?.accountName ?? ""
-        let request = MarkAsReadRequest(accountName: accountName,
+        let request = MarkAsReadRequest(type: settings.contactKey.type,
+                                        deviceID: settings.getApplicationIdentifier(),
+                                        accountName: accountName,
                                         contactKey: settings.contactKey.0,
                                         id: id)
         inboxManager.markInboxMessageAsRead(with: request) { result in
@@ -127,14 +131,14 @@ extension Dengage {
             }
         }
     }
-    
-    private static func getSDKParams(){
+
+    private static func getSDKParams() {
         let request = GetSDKParamsRequest(integrationKey: settings.getDengageIntegrationKey())
         baseService.send(request: request) { result in
             switch result {
             case .success(let response):
                 settings.configuration = response
-            case .failure(let _):
+            case .failure:
                 logger.Log(message: "SDK PARAMS Config Error", logtype: .error)
             }
         }

@@ -10,9 +10,9 @@ import Foundation
 public struct DengageMessage: Codable {
 
     public let id: String
-    public let title: String?
-    public let message: String?
-    public let mediaURL: String?
+    public let title: String
+    public let message: String
+    public let mediaURL: String
     public let targetURL: String?
     public let receiveDate: Date?
     public var isClicked: Bool
@@ -22,29 +22,21 @@ public struct DengageMessage: Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
         isClicked = try container.decode(Bool.self, forKey: .isClicked)
-        let dataContainer = try decoder.container(keyedBy: CodingKeys.DataContainer.self)
-        let dataValueContainer = try dataContainer.nestedContainer(
-            keyedBy: CodingKeys.DataContainer.DataValueContainer.self,
-            forKey: .dataContainer
-        )
-        title = try dataValueContainer.decode(String.self, forKey: .title)
-        message = try dataValueContainer.decode(String.self, forKey: .message)
-        mediaURL = try dataValueContainer.decode(String.self, forKey: .mediaUrl)
-        targetURL = try dataValueContainer.decode(String.self, forKey: .targetUrl)
-        let receiveDateString = try dataValueContainer.decode(String.self, forKey: .receiveDate)
+        let messageJson = try container.decode(String.self, forKey: .message)
+        let data = Data(messageJson.utf8)
+        let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+        self.title = json["title"] as! String
+        self.message = json["message"] as! String
+        self.mediaURL = json["message"] as! String
+        self.targetURL = json["message"] as! String
+        let receiveDateString = json["message"] as! String
         self.receiveDate = DengageMessage.convertDate(to: receiveDateString)
-
+        
     }
     enum CodingKeys: String, CodingKey {
 
-        enum DataContainer: String, CodingKey {
-            case dataContainer = "message_json"
 
-            enum DataValueContainer: String, CodingKey {
-                case title, message, mediaUrl, targetUrl, receiveDate
-            }
-        }
-        case id = "smsg_id", isClicked
+        case id = "smsg_id", isClicked = "is_clicked", message = "message_json"
     }
 
     static func convertDate(to date: String?) -> Date? {
@@ -55,3 +47,5 @@ public struct DengageMessage: Codable {
         return formatter.date(from: dateString)
     }
 }
+
+
