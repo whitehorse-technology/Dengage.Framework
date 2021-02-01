@@ -96,7 +96,7 @@ extension Dengage {
     }
 
     public static func deleteInboxMessage(with id: String,
-                                          completion: @escaping (Result<Bool, Error>) -> Void) {
+                                          completion: @escaping (Result<Void, Error>) -> Void) {
 
         let accountName = settings.configuration?.accountName ?? ""
         let request = DeleteMessagesRequest(type: settings.contactKey.type,
@@ -106,8 +106,8 @@ extension Dengage {
                                             id: id)
         inboxManager.deleteInboxMessage(with: request) { result in
             switch result {
-            case .success(let response):
-                completion(.success(response))
+            case .success(let _):
+                completion(.success(()))
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -115,7 +115,7 @@ extension Dengage {
     }
 
     public static func markInboxMessageAsRead(with id: String,
-                                              completion: @escaping (Result<Bool, Error>) -> Void) {
+                                              completion: @escaping (Result<Void, Error>) -> Void) {
         let accountName = settings.configuration?.accountName ?? ""
         let request = MarkAsReadRequest(type: settings.contactKey.type,
                                         deviceID: settings.getApplicationIdentifier(),
@@ -124,8 +124,8 @@ extension Dengage {
                                         id: id)
         inboxManager.markInboxMessageAsRead(with: request) { result in
             switch result {
-            case .success(let response):
-                completion(.success(response))
+            case .success(let _):
+                completion(.success(()))
             case .failure(let error):
                 completion(.failure(error))
             }

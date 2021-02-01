@@ -9,7 +9,7 @@ import Foundation
 
 struct MarkAsReadRequest: APIRequest{
     
-    typealias Response = Bool
+    typealias Response = EmptyResponse
 
     let method: HTTPMethod = .get
     let baseURL: String = SUBSCRIPTION_SERVICE_URL

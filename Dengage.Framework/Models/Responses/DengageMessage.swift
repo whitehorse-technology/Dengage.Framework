@@ -27,9 +27,9 @@ public struct DengageMessage: Codable {
         let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         self.title = json["title"] as! String
         self.message = json["message"] as! String
-        self.mediaURL = json["message"] as! String
-        self.targetURL = json["message"] as! String
-        let receiveDateString = json["message"] as! String
+        self.mediaURL = json["mediaUrl"] as! String
+        self.targetURL = json["targetUrl"] as! String
+        let receiveDateString = json["receiveDate"] as! String
         self.receiveDate = DengageMessage.convertDate(to: receiveDateString)
         
     }
