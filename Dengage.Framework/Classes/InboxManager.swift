@@ -14,7 +14,7 @@ internal class InboxManager: NSObject {
     func getInboxMessages(request: GetMessagesRequest,
                                         completion: @escaping (Result<[DengageMessage], Error>) -> Void) {
        
-        if request.offset == "1" && !inboxMessages.isEmpty{
+        if request.offset == "0" && !inboxMessages.isEmpty{
             completion(.success(inboxMessages))
         }else{
             Dengage.baseService.send(request: request) { result in
@@ -57,7 +57,7 @@ internal class InboxManager: NSObject {
     }
 
     func saveInitalInboxMessagesIfNeeded(request:GetMessagesRequest, messages:[DengageMessage]) {
-        guard request.offset == "1" else {return}
+        guard request.offset == "0" else {return}
         inboxMessages = messages
     }
 

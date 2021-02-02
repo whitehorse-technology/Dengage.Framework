@@ -37,7 +37,9 @@ internal class Settings {
     var useCloudForSubscription: Bool = false
     var registerForRemoteNotification: Bool = true
     
-    var configuration: GetSDKParamsResponse?
+    var configuration: GetSDKParamsResponse?{
+        return storage.getConfig()
+    }
 
     init(storage: DengageLocalStorage = .shared, logger: SDKLogger = .shared) {
 

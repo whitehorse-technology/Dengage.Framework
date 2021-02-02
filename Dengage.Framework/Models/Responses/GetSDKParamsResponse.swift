@@ -6,7 +6,7 @@
 //
 
 import Foundation
-struct GetSDKParamsResponse: Decodable {
+struct GetSDKParamsResponse: Codable {
     let accountId: Int
     let accountName: String
     let eventsEnabled: Bool

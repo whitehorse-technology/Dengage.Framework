@@ -39,24 +39,24 @@ internal class DengageLocalStorage: NSObject {
 }
 
 extension DengageLocalStorage{
-    func getInboxMessages() -> [DengageMessage]{
-        guard let savedMessageData = inboxUserDefaults?.object(forKey: Key.inboxMessages.rawValue) as? Data else { return [] }
+    func getConfig() -> GetSDKParamsResponse? {
+        guard let savedMessageData = userDefaults.object(forKey: Key.configParams.rawValue) as? Data else { return nil }
         let decoder = JSONDecoder()
         do {
-            let messages = try decoder.decode([DengageMessage].self, from: savedMessageData)
-            return messages
+            let config = try decoder.decode(GetSDKParamsResponse.self, from: savedMessageData)
+            return config
         } catch {
             os_log("[DENGAGE] getInboxMessage fail", log: .default, type: .debug)
-            return []
+            return nil
         }
     }
     
-    func saveMessages(with messages: [DengageMessage]) {
+    func saveConfig(with response: GetSDKParamsResponse) {
         let encoder = JSONEncoder()
         do {
-            let encoded = try encoder.encode(messages)
-            inboxUserDefaults?.setValue(encoded, forKey: Key.inboxMessages.rawValue)
-            inboxUserDefaults?.synchronize()
+            let encoded = try encoder.encode(response)
+            userDefaults.setValue(encoded, forKey: Key.configParams.rawValue)
+            userDefaults.synchronize()
         } catch {
             os_log("[DENGAGE] saving inbox message fail", log: .default, type: .debug)
         }
@@ -71,5 +71,7 @@ extension DengageLocalStorage{
         case campDate = "dn_camp_date"
         case userPermission = "userPermission"
         case inboxMessages = "inboxMessages"
+        case configParams = "configParams"
+        case lastFetchedConfigTime = "lastFetchedConfigTime"
     }
 }

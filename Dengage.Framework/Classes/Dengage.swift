@@ -78,7 +78,9 @@ extension Dengage {
     public static func getInboxMessages(offset: Int,
                                         limit: Int = 20,
                                         completion: @escaping (Result<[DengageMessage], Error>) -> Void) {
-
+        guard (settings.configuration?.inboxEnabled ?? false) else {
+            completion(.success([]))
+            return}
         let accountName = settings.configuration?.accountName ?? ""
         let request = GetMessagesRequest(accountName: accountName,
                                          contactKey: settings.contactKey.0,
@@ -98,6 +100,10 @@ extension Dengage {
     public static func deleteInboxMessage(with id: String,
                                           completion: @escaping (Result<Void, Error>) -> Void) {
 
+        guard (settings.configuration?.inboxEnabled ?? false) else {
+            completion(.success(()))
+            return}
+        
         let accountName = settings.configuration?.accountName ?? ""
         let request = DeleteMessagesRequest(type: settings.contactKey.type,
                                             deviceID: settings.getApplicationIdentifier(),
@@ -106,7 +112,7 @@ extension Dengage {
                                             id: id)
         inboxManager.deleteInboxMessage(with: request) { result in
             switch result {
-            case .success(let _):
+            case .success(_):
                 completion(.success(()))
             case .failure(let error):
                 completion(.failure(error))
@@ -116,6 +122,9 @@ extension Dengage {
 
     public static func markInboxMessageAsRead(with id: String,
                                               completion: @escaping (Result<Void, Error>) -> Void) {
+        guard (settings.configuration?.inboxEnabled ?? false) else {
+            completion(.success(()))
+            return}
         let accountName = settings.configuration?.accountName ?? ""
         let request = MarkAsReadRequest(type: settings.contactKey.type,
                                         deviceID: settings.getApplicationIdentifier(),
@@ -124,7 +133,7 @@ extension Dengage {
                                         id: id)
         inboxManager.markInboxMessageAsRead(with: request) { result in
             switch result {
-            case .success(let _):
+            case .success(_):
                 completion(.success(()))
             case .failure(let error):
                 completion(.failure(error))
@@ -133,11 +142,21 @@ extension Dengage {
     }
 
     private static func getSDKParams() {
-        let request = GetSDKParamsRequest(integrationKey: settings.getDengageIntegrationKey())
+        if let date = (localStorage.getValue(for: .lastFetchedConfigTime) as? Date), let diff = Calendar.current.dateComponents([.hour], from: date, to: Date()).hour, diff > 24 {
+            Dengage.fetchSDK()
+        }else if (localStorage.getValue(for: .lastFetchedConfigTime) as? Date) == nil {
+            Dengage.fetchSDK()
+        }
+    }
+    
+    private static func fetchSDK(){
+        let request = GetSDKParamsRequest(integrationKey: settings.getDengageIntegrationKey(),
+                                          deviceId: settings.getApplicationIdentifier())
         baseService.send(request: request) { result in
             switch result {
             case .success(let response):
-                settings.configuration = response
+                localStorage.saveConfig(with: response)
+                localStorage.set(value: Date(), for: .lastFetchedConfigTime)
             case .failure:
                 logger.Log(message: "SDK PARAMS Config Error", logtype: .error)
             }
