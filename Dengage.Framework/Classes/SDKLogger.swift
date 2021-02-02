@@ -10,31 +10,24 @@ import Foundation
 import os.log
 
 internal class SDKLogger {
-    
+
     private var isVisiable: Bool = false
-    
     static let shared = SDKLogger()
-    
-    init(){}
-    
+
+    init() {}
+
     internal func setIsDisabled(isDisabled: Bool) {
-        
+
         self.isVisiable = isDisabled
     }
-    
+
     internal func Log(message: StaticString, logtype: OSLogType, argument: String) {
-        
-        if isVisiable {
-            os_log(message, log: .default, type: logtype, argument)
-        }
-        
+        guard isVisiable else { return }
+        os_log(message, log: .default, type: logtype, argument)
     }
-    
+
     internal func Log(message: StaticString, logtype: OSLogType) {
-        
-        //        guard isDisabled else { return }
-        if isVisiable {
-            os_log(message, log: .default, type: logtype)
-        }
+        guard isVisiable else { return }
+        os_log(message, log: .default, type: logtype)
     }
 }
