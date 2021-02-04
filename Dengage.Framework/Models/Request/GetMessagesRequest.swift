@@ -23,7 +23,9 @@ struct GetMessagesRequest: APIRequest {
             URLQueryItem(name: "cdkey", value: contactKey),
             URLQueryItem(name: "limit", value: limit),
             URLQueryItem(name: "offset", value: offset),
-            URLQueryItem(name: "type", value: type)
+            URLQueryItem(name: "type", value: type),
+            URLQueryItem(name: "did", value: type)
+            
         ]
     }
 
@@ -32,13 +34,20 @@ struct GetMessagesRequest: APIRequest {
     let contactKey: String
     let accountName:String
     let type:String
+    let deviceId: String
     
-    init(accountName:String, contactKey: String, type:String, offset: Int, limit: Int = 20) {
+    init(accountName:String,
+         contactKey: String,
+         type:String,
+         offset: Int,
+         limit: Int = 20,
+         deviceId: String) {
         self.accountName = accountName
         self.contactKey = contactKey
         self.offset = String(offset)
         self.limit = String(limit)
         self.type = type
+        self.deviceId = deviceId
     }
 }
 

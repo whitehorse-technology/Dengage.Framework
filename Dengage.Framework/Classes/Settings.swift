@@ -37,6 +37,16 @@ internal class Settings {
     var useCloudForSubscription: Bool = false
     var registerForRemoteNotification: Bool = true
     
+    var shouldFetchFromAPI:Bool{
+        guard let date = lastFetchedDate else { return true}
+        if let diff = Calendar.current.dateComponents([.hour], from: date, to: Date()).minute, diff > 10 {
+            return true
+        }
+        return false
+    }
+    
+    var lastFetchedDate:Date?
+    
     var configuration: GetSDKParamsResponse?{
         return storage.getConfig()
     }

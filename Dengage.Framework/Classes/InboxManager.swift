@@ -13,8 +13,8 @@ internal class InboxManager: NSObject {
     
     func getInboxMessages(request: GetMessagesRequest,
                                         completion: @escaping (Result<[DengageMessage], Error>) -> Void) {
-       
-        if request.offset == "0" && !inboxMessages.isEmpty{
+        
+        if request.offset == "0" && !inboxMessages.isEmpty && !Settings.shared.shouldFetchFromAPI{
             completion(.success(inboxMessages))
         }else{
             Dengage.baseService.send(request: request) { result in
@@ -35,7 +35,7 @@ internal class InboxManager: NSObject {
         inboxMessages = messages
         Dengage.baseService.send(request: request) { result in
             switch result {
-            case .success(let _):
+            case .success(_):
                 completion(.success(()))
             case .failure(let error):
                 completion(.failure(error))
@@ -59,6 +59,7 @@ internal class InboxManager: NSObject {
     func saveInitalInboxMessagesIfNeeded(request:GetMessagesRequest, messages:[DengageMessage]) {
         guard request.offset == "0" else {return}
         inboxMessages = messages
+        Settings.shared.lastFetchedDate = Date()
     }
 
     private func markLocalMessageIfNeeded(with id: String?) {

@@ -86,7 +86,8 @@ extension Dengage {
                                          contactKey: settings.contactKey.0,
                                          type: settings.contactKey.type,
                                          offset: offset,
-                                         limit: limit)
+                                         limit: limit,
+                                         deviceId: settings.getApplicationIdentifier())
         inboxManager.getInboxMessages(request: request) { result in
             switch result {
             case .success(let messages):
