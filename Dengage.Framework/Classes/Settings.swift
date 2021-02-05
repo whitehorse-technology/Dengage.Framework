@@ -39,7 +39,7 @@ internal class Settings {
     
     var shouldFetchFromAPI:Bool{
         guard let date = lastFetchedDate else { return true}
-        if let diff = Calendar.current.dateComponents([.hour], from: date, to: Date()).minute, diff > 10 {
+        if let diff = Calendar.current.dateComponents([.minute], from: date, to: Date()).minute, diff > 10 {
             return true
         }
         return false
