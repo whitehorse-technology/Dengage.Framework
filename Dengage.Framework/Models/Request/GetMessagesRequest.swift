@@ -24,7 +24,7 @@ struct GetMessagesRequest: APIRequest {
             URLQueryItem(name: "limit", value: limit),
             URLQueryItem(name: "offset", value: offset),
             URLQueryItem(name: "type", value: type),
-            URLQueryItem(name: "did", value: type)
+            URLQueryItem(name: "did", value: deviceId)
             
         ]
     }

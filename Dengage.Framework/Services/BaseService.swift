@@ -27,6 +27,7 @@ internal class BaseService {
         var request = request.asURLRequest()
         let userAgent = settings.getUserAgent()
         request.setValue(userAgent, forHTTPHeaderField: "User-Agent")
+        logger.Log(message: "URL is %s", logtype: .debug, argument: request.url?.absoluteString ?? "")
         logger.Log(message: "USER_AGENT is %s", logtype: .debug, argument: userAgent)
         let dataTask = session.dataTask(with: request) { [weak self] data, response, _ in
             guard let self = self else { return }
