@@ -11,21 +11,22 @@ import UserNotifications
 import AdSupport
 
 public class Dengage {
-    
+
     static var center = UNUserNotificationCenter.current()
-    
+
     static var notificationDelegate = DengageNotificationDelegate()
     static var openEventService: OpenEventService = OpenEventService()
     static var eventCollectionService: EventCollectionService = EventCollectionService()
+    static var baseService = BaseService()
     static var sessionManager: SessionManager = .shared
-    
+
     static var utilities: Utilities = .shared
     static var settings: Settings = .shared
     static var logger: SDKLogger = .shared
     static var localStorage: DengageLocalStorage = .shared
-    static var eventQueue: EventQueue = EventQueue()
-    
-    //MARK: - Initialize Methods
+    static var inboxManager: InboxManager = .shared
+
+    // MARK: - Initialize Methods
     /// Initiliazes SDK requiered parameters.
     ///
     /// -  Usage:
@@ -47,23 +48,24 @@ public class Dengage {
         settings.removeTokenIfNeeded()
         configureSettings()
         Dengage.syncSubscription()
+        Dengage.getSDKParams()
         INBOX_SUIT_NAME = appGroupName
         guard let pushCategories = categories else {return}
         center.setNotificationCategories(pushCategories)
     }
-    
+
     // MARK: - Rich Notification İnitiliaze
     @available(iOSApplicationExtension 10.0, *)
     public static func didReceiveNotificationExtentionRequest(receivedRequest: UNNotificationRequest,
                                                               withNotificationContent: UNMutableNotificationContent) {
-        
+
         DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest,
                                                                                    withNotificationContent: withNotificationContent)
     }
-    
-    //MARK: - Private Methods
+
+    // MARK: - Private Methods
     static func configureSettings() {
-        
+
         settings.setCarrierId(carrierId: utilities.identifierForCarrier())
         settings.setAdvertisingId(advertisingId: utilities.identifierForAdvertising())
         settings.setApplicationIdentifier(applicationIndentifier: utilities.identifierForApplication())
@@ -71,41 +73,94 @@ public class Dengage {
     }
 }
 
-//MARK: - Inbox
+// MARK: - Inbox
 extension Dengage {
-    public static func getInboxMessages() -> [DengageMessage]{
-        let messages = localStorage.getInboxMessages().filter{ item in
-            guard let itemDate = item.expireDate else {return false}
-            return itemDate > Date()
+    public static func getInboxMessages(offset: Int,
+                                        limit: Int = 20,
+                                        completion: @escaping (Result<[DengageMessage], Error>) -> Void) {
+        guard (settings.configuration?.inboxEnabled ?? false) else {
+            completion(.success([]))
+            return}
+        let accountName = settings.configuration?.accountName ?? ""
+        let request = GetMessagesRequest(accountName: accountName,
+                                         contactKey: settings.contactKey.0,
+                                         type: settings.contactKey.type,
+                                         offset: offset,
+                                         limit: limit,
+                                         deviceId: settings.getApplicationIdentifier())
+        inboxManager.getInboxMessages(request: request) { result in
+            switch result {
+            case .success(let messages):
+                completion(.success(messages))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
-        return messages.sorted(by: { firstItem, secondItem in
-            guard let firstExpireDate = firstItem.expireDate,
-                  let secondExpireDate = secondItem.expireDate else {return false}
-            return firstExpireDate < secondExpireDate
-        })
+    }
+
+    public static func deleteInboxMessage(with id: String,
+                                          completion: @escaping (Result<Void, Error>) -> Void) {
+
+        guard (settings.configuration?.inboxEnabled ?? false) else {
+            completion(.success(()))
+            return}
+        
+        let accountName = settings.configuration?.accountName ?? ""
+        let request = DeleteMessagesRequest(type: settings.contactKey.type,
+                                            deviceID: settings.getApplicationIdentifier(),
+                                            accountName: accountName,
+                                            contactKey: settings.contactKey.0,
+                                            id: id)
+        inboxManager.deleteInboxMessage(with: request) { result in
+            switch result {
+            case .success(_):
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    public static func markInboxMessageAsRead(with id: String,
+                                              completion: @escaping (Result<Void, Error>) -> Void) {
+        guard (settings.configuration?.inboxEnabled ?? false) else {
+            completion(.success(()))
+            return}
+        let accountName = settings.configuration?.accountName ?? ""
+        let request = MarkAsReadRequest(type: settings.contactKey.type,
+                                        deviceID: settings.getApplicationIdentifier(),
+                                        accountName: accountName,
+                                        contactKey: settings.contactKey.0,
+                                        id: id)
+        inboxManager.markInboxMessageAsRead(with: request) { result in
+            switch result {
+            case .success(_):
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
+    private static func getSDKParams() {
+        if let date = (localStorage.getValue(for: .lastFetchedConfigTime) as? Date), let diff = Calendar.current.dateComponents([.hour], from: date, to: Date()).hour, diff > 24 {
+            Dengage.fetchSDK()
+        }else if (localStorage.getValue(for: .lastFetchedConfigTime) as? Date) == nil {
+            Dengage.fetchSDK()
+        }
     }
     
-    public static func deleteInboxMessage(with id: String){
-        let messages = Dengage.getInboxMessages().filter{$0.id != id}
-        localStorage.saveMessages(with: messages)
-    }
-    
-    public static func markInboxMessageAsRead(with id: String?){
-        guard let messageId = id else { return }
-        var messages = Dengage.getInboxMessages()
-        var message = messages.first(where: {$0.id == messageId})
-        message?.isRead = true
-        messages = messages.filter{$0.id != messageId}
-        guard let readedMessage = message else { return }
-        messages.append(readedMessage)
-        localStorage.saveMessages(with: messages)
-    }
-    
-    static func saveNewMessageIfNeeded(with content: UNNotificationContent){
-        guard let message = DengageMessage(with: content) else {return}
-        var messages = Dengage.getInboxMessages().filter{$0.id != message.id}
-        messages.append(message)
-        localStorage.saveMessages(with: messages)
+    private static func fetchSDK(){
+        let request = GetSDKParamsRequest(integrationKey: settings.getDengageIntegrationKey(),
+                                          deviceId: settings.getApplicationIdentifier())
+        baseService.send(request: request) { result in
+            switch result {
+            case .success(let response):
+                localStorage.saveConfig(with: response)
+                localStorage.set(value: Date(), for: .lastFetchedConfigTime)
+            case .failure:
+                logger.Log(message: "SDK PARAMS Config Error", logtype: .error)
+            }
+        }
     }
 }
-

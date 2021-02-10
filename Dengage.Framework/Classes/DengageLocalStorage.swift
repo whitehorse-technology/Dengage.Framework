@@ -21,66 +21,57 @@ internal class DengageLocalStorage: NSObject {
     }
     
     init(suitName: String) {
-        userDefaults = UserDefaults.init(suiteName: suitName)!
+        userDefaults = UserDefaults(suiteName: suitName)!
     }
     
-    internal func setValueWithKey(value: String, key: String) {
-        
-        userDefaults.set(value, forKey: key)
+    internal func set(value: Any?, for key: Key) {
+        userDefaults.set(value, forKey: key.rawValue)
     }
     
-    internal func getValueWithKey(key: String) -> String? {
-        
-        if userDefaults.object(forKey: key) != nil {
-            
-            let returnValue = userDefaults.string(forKey: key)!
-            
-            return returnValue
-        }
-        
-        return nil
+    internal func getValue(key: Key) -> String? {
+        guard let value = userDefaults.string(forKey: key.rawValue) else {return nil}
+        return value
     }
     
-    internal func setValueWithKey(value: Any?, key: String) {
-        
-        userDefaults.set(value, forKey: key)
-    }
-    
-    internal func getValueWithKeyWith(key: String) -> Any? {
-        
-        if userDefaults.object(forKey: key) != nil {
-            
-            let returnValue = userDefaults.object(forKey: key)!
-            
-            return returnValue
-        }
-        
-        return nil
+    internal func getValue(for key: Key) -> Any? {
+        return userDefaults.object(forKey: key.rawValue)
     }
 }
 
-
-extension DengageLocalStorage {
-    func getInboxMessages() -> [DengageMessage]{
-        guard let savedMessageData = inboxUserDefaults?.object(forKey: "DengageInboxMessages") as? Data else { return [] }
+extension DengageLocalStorage{
+    func getConfig() -> GetSDKParamsResponse? {
+        guard let savedMessageData = userDefaults.object(forKey: Key.configParams.rawValue) as? Data else { return nil }
         let decoder = JSONDecoder()
         do {
-            let messages = try decoder.decode([DengageMessage].self, from: savedMessageData)
-            return messages
+            let config = try decoder.decode(GetSDKParamsResponse.self, from: savedMessageData)
+            return config
         } catch {
             os_log("[DENGAGE] getInboxMessage fail", log: .default, type: .debug)
-            return []
+            return nil
         }
     }
     
-    func saveMessages(with messages: [DengageMessage]) {
+    func saveConfig(with response: GetSDKParamsResponse) {
         let encoder = JSONEncoder()
         do {
-            let encoded = try encoder.encode(messages)
-            inboxUserDefaults?.setValue(encoded, forKey: "DengageInboxMessages")
-            inboxUserDefaults?.synchronize()
+            let encoded = try encoder.encode(response)
+            userDefaults.setValue(encoded, forKey: Key.configParams.rawValue)
+            userDefaults.synchronize()
         } catch {
             os_log("[DENGAGE] saving inbox message fail", log: .default, type: .debug)
         }
+    }
+}
+extension DengageLocalStorage{
+    
+    enum Key: String{
+        case applicationIdentifier = "ApplicationIdentifier"
+        case contactKey = "ContactKey"
+        case token = "Token"
+        case campDate = "dn_camp_date"
+        case userPermission = "userPermission"
+        case inboxMessages = "inboxMessages"
+        case configParams = "configParams"
+        case lastFetchedConfigTime = "lastFetchedConfigTime"
     }
 }

@@ -19,17 +19,13 @@ internal class OpenEventService : BaseService {
         var parameters = ["integrationKey": openEventHttpRequest.integrationKey,
                           "messageId": openEventHttpRequest.messageId,
                           "messageDetails": openEventHttpRequest.messageDetails
-            ] as [String: Any]
+        ] as [String : Any]
         
-        if openEventHttpRequest.buttonId.isEmpty == false {
+        if !openEventHttpRequest.buttonId.isEmpty{
             parameters["buttonId"] = openEventHttpRequest.buttonId
         }
         
-        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
-        
-        queue.async {
-            self.apiCall(data: parameters, urlAddress: urladdress)
-        }
+        eventCall(with: parameters, for: urladdress)
         logger.Log(message: "OPEN_EVENT_SENT", logtype: .info)
     }
     
