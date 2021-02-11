@@ -121,7 +121,7 @@ extension Dengage {
         }
     }
 
-    public static func markInboxMessageAsRead(with id: String,
+    public static func setInboxMessageAsClicked(with id: String,
                                               completion: @escaping (Result<Void, Error>) -> Void) {
         guard (settings.configuration?.inboxEnabled ?? false) else {
             completion(.success(()))
