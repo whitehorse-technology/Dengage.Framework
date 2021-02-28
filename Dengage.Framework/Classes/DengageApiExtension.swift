@@ -10,19 +10,12 @@ import Foundation
 
 extension Dengage {
     
-    
     static var subscriptionService: SubscriptionService = SubscriptionService()
     
-    //MARK: -
     //MARK: - API calls
-    @available(*, renamed: "SendSubscriptionEvent", deprecated, message: "This function will be removed in next cycle")
-    public static func SyncSubscription() {
+    public static func syncSubscription(){
         
-    }
-    
-    internal static func syncSubscription(){
-        
-        if settings.getApplicationIdentifier().isEmpty  {
+        guard !settings.getApplicationIdentifier().isEmpty else {
             logger.Log(message: "APP_IDF_ID_IS_EMPTY", logtype: .info)
             return
         }
@@ -35,12 +28,12 @@ extension Dengage {
     @available(*, renamed: "SendEventCollection")
     public static func SendDeviceEvent(toEventTable: String, andWithEventDetails: NSMutableDictionary) -> Bool {
         
-        if settings.getDengageIntegrationKey().isEmpty{
+        guard !settings.getDengageIntegrationKey().isEmpty else {
             logger.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
             return false
         }
         
-        if toEventTable.isEmpty {
+        guard !toEventTable.isEmpty else {
             logger.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
             return false
         }
@@ -53,18 +46,18 @@ extension Dengage {
         eventCollectionModel.eventTable = toEventTable
         eventCollectionModel.eventDetails = andWithEventDetails
         
-        SyncEventQueues(eventCollectionModel: eventCollectionModel)
+        syncEventQueues(eventCollectionModel: eventCollectionModel)
         return true
     }
     
     public static func SendCustomEvent(toEventTable: String, withKey : String, andWithEventDetails: NSMutableDictionary) -> Bool {
         
-        if settings.getDengageIntegrationKey().isEmpty{
+        guard !settings.getDengageIntegrationKey().isEmpty else {
             logger.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
             return false
         }
         
-        if toEventTable.isEmpty {
+        guard !toEventTable.isEmpty else {
             logger.Log(message: "EVENT_TABLE_IS_EMPTY", logtype: .info)
             return false
         }
@@ -75,16 +68,15 @@ extension Dengage {
         eventCollectionModel.eventTable = toEventTable
         eventCollectionModel.eventDetails = andWithEventDetails
         
-        SyncEventQueues(eventCollectionModel: eventCollectionModel)
+        syncEventQueues(eventCollectionModel: eventCollectionModel)
         return true
     }
     
     // MARK:- Private Methods
-    static func SyncEventQueues(eventCollectionModel: EventCollectionModel) {
+    static func syncEventQueues(eventCollectionModel: EventCollectionModel) {
         
         logger.Log(message: "Syncing EventCollection Queue...", logtype: .info)
         eventCollectionService.PostEventCollection(eventCollectionModel: eventCollectionModel)
         logger.Log(message: "Sync EvenCollection is completed", logtype: .info)
-        
     }
 }

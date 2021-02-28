@@ -27,13 +27,9 @@ internal class EventCollectionService: BaseService {
                           "key": eventCollectionHttpRequest.key,
                           "eventTable": eventCollectionHttpRequest.eventTable,
                           "eventDetails": eventCollectionHttpRequest.eventDetails as Any
-            ] as [String: Any]
+        ]
         
-        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
-        
-        queue.async {
-            self.apiCall(data: parameters, urlAddress: urladdress)
-        }
+        eventCall(with: parameters, for: urladdress)
         
         logger.Log(message: "EVENT_COLLECTION_SENT", logtype: .info)
         
@@ -51,13 +47,9 @@ internal class EventCollectionService: BaseService {
                           "key": key,
                           "eventTable": table,
                           "eventDetails":params as Any
-            ] as [String: Any]
+        ]
         
-        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
-        
-        queue.async {
-            self.apiCall(data: parameters, urlAddress: urladdress)
-        }
+        eventCall(with: parameters, for: urladdress)
         
         logger.Log(message: "EVENT_COLLECTION_SENT", logtype: .info)
         

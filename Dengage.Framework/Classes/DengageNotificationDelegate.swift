@@ -73,8 +73,6 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                     checkTargetUrlInActionButtons(content: content, actionIdentifier: actionIdentifier)
                 }
                 
-          
-                Dengage.markInboxMessageAsRead(with: content.dengageMessageId)
                 openTriggerCompletionHandler?(response)
                 checkTargetUrl(content: content)
                 parseCampIdAndSendId(content: content)
