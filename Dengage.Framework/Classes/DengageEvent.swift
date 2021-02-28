@@ -21,8 +21,6 @@ public class DengageEvent {
     
     ///Before sending an event Dengage.Framework opens  a Session by defualt.
     ///But according to implementation, developer can able to open a session manually.
-    ///
-
     ///- Parameter location: *deeplinkUrl*
     internal func SessionStart(referrer: String, restart: Bool) {
         
@@ -185,8 +183,6 @@ public class DengageEvent {
     }
 
     private func sendWishlistEvents(eventType: String, params: NSMutableDictionary) {
-
-        
         sendListEvents(table: "wishlist_events", withDetailTable: "wishlist_events_detail", eventType: eventType, params: params)
     }
     
@@ -236,7 +232,6 @@ public class DengageEvent {
     }
 
     private func getQueryStringValue(forKey: String) -> String? {
-
         return queryParams[forKey] as? String
     }
     

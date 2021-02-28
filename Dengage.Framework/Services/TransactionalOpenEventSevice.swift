@@ -21,17 +21,13 @@ internal class TransactioanlOpenEventService: BaseService {
                           "transactionId": transactionalOpenEventHttpRequest.transactionId,
                           "messageId": transactionalOpenEventHttpRequest.messageId,
                           "messageDetails": transactionalOpenEventHttpRequest.messageDetails
-            ] as [String: Any]
+        ] as [String: Any]
         
-        if transactionalOpenEventHttpRequest.buttonId.isEmpty == false {
+        if !transactionalOpenEventHttpRequest.buttonId.isEmpty {
             parameters["buttonId"] = transactionalOpenEventHttpRequest.buttonId
         }
         
-        let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
-        
-        queue.async {
-            self.apiCall(data: parameters, urlAddress: urladdress)
-        }
+        eventCall(with: parameters, for: urladdress)
         
         logger.Log(message: "TRANSACTIONAL_OPEN_EVENT_SENT", logtype: .info)
     }

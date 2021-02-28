@@ -10,8 +10,8 @@ import Foundation
 
 
 // MARK:- SERVICE URLS
-let SUBSCRIPTION_SERVICE_URL = "https://push.dengage.com"
-let EVENT_SERVICE_URL = "https://event.dengage.com"
+var SUBSCRIPTION_SERVICE_URL = "https://push.dengage.com"
+var EVENT_SERVICE_URL = "https://event.dengage.com"
 
 
 // MARK:- QUEUE PARAMETERS
@@ -21,7 +21,7 @@ let QUEUE_LIMIT = 20
 let QUEUE_FLUSH_TIME = 180.0
 
 // MARK:- SETTINGS
-let SDK_VERSION = "2.5.19"
+let SDK_VERSION = "2.5.22"
 
 let SUIT_NAME = "group.dengage"
 
