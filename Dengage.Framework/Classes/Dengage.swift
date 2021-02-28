@@ -79,12 +79,22 @@ public class Dengage {
 extension Dengage {
     static func configureBatchUpload() {
         if flushTimer == nil {
-            flushTimer = Timer.scheduledTimer(timeInterval: QUEUE_FLUSH_TIME, target: self, selector: #selector(flushEvents), userInfo: nil, repeats: true)
+            let period = settings.period
+            flushTimer = Timer.scheduledTimer(timeInterval: Double(period), target: self, selector: #selector(flushEvents), userInfo: nil, repeats: true)
         }
         NotificationCenter.default.addObserver(self, selector: #selector(flushEvents), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        if let events = localStorage.getValue(for: .eventBatch) as? [[String:Any]], events.isEmpty == false {
+            eventCollectionService.appendEvents(retrieved: events)
+            flushEvents()
+        }
     }
     
     @objc static func flushEvents() {
+        let disableBatch = settings.disableBatch
+        guard disableBatch == false else {
+            flushTimer?.invalidate()
+            return
+        }
         DengageEvent.shared.flushEvents()
     }
 }

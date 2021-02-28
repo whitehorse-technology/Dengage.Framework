@@ -73,5 +73,6 @@ extension DengageLocalStorage{
         case inboxMessages = "inboxMessages"
         case configParams = "configParams"
         case lastFetchedConfigTime = "lastFetchedConfigTime"
+        case eventBatch = "eventBatch"
     }
 }

@@ -17,8 +17,8 @@ var EVENT_SERVICE_URL = "https://event.dengage.com"
 // MARK:- QUEUE PARAMETERS
 let DEVICE_EVENT_QUEUE = "device-event-queue"
 let SUBSCRIPTION_QUEUE = "subscription-queue"
-let QUEUE_LIMIT = 20
-let QUEUE_FLUSH_TIME = 180.0
+let QUEUE_LIMIT = 50
+let QUEUE_FLUSH_TIME = 30
 
 // MARK:- SETTINGS
 let SDK_VERSION = "2.5.22"

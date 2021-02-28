@@ -11,8 +11,13 @@ import os.log
 
 internal class EventCollectionService: BaseService {
     
-    private var events = [[String : Any]]()
+    private var events: [[String : Any]] = [] {
+        didSet {
+            localStorage.set(value: events, for: .eventBatch)
+        }
+    }
     private var requestInProgress = false
+    private var localStorage: DengageLocalStorage = .shared
     
     internal func PostEventCollection(eventCollectionModel: EventCollectionModel) {
         
@@ -51,6 +56,10 @@ internal class EventCollectionService: BaseService {
         for batch in batches {
             uploadEventsBatch(batch: batch)
         }
+    }
+    
+    internal func appendEvents(retrieved: [[String: Any]]) {
+        events.append(contentsOf: retrieved)
     }
     
     private func addEventToQueue(event: [String: Any]) {

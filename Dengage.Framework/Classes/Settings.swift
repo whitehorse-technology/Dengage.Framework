@@ -37,8 +37,9 @@ internal class Settings {
     var useCloudForSubscription: Bool = false
     var registerForRemoteNotification: Bool = true
     
-    var queueLimit = QUEUE_LIMIT
-
+    var disableBatch: Bool = false
+    var period: Int = QUEUE_FLUSH_TIME
+    
     var shouldFetchFromAPI:Bool{
         guard let date = lastFetchedDate else { return true}
         if let diff = Calendar.current.dateComponents([.minute], from: date, to: Date()).minute, diff > 10 {
@@ -309,7 +310,22 @@ internal class Settings {
         return countryName
     }
     
+    func setPeriod(period: Int) {
+        self.period = period
+    }
+    
+    func getPeriod() -> Int {
+        return period
+    }
+    
+    func setDisableBatch(disable: Bool){
+        self.disableBatch = disable
+    }
+    
     func getQueueLimit() -> Int {
-        return self.queueLimit
+        if disableBatch {
+            return 1
+        }
+        return QUEUE_LIMIT
     }
 }

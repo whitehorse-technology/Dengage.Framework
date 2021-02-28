@@ -18,7 +18,6 @@ public class DengageEvent {
 
     public static let shared = DengageEvent()
 
-    
     ///Before sending an event Dengage.Framework opens  a Session by defualt.
     ///But according to implementation, developer can able to open a session manually.
     ///- Parameter location: *deeplinkUrl*
