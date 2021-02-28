@@ -77,6 +77,7 @@ extension Dengage {
         if flushTimer == nil {
             flushTimer = Timer.scheduledTimer(timeInterval: QUEUE_FLUSH_TIME, target: self, selector: #selector(flushEvents), userInfo: nil, repeats: true)
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(flushEvents), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     @objc static func flushEvents() {
