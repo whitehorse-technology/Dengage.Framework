@@ -62,6 +62,11 @@ extension Dengage {
         settings.setToken(token: token)
     }
     
+    // GetAPNsToken
+    public static func getToken() -> String {
+        return settings.getToken() ?? ""
+    }
+    
     /// Sets  User Permission manually
     ///
     /// - Precondition: if you don't use Dengage.promptForPushNotifications() method, you need to set user permission manually.
