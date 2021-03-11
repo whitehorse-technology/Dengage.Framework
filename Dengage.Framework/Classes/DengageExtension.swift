@@ -9,7 +9,6 @@ import Foundation
 
 extension Dengage {
     
-    //MARK: -
     //MARK: - Setters
     /// Sets Dengage Integration Key
     ///

@@ -13,13 +13,13 @@ import Foundation
 var SUBSCRIPTION_SERVICE_URL = "https://push.dengage.com"
 var EVENT_SERVICE_URL = "https://event.dengage.com"
 
-
 // MARK:- QUEUE PARAMETERS
 let DEVICE_EVENT_QUEUE = "device-event-queue"
 let SUBSCRIPTION_QUEUE = "subscription-queue"
 let QUEUE_LIMIT = 5
 
 // MARK:- SETTINGS
+let IN_APP_MESSAGE_FETCH_DURATION:TimeInterval = 3600000 
 let SDK_VERSION = "2.5.22"
 
 let SUIT_NAME = "group.dengage"

@@ -25,7 +25,7 @@ public class Dengage {
     static var logger: SDKLogger = .shared
     static var localStorage: DengageLocalStorage = .shared
     static var inboxManager: InboxManager = .shared
-
+    static var inAppMessageManager = InAppMessageManager(settings: settings, service: baseService)
     // MARK: - Initialize Methods
     /// Initiliazes SDK requiered parameters.
     ///
@@ -141,12 +141,18 @@ extension Dengage {
             }
         }
     }
+    
+    public static func setNavigation(screenName:String){
+        inAppMessageManager.setNavigation(screenName:screenName)
+    }
 
     private static func getSDKParams() {
         if let date = (localStorage.getValue(for: .lastFetchedConfigTime) as? Date), let diff = Calendar.current.dateComponents([.hour], from: date, to: Date()).hour, diff > 24 {
             Dengage.fetchSDK()
         }else if (localStorage.getValue(for: .lastFetchedConfigTime) as? Date) == nil {
             Dengage.fetchSDK()
+        }else{
+            inAppMessageManager.fetchInAppMessages()
         }
     }
     
@@ -158,6 +164,7 @@ extension Dengage {
             case .success(let response):
                 localStorage.saveConfig(with: response)
                 localStorage.set(value: Date(), for: .lastFetchedConfigTime)
+                inAppMessageManager.fetchInAppMessages()
             case .failure:
                 logger.Log(message: "SDK PARAMS Config Error", logtype: .error)
             }
