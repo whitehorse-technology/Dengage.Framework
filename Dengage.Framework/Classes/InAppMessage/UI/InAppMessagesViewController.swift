@@ -48,9 +48,8 @@ final class InAppMessagesViewController: UIViewController{
     
     @objc func didTapNotification(sender: UITapGestureRecognizer) {
         self.delegate?.didTapNotification(messageId: self.inAppMessage.id)
-        guard let url = URL(string: "https://www.google.com/") else {return}
+        guard let urlString = self.inAppMessage.data.content.targetUrl, let url = URL(string: urlString) else {return}
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        
     }
     
     private func arrangeViews(){

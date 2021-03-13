@@ -54,9 +54,11 @@ internal class BaseService {
                     completion(.failure(ServiceError.noData))
                     return
                 }
-                let responseObject = try! decoder.decode(T.Response.self, from: data)
-                completion(.success(responseObject))
-
+                guard let responseObject = try? decoder.decode(T.Response.self, from: data) else {
+                    completion(.failure(ServiceError.decoding))
+                    return
+                }
+                    completion(.success(responseObject))
             default:
                 self.logger.Log(message: "RESPONSE_STATUS %s", logtype: .debug, argument: "\(httpResponse.statusCode)")
                 completion(.failure(ServiceError.fail(httpResponse.statusCode)))
@@ -124,4 +126,5 @@ internal enum ServiceError: Error {
     case noData
     case socialMediaReauth
     case fail(Int)
+    case decoding
 }

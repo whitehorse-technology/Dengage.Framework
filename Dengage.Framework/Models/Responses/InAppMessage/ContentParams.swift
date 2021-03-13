@@ -5,8 +5,7 @@ struct ContentParams: Codable {
     let title:String?
     let message:String?
     let showImage:Bool
-    let imageURL:String?
-    let targetURL:String?
+    let imageUrl:String?
     let primaryColor:String?
     let secondaryColor:String?
     let backgroundColor:String?

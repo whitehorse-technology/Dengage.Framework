@@ -24,6 +24,7 @@ struct InAppMessageData: Codable{
 struct Content: Codable {
     let type: ContentType
     let props: ContentParams
+    let targetUrl:String?
 }
 
 extension InAppMessage: Equatable {
