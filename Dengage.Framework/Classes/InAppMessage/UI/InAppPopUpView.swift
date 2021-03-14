@@ -76,9 +76,9 @@ final class InAppPopUpView:UIView{
         titleLabel.text = message.data.content.props.title
         messageLabel.text = message.data.content.props.message
         messageLabel.isHidden = (message.data.content.props.message ?? "").isEmpty
-        messageLabel.textColor = UIColor(hex:message.data.content.props.secondaryColor) ?? .black
-        titleLabel.textColor = UIColor(hex:message.data.content.props.primaryColor) ?? .black
+        messageLabel.textColor = UIColor.color(hex:message.data.content.props.secondaryColor) ?? .black
+        titleLabel.textColor = UIColor.color(hex:message.data.content.props.primaryColor) ?? .black
         self.layer.cornerRadius = 4.0
-        backgroundColor = UIColor(hex:message.data.content.props.backgroundColor) ?? .white
+        backgroundColor = UIColor.color(hex:message.data.content.props.backgroundColor) ?? .white
     }
 }

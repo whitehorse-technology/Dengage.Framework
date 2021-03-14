@@ -142,7 +142,7 @@ extension Dengage {
         }
     }
     
-    public static func setNavigation(screenName:String){
+    public static func setNavigation(screenName:String? = nil ){
         inAppMessageManager.setNavigation(screenName:screenName)
     }
 
