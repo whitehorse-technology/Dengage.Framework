@@ -219,3 +219,9 @@ extension UIView {
         layer.rasterizationScale = scale ? UIScreen.main.scale : 1
     }
 }
+
+extension Dictionary {
+    var json: Data? {
+        try? JSONSerialization.data(withJSONObject: self)
+    }
+}

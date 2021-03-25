@@ -145,6 +145,21 @@ extension Dengage {
     public static func setNavigation(screenName:String? = nil ){
         inAppMessageManager.setNavigation(screenName:screenName)
     }
+    
+    public static func setTags(_ tags: [[String:String]]){
+        let request = TagsRequest(accountName: settings.configuration?.accountName ?? "",
+                                  key: settings.getApplicationIdentifier(),
+                                  tags: tags)
+        baseService.send(request: request) { result in
+            switch result {
+            case .success(_):
+                break
+            case .failure:
+                logger.Log(message: "[DENGAGE] SDK SetTags Method Error", logtype: .error)
+            }
+        }
+    }
+    
 
     private static func getSDKParams() {
         if let date = (localStorage.getValue(for: .lastFetchedConfigTime) as? Date), let diff = Calendar.current.dateComponents([.hour], from: date, to: Date()).hour, diff > 24 {
