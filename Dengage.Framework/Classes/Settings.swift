@@ -50,6 +50,10 @@ internal class Settings {
     var configuration: GetSDKParamsResponse?{
         return storage.getConfig()
     }
+    
+    var lastFetchedInAppMessageTime:Double? {
+        storage.getValue(for: .lastFetchedInAppMessageTime) as? Double
+    }
 
     init(storage: DengageLocalStorage = .shared, logger: SDKLogger = .shared) {
 

@@ -40,10 +40,10 @@ internal class DengageLocalStorage: NSObject {
 
 extension DengageLocalStorage{
     func getConfig() -> GetSDKParamsResponse? {
-        guard let savedMessageData = userDefaults.object(forKey: Key.configParams.rawValue) as? Data else { return nil }
+        guard let configData = userDefaults.object(forKey: Key.configParams.rawValue) as? Data else { return nil }
         let decoder = JSONDecoder()
         do {
-            let config = try decoder.decode(GetSDKParamsResponse.self, from: savedMessageData)
+            let config = try decoder.decode(GetSDKParamsResponse.self, from: configData)
             return config
         } catch {
             os_log("[DENGAGE] getInboxMessage fail", log: .default, type: .debug)
@@ -61,6 +61,29 @@ extension DengageLocalStorage{
             os_log("[DENGAGE] saving inbox message fail", log: .default, type: .debug)
         }
     }
+    
+    func getInAppMessages() -> [InAppMessage] {
+        guard let messagesData = userDefaults.object(forKey: Key.inAppMessages.rawValue) as? Data else { return [] }
+        let decoder = JSONDecoder()
+        do {
+            let messages = try decoder.decode([InAppMessage].self, from: messagesData)
+            return messages
+        } catch {
+            os_log("[DENGAGE] getInboxMessage fail", log: .default, type: .debug)
+            return []
+        }
+    }
+    
+    func save(_ inappMessages:[InAppMessage]){
+        let encoder = JSONEncoder()
+        do {
+            let encoded = try encoder.encode(inappMessages)
+            userDefaults.set(encoded, forKey: Key.inAppMessages.rawValue)
+            userDefaults.synchronize()
+        } catch {
+            os_log("[DENGAGE] saving inbox message fail", log: .default, type: .debug)
+        }
+    }
 }
 extension DengageLocalStorage{
     
@@ -73,5 +96,7 @@ extension DengageLocalStorage{
         case inboxMessages = "inboxMessages"
         case configParams = "configParams"
         case lastFetchedConfigTime = "lastFetchedConfigTime"
+        case lastFetchedInAppMessageTime = "lastFetchedInAppMessageTime"
+        case inAppMessages = "inAppMessages"
     }
 }
