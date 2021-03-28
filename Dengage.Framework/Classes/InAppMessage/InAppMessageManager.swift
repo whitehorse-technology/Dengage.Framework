@@ -159,7 +159,7 @@ extension InAppMessageManager {
               config.accountName != nil else {return false}
         guard config.inAppEnabled else {return false}
         guard let lastFetchedTime = settings.lastFetchedInAppMessageTime else {return true}
-        guard Date().timeIntervalSince1970 >= lastFetchedTime + IN_APP_MESSAGE_FETCH_DURATION else {return false}
+        guard Date().timeIntervalSince1970 >= lastFetchedTime + (IN_APP_MESSAGE_FETCH_DURATION/1000) else {return false}
         return true
     }
     
