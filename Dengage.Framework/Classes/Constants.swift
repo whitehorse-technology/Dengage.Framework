@@ -19,7 +19,7 @@ let SUBSCRIPTION_QUEUE = "subscription-queue"
 let QUEUE_LIMIT = 5
 
 // MARK:- SETTINGS
-let IN_APP_MESSAGE_FETCH_DURATION:TimeInterval = 3600000
+let IN_APP_MESSAGE_FETCH_DURATION:TimeInterval = 10000//3600000
 let SDK_VERSION = "2.5.23"
 
 let SUIT_NAME = "group.dengage"
