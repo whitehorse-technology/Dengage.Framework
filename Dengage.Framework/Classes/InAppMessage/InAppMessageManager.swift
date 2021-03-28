@@ -2,8 +2,8 @@
 import Foundation
 final class InAppMessageManager {
     
-    var settings:Settings
-    var service:BaseService
+    var settings: Settings
+    var service: BaseService
     var logger: SDKLogger
     var inAppMessageWindow: UIWindow?
     
@@ -27,7 +27,7 @@ extension InAppMessageManager{
         service.send(request: request) { [weak self] result in
             switch result {
             case .success(let response):
-                let nextFetchTime = (Date().timeMiliseconds) + Double((self?.settings.configuration?.inAppFetchIntervalInMin ?? 0) * 60000)
+                let nextFetchTime = (Date().timeMiliseconds) + (self?.settings.configuration?.fetchIntervalInMin ?? 0.0)
                 DengageLocalStorage.shared.set(value: nextFetchTime, for: .lastFetchedInAppMessageTime)
                 self?.addInAppMessagesIfNeeded(response)
             case .failure(let error):
@@ -36,18 +36,18 @@ extension InAppMessageManager{
         }
     }
     
-    private func markAsInAppMessageAsDisplayed(inAppMessageId: Int) {
+    private func markAsInAppMessageAsDisplayed(inAppMessageId: String?) {
         guard isEnabledInAppMessage else {return}
         let accountName = settings.configuration?.accountName ?? ""
         let request = MarkAsInAppMessageDisplayedRequest(type: settings.contactKey.type,
                                                          deviceID: settings.getApplicationIdentifier(),
                                                          accountName: accountName,
                                                          contactKey: settings.contactKey.0,
-                                                         id: inAppMessageId)
+                                                         id: inAppMessageId ?? "")
         
         service.send(request: request) { [weak self] result in
             switch result {
-            case .success( _ ):
+            case .success(_):
                 break
             case .failure(let error):
                 self?.logger.Log(message: "markAsInAppMessageAsDisplayed_ERROR %s", logtype: .debug, argument: error.localizedDescription)
@@ -55,33 +55,33 @@ extension InAppMessageManager{
         }
     }
     
-    private func setInAppMessageAsClicked(_ messageId: String) {
+    private func setInAppMessageAsClicked(_ messageId: String?) {
         guard isEnabledInAppMessage else {return}
         let accountName = settings.configuration?.accountName ?? ""
         let request = MarkAsInAppMessageClickedRequest(type: settings.contactKey.type,
                                                          deviceID: settings.getApplicationIdentifier(),
                                                          accountName: accountName,
                                                          contactKey: settings.contactKey.0,
-                                                         id: messageId)
+                                                         id: messageId ?? "")
         
         service.send(request: request) { [weak self] result in
             switch result {
             case .success( _ ):
-                self?.removeInAppMessageFromCache(messageId)
+                self?.removeInAppMessageFromCache(messageId ?? "")
             case .failure(let error):
                 self?.logger.Log(message: "setInAppMessageAsClicked_ERROR %s", logtype: .debug, argument: error.localizedDescription)
             }
         }
     }
     
-    private func setInAppMessageAsDismissed(_ inAppMessageId: String) {
+    private func setInAppMessageAsDismissed(_ inAppMessageId: String?) {
         guard isEnabledInAppMessage else {return}
         let accountName = settings.configuration?.accountName ?? ""
         let request = MarkAsInAppMessageAsDismissedRequest(type: settings.contactKey.type,
                                                          deviceID: settings.getApplicationIdentifier(),
                                                          accountName: accountName,
                                                          contactKey: settings.contactKey.0,
-                                                         id: inAppMessageId)
+                                                         id: inAppMessageId ?? "")
         
         service.send(request: request) { [weak self] result in
             switch result {
@@ -94,7 +94,7 @@ extension InAppMessageManager{
     }
 }
 
-//MARK: - API
+//MARK: - Workers
 extension InAppMessageManager {
     
     func setNavigation(screenName: String? = nil) {
@@ -106,14 +106,15 @@ extension InAppMessageManager {
     }
     
     private func showInAppMessage(inAppMessage: InAppMessage) {
-        markAsInAppMessageAsDisplayed(inAppMessageId: inAppMessage.data.messageId)
+        markAsInAppMessageAsDisplayed(inAppMessageId: inAppMessage.data.messageDetails)
 
         if let showEveryXMinutes = inAppMessage.data.displayTiming.showEveryXMinutes {
             var updatedMessage = inAppMessage
             updatedMessage.nextDisplayTime = Double(showEveryXMinutes) * 60000.0
             updateInAppMessageOnCache(inAppMessage)
         } else {
-            removeInAppMessageFromCache(inAppMessage.id)
+            removeInAppMessageFromCache(inAppMessage.data
+                                            .messageDetails ?? "")
         }
 
         let delay = inAppMessage.data.displayTiming.delay ?? 0
@@ -132,12 +133,11 @@ extension InAppMessageManager {
         inAppMessageWindow?.rootViewController = controller
         inAppMessageWindow?.windowLevel = UIWindow.Level(rawValue: 2)
         inAppMessageWindow?.makeKeyAndVisible()
-       
     }
     
     private func updateInAppMessageOnCache(_ message: InAppMessage){
         let previousMessages = DengageLocalStorage.shared.getInAppMessages()
-        var updatedMessages = previousMessages.filter{$0.id != message.id}
+        var updatedMessages = previousMessages.filter{$0.data.messageDetails != message.data.messageDetails}
         updatedMessages.append(message)
         DengageLocalStorage.shared.save(updatedMessages)
     }
@@ -152,7 +152,7 @@ extension InAppMessageManager {
     
     private func removeInAppMessageFromCache(_ messageId: String){
         let previousMessages = DengageLocalStorage.shared.getInAppMessages()
-        DengageLocalStorage.shared.save(previousMessages.filter{$0.id != messageId})
+        DengageLocalStorage.shared.save(previousMessages.filter{($0.data.messageDetails ?? "") != messageId})
     }
     
     private var isEnabledInAppMessage:Bool{
@@ -160,7 +160,7 @@ extension InAppMessageManager {
               config.accountName != nil else {return false}
         guard config.inAppEnabled else {return false}
         guard let lastFetchedTime = settings.lastFetchedInAppMessageTime else {return true}
-        guard (Date().timeMiliseconds) >= lastFetchedTime else {return false}
+        guard Date().timeMiliseconds >= lastFetchedTime else {return false}
         return true
     }
     
@@ -174,12 +174,12 @@ extension InAppMessageManager {
 }
 //MARK: - InAppMessagesViewController Delegate
 extension InAppMessageManager: InAppMessagesViewControllerDelegate{
-    func didTapNotification(messageId:String) {
+    func didTapNotification(messageId:String?) {
         inAppMessageWindow = nil
         setInAppMessageAsClicked(messageId)
     }
     
-    func didTapView(messageId:String){
+    func didTapView(messageId:String?){
         inAppMessageWindow = nil
         setInAppMessageAsDismissed(messageId)
     }

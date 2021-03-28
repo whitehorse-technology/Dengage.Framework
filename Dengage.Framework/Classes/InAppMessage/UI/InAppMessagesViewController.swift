@@ -1,8 +1,8 @@
 
 import Foundation
 protocol InAppMessagesViewControllerDelegate:AnyObject{
-    func didTapView(messageId:String)
-    func didTapNotification(messageId:String)
+    func didTapView(messageId:String?)
+    func didTapNotification(messageId:String?)
 }
 
 final class InAppMessagesViewController: UIViewController{
@@ -42,12 +42,12 @@ final class InAppMessagesViewController: UIViewController{
             self.popUpView.alpha = 0.0
             
         },completion: { (finished: Bool) in
-            self.delegate?.didTapView(messageId: self.inAppMessage.id)
+            self.delegate?.didTapView(messageId: self.inAppMessage.data.messageDetails)
         })
     }
     
     @objc func didTapNotification(sender: UITapGestureRecognizer) {
-        self.delegate?.didTapNotification(messageId: self.inAppMessage.id)
+        self.delegate?.didTapNotification(messageId: self.inAppMessage.data.messageDetails)
         guard let urlString = self.inAppMessage.data.content.targetUrl, let url = URL(string: urlString) else {return}
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }

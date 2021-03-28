@@ -6,6 +6,10 @@ struct GetSDKParamsResponse: Codable {
     let inboxEnabled: Bool
     let inAppEnabled: Bool
     let subscriptionEnabled: Bool
-    let inAppFetchIntervalInMin: Int?
+    private let inAppFetchIntervalInMin: Int?
     let inAppMinSecBetweenMessages:Int?
+    
+    var fetchIntervalInMin:Double{
+        Double((inAppFetchIntervalInMin ?? 0) * 60000)
+    }
 }

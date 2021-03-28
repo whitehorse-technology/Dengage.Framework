@@ -13,7 +13,7 @@ struct MarkAsInAppMessageClickedRequest: APIRequest{
         [
             URLQueryItem(name: "acc", value: accountName),
             URLQueryItem(name: "cdkey", value: contactKey),
-            URLQueryItem(name: "msgid", value: id),
+            URLQueryItem(name: "message_details", value: id),
             URLQueryItem(name: "did", value: deviceID),
             URLQueryItem(name: "type", value: type)
         ]

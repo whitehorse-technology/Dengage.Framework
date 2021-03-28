@@ -13,7 +13,7 @@ struct MarkAsInAppMessageDisplayedRequest: APIRequest{
         [
             URLQueryItem(name: "acc", value: accountName),
             URLQueryItem(name: "cdkey", value: contactKey),
-            URLQueryItem(name: "msgid", value: id),
+            URLQueryItem(name: "message_details", value: id),
             URLQueryItem(name: "did", value: deviceID),
             URLQueryItem(name: "type", value: type)
         ]
@@ -26,7 +26,7 @@ struct MarkAsInAppMessageDisplayedRequest: APIRequest{
     let deviceID:String
     
     init(type: String, deviceID:String,
-        accountName:String, contactKey: String, id: Int) {
+        accountName:String, contactKey: String, id: String) {
         self.accountName = accountName
         self.contactKey = contactKey
         self.id = "\(id)"
