@@ -72,7 +72,7 @@ final class InAppPopUpView:UIView{
     }
     
     func populateUI(with message:InAppMessage){
-        imageView.downloaded(from: "https://picsum.photos/200")//message.data.content.props.imageURL)
+        imageView.downloaded(from: message.data.content.props.imageUrl)
         titleLabel.text = message.data.content.props.title
         messageLabel.text = message.data.content.props.message
         messageLabel.isHidden = (message.data.content.props.message ?? "").isEmpty

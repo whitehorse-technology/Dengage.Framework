@@ -27,7 +27,8 @@ extension InAppMessageManager{
         service.send(request: request) { [weak self] result in
             switch result {
             case .success(let response):
-                DengageLocalStorage.shared.set(value: Date().timeIntervalSince1970, for: .lastFetchedInAppMessageTime)
+                let nextFetchTime = (Date().timeMiliseconds) + Double((self?.settings.configuration?.inAppFetchIntervalInMin ?? 0) * 60000)
+                DengageLocalStorage.shared.set(value: nextFetchTime, for: .lastFetchedInAppMessageTime)
                 self?.addInAppMessagesIfNeeded(response)
             case .failure(let error):
                 self?.logger.Log(message: "fetchInAppMessages_ERROR %s", logtype: .debug, argument: error.localizedDescription)
@@ -159,7 +160,7 @@ extension InAppMessageManager {
               config.accountName != nil else {return false}
         guard config.inAppEnabled else {return false}
         guard let lastFetchedTime = settings.lastFetchedInAppMessageTime else {return true}
-        guard Date().timeIntervalSince1970 >= lastFetchedTime + (IN_APP_MESSAGE_FETCH_DURATION/1000) else {return false}
+        guard (Date().timeMiliseconds) >= lastFetchedTime else {return false}
         return true
     }
     
@@ -243,6 +244,6 @@ extension InAppMessageManager{
     
     private func isDisplayTimeAvailable(for inAppMessage: InAppMessage)  -> Bool {
         return (inAppMessage.data.displayTiming.showEveryXMinutes == nil ||
-                (inAppMessage.nextDisplayTime ?? Date().timeIntervalSince1970) <= Date().timeIntervalSince1970)
+                (inAppMessage.nextDisplayTime ?? Date().timeMiliseconds) <= Date().timeMiliseconds)
     }
 }

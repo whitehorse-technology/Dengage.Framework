@@ -6,4 +6,6 @@ struct GetSDKParamsResponse: Codable {
     let inboxEnabled: Bool
     let inAppEnabled: Bool
     let subscriptionEnabled: Bool
+    let inAppFetchIntervalInMin: Int?
+    let inAppMinSecBetweenMessages:Int?
 }

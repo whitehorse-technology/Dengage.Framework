@@ -225,3 +225,10 @@ extension Dictionary {
         try? JSONSerialization.data(withJSONObject: self)
     }
 }
+
+
+extension Date {
+    var timeMiliseconds:TimeInterval{
+        return self.timeIntervalSince1970 * 1000.0
+    }
+}
