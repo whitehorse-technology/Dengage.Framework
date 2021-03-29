@@ -40,6 +40,8 @@ final class InAppPopUpView:UIView{
                                                        messageLabel])
         view.alignment = .leading
         view.axis = .vertical
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.heightAnchor.constraint(greaterThanOrEqualToConstant: 50).isActive = true
         return view
     }()
     
@@ -65,14 +67,20 @@ final class InAppPopUpView:UIView{
     private func arrangeViews(){
         addSubview(contentStackView)
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
-        contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
-        contentStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
-        contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
-        contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+        contentStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 4).isActive = true
+        contentStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -4).isActive = true
+        contentStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4).isActive = true
+        contentStackView.topAnchor.constraint(equalTo: topAnchor, constant: 4).isActive = true
     }
     
     func populateUI(with message:InAppMessage){
-        imageView.downloaded(from: message.data.content.props.imageUrl)
+        if let imageURL = message.data.content.props.imageUrl, !imageURL.isEmpty {
+            imageView.downloaded(from: imageURL)
+            imageViewContainer.isHidden = false
+        }else{
+            imageViewContainer.isHidden = true
+        }
+        
         titleLabel.text = message.data.content.props.title
         messageLabel.text = message.data.content.props.message
         messageLabel.isHidden = (message.data.content.props.message ?? "").isEmpty

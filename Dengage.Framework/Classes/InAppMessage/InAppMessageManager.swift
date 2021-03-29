@@ -18,7 +18,7 @@ final class InAppMessageManager {
 //MARK: - API
 extension InAppMessageManager{
     func fetchInAppMessages(){
-        guard isEnabledInAppMessage else {return}
+        guard shouldFetchInAppMessages else {return}
         let accountName = settings.configuration?.accountName ?? ""
         let request = GetInAppMessagesRequest(accountName: accountName,
                                               contactKey: settings.contactKey.0,
@@ -159,6 +159,11 @@ extension InAppMessageManager {
         guard let config = self.settings.configuration,
               config.accountName != nil else {return false}
         guard config.inAppEnabled else {return false}
+        return true
+    }
+    
+    private var shouldFetchInAppMessages:Bool{
+        guard isEnabledInAppMessage else {return false}
         guard let lastFetchedTime = settings.lastFetchedInAppMessageTime else {return true}
         guard Date().timeMiliseconds >= lastFetchedTime else {return false}
         return true
@@ -211,7 +216,7 @@ extension InAppMessageManager{
             }
         }else{
             return inAppMessages.sorted.first { message -> Bool in
-                return message.data.displayCondition.screenNameFilters == nil && isDisplayTimeAvailable(for: message)
+                return (message.data.displayCondition.screenNameFilters ?? []).isEmpty && isDisplayTimeAvailable(for: message)
             }
         }
     }
@@ -232,7 +237,7 @@ extension InAppMessageManager{
         case .NOT_STARTS_WITH:
             return !screenName.hasPrefix(screenNameFilter)
         case .ENDS_WITH:
-            return !screenName.hasSuffix(screenNameFilter)
+            return screenName.hasSuffix(screenNameFilter)
         case .NOT_ENDS_WITH:
             return !screenName.hasSuffix(screenNameFilter)
         case .IN:
