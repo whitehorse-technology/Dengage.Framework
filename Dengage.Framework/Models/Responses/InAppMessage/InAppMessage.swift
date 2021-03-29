@@ -29,7 +29,7 @@ struct Content: Codable {
 
 extension InAppMessage: Equatable {
     static func == (lhs: InAppMessage, rhs: InAppMessage) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.data.messageDetails == rhs.data.messageDetails
     }
 }
 
