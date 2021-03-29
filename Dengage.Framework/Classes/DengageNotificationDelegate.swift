@@ -98,12 +98,9 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
     }
 
     final func openDeeplink(link: String?) {
-        
-        if link != nil {
-            os_log("TARGET_URL is %s", log: .default, type: .debug, link!)
-            
-            UIApplication.shared.open(URL(string: link!)!, options: [:], completionHandler: nil)
-        }
+        guard let urlString = link, let url = URL(string: urlString) else { return }
+        os_log("TARGET_URL is %s", log: .default, type: .debug, link!)
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 
     final func checkTargetUrl(content: UNNotificationContent) {
