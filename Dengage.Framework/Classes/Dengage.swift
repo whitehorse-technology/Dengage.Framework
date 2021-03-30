@@ -146,7 +146,7 @@ extension Dengage {
         inAppMessageManager.setNavigation(screenName:screenName)
     }
     
-    public static func setTags(_ tags: [[String:String]]){
+    public static func setTags(_ tags: [TagItem]){
         let request = TagsRequest(accountName: settings.configuration?.accountName ?? "",
                                   key: settings.getApplicationIdentifier(),
                                   tags: tags)

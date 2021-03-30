@@ -117,6 +117,14 @@ internal class Utilities {
         formatter.timeZone = TimeZone(abbreviation: "UTC")
         return formatter.date(from: dateString)
     }
+    
+    static func convertToString(to date: Date?) -> String? {
+        guard let date = date else {return nil}
+        let formatter = DateFormatter()
+        formatter.dateFormat = "YYYY-MM-dd'T'HH:mm:ss.SSSZ"
+        formatter.timeZone = TimeZone(abbreviation: "UTC")
+        return formatter.string(from: date)
+    }
 }
 
 extension TimeZone {

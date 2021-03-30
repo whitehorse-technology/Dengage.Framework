@@ -11,13 +11,13 @@ struct TagsRequest: APIRequest {
     var httpBody: Data? {
         let parameters = ["accountName": accountName,
                                   "key": key,
-                                  "tags": tags] as [String : Any]
+                                  "tags": tags.map{$0.parameters}] as [String : Any]
         return parameters.json
     }
 
     let accountName: String
     let key:String
-    let tags:[[String:String]]
+    let tags:[TagItem]
 }
 
 
