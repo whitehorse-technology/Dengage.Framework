@@ -114,7 +114,6 @@ internal class Utilities {
         guard let dateString = date else {return nil}
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        formatter.timeZone = TimeZone(abbreviation: "UTC")
         return formatter.date(from: dateString)
     }
     
@@ -122,7 +121,6 @@ internal class Utilities {
         guard let date = date else {return nil}
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        formatter.timeZone = TimeZone(abbreviation: "UTC")
         return formatter.string(from: date)
     }
 }
