@@ -79,9 +79,10 @@ extension BaseService {
         }
     }
 
-    private func apiCall(data: Any, urlAddress: String) {
+    private func apiCall(data: Any, urlAddress: String?) {
 
-        let url = URL(string: urlAddress)!
+        guard let urlStr = urlAddress, let url = URL(string: urlStr) else { return }
+//        let url = URL(string: urlAddress)!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         do {

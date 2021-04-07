@@ -51,30 +51,24 @@ class DengageNotificationExtension {
                     urlString = urlImageString
                 }
 
-                if (urlString == nil) == true {
-
-                    return
+                guard let urlStr = urlString, let contentUrl = URL(string: urlStr) else { return }
+                var lastPathComponent = contentUrl.lastPathComponent
+                
+                if !((lastPathComponent.contains(".jpeg"))
+                    || (lastPathComponent.contains(".jpg"))
+                    || (lastPathComponent.contains(".gif"))
+                    || (lastPathComponent.contains(".mov"))
+                    || (lastPathComponent.contains(".mp4"))
+                    || (lastPathComponent.contains(".m4v"))) {
+                    lastPathComponent.append(contentsOf: ".gif")
                 }
-                
-                let contentUrl = URL(string: urlString!)
-                var lastPathComponent = contentUrl?.lastPathComponent
-                
-                if !((lastPathComponent?.contains(".jpeg"))!
-                    || (lastPathComponent?.contains(".jpg"))!
-                    || (lastPathComponent?.contains(".gif"))!
-                    || (lastPathComponent?.contains(".mov"))!
-                    || (lastPathComponent?.contains(".mp4"))!
-                    || (lastPathComponent?.contains(".m4v"))!) {
-                    lastPathComponent?.append(contentsOf: ".gif")
-                }
-                
-                if urlString != nil, let fileUrl = contentUrl {
-                    
-                    guard let imageData = NSData(contentsOf: fileUrl) else {
+   
+                guard let imageData = NSData(contentsOf: contentUrl) else {
                         logger.Log(message: "URL_STR_IS_NULL", logtype: .info)
                         return
                     }
-                    guard let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: lastPathComponent!,
+                
+                guard let attachment = UNNotificationAttachment.saveImageToDisk(fileIdentifier: lastPathComponent,
                                                                                     data: imageData,
                                                                                     options: nil) else {
                         logger.Log(message: "UNNotificationAttachment.saveImageToDisk()", logtype: .error)
@@ -82,8 +76,6 @@ class DengageNotificationExtension {
                     }
                     
                     self.bestAttemptContent?.attachments = [ attachment ]
-                    
-                }
             }
         }
     }
