@@ -13,7 +13,6 @@ import Foundation
 var SUBSCRIPTION_SERVICE_URL = "https://push.dengage.com"
 var EVENT_SERVICE_URL = "https://event.dengage.com"
 
-
 // MARK:- QUEUE PARAMETERS
 let DEVICE_EVENT_QUEUE = "device-event-queue"
 let SUBSCRIPTION_QUEUE = "subscription-queue"

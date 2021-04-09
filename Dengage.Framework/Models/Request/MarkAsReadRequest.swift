@@ -1,10 +1,3 @@
-//
-//  MarkAsReadRequest.swift
-//  Dengage.Framework
-//
-//  Created by Nahit Rustu Heper on 10.01.2021.
-//
-
 import Foundation
 
 struct MarkAsReadRequest: APIRequest{
