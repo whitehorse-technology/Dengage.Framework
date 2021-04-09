@@ -1,12 +1,5 @@
-//
-//  InboxManager.swift
-//  Dengage.Framework
-//
-//  Created by Nahit Rustu Heper on 29.01.2021.
-//
-
 import Foundation
-internal class InboxManager: NSObject {
+internal final class InboxManager: NSObject {
     
     static let shared = InboxManager()
     var inboxMessages = [DengageMessage]()

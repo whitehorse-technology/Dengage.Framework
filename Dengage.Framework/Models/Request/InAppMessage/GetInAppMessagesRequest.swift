@@ -1,12 +1,12 @@
 import Foundation
 
-struct GetMessagesRequest: APIRequest {
+struct GetInAppMessagesRequest: APIRequest {
 
-    typealias Response = [DengageMessage]
+    typealias Response = [InAppMessage]
 
     let method: HTTPMethod = .get
     let baseURL: String = SUBSCRIPTION_SERVICE_URL
-    let path: String = "/api/pi/getMessages"
+    let path: String = "/api/inapp/getMessages"
 
     let httpBody: Data? = nil
 
@@ -14,16 +14,11 @@ struct GetMessagesRequest: APIRequest {
         [
             URLQueryItem(name: "acc", value: accountName),
             URLQueryItem(name: "cdkey", value: contactKey),
-            URLQueryItem(name: "limit", value: limit),
-            URLQueryItem(name: "offset", value: offset),
             URLQueryItem(name: "type", value: type),
             URLQueryItem(name: "did", value: deviceId)
-            
         ]
     }
 
-    let limit: String
-    let offset: String
     let contactKey: String
     let accountName:String
     let type:String
@@ -32,16 +27,11 @@ struct GetMessagesRequest: APIRequest {
     init(accountName:String,
          contactKey: String,
          type:String,
-         offset: Int,
          limit: Int = 20,
          deviceId: String) {
         self.accountName = accountName
         self.contactKey = contactKey
-        self.offset = String(offset)
-        self.limit = String(limit)
         self.type = type
         self.deviceId = deviceId
     }
 }
-
-
