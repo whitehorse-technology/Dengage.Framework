@@ -219,9 +219,10 @@ public class DengageEvent {
         }
     }
  
-    private func queryStringParser(urlString: String) {
+    private func queryStringParser(urlString: String?) {
 
-        let url = URL(string: urlString)!
+        guard let urlStr = urlString, let url = URL(string: urlStr) else { return }
+//        let url = URL(string: urlString)!
         let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
         
         if let queryItems = components?.queryItems {
