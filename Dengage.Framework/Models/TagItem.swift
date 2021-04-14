@@ -1,6 +1,6 @@
 import Foundation
 
-public struct TagItem{
+@objc public class TagItem:NSObject{
     let tagName: String
     let tagValue: String
     let changeTime: String?

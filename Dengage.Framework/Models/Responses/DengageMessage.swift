@@ -1,6 +1,6 @@
 import Foundation
 
-public struct DengageMessage: Codable {
+@objc public class DengageMessage:NSObject, Codable {
 
     public let id: String
     public let title: String?
@@ -10,7 +10,7 @@ public struct DengageMessage: Codable {
     public let receiveDate: Date?
     public var isClicked: Bool
 
-    public init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)

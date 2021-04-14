@@ -42,7 +42,7 @@ func UAString() -> String {
     return "\(appNameAndVersion()) \(deviceName()) \(deviceVersion()) \(CFNetworkVersion()) \(DarwinVersion())"
 }
 
-public extension UIDevice {
+extension UIDevice {
 
     static let modelName: String = {
             var systemInfo = utsname()

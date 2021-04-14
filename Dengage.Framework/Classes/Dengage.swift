@@ -10,7 +10,7 @@ import Foundation
 import UserNotifications
 import AdSupport
 
-public class Dengage {
+@objc public class Dengage: NSObject {
 
     static var center = UNUserNotificationCenter.current()
 
@@ -49,7 +49,6 @@ public class Dengage {
         configureSettings()
         Dengage.syncSubscription()
         Dengage.getSDKParams()
-        INBOX_SUIT_NAME = appGroupName
         guard let pushCategories = categories else {return}
         center.setNotificationCategories(pushCategories)
     }
@@ -161,7 +160,7 @@ extension Dengage {
     }
     
 
-    private static func getSDKParams() {
+    static func getSDKParams() {
         if let date = (localStorage.getValue(for: .lastFetchedConfigTime) as? Date), let diff = Calendar.current.dateComponents([.hour], from: date, to: Date()).hour, diff > 24 {
             Dengage.fetchSDK()
         }else if (localStorage.getValue(for: .lastFetchedConfigTime) as? Date) == nil {

@@ -15,11 +15,6 @@ internal class DengageLocalStorage: NSObject {
     
     var userDefaults: UserDefaults
     
-    var inboxUserDefaults: UserDefaults?{
-        guard let suitName = INBOX_SUIT_NAME else {return nil}
-        return UserDefaults(suiteName: suitName)
-    }
-    
     init(suitName: String) {
         userDefaults = UserDefaults(suiteName: suitName)!
     }
@@ -98,5 +93,6 @@ extension DengageLocalStorage{
         case lastFetchedConfigTime = "lastFetchedConfigTime"
         case lastFetchedInAppMessageTime = "lastFetchedInAppMessageTime"
         case inAppMessages = "inAppMessages"
+        case inAppMessageShowTime = "inAppMessageShowTime"
     }
 }
