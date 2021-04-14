@@ -98,6 +98,7 @@ extension InAppMessageManager{
 extension InAppMessageManager {
     
     func setNavigation(screenName: String? = nil) {
+        guard settings.inAppMessageShowTime != 0 && Date().timeMiliseconds < settings.inAppMessageShowTime else {return}
         let messages = DengageLocalStorage.shared.getInAppMessages()
         guard !messages.isEmpty else {return}
         let inAppMessages = InAppMessageManager.findNotExpiredInAppMessages(untilDate:Date(), messages)
@@ -108,15 +109,17 @@ extension InAppMessageManager {
     private func showInAppMessage(inAppMessage: InAppMessage) {
         markAsInAppMessageAsDisplayed(inAppMessageId: inAppMessage.data.messageDetails)
 
-        if let showEveryXMinutes = inAppMessage.data.displayTiming.showEveryXMinutes {
+        if let showEveryXMinutes = inAppMessage.data.displayTiming.showEveryXMinutes, showEveryXMinutes != 0 {
             var updatedMessage = inAppMessage
-            updatedMessage.nextDisplayTime = Double(showEveryXMinutes) * 60000.0
+            updatedMessage.nextDisplayTime = Date().timeMiliseconds + Double(showEveryXMinutes) * 60000.0
             updateInAppMessageOnCache(inAppMessage)
         } else {
             removeInAppMessageFromCache(inAppMessage.data
                                             .messageDetails ?? "")
         }
-
+        let inappShowTime = (Date().timeMiliseconds) + (self.settings.configuration?.minSecBetweenMessages ?? 0.0)
+        DengageLocalStorage.shared.set(value: inappShowTime, for: .inAppMessageShowTime)
+        
         let delay = inAppMessage.data.displayTiming.delay ?? 0
 
         DispatchQueue.main.asyncAfter(deadline: .now() + Double(delay)) {
@@ -208,16 +211,20 @@ extension InAppMessageManager{
      * Find prior in app message to show with respect to priority and expireDate parameters
      */
     private func findPriorInAppMessage(inAppMessages: [InAppMessage], screenName: String? = nil) -> InAppMessage? {
+        
+        let inAppMessageWithoutScreenName = inAppMessages.sorted.first { message -> Bool in
+            return (message.data.displayCondition.screenNameFilters ?? []).isEmpty && isDisplayTimeAvailable(for: message)
+        }
+        
         if let screenName = screenName, !screenName.isEmpty{
-            return inAppMessages.sorted.first { message -> Bool in
+            let inAppMessageWithScreenName = inAppMessages.sorted.first { message -> Bool in
                 return message.data.displayCondition.screenNameFilters?.first{ nameFilter -> Bool in
                     return operateScreenValues(value: nameFilter.value, for: screenName, operatorType: nameFilter.operatorType)
                 } != nil && isDisplayTimeAvailable(for: message)
             }
+            return inAppMessageWithScreenName ?? inAppMessageWithoutScreenName
         }else{
-            return inAppMessages.sorted.first { message -> Bool in
-                return (message.data.displayCondition.screenNameFilters ?? []).isEmpty && isDisplayTimeAvailable(for: message)
-            }
+           return inAppMessageWithoutScreenName
         }
     }
     
@@ -249,6 +256,7 @@ extension InAppMessageManager{
     
     private func isDisplayTimeAvailable(for inAppMessage: InAppMessage)  -> Bool {
         return (inAppMessage.data.displayTiming.showEveryXMinutes == nil ||
+                inAppMessage.data.displayTiming.showEveryXMinutes == 0 ||
                 (inAppMessage.nextDisplayTime ?? Date().timeMiliseconds) <= Date().timeMiliseconds)
     }
 }

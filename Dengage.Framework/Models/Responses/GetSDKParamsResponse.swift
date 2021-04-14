@@ -7,9 +7,13 @@ struct GetSDKParamsResponse: Codable {
     let inAppEnabled: Bool
     let subscriptionEnabled: Bool
     private let inAppFetchIntervalInMin: Int?
-    let inAppMinSecBetweenMessages:Int?
+    private let inAppMinSecBetweenMessages:Int?
     
     var fetchIntervalInMin:Double{
         Double((inAppFetchIntervalInMin ?? 0) * 60000)
+    }
+    
+    var minSecBetweenMessages:Double{
+        Double((inAppMinSecBetweenMessages ?? 0) * 1000)
     }
 }

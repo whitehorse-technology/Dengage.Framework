@@ -54,6 +54,10 @@ internal class Settings {
     var lastFetchedInAppMessageTime:Double? {
         storage.getValue(for: .lastFetchedInAppMessageTime) as? Double
     }
+    
+    var inAppMessageShowTime:Double{
+        (storage.getValue(for: .inAppMessageShowTime) as? Double) ?? 0
+    }
 
     init(storage: DengageLocalStorage = .shared, logger: SDKLogger = .shared) {
 
