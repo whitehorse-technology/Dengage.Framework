@@ -98,7 +98,7 @@ extension InAppMessageManager{
 extension InAppMessageManager {
     
     func setNavigation(screenName: String? = nil) {
-        guard settings.inAppMessageShowTime != 0 && Date().timeMiliseconds < settings.inAppMessageShowTime else {return}
+        guard !(settings.inAppMessageShowTime != 0 && Date().timeMiliseconds < settings.inAppMessageShowTime) else {return}
         let messages = DengageLocalStorage.shared.getInAppMessages()
         guard !messages.isEmpty else {return}
         let inAppMessages = InAppMessageManager.findNotExpiredInAppMessages(untilDate:Date(), messages)

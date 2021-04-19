@@ -177,7 +177,8 @@ internal class Settings {
     func setContactKey(contactKey: String?) {
         let previous = getContactKey()
         if previous != contactKey {
-            storage.set(value: contactKey, for: .contactKey)
+            let newKey = (contactKey?.isEmpty ?? true) ? nil : contactKey
+            storage.set(value: newKey, for: .contactKey)
             Dengage.syncSubscription()
         }
     }
