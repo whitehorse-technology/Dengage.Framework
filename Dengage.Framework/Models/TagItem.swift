@@ -18,7 +18,7 @@ import Foundation
     
     }
     
-    public init(tagName: String,
+    @objc public init(tagName: String,
                 tagValue: String,
                 changeTime: Date? = nil,
                 removeTime: Date? = nil,
