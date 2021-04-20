@@ -50,6 +50,14 @@ internal class Settings {
     var configuration: GetSDKParamsResponse?{
         return storage.getConfig()
     }
+    
+    var lastFetchedInAppMessageTime:Double? {
+        storage.getValue(for: .lastFetchedInAppMessageTime) as? Double
+    }
+    
+    var inAppMessageShowTime:Double{
+        (storage.getValue(for: .inAppMessageShowTime) as? Double) ?? 0
+    }
 
     init(storage: DengageLocalStorage = .shared, logger: SDKLogger = .shared) {
 
@@ -169,7 +177,8 @@ internal class Settings {
     func setContactKey(contactKey: String?) {
         let previous = getContactKey()
         if previous != contactKey {
-            storage.set(value: contactKey, for: .contactKey)
+            let newKey = (contactKey?.isEmpty ?? true) ? nil : contactKey
+            storage.set(value: newKey, for: .contactKey)
             Dengage.syncSubscription()
         }
     }

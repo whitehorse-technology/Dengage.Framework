@@ -9,7 +9,6 @@ import Foundation
 
 extension Dengage {
     
-    //MARK: -
     //MARK: - Setters
     /// Sets Dengage Integration Key
     ///
@@ -21,7 +20,7 @@ extension Dengage {
     ///
     /// - Parameter key : **integrationkey**
     @available(*, renamed: "setDengageIntegrationKey")
-    public static func setIntegrationKey(key: String) {
+    @objc public static func setIntegrationKey(key: String) {
         settings.setDengageIntegrationKey(integrationKey: key)
     }
     
@@ -33,7 +32,7 @@ extension Dengage {
     ///     Dengage.setContactKey(contactKey: "adamsmith@acme.com")
     ///
     ///- Parameter contactKey : **contactKey**
-    public static func setContactKey(contactKey: String?) {
+    @objc public static func setContactKey(contactKey: String?) {
         settings.setContactKey(contactKey: contactKey)
     }
     
@@ -45,7 +44,7 @@ extension Dengage {
     ///     Dengage.getContactKey()
     ///
     ///- Parameter contactKey : **contactKey**
-    public static func getContactKey() -> String {
+    @objc public static func getContactKey() -> String {
        return settings.getContactKey() ?? ""
     }
     
@@ -58,12 +57,11 @@ extension Dengage {
     ///         Dengage.setToken(token: "")
     ///
     /// - Parameter token : **token**
-    public static func setToken(token: String) {
+    @objc public static func setToken(token: String) {
         settings.setToken(token: token)
     }
     
-    // GetAPNsToken
-    public static func getToken() -> String {
+    @objc public static func getToken() -> String {
         return settings.getToken() ?? ""
     }
     
@@ -76,7 +74,7 @@ extension Dengage {
     ///      Dengage.setUserPermission(permission: true)
     ///
     /// - Parameter permission : **permission**
-    public static func setUserPermission(permission: Bool) {
+    @objc public static func setUserPermission(permission: Bool) {
         settings.setPermission(permission: permission)
     }
     
@@ -86,7 +84,7 @@ extension Dengage {
     ///     Dengage.setLogStatus(isVisible : true)
     ///
     /// - Parameter isVisible : **isVisible**
-    public static func setLogStatus(isVisible: Bool) {
+    @objc public static func setLogStatus(isVisible: Bool) {
         logger.setIsDisabled(isDisabled: isVisible)
     }
     
@@ -96,7 +94,7 @@ extension Dengage {
     ///     Dengage.getDeviceId()
     ///
     /// - Returns: **GUID**
-    public static func getDeviceId() -> String? {
+    @objc public static func getDeviceId() -> String? {
         return settings.getApplicationIdentifier()
     }
         
@@ -106,7 +104,7 @@ extension Dengage {
     ///     Dengage.setTestGroup(testGroup : "some test group")
     ///
     /// - Parameter testGroup : **testGroup**
-    public static func setTestGroup(testGroup: String) {
+    @objc public static func setTestGroup(testGroup: String) {
         settings.setTestGroup(testGroup: testGroup)
     }
     
@@ -117,7 +115,7 @@ extension Dengage {
     ///     Dengage.setReferrer(referrer : "http://sample.com")
     ///
     /// - Parameter referrer : **url address**
-    public static func setReferrer(referrer: String) {
+    @objc public static func setReferrer(referrer: String) {
         settings.setReferrer(referrer: referrer)
     }
     
@@ -127,17 +125,7 @@ extension Dengage {
     ///     Dengage.setApplicationIdentifier(applicationIdentifier: "device-id")
     ///
     /// - Parameter applicationIdentifier : unique-device-id
-    public static func setDeviceId(applicationIdentifier: String) {
+    @objc public static func setDeviceId(applicationIdentifier: String) {
         settings.setApplicationIdentifier(applicationIndentifier: applicationIdentifier)
-    }
-    
-    /// App group name  is a func which sets notfication extension groupname
-    /// Usage :
-    ///
-    ///     Dengage.setAppGroupName(with: "group.dengage.example")
-    ///
-    /// - Parameter appGroupName : app group name
-    public static func setAppGroupName(with name: String) {
-        INBOX_SUIT_NAME = name
     }
 }

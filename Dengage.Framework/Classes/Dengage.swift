@@ -10,7 +10,7 @@ import Foundation
 import UserNotifications
 import AdSupport
 
-public class Dengage {
+@objc public class Dengage: NSObject {
 
     static var center = UNUserNotificationCenter.current()
 
@@ -25,7 +25,7 @@ public class Dengage {
     static var logger: SDKLogger = .shared
     static var localStorage: DengageLocalStorage = .shared
     static var inboxManager: InboxManager = .shared
-
+    static var inAppMessageManager = InAppMessageManager(settings: settings, service: baseService)
     // MARK: - Initialize Methods
     /// Initiliazes SDK requiered parameters.
     ///
@@ -49,7 +49,6 @@ public class Dengage {
         configureSettings()
         Dengage.syncSubscription()
         Dengage.getSDKParams()
-        INBOX_SUIT_NAME = appGroupName
         guard let pushCategories = categories else {return}
         center.setNotificationCategories(pushCategories)
     }
@@ -141,12 +140,33 @@ extension Dengage {
             }
         }
     }
+    
+    public static func setNavigation(screenName:String? = nil ){
+        inAppMessageManager.setNavigation(screenName:screenName)
+    }
+    
+    public static func setTags(_ tags: [TagItem]){
+        let request = TagsRequest(accountName: settings.configuration?.accountName ?? "",
+                                  key: settings.getApplicationIdentifier(),
+                                  tags: tags)
+        baseService.send(request: request) { result in
+            switch result {
+            case .success(_):
+                break
+            case .failure:
+                logger.Log(message: "[DENGAGE] SDK SetTags Method Error", logtype: .error)
+            }
+        }
+    }
+    
 
-    private static func getSDKParams() {
+    static func getSDKParams() {
         if let date = (localStorage.getValue(for: .lastFetchedConfigTime) as? Date), let diff = Calendar.current.dateComponents([.hour], from: date, to: Date()).hour, diff > 24 {
             Dengage.fetchSDK()
         }else if (localStorage.getValue(for: .lastFetchedConfigTime) as? Date) == nil {
             Dengage.fetchSDK()
+        }else{
+            inAppMessageManager.fetchInAppMessages()
         }
     }
     
@@ -158,6 +178,7 @@ extension Dengage {
             case .success(let response):
                 localStorage.saveConfig(with: response)
                 localStorage.set(value: Date(), for: .lastFetchedConfigTime)
+                inAppMessageManager.fetchInAppMessages()
             case .failure:
                 logger.Log(message: "SDK PARAMS Config Error", logtype: .error)
             }

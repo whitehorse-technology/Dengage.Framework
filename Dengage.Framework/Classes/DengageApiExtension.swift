@@ -13,7 +13,7 @@ extension Dengage {
     static var subscriptionService: SubscriptionService = SubscriptionService()
     
     //MARK: - API calls
-    public static func syncSubscription(){
+    @objc public static func syncSubscription(){
         
         guard !settings.getApplicationIdentifier().isEmpty else {
             logger.Log(message: "APP_IDF_ID_IS_EMPTY", logtype: .info)
@@ -26,7 +26,7 @@ extension Dengage {
     
     
     @available(*, renamed: "SendEventCollection")
-    public static func SendDeviceEvent(toEventTable: String, andWithEventDetails: NSMutableDictionary) -> Bool {
+    @objc public static func SendDeviceEvent(toEventTable: String, andWithEventDetails: NSMutableDictionary) -> Bool {
         
         guard !settings.getDengageIntegrationKey().isEmpty else {
             logger.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)
@@ -50,7 +50,7 @@ extension Dengage {
         return true
     }
     
-    public static func SendCustomEvent(toEventTable: String, withKey : String, andWithEventDetails: NSMutableDictionary) -> Bool {
+    @objc public static func SendCustomEvent(toEventTable: String, withKey : String, andWithEventDetails: NSMutableDictionary) -> Bool {
         
         guard !settings.getDengageIntegrationKey().isEmpty else {
             logger.Log(message: "INTEGRATION_KEY_IS_EMPTY", logtype: .info)

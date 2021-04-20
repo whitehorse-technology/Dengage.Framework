@@ -18,7 +18,7 @@ extension Dengage {
     ///      Dengage.registerForRemoteNotifications(enable: false)
     ///
     /// - Parameter enable : enables UIApplication.shared.registerForRemoteNotifications() method
-    public static func registerForRemoteNotifications(enable: Bool) {
+    @objc public static func registerForRemoteNotifications(enable: Bool) {
         settings.setRegiterForRemoteNotification(enable: enable)
     }
     
@@ -28,7 +28,7 @@ extension Dengage {
     ///
     ///     Calls UNUserNotificationCenter.current().requestAuthorization method.
     ///
-    public static func promptForPushNotifications() {
+    @objc public static func promptForPushNotifications() {
         center
             .requestAuthorization(options: [.alert, .sound, .badge]) { [self] granted, _ in
                 
@@ -52,7 +52,7 @@ extension Dengage {
     ///     Calls UNUserNotificationCenter.current().requestAuthorization method.
     ///
     /// - Parameter callback: IsUserGranted
-    public static func promptForPushNotifications(callback: @escaping (_ IsUserGranted: Bool) -> Void) {
+    @objc public static func promptForPushNotifications(callback: @escaping (_ IsUserGranted: Bool) -> Void) {
        
         center.requestAuthorization(options: [.alert, .sound, .badge]) { [self] granted, error in                
             isUserGranted = granted

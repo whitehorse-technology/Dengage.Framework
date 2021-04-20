@@ -54,8 +54,13 @@ internal class BaseService {
                     completion(.failure(ServiceError.noData))
                     return
                 }
-                let responseObject = try! decoder.decode(T.Response.self, from: data)
-                completion(.success(responseObject))
+                print(String(data: data, encoding: .utf8))
+                do{
+                    let responseObject = try decoder.decode(T.Response.self, from: data)
+                    completion(.success(responseObject))
+                }catch{
+                    completion(.failure(ServiceError.decoding(error)))
+                }
             default:
                 self.logger.Log(message: "RESPONSE_STATUS %s", logtype: .debug, argument: "\(httpResponse.statusCode)")
                 completion(.failure(ServiceError.fail(httpResponse.statusCode)))
@@ -116,10 +121,12 @@ extension BaseService {
         }
     }
 }
+
 internal enum ServiceError: Error {
     case invalidRefreshToken
     case noHttpResponse
     case noData
     case socialMediaReauth
     case fail(Int)
+    case decoding(Error)
 }

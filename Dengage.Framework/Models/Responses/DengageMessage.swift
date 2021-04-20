@@ -1,13 +1,6 @@
-//
-//  DengageMessage.swift
-//  Dengage.Framework
-//
-//  Created by Nahit Rustu Heper on 30.11.2020.
-//
-
 import Foundation
 
-public struct DengageMessage: Codable {
+@objc public class DengageMessage:NSObject, Codable {
 
     public let id: String
     public let title: String?
@@ -17,7 +10,7 @@ public struct DengageMessage: Codable {
     public let receiveDate: Date?
     public var isClicked: Bool
 
-    public init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
@@ -30,19 +23,11 @@ public struct DengageMessage: Codable {
         self.mediaURL = json["mediaUrl"] as? String
         self.targetURL = json["targetUrl"] as? String
         let receiveDateString = json["receiveDate"] as! String
-        self.receiveDate = DengageMessage.convertDate(to: receiveDateString)
+        self.receiveDate = Utilities.convertDate(to: receiveDateString)
         
     }
     enum CodingKeys: String, CodingKey {
         case id = "smsg_id", isClicked = "is_clicked", message = "message_json"
-    }
-
-    static func convertDate(to date: String?) -> Date? {
-        guard let dateString = date else {return nil}
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYY-MM-dd'T'HH:mm:ss.SSSZ"
-        formatter.timeZone = TimeZone(abbreviation: "UTC")
-        return formatter.date(from: dateString)
     }
 }
 

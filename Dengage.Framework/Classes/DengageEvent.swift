@@ -9,7 +9,7 @@ import Foundation
 
 
 @available(swift, introduced: 2.5.0)
-public class DengageEvent {
+@objc public class DengageEvent: NSObject {
 
     let settings: Settings = .shared
     let logger: SDKLogger = .shared
@@ -17,7 +17,7 @@ public class DengageEvent {
 
     var queryParams: [String: Any] = [:]
 
-    public static let shared = DengageEvent()
+    @objc public static let shared = DengageEvent()
 
     
     ///Before sending an event Dengage.Framework opens  a Session by defualt.
@@ -74,7 +74,7 @@ public class DengageEvent {
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func pageView(params: NSMutableDictionary) {
+    @objc public func pageView(params: NSMutableDictionary) {
         
         let sessionId = settings.getSessionId()
         let deviceId = settings.getApplicationIdentifier()
@@ -94,31 +94,31 @@ public class DengageEvent {
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func addToCart(params: NSMutableDictionary) {
+    @objc public func addToCart(params: NSMutableDictionary) {
         sendCartEvents(eventType: "add_to_cart",
                        params: params)
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func removeFromCart(params: NSMutableDictionary) {
+    @objc public func removeFromCart(params: NSMutableDictionary) {
         sendCartEvents(eventType: "remove_from_cart",
                        params: params)
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func viewCart(params: NSMutableDictionary) {
+    @objc public func viewCart(params: NSMutableDictionary) {
         sendCartEvents(eventType: "view_cart",
                        params: params)
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func beginCheckout(params: NSMutableDictionary) {
+    @objc public func beginCheckout(params: NSMutableDictionary) {
         sendCartEvents(eventType: "begin_checkout",
                        params: params)
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func order(params: NSMutableDictionary) {
+    @objc public func order(params: NSMutableDictionary) {
         
         let sessionId = settings.getSessionId()
         let deviceId = settings.getApplicationIdentifier()
@@ -148,7 +148,7 @@ public class DengageEvent {
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func cancelOrder(params: NSMutableDictionary) {
+    @objc public func cancelOrder(params: NSMutableDictionary) {
         
         let sessionId = settings.getSessionId()
         let deviceId = settings.getApplicationIdentifier()
@@ -172,7 +172,7 @@ public class DengageEvent {
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func search(params: NSMutableDictionary) {
+    @objc public func search(params: NSMutableDictionary) {
         
         let sessionId = settings.getSessionId()
         let deviceId = settings.getApplicationIdentifier()
@@ -187,12 +187,12 @@ public class DengageEvent {
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func addToWithList(params: NSMutableDictionary) {
+   @objc public func addToWithList(params: NSMutableDictionary) {
         sendWishlistEvents(eventType: "add", params: params)
     }
     
     ///- Parameter params: NSMutableDictionary
-    public func removeFromWithList(params: NSMutableDictionary) {
+    @objc public func removeFromWithList(params: NSMutableDictionary) {
         sendWishlistEvents(eventType: "remove", params: params)
     }
 
