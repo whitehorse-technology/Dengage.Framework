@@ -112,7 +112,7 @@ extension InAppMessageManager {
         if let showEveryXMinutes = inAppMessage.data.displayTiming.showEveryXMinutes, showEveryXMinutes != 0 {
             var updatedMessage = inAppMessage
             updatedMessage.nextDisplayTime = Date().timeMiliseconds + Double(showEveryXMinutes) * 60000.0
-            updateInAppMessageOnCache(inAppMessage)
+            updateInAppMessageOnCache(updatedMessage)
         } else {
             removeInAppMessageFromCache(inAppMessage.data
                                             .messageDetails ?? "")
