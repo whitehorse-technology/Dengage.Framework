@@ -149,7 +149,7 @@ extension InAppMessageManager {
         DispatchQueue.main.async {
         var previousMessages = DengageLocalStorage.shared.getInAppMessages()
         previousMessages.append(contentsOf: messages)
-           DengageLocalStorage.shared.save(messages)
+           DengageLocalStorage.shared.save(previousMessages)
         }
     }
     
