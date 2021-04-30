@@ -205,10 +205,10 @@ internal class Settings {
     internal func removeTokenIfNeeded() {
         let current = UNUserNotificationCenter.current()
 
-        current.getNotificationSettings(completionHandler: { [self] (settings) in
+        current.getNotificationSettings(completionHandler: { [weak self] (settings) in
             switch settings.authorizationStatus {
             case .notDetermined, .denied:
-                self.setToken(token: "")
+                self?.setToken(token: "")
                 Dengage.syncSubscription()
             case .authorized:
                 Dengage.promptForPushNotifications()
