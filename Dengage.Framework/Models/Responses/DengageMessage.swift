@@ -20,8 +20,8 @@ import Foundation
         let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
         self.title = json["title"] as? String
         self.message = json["message"] as? String
-        self.mediaURL = json["mediaUrl"] as? String
-        self.targetURL = json["targetUrl"] as? String
+        self.mediaURL = json["iosMediaUrl"] as? String
+        self.targetURL = json["iosTargetUrl"] as? String
         let receiveDateString = json["receiveDate"] as! String
         self.receiveDate = Utilities.convertDate(to: receiveDateString)
         
