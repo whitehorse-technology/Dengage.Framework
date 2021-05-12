@@ -1,21 +1,22 @@
 import Foundation
 struct ContentParams: Codable {
-    let position:ContentPosition
-    let showTitle:Bool
-    let title:String?
-    let message:String?
-    let showImage:Bool
-    let imageUrl:String?
-    let primaryColor:String?
-    let secondaryColor:String?
-    let backgroundColor:String?
-    let shouldAnimate:Bool
+    let position: ContentPosition
+    let shouldAnimate: Bool
+    let html: String?
+    let maxWidth: CGFloat?
+    let radius: Int?
+    let marginTop: CGFloat?
+    let marginBottom: CGFloat?
+    let marginLeft: CGFloat?
+    let marginRight: CGFloat?
+    let dismissOnTouchOutside: Bool
 }
 
 enum ContentPosition: String, Codable {
     case top = "TOP"
     case middle = "MIDDLE"
     case bottom = "BOTTOM"
+    case full = "FULL"
 }
 
 enum ContentType:String, Codable{
@@ -23,6 +24,7 @@ enum ContentType:String, Codable{
     case smallButton = "SMALL_BUTTON"
     case popOutModal = "POP_OUT_MODAL"
     case fullScreen = "FULL_SCREEN"
+    case html = "HTML"
 }
 
 struct ScreenDataFilter: Codable{
