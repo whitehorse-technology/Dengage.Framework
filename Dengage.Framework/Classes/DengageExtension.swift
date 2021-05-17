@@ -128,4 +128,12 @@ extension Dengage {
     @objc public static func setDeviceId(applicationIdentifier: String) {
         settings.setApplicationIdentifier(applicationIndentifier: applicationIdentifier)
     }
+    
+    @objc public static var disableOpenURL:Bool{
+        get{
+            return settings.disableOpenURL
+        }set{
+            settings.disableOpenURL = newValue
+        }
+    }
 }
