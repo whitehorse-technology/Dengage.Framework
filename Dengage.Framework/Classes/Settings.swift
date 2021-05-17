@@ -36,6 +36,7 @@ internal class Settings {
 
     var useCloudForSubscription: Bool = false
     var registerForRemoteNotification: Bool = true
+    var disableOpenURL:Bool = false
     
     var shouldFetchFromAPI:Bool{
         guard let date = lastFetchedDate else { return true}
@@ -207,13 +208,13 @@ internal class Settings {
 
         current.getNotificationSettings(completionHandler: { [weak self] (settings) in
             switch settings.authorizationStatus {
-            case .notDetermined, .denied:
-                self?.setToken(token: "")
-                Dengage.syncSubscription()
             case .authorized:
-                Dengage.promptForPushNotifications()
+                DispatchQueue.main.async {
+                    self?.logger.Log(message: "REGISTER_TOKEN", logtype: .debug)
+                    UIApplication.shared.registerForRemoteNotifications()
+                }
             default:
-                break
+                self?.setToken(token: "")
             }
         })
     }
