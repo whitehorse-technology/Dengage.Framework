@@ -55,46 +55,48 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
                                       withCompletionHandler completionHandler: @escaping () -> Void) {
         
         let content = response.notification.request.content
-        let messageSource = content.userInfo["messageSource"]
-        
-        if messageSource != nil {
-            if MESSAGE_SOURCE == messageSource as? String {
-                let actionIdentifier = response.actionIdentifier
-                switch actionIdentifier {
-                case UNNotificationDismissActionIdentifier:
-                    os_log("UNNotificationDismissActionIdentifier TRIGGERED", log: .default, type: .info)
-                    sendEventWithContent(content: content, actionIdentifier: "DismissAction")
-                case UNNotificationDefaultActionIdentifier:
-                    os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
-                    sendEventWithContent(content: content, actionIdentifier: "")
-                default:
-                    os_log("ACTION_ID: %s TRIGGERED", log: .default, type: .debug, actionIdentifier)
-                    sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
-                    checkTargetUrlInActionButtons(content: content, actionIdentifier: actionIdentifier)
-                }
-                
-                openTriggerCompletionHandler?(response)
-                checkTargetUrl(content: content)
-                parseCampIdAndSendId(content: content)
-                let refferer = parseReferrer(content: content)
-                DengageEvent.shared.SessionStart(referrer: refferer, restart: true)
-                completionHandler()
-            }
-        } else {
+        guard let messageSource = content.userInfo["messageSource"] as? String,
+              MESSAGE_SOURCE == messageSource else {
             delegate?.userNotificationCenter?(center, didReceive: response, withCompletionHandler: completionHandler)
+            return
         }
+        let actionIdentifier = response.actionIdentifier
+        switch actionIdentifier {
+        case UNNotificationDismissActionIdentifier:
+            os_log("UNNotificationDismissActionIdentifier TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: content, actionIdentifier: "DismissAction")
+        case UNNotificationDefaultActionIdentifier:
+            os_log("UNNotificationDefaultActionIdentifier TRIGGERED", log: .default, type: .info)
+            sendEventWithContent(content: content, actionIdentifier: "")
+        default:
+            os_log("ACTION_ID: %s TRIGGERED", log: .default, type: .debug, actionIdentifier)
+            sendEventWithContent(content: content, actionIdentifier: actionIdentifier)
+            checkTargetUrlInActionButtons(content: content, actionIdentifier: actionIdentifier)
+        }
+        
+        openTriggerCompletionHandler?(response)
+    
+        if settings.disableOpenURL {
+            delegate?.userNotificationCenter?(center,
+                                              didReceive: response,
+                                              withCompletionHandler: completionHandler)
+        }else{
+            checkTargetUrl(content: content)
+        }
+      
+        parseCampIdAndSendId(content: content)
+        let refferer = parseReferrer(content: content)
+        DengageEvent.shared.SessionStart(referrer: refferer, restart: true)
+        completionHandler()
     }
     
     final func parseReferrer(content: UNNotificationContent) -> String {
         return content.userInfo["targetUrl"] as? String ?? ""
     }
     
-    final func parseCampIdAndSendId(content: UNNotificationContent) {        
-        let sendId = content.userInfo["dengageSendId"] as? String ?? ""
-        
-        if !sendId.isEmpty {
-            settings.setSendId(sendId: sendId)
-        }
+    final func parseCampIdAndSendId(content: UNNotificationContent) {
+        guard let sendId = content.userInfo["dengageSendId"] as? String else { return }
+        settings.setSendId(sendId: sendId)
     }
 
     final func openDeeplink(link: String?) {
@@ -112,15 +114,12 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
-    final func checkTargetUrlInActionButtons(content: UNNotificationContent, actionIdentifier: String) {
+    final func checkTargetUrlInActionButtons(content: UNNotificationContent,
+                                             actionIdentifier: String) {
         
-        let actionButtons = content.userInfo["actionButtons"]
-        
-        if actionButtons == nil {
-            return
-        }
-        
-        let actionButtonArray = actionButtons  as! NSArray
+        guard let actionButtons = content.userInfo["actionButtons"] else { return }
+                
+        let actionButtonArray = actionButtons as! NSArray
         
         for item in actionButtonArray {
             let dic = item as! NSDictionary
@@ -138,29 +137,21 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
-    final func sendEventWithContent(content: UNNotificationContent, actionIdentifier: String?) {
+    final func sendEventWithContent(content: UNNotificationContent,
+                                    actionIdentifier: String?) {
         
-        var messageId = 0
-        if content.userInfo["messageId"] != nil {
-            messageId = content.userInfo["messageId"] as! Int
-            os_log("MSG_ID is %s", log: .default, type: .debug, String(messageId))
-        }
-
-        var messageDetails = ""
-        if content.userInfo["messageDetails"] != nil {
-            messageDetails = content.userInfo["messageDetails"] as! String
-            os_log("MSG_DETAILS is %s", log: .default, type: .debug, messageDetails)
-        } else {
-            return
-        }
+        guard let messageId = content.userInfo["messageId"] as? Int else { return }
+        os_log("MSG_ID is %s", log: .default, type: .debug, String(messageId))
+        
+        guard let messageDetails = content.userInfo["messageDetails"] as? String else { return }
+        
+        os_log("MSG_DETAILS is %s", log: .default, type: .debug, messageDetails)
         
         if actionIdentifier?.isEmpty == false {
             os_log("BUTTON_ID is %s", log: .default, type: .debug, actionIdentifier!)
         }
         
-        var transactionId = ""
-        if content.userInfo["transactionId"] != nil {
-            transactionId = content.userInfo["transactionId"] as! String
+        if let transactionId = content.userInfo["transactionId"] as? String {
             os_log("TRANSACTION_ID is %s", log: .default, type: .debug, transactionId)
             sendTransactionalOpenEvent(messageId: messageId,
                                        transactionId: transactionId,
@@ -171,7 +162,9 @@ class DengageNotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         }
     }
 
-    final func sendOpenEvent(messageId: Int, messageDetails: String, buttonId: String?) {
+    final func sendOpenEvent(messageId: Int,
+                             messageDetails: String,
+                             buttonId: String?) {
         
         var openEventHttpRequest = OpenEventHttpRequest()
         openEventHttpRequest.messageId = messageId
