@@ -82,7 +82,7 @@ final class InAppMessageHTMLView:UIView{
         set(maxWidth: params.maxWidth)
         set(radius: params.radius)
         topConstraint?.constant = params.marginTop ?? 60
-        bottomConstraint?.constant = params.marginBottom ?? 60
+        bottomConstraint?.constant = -(params.marginBottom ?? 60)
         leftConstraint?.constant = params.marginLeft ?? 15
         rightConstraint?.constant = -(params.marginRight ?? 15)
         leftConstraint?.isActive = true

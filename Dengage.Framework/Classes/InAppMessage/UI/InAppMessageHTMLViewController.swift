@@ -30,7 +30,19 @@ final class InAppMessageHTMLViewController: UIViewController{
         super.viewDidLoad()
         setupJavascript()
         viewSource.setupConstaints(for: message.data.content.props)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.didTapView(sender:)))
+        self.view.addGestureRecognizer(tapGesture)
     }
+    
+    @objc func didTapView(sender: UITapGestureRecognizer) {
+        guard message.data.content.props.dismissOnTouchOutside else { return }
+         UIView.animate(withDuration: 0.5, delay: 0.1, options: .curveEaseOut, animations: {
+            self.viewSource.webView.alpha = 0.0
+             
+         },completion: { (finished: Bool) in
+             self.delegate?.close()
+         })
+     }
     
     private func setupJavascript(){
         viewSource.webView.evaluateJavaScript(javascriptInterface)
