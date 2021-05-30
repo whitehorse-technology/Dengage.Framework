@@ -209,9 +209,11 @@ internal class Settings {
         current.getNotificationSettings(completionHandler: { [weak self] (settings) in
             switch settings.authorizationStatus {
             case .authorized:
-                DispatchQueue.main.async {
-                    self?.logger.Log(message: "REGISTER_TOKEN", logtype: .debug)
-                    UIApplication.shared.registerForRemoteNotifications()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.async {
+                        self?.logger.Log(message: "REGISTER_TOKEN", logtype: .debug)
+                        UIApplication.shared.registerForRemoteNotifications()
+                    }
                 }
             default:
                 self?.setToken(token: "")
