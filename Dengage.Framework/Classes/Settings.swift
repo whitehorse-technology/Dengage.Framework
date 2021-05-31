@@ -192,9 +192,12 @@ internal class Settings {
         let previous = getToken()
         if previous != token {
             self.token = token
-            storage.set(value: token, for: .token)
-            logger.Log(message: "TOKEN %s", logtype: .debug, argument: self.token!)
-            Dengage.syncSubscription()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+                guard let self = self else { return }
+                self.storage.set(value: token, for: .token)
+                self.logger.Log(message: "TOKEN %s", logtype: .debug, argument: self.token ?? "null")
+                Dengage.syncSubscription()
+            }
         }
     }
 
@@ -205,20 +208,19 @@ internal class Settings {
 
     internal func removeTokenIfNeeded() {
         let current = UNUserNotificationCenter.current()
-
-        current.getNotificationSettings(completionHandler: { [weak self] (settings) in
-            switch settings.authorizationStatus {
-            case .authorized:
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            current.getNotificationSettings(completionHandler: { [weak self] (settings) in
+                switch settings.authorizationStatus {
+                case .authorized:
                     DispatchQueue.main.async {
                         self?.logger.Log(message: "REGISTER_TOKEN", logtype: .debug)
                         UIApplication.shared.registerForRemoteNotifications()
                     }
+                default:
+                    self?.setToken(token: "")
                 }
-            default:
-                self?.setToken(token: "")
-            }
-        })
+            })
+        }
     }
     func setAppVersion(appVersion: String) {
 
