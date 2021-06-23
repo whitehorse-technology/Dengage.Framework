@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public class DengageMessage:NSObject, Codable {
+@objc public class DengageMessage: NSObject, Decodable {
 
     public let id: String
     public let title: String?
@@ -9,12 +9,14 @@ import Foundation
     public let targetURL: String?
     public let receiveDate: Date?
     public var isClicked: Bool
-
+    public let carouselItems: [CarouselItem]?
+    
     required public init(from decoder: Decoder) throws {
 
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
         isClicked = try container.decode(Bool.self, forKey: .isClicked)
+        carouselItems = try container.decode([CarouselItem].self, forKey: .carouselItems)
         let messageJson = try container.decode(String.self, forKey: .message)
         let data = Data(messageJson.utf8)
         let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
@@ -29,7 +31,7 @@ import Foundation
         
     }
     enum CodingKeys: String, CodingKey {
-        case id = "smsg_id", isClicked = "is_clicked", message = "message_json"
+        case id = "smsg_id", isClicked = "is_clicked", message = "message_json", carouselItems = "iosCarouselContent"
     }
 }
 
