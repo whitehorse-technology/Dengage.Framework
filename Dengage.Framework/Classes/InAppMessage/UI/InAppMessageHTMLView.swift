@@ -81,10 +81,10 @@ final class InAppMessageHTMLView:UIView{
     func setupConstaints(for params: ContentParams){
         set(maxWidth: params.maxWidth)
         set(radius: params.radius)
-        topConstraint?.constant = params.marginTop ?? 60
-        bottomConstraint?.constant = -(params.marginBottom ?? 60)
-        leftConstraint?.constant = params.marginLeft ?? 15
-        rightConstraint?.constant = -(params.marginRight ?? 15)
+        topConstraint?.constant = getVerticalByPercentage(for: params.marginTop)
+        bottomConstraint?.constant = -getVerticalByPercentage(for:params.marginBottom)
+        leftConstraint?.constant = getHorizaltalByPercentage(for:params.marginLeft)
+        rightConstraint?.constant = -getHorizaltalByPercentage(for:params.marginRight)
         leftConstraint?.isActive = true
         rightConstraint?.isActive = true
         switch params.position{
@@ -100,5 +100,11 @@ final class InAppMessageHTMLView:UIView{
         }
     }
     
+    func getVerticalByPercentage(for margin: CGFloat? = 1.0) -> CGFloat {
+        return (UIScreen.main.bounds.height * (margin! / 100))
+    }
     
+    func getHorizaltalByPercentage(for margin: CGFloat? = 1.0) -> CGFloat {
+        return (UIScreen.main.bounds.width * (margin! / 100))
+    }
 }
