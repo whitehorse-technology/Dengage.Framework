@@ -54,7 +54,6 @@ internal class BaseService {
                     completion(.failure(ServiceError.noData))
                     return
                 }
-                print(String(data: data, encoding: .utf8))
                 do{
                     let responseObject = try decoder.decode(T.Response.self, from: data)
                     completion(.success(responseObject))

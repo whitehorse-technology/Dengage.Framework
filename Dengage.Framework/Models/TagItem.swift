@@ -30,5 +30,12 @@ import Foundation
         self.changeValue = changeValue
     }
     
+    internal init(with params:[String:String]) {
+        tagName = params["tag"] ?? ""
+        tagValue = params["value"] ?? ""
+        changeValue = params["changeValue"]
+        removeTime = params["removeTime"]
+        changeTime = params["changeTime"]
+    }
 }
 
