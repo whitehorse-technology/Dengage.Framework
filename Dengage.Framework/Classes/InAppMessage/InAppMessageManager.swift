@@ -55,14 +55,15 @@ extension InAppMessageManager{
         }
     }
     
-    private func setInAppMessageAsClicked(_ messageId: String?) {
+    private func setInAppMessageAsClicked(_ messageId: String?, _ buttonId: String?) {
         guard isEnabledInAppMessage else {return}
         let accountName = settings.configuration?.accountName ?? ""
         let request = MarkAsInAppMessageClickedRequest(type: settings.contactKey.type,
                                                          deviceID: settings.getApplicationIdentifier(),
                                                          accountName: accountName,
                                                          contactKey: settings.contactKey.0,
-                                                         id: messageId ?? "")
+                                                         id: messageId ?? "",
+                                                         buttonId: buttonId)
         
         service.send(request: request) { [weak self] result in
             switch result {
@@ -101,8 +102,8 @@ extension InAppMessageManager {
         guard !(settings.inAppMessageShowTime != 0 && Date().timeMiliseconds < settings.inAppMessageShowTime) else {return}
         let messages = DengageLocalStorage.shared.getInAppMessages()
         guard !messages.isEmpty else {return}
-        let inAppMessages = InAppMessageManager.findNotExpiredInAppMessages(untilDate:Date(), messages)
-        guard let priorInAppMessage = findPriorInAppMessage(inAppMessages: inAppMessages, screenName: screenName) else {return}
+        let inAppMessages = InAppMessageUtils.findNotExpiredInAppMessages(untilDate:Date(), messages)
+        guard let priorInAppMessage = InAppMessageUtils.findPriorInAppMessage(inAppMessages: inAppMessages, screenName: screenName) else {return}
         showInAppMessage(inAppMessage: priorInAppMessage)
     }
     
@@ -123,14 +124,23 @@ extension InAppMessageManager {
         let delay = inAppMessage.data.displayTiming.delay ?? 0
 
         DispatchQueue.main.asyncAfter(deadline: .now() + Double(delay)) {
-            let controller = InAppMessagesViewController(with: inAppMessage)
-            controller.delegate = self
-            self.createInAppWindow(for: controller)
+            self.showInAppMessageController(with: inAppMessage)
         }
-        
     }
     
-    private func createInAppWindow(for controller: InAppMessagesViewController){
+    private func showInAppMessageController(with message:InAppMessage){
+        switch message.data.content.type {
+        case .html:
+            guard message.data.content.props.html != nil else {return}
+            let controller = InAppMessageHTMLViewController(with: message)
+            controller.delegate = self
+            self.createInAppWindow(for: controller)
+        default:
+            break
+        }
+    }
+    
+    private func createInAppWindow(for controller: UIViewController){
         let frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         inAppMessageWindow = UIWindow(frame: frame)
         inAppMessageWindow?.rootViewController = controller
@@ -181,82 +191,32 @@ extension InAppMessageManager {
     }
 }
 //MARK: - InAppMessagesViewController Delegate
-extension InAppMessageManager: InAppMessagesViewControllerDelegate{
-    func didTapNotification(messageId:String?) {
-        inAppMessageWindow = nil
-        setInAppMessageAsClicked(messageId)
+extension InAppMessageManager: InAppMessagesActionsDelegate{
+    func setTags(tags: [TagItem]) {
+        Dengage.setTags(tags)
     }
     
-    func didTapView(messageId:String?){
+    func open(url: String?) {
+        inAppMessageWindow = nil
+        guard let urlString = url, let url = URL(string: urlString) else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    
+    func sendDissmissEvent(messageId: String?) {
         inAppMessageWindow = nil
         setInAppMessageAsDismissed(messageId)
     }
-}
-
-//MARK: - Utils
-extension InAppMessageManager{
-    /**
-     * Find not expired in app messages with controlling expire date and date now
-     *
-     * @param inAppMessages in app messages that will be filtered with expire date
-     */
-    private static func findNotExpiredInAppMessages(untilDate: Date,  _ inAppMessages: [InAppMessage]) -> [InAppMessage] {
-        return inAppMessages.filter{ message -> Bool in
-            guard let expireDate = Utilities.convertDate(to: message.data.expireDate) else {return false}
-            return untilDate.compare(expireDate) != .orderedDescending
-        }
+    
+    func sendClickEvent(messageId: String?, buttonId:String?) {
+        inAppMessageWindow = nil
+        setInAppMessageAsClicked(messageId, buttonId)
     }
     
-    /**
-     * Find prior in app message to show with respect to priority and expireDate parameters
-     */
-    private func findPriorInAppMessage(inAppMessages: [InAppMessage], screenName: String? = nil) -> InAppMessage? {
-        
-        let inAppMessageWithoutScreenName = inAppMessages.sorted.first { message -> Bool in
-            return (message.data.displayCondition.screenNameFilters ?? []).isEmpty && isDisplayTimeAvailable(for: message)
-        }
-        
-        if let screenName = screenName, !screenName.isEmpty{
-            let inAppMessageWithScreenName = inAppMessages.sorted.first { message -> Bool in
-                return message.data.displayCondition.screenNameFilters?.first{ nameFilter -> Bool in
-                    return operateScreenValues(value: nameFilter.value, for: screenName, operatorType: nameFilter.operatorType)
-                } != nil && isDisplayTimeAvailable(for: message)
-            }
-            return inAppMessageWithScreenName ?? inAppMessageWithoutScreenName
-        }else{
-           return inAppMessageWithoutScreenName
-        }
+    func promptPushPermission(){
+        Dengage.promptForPushNotifications()
     }
     
-    private func operateScreenValues(value screenNameFilterValues: [String], for screenName: String, operatorType: OperatorType) -> Bool {
-        let screenNameFilter = screenNameFilterValues.first ?? ""
-        switch operatorType {
-        case .EQUALS:
-            return screenNameFilter == screenName
-        case .NOT_EQUALS:
-            return screenNameFilter != screenName
-        case .LIKE:
-            return screenName.contains(screenNameFilter)
-        case .NOT_LIKE:
-            return !screenName.contains(screenNameFilter)
-        case .STARTS_WITH:
-            return screenName.hasPrefix(screenNameFilter)
-        case .NOT_STARTS_WITH:
-            return !screenName.hasPrefix(screenNameFilter)
-        case .ENDS_WITH:
-            return screenName.hasSuffix(screenNameFilter)
-        case .NOT_ENDS_WITH:
-            return !screenName.hasSuffix(screenNameFilter)
-        case .IN:
-           return screenNameFilterValues.contains(screenName)
-        case .NOT_IN:
-           return !screenNameFilterValues.contains(screenName)
-        }
-    }
-    
-    private func isDisplayTimeAvailable(for inAppMessage: InAppMessage)  -> Bool {
-        return (inAppMessage.data.displayTiming.showEveryXMinutes == nil ||
-                inAppMessage.data.displayTiming.showEveryXMinutes == 0 ||
-                (inAppMessage.nextDisplayTime ?? Date().timeMiliseconds) <= Date().timeMiliseconds)
+    func close() {
+        inAppMessageWindow = nil
     }
 }
