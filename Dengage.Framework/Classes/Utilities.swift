@@ -37,19 +37,14 @@ internal class Utilities {
     }
     
     func identifierForApplication() -> String {
-        
         var appIdentifier = ""
         
-        let returnValue = storage.getValue(key: .applicationIdentifier)
-        
-        if returnValue == nil {
-            
-            logger.Log(message: "GENERATING_NSUUID", logtype: .info)
+        if let applicationId = storage.getValue(key: .applicationIdentifier) {
+            appIdentifier = applicationId
+        }else{
+            logger.Log(message: "GENERATING_NSUUID", logtype: .debug)
             appIdentifier = NSUUID().uuidString.lowercased()
             storage.set(value: appIdentifier, for: .applicationIdentifier)
-            
-        } else {
-            appIdentifier = returnValue!
         }
         
         logger.Log(message: "APP_IDENTIFIER is %s ", logtype: .debug, argument: appIdentifier)
@@ -64,13 +59,8 @@ internal class Utilities {
         
         logger.Log(message: "READ_CARRIER_INFO", logtype: .debug)
         
-        if carrier?.mobileCountryCode != nil {
-            carrierId = carrier?.mobileCountryCode ?? carrierId
-        }
-        
-        if carrier?.mobileNetworkCode != nil {
-            carrierId += carrier?.mobileNetworkCode ?? carrierId
-        }
+        carrierId = carrier?.mobileCountryCode ?? carrierId
+        carrierId += carrier?.mobileNetworkCode ?? carrierId
         
         logger.Log(message: "CARRIER_ID is %s", logtype: .debug, argument: carrierId)
         

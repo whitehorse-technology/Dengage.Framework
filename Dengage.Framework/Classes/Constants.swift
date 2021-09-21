@@ -20,7 +20,6 @@ let QUEUE_LIMIT = 5
 
 // MARK:- SETTINGS
 let SDK_VERSION = "4.0.0"
-
 let SUIT_NAME = "group.dengage"
 let DEFAULT_CARRIER_ID = "1"
 let MESSAGE_SOURCE = "DENGAGE"
