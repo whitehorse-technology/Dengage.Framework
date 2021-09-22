@@ -17,7 +17,7 @@ Dengage.Framework is available through [CocoaPods](https://cocoapods.org). To in
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'Dengage.Framework', '~> 3.0.6'
+pod 'Dengage.Framework', '~> 3.0.7'
 ```
 
 ## License
