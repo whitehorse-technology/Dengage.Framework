@@ -159,6 +159,10 @@ extension Dengage {
         }
     }
     
+    static func getPermission() -> Bool {
+        return settings.getPermission() ?? false
+    }
+    
 
     static func getSDKParams() {
         if let date = (localStorage.getValue(for: .lastFetchedConfigTime) as? Date), let diff = Calendar.current.dateComponents([.hour], from: date, to: Date()).hour, diff > 24 {
