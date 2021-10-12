@@ -159,7 +159,7 @@ extension Dengage {
         }
     }
     
-    static func getPermission() -> Bool {
+    public static func getPermission() -> Bool {
         return settings.getPermission() ?? false
     }
     
