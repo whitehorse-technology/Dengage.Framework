@@ -16,7 +16,7 @@ import Foundation
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(String.self, forKey: .id)
         isClicked = try container.decode(Bool.self, forKey: .isClicked)
-        carouselItems = try container.decode([CarouselItem].self, forKey: .carouselItems)
+        carouselItems = try? container.decode([CarouselItem].self, forKey: .carouselItems)
         let messageJson = try container.decode(String.self, forKey: .message)
         let data = Data(messageJson.utf8)
         let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
