@@ -74,8 +74,8 @@ extension BaseService {
 
     func eventCall(with parameters: [String: Any], for urlAddress: String) {
         let queue = DispatchQueue(label: DEVICE_EVENT_QUEUE, qos: .utility)
-        queue.async {
-            self.apiCall(data: parameters, urlAddress: urlAddress)
+        queue.async { [weak self] in
+            self?.apiCall(data: parameters, urlAddress: urlAddress)
         }
     }
 
@@ -92,7 +92,7 @@ extension BaseService {
                        argument: String(data: request.httpBody!,
                                         encoding: String.Encoding.utf8)!)
         } catch let error {
-            self.logger.Log(message: "%s", logtype: .error, argument: error.localizedDescription)
+            logger.Log(message: "%s", logtype: .error, argument: error.localizedDescription)
         }
 
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
