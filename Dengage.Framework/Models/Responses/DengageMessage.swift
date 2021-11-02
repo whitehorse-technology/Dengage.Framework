@@ -1,6 +1,6 @@
 import Foundation
 
-@objc public class DengageMessage: NSObject, Decodable {
+@objc public class DengageMessage: NSObject, Codable {
 
     public let id: String
     public let title: String?
@@ -30,6 +30,7 @@ import Foundation
         self.receiveDate = Utilities.convertDate(to: receiveDateString)
         
     }
+    
     enum CodingKeys: String, CodingKey {
         case id = "smsg_id", isClicked = "is_clicked", message = "message_json", carouselItems = "iosCarouselContent"
     }
