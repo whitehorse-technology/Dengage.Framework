@@ -6,7 +6,7 @@
 //
 
 import Foundation
-public struct CarouselItem: Decodable{
+public struct CarouselItem: Codable {
     public let id: String
     public let title: String
     public let descriptionText: String
