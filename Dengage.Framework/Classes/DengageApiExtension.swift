@@ -26,6 +26,7 @@ extension Dengage {
     
     
     @available(*, renamed: "SendEventCollection")
+    @discardableResult
     @objc public static func SendDeviceEvent(toEventTable: String, andWithEventDetails: NSMutableDictionary) -> Bool {
         
         guard !settings.getDengageIntegrationKey().isEmpty else {

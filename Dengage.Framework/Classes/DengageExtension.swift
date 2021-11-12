@@ -57,7 +57,19 @@ extension Dengage {
     ///         Dengage.setToken(token: "")
     ///
     /// - Parameter token : **token**
+    @available(*, renamed: "register(deviceToken:)")
     @objc public static func setToken(token: String) {
+        settings.setToken(token: token)
+    }
+    
+    @objc public static func register(deviceToken: Data) {
+        var token = "";
+        if #available(iOS 13.0, *){
+            token = deviceToken.map { String(format: "%02x", $0) }.joined()
+        } else{
+            let tokenParts = deviceToken.map { data in String(format: "%02.2hhx", data) }
+            token = tokenParts.joined()
+        }
         settings.setToken(token: token)
     }
     

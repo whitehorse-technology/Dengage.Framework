@@ -41,7 +41,7 @@ internal final class InboxManager: NSObject {
         markLocalMessageIfNeeded(with: request.id)
         Dengage.baseService.send(request: request) { result in
             switch result {
-            case .success(let _):
+            case .success:
                 completion(.success(()))
             case .failure(let error):
                 completion(.failure(error))
@@ -57,7 +57,7 @@ internal final class InboxManager: NSObject {
 
     private func markLocalMessageIfNeeded(with id: String?) {
         guard let messageId = id else { return }
-        var message = inboxMessages.first(where: {$0.id == messageId})
+        let message = inboxMessages.first(where: {$0.id == messageId})
         message?.isClicked = true
         inboxMessages = inboxMessages.filter {$0.id != messageId}
         guard let readedMessage = message else { return }

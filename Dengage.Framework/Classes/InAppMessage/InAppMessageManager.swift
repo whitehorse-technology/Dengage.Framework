@@ -188,6 +188,7 @@ extension InAppMessageManager {
     
     @objc private func willEnterForeground(){
         fetchInAppMessages()
+        settings.removeTokenIfNeeded()
     }
 }
 //MARK: - InAppMessagesViewController Delegate
