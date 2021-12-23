@@ -35,9 +35,7 @@ protocol APIRequest {
 
 extension APIRequest {
     func asURLRequest() -> URLRequest {
-        var urlComps = URLComponents()
-        urlComps.host = baseURL
-        urlComps.path = path
+        var urlComps = URLComponents(string: baseURL + path)!
         urlComps.queryItems = queryParameters.filter { $0.value != nil }
         urlComps.percentEncodedQuery = urlComps.percentEncodedQuery?.replacingOccurrences(of: "+", with: "%2B")
         var urlRequest = URLRequest(url: urlComps.url!)
