@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Dengage.Framework'
-  s.version          = '4.0.8'
+  s.version          = '4.0.9'
   s.summary          = 'Dengage.Framework contains tools for integration with Dengage'
 
 # This description is used to generate tags and improve search results.
