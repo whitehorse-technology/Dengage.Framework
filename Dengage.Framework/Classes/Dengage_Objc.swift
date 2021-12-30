@@ -77,4 +77,14 @@ extension Dengage {
     @objc public static func objc_setTags(_ tags: [TagItem]){
         Dengage.setTags(tags)
     }
+    
+    @objc public static func objc_sendOpenEvent(messageId: Int,
+                                           messageDetails: String,
+                                           buttonId: String?) {
+        Dengage.sendOpenEvent(
+            messageId: messageId,
+            messageDetails: messageDetails,
+            buttonId: buttonId
+        )
+    }
 }

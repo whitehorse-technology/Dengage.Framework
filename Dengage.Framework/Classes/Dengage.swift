@@ -188,4 +188,21 @@ extension Dengage {
             }
         }
     }
+    
+    public static func sendOpenEvent(messageId: Int,
+                                     messageDetails: String,
+                                     buttonId: String?) {
+        
+        var openEventHttpRequest = OpenEventHttpRequest()
+        openEventHttpRequest.messageId = messageId
+        openEventHttpRequest.messageDetails = messageDetails
+        openEventHttpRequest.integrationKey = settings.getDengageIntegrationKey()
+        openEventHttpRequest.buttonId = buttonId ?? ""
+        
+        
+        openEventService.postOpenEvent(openEventHttpRequest: openEventHttpRequest)
+        if settings.getBadgeCountReset() == true {
+            UIApplication.shared.applicationIconBadgeNumber = 0
+        }
+    }
 }
