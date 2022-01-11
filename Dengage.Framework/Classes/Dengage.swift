@@ -9,6 +9,7 @@
 import Foundation
 import UserNotifications
 import AdSupport
+import StoreKit
 
 @objc public class Dengage: NSObject {
 
@@ -199,10 +200,15 @@ extension Dengage {
         openEventHttpRequest.integrationKey = settings.getDengageIntegrationKey()
         openEventHttpRequest.buttonId = buttonId ?? ""
         
-        
         openEventService.postOpenEvent(openEventHttpRequest: openEventHttpRequest)
         if settings.getBadgeCountReset() == true {
             UIApplication.shared.applicationIconBadgeNumber = 0
+        }
+    }
+    
+    public static func showRatingView() {
+        if #available( iOS 10.3,*){
+            SKStoreReviewController.requestReview()
         }
     }
 }
