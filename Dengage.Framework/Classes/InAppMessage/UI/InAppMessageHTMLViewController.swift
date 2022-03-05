@@ -1,4 +1,3 @@
-
 import UIKit
 import WebKit
 final class InAppMessageHTMLViewController: UIViewController{
@@ -45,8 +44,16 @@ final class InAppMessageHTMLViewController: UIViewController{
      }
     
     private func setupJavascript(){
-        viewSource.webView.evaluateJavaScript(javascriptInterface)
-        viewSource.webView.configuration.preferences.javaScriptEnabled = true
+        let userScript = WKUserScript(source: javascriptInterface,
+                                      injectionTime: WKUserScriptInjectionTime.atDocumentEnd,
+                                      forMainFrameOnly: false)
+        viewSource.webView.configuration.userContentController.addUserScript(userScript)
+        if #available(iOS 14.0, *) {
+            viewSource.webView.configuration.defaultWebpagePreferences.allowsContentJavaScript = true
+        } else {
+            viewSource.webView.configuration.preferences.javaScriptEnabled = true
+        }
+
         viewSource.webView.configuration.userContentController.add(self, name: "dismiss")
         viewSource.webView.configuration.userContentController.add(self, name: "close")
         viewSource.webView.configuration.userContentController.add(self, name: "iosUrl")
@@ -55,7 +62,6 @@ final class InAppMessageHTMLViewController: UIViewController{
         viewSource.webView.configuration.userContentController.add(self, name: "setTags")
         viewSource.webView.loadHTMLString(message.data.content.props.html!, baseURL: nil)
     }
-    
 }
 
 extension InAppMessageHTMLViewController: WKNavigationDelegate {

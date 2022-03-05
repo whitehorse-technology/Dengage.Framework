@@ -1,10 +1,3 @@
-//
-//  DengageNotificationCarouselView.swift
-//  Dengage.Framework
-//
-//  Created by Nahit Rustu Heper on 27.06.2021.
-//
-
 import UIKit
 import UserNotificationsUI
 
@@ -24,6 +17,8 @@ public final class DengageNotificationCarouselView: UIView{
         let view = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         view.register(DengageCarouselCell.self, forCellWithReuseIdentifier: "DengageCarouselCell")
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.isScrollEnabled = false
+        view.isPagingEnabled = false
         return view
     }()
     
@@ -31,20 +26,31 @@ public final class DengageNotificationCarouselView: UIView{
     var currentIndex : Int = 0
     var bestAttemptContent: UNMutableNotificationContent?
     var userInfo: [AnyHashable: Any]?
-
+    var targetURL: URL?
+    
     init() {
         super.init(frame: .zero)
         addSubview(collectionView)
+        self.isUserInteractionEnabled = true
         collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 0).isActive = true
         collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 0).isActive = true
         collectionView.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
         collectionView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 0).isActive = true
+        
+        let swipeRight:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.scrollPreviousItem))
+        swipeRight.direction = .right
 
+        let swipeLeft:UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.scrollNextItem))
+        swipeLeft.direction = .left
+        self.isUserInteractionEnabled = true
+        self.addGestureRecognizer(swipeRight)
+        self.addGestureRecognizer(swipeLeft)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     @objc private func scrollNextItem() {
         self.currentIndex == (self.payloads.count - 1) ? (self.currentIndex = 0) : ( self.currentIndex += 1 )
         arrangeContentInset(for: .right)
@@ -89,8 +95,14 @@ extension DengageNotificationCarouselView: UICollectionViewDelegateFlowLayout {
         let width = self.collectionView.frame.width
         let cond = (indexPath.row == 0 || indexPath.row == self.payloads.count - 1)
         let cellWidth = cond ? (width - 30) : (width - 40)
-        print(CGSize(width: cellWidth, height: width - 20.0))
         return CGSize(width: cellWidth, height: width - 20.0)
+    }
+}
+
+extension DengageNotificationCarouselView: UICollectionViewDelegate{
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let url = URL(string: payloads[indexPath.item].targetURL ?? "") ?? targetURL else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 }
 
@@ -100,6 +112,7 @@ extension DengageNotificationCarouselView{
         guard let userInfo = bestAttemptContent?.userInfo,
               let contents = userInfo["carouselContent"] as? [AnyObject] else { return }
         self.userInfo = userInfo
+        self.targetURL = URL(string: (userInfo["targetUrl"] as? String) ?? "")
         let carouselContents = contents.compactMap{$0 as? NSDictionary}.compactMap(CarouselMessage.init(with:))
         self.payloads = carouselContents
         DispatchQueue.main.async {

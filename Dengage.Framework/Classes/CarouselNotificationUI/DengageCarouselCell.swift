@@ -1,10 +1,3 @@
-//
-//  DengageCarouselCell.swift
-//  Dengage.Framework
-//
-//  Created by Nahit Rustu Heper on 27.06.2021.
-//
-
 import UIKit
 final class DengageCarouselCell: UICollectionViewCell{
 
@@ -18,7 +11,7 @@ final class DengageCarouselCell: UICollectionViewCell{
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 18)
-        label.textColor = .black
+        label.textColor = textColor
         return label
     }()
     
@@ -26,9 +19,17 @@ final class DengageCarouselCell: UICollectionViewCell{
         let label = UILabel()
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 15)
-        label.textColor = .black
+        label.textColor = textColor
         return label
     }()
+    
+    var textColor: UIColor{
+        if #available(iOS 13.0, *) {
+            return .label
+        } else {
+            return .white
+        }
+    }
     
     private lazy var stackView: UIStackView = {
         let view = UIStackView(arrangedSubviews: [imageView,
