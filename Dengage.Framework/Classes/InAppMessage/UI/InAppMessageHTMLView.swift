@@ -1,13 +1,6 @@
-//
-//  InAppMessageHTMLView.swift
-//  Dengage.Framework
-//
-//  Created by Nahit Rustu Heper on 8.05.2021.
-//
-
 import UIKit
 import WebKit
-final class InAppMessageHTMLView:UIView{
+final class InAppMessageHTMLView: UIView{
     
     private(set) lazy var webView: WKWebView = {
         let view = WKWebView()

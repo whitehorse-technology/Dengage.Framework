@@ -1,4 +1,3 @@
-
 import Foundation
 protocol InAppMessagesActionsDelegate:AnyObject{
     func open(url: String?)

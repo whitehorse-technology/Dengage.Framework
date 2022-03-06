@@ -19,7 +19,7 @@ let SUBSCRIPTION_QUEUE = "subscription-queue"
 let QUEUE_LIMIT = 5
 
 // MARK:- SETTINGS
-let SDK_VERSION = "4.0.8"
+let SDK_VERSION = "4.1.2"
 let SUIT_NAME = "group.dengage"
 let DEFAULT_CARRIER_ID = "1"
 let MESSAGE_SOURCE = "DENGAGE"
