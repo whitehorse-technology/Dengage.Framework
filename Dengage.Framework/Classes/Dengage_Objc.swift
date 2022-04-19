@@ -25,6 +25,13 @@ extension Dengage {
     @available(iOSApplicationExtension 10.0, *)
     @objc public static func objc_didReceiveNotificationExtentionRequest(receivedRequest: UNNotificationRequest,
                                                               withNotificationContent: UNMutableNotificationContent) {
+        
+        if #available(iOS 15.0, *) {
+            withNotificationContent.interruptionLevel = .timeSensitive
+        } else {
+            // Fallback on earlier versions
+        }
+        
         Dengage.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest,
                                                        withNotificationContent: withNotificationContent)
        

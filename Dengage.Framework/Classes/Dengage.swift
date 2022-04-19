@@ -59,6 +59,11 @@ import StoreKit
     public static func didReceiveNotificationExtentionRequest(receivedRequest: UNNotificationRequest,
                                                               withNotificationContent: UNMutableNotificationContent) {
 
+        if #available(iOS 15.0, *) {
+            withNotificationContent.interruptionLevel = .timeSensitive
+        } else {
+            // Fallback on earlier versions
+        }
         DengageNotificationExtension.shared.didReceiveNotificationExtentionRequest(receivedRequest: receivedRequest,
                                                                                    withNotificationContent: withNotificationContent)
     }

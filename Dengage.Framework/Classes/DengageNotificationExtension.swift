@@ -45,6 +45,11 @@ class DengageNotificationExtension {
                 self.bestAttemptContent = withNotificationContent
                 self.bestAttemptContent?.title = (receivedRequest.content.userInfo["title"] as? String)!
                 self.bestAttemptContent?.subtitle = (receivedRequest.content.userInfo["subtitle"] as? String)!
+                if #available(iOS 15.0, *) {
+                    self.bestAttemptContent?.interruptionLevel = .timeSensitive
+                } else {
+                    // Fallback on earlier versions
+                }
                 
                 var urlString: String?
                 if let urlImageString = receivedRequest.content.userInfo["urlImageString"] as? String {
