@@ -114,8 +114,20 @@ extension DengageNotificationCarouselView{
         } else {
             // Fallback on earlier versions
         }
+        
+        
+        
         guard let userInfo = bestAttemptContent?.userInfo,
               let contents = userInfo["carouselContent"] as? [AnyObject] else { return }
+        
+        if  let messageId = userInfo["messageId"] as? Int , let messageDetails = userInfo["messageDetails"] as? String
+        {
+            Dengage.sendOpenEvent(messageId: messageId, messageDetails: messageDetails, buttonId: "")
+
+        }
+        
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: [notification.request.identifier])
+        
         self.userInfo = userInfo
         self.targetURL = URL(string: (userInfo["targetUrl"] as? String) ?? "")
         let carouselContents = contents.compactMap{$0 as? NSDictionary}.compactMap(CarouselMessage.init(with:))
