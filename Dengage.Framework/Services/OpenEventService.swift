@@ -18,7 +18,7 @@ internal class OpenEventService : BaseService {
         
         var parameters = ["integrationKey": openEventHttpRequest.integrationKey,
                           "messageId": openEventHttpRequest.messageId,
-                          "messageDetails": openEventHttpRequest.messageDetails
+                          "messageDetails": openEventHttpRequest.messageDetails, "itemId": "", "buttonId": ""
         ] as [String : Any]
         
         if !openEventHttpRequest.buttonId.isEmpty{

@@ -27,6 +27,8 @@ import StoreKit
     static var localStorage: DengageLocalStorage = .shared
     static var inboxManager: InboxManager = .shared
     static var inAppMessageManager = InAppMessageManager(settings: settings, service: baseService)
+    static var dengageRFMManager = DengageRFMManager()
+
     // MARK: - Initialize Methods
     /// Initiliazes SDK requiered parameters.
     ///
@@ -77,6 +79,22 @@ import StoreKit
         settings.setAppVersion(appVersion: utilities.indentifierForCFBundleShortVersionString())
     }
 }
+
+extension Dengage {
+    public static func saveRFM(scores: [RFMScore]) {
+        dengageRFMManager.saveRFM(scores: scores)
+    }
+    
+    public static func categoryView(id: String){
+        dengageRFMManager.categoryView(id: id)
+    }
+    
+    public static func sortRFMItems(gender: RFMGender, items: [RFMItemProtocol]) -> [RFMItemProtocol] {
+        dengageRFMManager.sortRFMItems(gender: gender,
+                                       items: items)
+    }
+}
+
 
 // MARK: - Inbox
 extension Dengage {
