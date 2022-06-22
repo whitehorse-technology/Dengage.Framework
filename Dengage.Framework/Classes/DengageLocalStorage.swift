@@ -69,6 +69,30 @@ extension DengageLocalStorage{
         }
     }
     
+    func getrfmScores() -> [RFMScore] {
+        guard let messagesData = userDefaults.object(forKey: Key.rfmScores.rawValue) as? Data else { return [] }
+        let decoder = JSONDecoder()
+        do {
+            let messages = try decoder.decode([RFMScore].self, from: messagesData)
+            return messages
+        } catch {
+            os_log("RFMScore fail", log: .default, type: .debug)
+
+            return []
+        }
+    }
+    
+    func save(_ rfmScores: [RFMScore]){
+        let encoder = JSONEncoder()
+        do {
+            let encoded = try encoder.encode(rfmScores)
+            userDefaults.set(encoded, forKey: Key.rfmScores.rawValue)
+            userDefaults.synchronize()
+        } catch {
+            os_log("RFMScore fail", log: .default, type: .debug)
+        }
+    }
+    
     func save(_ inappMessages:[InAppMessage]){
         let encoder = JSONEncoder()
         do {
@@ -94,5 +118,8 @@ extension DengageLocalStorage{
         case lastFetchedInAppMessageTime = "lastFetchedInAppMessageTime"
         case inAppMessages = "inAppMessages"
         case inAppMessageShowTime = "inAppMessageShowTime"
+        case rfmScores = "rfmScores"
+
     }
 }
+

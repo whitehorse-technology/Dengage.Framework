@@ -9,8 +9,15 @@ final class InAppMessageHTMLViewController: UIViewController{
     }()
 
     weak var delegate: InAppMessagesActionsDelegate?
-
     let message:InAppMessage
+    
+    var hasTopNotch: Bool {
+        if #available(iOS 11.0, tvOS 11.0, *) {
+            return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20
+        }
+        return false
+    }
+    
     
     init(with message: InAppMessage) {
         self.message = message
@@ -83,6 +90,18 @@ extension InAppMessageHTMLViewController: WKNavigationDelegate {
         viewSource.webView.evaluateJavaScript("document.documentElement.scrollHeight", completionHandler: { (height, error) in
             guard let scrollHeight = height as? CGFloat else {return}
             self.viewSource.height?.constant = scrollHeight
+
+            
+            if self.hasTopNotch
+            {
+                if self.message.data.content.props.position == .top
+                {
+                    self.viewSource.height?.constant = scrollHeight + 50
+
+                }
+
+            }
+           
         })
     }
 }
