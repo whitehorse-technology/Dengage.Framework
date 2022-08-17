@@ -75,6 +75,8 @@ internal class Settings {
     func initServiceAPIs(){
         EVENT_SERVICE_URL = getEventApiUrl()
         SUBSCRIPTION_SERVICE_URL = getSubscriptionApi()
+        GEOFENCE_SERVICE_URL = getGeoFenceApi()
+        
     }
     
     func setRegiterForRemoteNotification(enable: Bool) {
@@ -303,6 +305,11 @@ internal class Settings {
 
     func getSubscriptionApi() -> String {
         guard let dengageApiUrl = Bundle.main.object(forInfoDictionaryKey: "DengageApiUrl") as? String else { return SUBSCRIPTION_SERVICE_URL }
+        return dengageApiUrl
+    }
+    
+    func getGeoFenceApi() -> String {
+        guard let dengageApiUrl = Bundle.main.object(forInfoDictionaryKey: "DengageGeofenceApiUrl") as? String else { return GEOFENCE_SERVICE_URL }
         return dengageApiUrl
     }
 

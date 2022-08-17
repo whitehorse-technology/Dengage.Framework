@@ -11,4 +11,9 @@ class Session {
     
     var sessionId: String = ""
     var expireIn: Date = Date()
+    
+    internal init(sessionId: String, expireIn: Date) {
+        self.sessionId = sessionId
+        self.expireIn = expireIn
+    }
 }
