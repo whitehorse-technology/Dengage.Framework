@@ -31,12 +31,6 @@ internal class DengageLocalStorage: NSObject {
     internal func getValue(for key: Key) -> Any? {
         return userDefaults.object(forKey: key.rawValue)
     }
-    
-    
-    func value(for key: Key) -> Any? {
-        return userDefaults.object(forKey: key.rawValue)
-    }
-    
 }
 
 extension DengageLocalStorage{
@@ -110,59 +104,6 @@ extension DengageLocalStorage{
         }
     }
 }
-
-//MARK: Geofence
-extension DengageLocalStorage {
-    
-    func getGeofenceClusters() -> [DengageGeofenceCluster] {
-        guard let geofenceClustersData = userDefaults.object(forKey: Key.geofenceClusters.rawValue) as? Data else { return [] }
-        let decoder = JSONDecoder()
-        do {
-            return try decoder.decode([DengageGeofenceCluster].self, from: geofenceClustersData)
-        } catch {
-            Logger.log(message: "getGeofenceClusters fail")
-            return []
-        }
-    }
-    
-    func saveGeofenceClusters(_ geofenceClusters: [DengageGeofenceCluster]){
-        let encoder = JSONEncoder()
-        do {
-            let encoded = try encoder.encode(geofenceClusters)
-            userDefaults.set(encoded, forKey: Key.geofenceClusters.rawValue)
-            userDefaults.synchronize()
-        } catch {
-            Logger.log(message: "saving geofenceClusters fail")
-        }
-    }
-    
-    func getOptions() -> DengageOptions? {
-        guard let optionsData = userDefaults.object(forKey: Key.options.rawValue) as? Data else { return nil }
-        let decoder = JSONDecoder()
-        do {
-            let options = try decoder.decode(DengageOptions.self, from: optionsData)
-            return options
-        } catch {
-            Logger.log(message: "getOptions fail")
-            return nil
-        }
-    }
-    
-    
-    func saveOptions(_ options: DengageOptions) {
-        let encoder = JSONEncoder()
-        do {
-            let encoded = try encoder.encode(options)
-            userDefaults.setValue(encoded, forKey: Key.options.rawValue)
-            userDefaults.synchronize()
-        } catch {
-            Logger.log(message: "saving options fail")
-        }
-    }
-}
-
-
-
 extension DengageLocalStorage{
     
     enum Key: String{
@@ -178,17 +119,6 @@ extension DengageLocalStorage{
         case inAppMessages = "inAppMessages"
         case inAppMessageShowTime = "inAppMessageShowTime"
         case rfmScores = "rfmScores"
-        case options = "options"
-        case apiKey = "apiKey"
-        case geofenceHistory = "geofenceHistory"
-        case geofenceEnabled = "geofenceEnabled"
-        case geofenceClusters = "geofenceClusters"
-        case geofenceLastLocation = "geofenceLastLocation"
-        case geofenceLastMovedLocation = "geofenceLastMovedLocation"
-        case geofenceLastMovedAt = "geofenceLastMovedAt"
-        case geofenceStopped = "geofenceStopped"
-        case geofenceLastSentAt = "geofenceLastSentAt"
-        case geofenceLastFailedStoppedLocation = "geofenceLastFailedStoppedLocation"
 
     }
 }

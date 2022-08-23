@@ -28,21 +28,6 @@ import StoreKit
     static var inboxManager: InboxManager = .shared
     static var inAppMessageManager = InAppMessageManager(settings: settings, service: baseService)
     static var dengageRFMManager = DengageRFMManager()
-    
-    static var manager: DengageManager?
-    
-    static var dengage: DengageManager? {
-        get{
-            if self.manager == nil {
-                Logger.log(message: "Dengage not started correctly", argument: "")
-            }
-            return self.manager
-        }
-        set{
-            manager = newValue
-        }
-    }
-    
 
     // MARK: - Initialize Methods
     /// Initiliazes SDK requiered parameters.
@@ -58,7 +43,7 @@ import StoreKit
     // will support rich notifications with categories
     public static func initWithLaunchOptions(categories: Set<UNNotificationCategory>? = nil,
                                              withLaunchOptions: [UIApplication.LaunchOptionsKey: Any]?,
-                                             badgeCountReset: Bool? = nil, appGroupName: String? = nil,dengageOptions options: DengageOptions = DengageOptions()) {
+                                             badgeCountReset: Bool? = nil, appGroupName: String? = nil) {
         let currentNotificationCenter = center.delegate
         notificationDelegate.delegate = currentNotificationCenter
         center.delegate = notificationDelegate
@@ -67,24 +52,8 @@ import StoreKit
         configureSettings()
         Dengage.syncSubscription()
         Dengage.getSDKParams()
-        
-        dengage = .init(with: settings.integrationKey,
-                        application: UIApplication.shared,
-                        launchOptions:withLaunchOptions,
-                        dengageOptions: options)
-        
         guard let pushCategories = categories else {return}
         center.setNotificationCategories(pushCategories)
-    }
-    
-    @objc public static func start(apiKey: String,
-                                   application: UIApplication,
-                                   launchOptions: [UIApplication.LaunchOptionsKey: Any]?,
-                                   dengageOptions options: DengageOptions = DengageOptions()) {
-        dengage = .init(with: apiKey,
-                        application: application,
-                        launchOptions:launchOptions,
-                        dengageOptions: options)
     }
 
     // MARK: - Rich Notification İnitiliaze
@@ -265,18 +234,4 @@ extension Dengage {
             SKStoreReviewController.requestReview()
         }
     }
-}
-
-//MARK: - Geofence
-extension Dengage{
-
-    @objc public static func requestLocationPermissions() {
-        dengage?.requestLocationPermissions()
-    }
-    
-    @objc public static func stopGeofence() {
-        dengage?.stopGeofence()
-    }
-    
-    
 }

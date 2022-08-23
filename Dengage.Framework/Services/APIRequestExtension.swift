@@ -33,16 +33,6 @@ protocol APIRequest {
     associatedtype Response: APIResponse
 }
 
-extension APIRequest{
-    var httpBody: Data?{
-        return nil
-    }
-    
-    var headers: [String: String]?{
-        return nil
-    }
-}
-
 extension APIRequest {
     func asURLRequest() -> URLRequest {
         var urlComps = URLComponents(string: baseURL + path)!
@@ -57,64 +47,5 @@ extension APIRequest {
         }
         urlRequest.httpMethod = method.rawValue
         return urlRequest
-    }
-}
-
-extension URLRequest {
-    public func cURL(pretty: Bool = false) -> String {
-        let newLine = pretty ? "\\\n" : ""
-        let method = (pretty ? "--request " : "-X ") + "\(self.httpMethod ?? "GET") \(newLine)"
-        let url: String = (pretty ? "--url " : "") + "\'\(self.url?.absoluteString ?? "")\' \(newLine)"
-        
-        var cURL = "curl "
-        var header = ""
-        var data: String = ""
-        
-        if let httpHeaders = self.allHTTPHeaderFields, httpHeaders.keys.count > 0 {
-            for (key,value) in httpHeaders {
-                header += (pretty ? "--header " : "-H ") + "\'\(key): \(value)\' \(newLine)"
-            }
-        }
-        
-        if let bodyData = self.httpBody, let bodyString = String(data: bodyData, encoding: .utf8),  !bodyString.isEmpty {
-            data = "--data '\(bodyString)'"
-        }
-        
-        cURL += method + url + header + data
-        
-        return cURL
-    }
-}
-
-
-extension APIRequest {
-    func asURLRequest(with baseURL:URL) -> URLRequest {
-        var urlComps = URLComponents(string: baseURL.absoluteString + path)!
-        urlComps.queryItems = queryParameters.filter { $0.value != nil }
-        var urlRequest = URLRequest(url: urlComps.url!)
-        let headers = bindDefaultHeaders(with: headers)
-        headers.forEach{ header in
-            urlRequest.setValue(header.value,forHTTPHeaderField: header.key)
-        }
-        if let httpBody = httpBody {
-            urlRequest.httpBody = httpBody
-        }
-        urlRequest.httpMethod = method.rawValue
-        return urlRequest
-    }
-    
-    func bindDefaultHeaders(with headers: [String: String]?) -> [String: String]{
-        var requestHeaders = [String: String]()
-        defaultHeaders.forEach { key, value  in
-            requestHeaders[key] = value
-        }
-        
-        if let headers = headers {
-            headers.forEach { key, value in
-                requestHeaders[key] = value
-            }
-        }
-        
-        return requestHeaders
     }
 }

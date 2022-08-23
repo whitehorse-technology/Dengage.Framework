@@ -16,11 +16,7 @@ internal class SessionManager {
         
         if sessionObj == nil {
             
-            let newSessionId = NSUUID().uuidString.lowercased()
-            let newSessionExpireDate = Date().addingTimeInterval(DengageSessionManager.sessionInterval)
-            
-            sessionObj = Session(sessionId: newSessionId,
-                                 expireIn: newSessionExpireDate)
+            sessionObj = Session()
             
             let interval  = Date().addingTimeInterval(sessionInterval)
             sessionObj?.sessionId = generateSessionId()
